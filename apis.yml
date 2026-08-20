@@ -47,6 +47,14 @@ apis:
   - Customs
   - Trade Compliance
   - Customs Declaration
+  - Atlas
+  - NCTS
+  - AES
+  - Intrastat
+  tags_raw:
+  - Customs
+  - Trade Compliance
+  - Customs Declaration
   - ATLAS
   - NCTS
   - AES
@@ -201,6 +209,12 @@ apis:
   humanURL: https://transport-freight-management.docs.developers.aeb.com/reference/getshipmentsevents
   baseURL: https://xnsg.dc.aeb.com/demo1ces/rest
   tags:
+  - Track and Trace
+  - Supply Chain Visibility
+  - Event
+  - Logistics
+  - Parcel
+  tags_raw:
   - Track and Trace
   - Supply Chain Visibility
   - Events
