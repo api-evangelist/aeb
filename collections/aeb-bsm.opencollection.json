@@ -1,0 +1,3628 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BSM (TEST2) HTTP API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-XNSG_WEB_TOKEN",
+      "value": "{{X-XNSG_WEB_TOKEN}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "BSM Carrier",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "createShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMCarrierBFBean/createShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a shipment with the data specified in the shipment request"
+        },
+        {
+          "info": {
+            "name": "getQuotes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMCarrierBFBean/getQuotes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get the quotes for the requested shipment data"
+        },
+        {
+          "info": {
+            "name": "getShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMCarrierBFBean/getShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get the shipment data including the quotes for a service"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "AEB Delivery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "deleteDelivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/AEBDeliveryBFBean/deleteDelivery",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Delete the AEBDelivery"
+        },
+        {
+          "info": {
+            "name": "getDelivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/AEBDeliveryBFBean/getDelivery",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get the AEBDelivery"
+        },
+        {
+          "info": {
+            "name": "updateDelivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/AEBDeliveryBFBean/updateDelivery",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Update the AEBDelivery"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "BSM International Customs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "createConsignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMInternationalCustomsBFBean/createConsignment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a consignment in Customs Management"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "BSM Sync",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMSyncBFBean/acknowledgeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Acknowledge events"
+        },
+        {
+          "info": {
+            "name": "getNotAcknowledgedEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMSyncBFBean/getNotAcknowledgedEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Poll any not acknowledged events for the client system"
+        },
+        {
+          "info": {
+            "name": "getPartnerSystemSubscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMSyncBFBean/getPartnerSystemSubscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Fetch a list of registered partner system subscriptions"
+        },
+        {
+          "info": {
+            "name": "subscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMSyncBFBean/subscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Subscribe a partner system to receive events for the specified business object type"
+        },
+        {
+          "info": {
+            "name": "synchronizeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMSyncBFBean/synchronizeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Poll the next events for the client system"
+        },
+        {
+          "info": {
+            "name": "unsubscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/BSMSyncBFBean/unsubscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Unsubscribe a partner system from receiving events for the specified business object type"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SAP®",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Handle SAP® events.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SAP/handleEvent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Handles events from SAP® to process according to customizing."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CoreBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "checkBFFunctionExists",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/checkBFFunctionExists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Can be called to know if a BF function exist."
+        },
+        {
+          "info": {
+            "name": "echo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/echo",
+            "params": [
+              {
+                "name": "echo",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the given echo parameter value."
+        },
+        {
+          "info": {
+            "name": "echoUpperCase",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/echoUpperCase",
+            "params": [
+              {
+                "name": "echo",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the given echo parameter value in uppercase."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getAllMonitoringValues"
+          },
+          "docs": "Returns all available monitoring values of the server."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getBuildForSolution",
+            "params": [
+              {
+                "name": "solutionName",
+                "value": "",
+                "type": "query",
+                "description": "solutionName the name of the solution for which version information is to be obtained"
+              }
+            ]
+          },
+          "docs": "Return the build information of a solution that is deployed in the product on this server. The RFC name of this function is \\\"/AEB/XNSG_IF_BLDSOL\\\"."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getMonitoringValue",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the current monitoring value for the given group and name."
+        },
+        {
+          "info": {
+            "name": "getProductInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getProductInfo"
+          },
+          "docs": "Return information about the server that is answering this request. This includes the product name and various version informations. The RFC name of this function is \\\"/AEB/XNSG_IF_PRINFO\\\"."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getRuntimeInfo"
+          },
+          "docs": "Return runtime information about the server that is answering this request. This includes the server name, ports and various other runtime informations. The RFC name of this function is \\\"/AEB/XNSG_IF_RTINFO\\\"."
+        },
+        {
+          "info": {
+            "name": "getRuntimeState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getRuntimeState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Return runtime state information about the server that is answering this request. This includes if the server is doing fine or not. Also included are the supported operations (bfs) for the installation repository The RFC name of this function is \\\"/AEB/XNSG_IF_RTSTATE\\\"."
+        },
+        {
+          "info": {
+            "name": "getThreadDump",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getThreadDump"
+          },
+          "docs": "Generate Thread-Dump."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/getVersionForSolution",
+            "params": [
+              {
+                "name": "solutionName",
+                "value": "",
+                "type": "query",
+                "description": "solutionName the name of the solution for which version information is to be obtained"
+              }
+            ]
+          },
+          "docs": "Return the version information of a solution that is deployed in the product on this server. The RFC name of this function is \\\"/AEB/XNSG_IF_VERSOL\\\"."
+        },
+        {
+          "info": {
+            "name": "restartRFCServer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/CoreBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \\\"/AEB/XNSG_IF_RSTRFCSRV\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Shipping",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "addShipmentAttachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/addShipmentAttachments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Adds attachments to a shipment (e.g. invoices, origin documents, etc.)."
+        },
+        {
+          "info": {
+            "name": "cancelShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/cancelShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels a shipment."
+        },
+        {
+          "info": {
+            "name": "createPickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/createPickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new pickup for the shipments specified in the request.<br> Depending on the request, an error may be returned when the shipments can't form a single pickup, e.g. when they have different carriers.<br> Optionally the new pickup can be manifested. That means that the EDI is sent to the carrier if necessary and the pickup will be closed.<br> When specified in request, the manifest documents are printed."
+        },
+        {
+          "info": {
+            "name": "createShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/createShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a shipment with the data specified in the shipment request.<br> An error will be returned when the shipment exists already.<br> Optionally various operations like label preparation and label output can be applied on the shipment. A complete processing including the pickup assignment is also possible.<br> The operations are handled asynchronously, so operation processing errors and label documents are not part of the response. They can be retrieved with a <code>syncShipments</code> or <co"
+        },
+        {
+          "info": {
+            "name": "deleteItem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/deleteItem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Deletes an existing item. Packages containing items remain in the shipment and can be packed again with processShipment. Deleting a item is not always possible. It mainly depends on the status of the package containing the item and the shipment."
+        },
+        {
+          "info": {
+            "name": "deletePackage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/deletePackage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Deletes an existing package. Packed items remain unpacked in the shipment and can be packaged again with processShipment. Deleting a package is not always possible. It mainly depends on the status of the package and the shipment."
+        },
+        {
+          "info": {
+            "name": "deletePickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/deletePickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels an existing pickup. All shipments are removed from the pickup and must be assigned to a new pickup by another <code>createPickup</code> call.<br> Warning: EDI data for the existing pickup might have already been sent to the carrier. So check with the carrier that it's fine to cancel the pickup and create a new (differing) one."
+        },
+        {
+          "info": {
+            "name": "getAllCarriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/getAllCarriers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a list of all carrier available for the requested client."
+        },
+        {
+          "info": {
+            "name": "getCarrierPortfolioNames",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/getCarrierPortfolioNames",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a list of the names of all supported carriers."
+        },
+        {
+          "info": {
+            "name": "getCarrierPortfolioDetails",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/getCarrierPortfolioDetails",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detailed information about the requested carriers."
+        },
+        {
+          "info": {
+            "name": "getCarrierProperties",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/getCarrierProperties",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the properties of the requested carrier."
+        },
+        {
+          "info": {
+            "name": "getPickups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/getPickups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detail information about specific pickups."
+        },
+        {
+          "info": {
+            "name": "getShipments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/getShipments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detail information about specific shipments."
+        },
+        {
+          "info": {
+            "name": "processPackage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/processPackage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows to perform various operations on an existing package. Especially document preparation and document (label) output can be triggered.<br> When the request is specified to handle the operations asynchronously, operation processing errors and label documents are not part of the response. They can be retrieved with a further <code>processPackage</code> call, a <code>syncShipments</code> or <code>getShipments</code> call."
+        },
+        {
+          "info": {
+            "name": "processPackageReturnEnclosedLabel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/processPackageReturnEnclosedLabel",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a return enclosed label in case of a return shipment."
+        },
+        {
+          "info": {
+            "name": "processPickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/processPickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Prints or reprints the manifest documents for the pickup. Mainly to be used, when manifest documents were not printed with the <code>createPickup</code> call or if a reprint of the documents is necessary."
+        },
+        {
+          "info": {
+            "name": "processShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/processShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows to add packages or perform various operations on an existing shipment. Especially document preparation and document (label) output can be triggered.<br> When the request is specified to handle the operations asynchronously, operation processing errors and label documents are not part of the response. They can be retrieved with a <code>syncShipments</code> or <code>getShipments</code> call."
+        },
+        {
+          "info": {
+            "name": "syncPickups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/syncPickups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows the synchronization of client system transactions with the engine pickups. By the use of a syncId it is possible to return only pickups that have changed between two syncPickups calls."
+        },
+        {
+          "info": {
+            "name": "syncShipments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/syncShipments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows the synchronization of client system transactions with the engine shipments. By the use of a syncId it is possible to return only shipments that have changed between two syncShipments calls."
+        },
+        {
+          "info": {
+            "name": "updateCustomsData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/updateCustomsData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates customs data for one existing shipment. Updates data on shipment and item level. Updates customs relevant data only."
+        },
+        {
+          "info": {
+            "name": "validateShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DLCarrierBFBean/validateShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Validates a shipment with the data specified in the shipment request.<br> Various validation operations can be applied on the shipment to determine, whether the shipment can be processed."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Export Control",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Acknowledge changed results of EC check transactions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/acknowledgeGetChangedTransactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Acknowledge the changed results of EC check transactions. If calling *getChangedTransactions* returns false in *GetChangedTransactionsResponseDTO.isComplete*, there are more changed results available. To get those results, the already retrieved results need to be acknowledged with the *GetChangedTransactionsResponseDTO.syncId* from the *getChangedTransactions* call."
+        },
+        {
+          "info": {
+            "name": "Check a transaction in Export Controls.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/checkTransaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Check a transaction in Export Controls. This call does not imply any approval management in the host system. Instead, if required, for each checked transaction from host system a check transaction is created in Export Controls with the data of the transmitted transaction. This is necessary, for example, due to critical results in the export control check. Further export control checks for the corresponding transaction are done using the associated check transaction in Export Controls. Based on t"
+        },
+        {
+          "info": {
+            "name": "Create a new questionnaire for a transaction in Export Controls",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/createQuestionnaireForTransaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Explicitly create a new questionnaire for a transaction in Export Controls. In case other questionnaires already exist for the given transaction, they are marked as invalid and the newly created questionnaire becomes the active one for that transaction."
+        },
+        {
+          "info": {
+            "name": "To be invoked when a transaction in the partner system is deleted.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/deleteTransaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Method to be invoked when a transaction in the partner system is deleted. Deletes the corresponding check transaction in Export Controls if existing."
+        },
+        {
+          "info": {
+            "name": "Finalize a clearing.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/finalizeClearing",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Method to be invoked when a clearing should be finalized. Finalizes the clearing for the corresponding check transaction in Export Controls if existing."
+        },
+        {
+          "info": {
+            "name": "Get the changed results of EC check transactions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/getChangedTransactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get the changed results of EC check transactions. Returns the changed results of EC check transactions, that were created for EC check transaction created with the *checkTransaction* call. The result of an EC check transaction might change if e.g. an approval was made or revoked on any of the items within Trade Compliance Management. Only changes relating to EC check transactions created by the transmitted in *GetChangedTransactionsRequestDTO.clientSystemId* are considered.<br>A partner system s"
+        },
+        {
+          "info": {
+            "name": "Gets the check result for a certain EC check transaction.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/getTransactionCheckResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Gets the check result for a certain EC check transaction. The check result is returned without a new EC check being performed. If a check is desired, call *checkTransaction* instead."
+        },
+        {
+          "info": {
+            "name": "Update customs info.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExportControl/v2/updateCustomsInfo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Method to be invoked when customs info is to be updated. Updates the customs info for the corresponding check transaction in Export Controls if existing."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationAFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "releaseApplicationFacade",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationAFBean/releaseApplicationFacade",
+            "params": [
+              {
+                "name": "sessionid",
+                "value": "",
+                "type": "query",
+                "description": "sessionid The sessionid returned by any UI API method, e.g. workplace @throws RemoteException"
+              }
+            ]
+          },
+          "docs": "Release a UI API which is no longer needed.<br> This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.<br> The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.<br> The RFC name of this function is \\\"/AEB/XNSG_IF_RELAF\\\"."
+        },
+        {
+          "info": {
+            "name": "workplace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationAFBean/workplace",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an UI API to be able to display the workplace.<br> The difference of this method compared to the the method \\\"IFoundationBF.getWorkplaceURL()\\\" is the fact, that no logon mask will be dipsplayed before entering the workplace<br> The RFC name of this function is \\\"/AEB/XNSG_IF_WPL\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/logon/authToken"
+          },
+          "docs": "Logon from the \"Authorization\" header (e.g. type \"Basic\"). The generated authentication token can be used in subsequent calls in the \"Authorization\" header, type \"Bearer\"."
+        },
+        {
+          "info": {
+            "name": "logonUser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/logon/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logon with classical procedure: user, client and password."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataFeedBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgePublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DataFeedBFBean/acknowledgePublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge the processed published data feed parts retrieved with getPublishedDataFeedParts containing the synchronization ID up to which all parts are acknowledged."
+        },
+        {
+          "info": {
+            "name": "getDataFeedPartContentForRest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DataFeedBFBean/dataFeedParts/:client/:id",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the data feed part content."
+        },
+        {
+          "info": {
+            "name": "getPublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DataFeedBFBean/getPublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ExternalTelemetryBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTelemetryStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExternalTelemetryBFBean/getStatus",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "getTelemetryStatusByParams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExternalTelemetryBFBean/status",
+            "params": [
+              {
+                "name": "externalSystemId",
+                "value": "",
+                "type": "query",
+                "description": "externalSystemId, the id of the calling system, mandatory"
+              },
+              {
+                "name": "reportClientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "reportClientIdentCode, the identCode of the client to call the status for"
+              }
+            ]
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "sendTelemetryReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/ExternalTelemetryBFBean/telemetryReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits telemetry data for a new telemetry report.<br> The external system id must be sent with the request, a client IdentCode only if client dependent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/acknowledgeFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledges a file download."
+        },
+        {
+          "info": {
+            "name": "announceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/announceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Announces a stop of the installation."
+        },
+        {
+          "info": {
+            "name": "cancelAnnounceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/cancelAnnounceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Revokes an already announced stop."
+        },
+        {
+          "info": {
+            "name": "changeAdminPassword",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/changeAdminPassword",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the admin password."
+        },
+        {
+          "info": {
+            "name": "queryClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/client",
+            "params": [
+              {
+                "name": "identCode",
+                "value": "",
+                "type": "query",
+                "description": "Filter for client ident code"
+              },
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "Filter for debtor number"
+              }
+            ]
+          },
+          "docs": "Requests all clients from this engine, or one client identified by values in query parameter"
+        },
+        {
+          "info": {
+            "name": "createClient",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/client",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a client."
+        },
+        {
+          "info": {
+            "name": "downloadFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/downloadFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a file for download."
+        },
+        {
+          "info": {
+            "name": "generateClientIdentCode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/generateClientIdentCode",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a client ident code."
+        },
+        {
+          "info": {
+            "name": "getAllActiveClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/client/active"
+          },
+          "docs": "Requests all active clients from this engine."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/monitoringValue"
+          },
+          "docs": "Requests all monitoring values from this engine."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/solution/:name/build",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the build info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getDownloadableFilesRefs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/downloadableFileRefs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves refs for download."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/monitoringValue/:groupName/:valueName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "group name"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "path",
+                "description": "value name"
+              }
+            ]
+          },
+          "docs": "Requests a specific monitoring value from this engine."
+        },
+        {
+          "info": {
+            "name": "getNumberOfClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/numberOfClients"
+          },
+          "docs": "Returns the number of clients."
+        },
+        {
+          "info": {
+            "name": "getProductInfo_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/productInfo"
+          },
+          "docs": "Requests the product info from this engine."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/runtimeInfo"
+          },
+          "docs": "Requests the runtime info from this engine."
+        },
+        {
+          "info": {
+            "name": "getScriptExecutionState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/scriptExecutionState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "gets a script execution state"
+        },
+        {
+          "info": {
+            "name": "getTableUpdateState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/tableUpdateState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the status of the table update."
+        },
+        {
+          "info": {
+            "name": "getUploadSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/uploadSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves the upload settings."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/solution/:name/version",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the version info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getWorkplaceURL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/workplaceURL"
+          },
+          "docs": "Requests the workplace url from this engine."
+        },
+        {
+          "info": {
+            "name": "isDebtorNumberKnown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/checkDebtorNumber",
+            "params": [
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "the debtor number to check"
+              }
+            ]
+          },
+          "docs": "Checks if debtor number is known."
+        },
+        {
+          "info": {
+            "name": "publishUserMessage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/publishUserMessage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "creates a user message, in several languages if required"
+        },
+        {
+          "info": {
+            "name": "requestReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/roles"
+          },
+          "docs": "Requests the current engine to report all its roles"
+        },
+        {
+          "info": {
+            "name": "requestReport_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/roles/:clientIdentCode",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "path",
+                "description": "Client ident code for retrieving its roles."
+              }
+            ]
+          },
+          "docs": "Requests the current engine to report all roles for a specific client"
+        },
+        {
+          "info": {
+            "name": "restartRFCServer_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \"/AEB/XNSG_IF_RSTRFCSRV\""
+        },
+        {
+          "info": {
+            "name": "sendMail",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/sendMail",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a mail."
+        },
+        {
+          "info": {
+            "name": "startScriptExecution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/startScriptExecution",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts a script execution"
+        },
+        {
+          "info": {
+            "name": "startTableUpdate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/startTableUpdate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts the table update."
+        },
+        {
+          "info": {
+            "name": "systemSearch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/systemSearch/:language",
+            "params": [
+              {
+                "name": "language",
+                "value": "",
+                "type": "path",
+                "description": "the langauge"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a system search in this engine."
+        },
+        {
+          "info": {
+            "name": "uploadFileMultiPart",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/FoundationBFBean/uploadFileMultiPart",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "metaInfo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Uploads a file using multipart."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RemoteAdminBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RemoteAdminBFBean/clientRoles/:clientId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        },
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RemoteAdminBFBean/roles",
+            "params": [
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "the dataset to return"
+              },
+              {
+                "name": "clientIdentCodes",
+                "value": "",
+                "type": "query",
+                "description": "includeClientIdentCodes"
+              },
+              {
+                "name": "resultLanguageIsoCodes",
+                "value": "",
+                "type": "query",
+                "description": "resultLanguageIsoCodes"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SyncBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeEvents_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SyncBFBean/acknowledgeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge events got with {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)}.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getNotAcknowledgedEvents_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SyncBFBean/getNotAcknowledgedEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll any not acknowledged events for the client system.<br> This method does not require, that the client system fills {@link SyncEventsRequestDTO#syncId}.<br> However, it requires, that a call to {@link #acknowledgeEvents(AcknowledgeEventsRequestDTO)} is done for acknowledge of the events.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getPartnerSystemSubscriptions_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SyncBFBean/getPartnerSystemSubscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a list of registered subscriptions (either all or filtered by the business object type).<br>Only subscription belonging to the provided <code>clientSystemId</code> are returned (mandatory field)<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "subscribePartnerSystem_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SyncBFBean/subscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Subscribe a partner system to be able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "synchronizeEvents_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SyncBFBean/synchronizeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll the next events for the client system.<br> This method requires the client system to persist the synchronisation state itself and passing a proper value for {@link SyncEventsRequestDTO#syncId}<br> See {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)} for a version of the method, were the syncronisation state is kept within the Engine."
+        },
+        {
+          "info": {
+            "name": "unsubscribePartnerSystem_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/SyncBFBean/unsubscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Unsubscribe a partner system from being able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "International Customs API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Acknowledge call of get changed declarations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/acknowledgeGetChangedDeclarations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Acknowledge, that the result of calling {@link #getChangedDeclarations(ICGetChangedDeclarationsRequestDTO)} was processed."
+        },
+        {
+          "info": {
+            "name": "Add declaration attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/addDeclarationAttachments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Add attachments (files) to declarations. The size of the files are limited to a configurable size (e.g. 20 MB)<br> This operation is deprecated, use createConsignment with attachments instead."
+        },
+        {
+          "info": {
+            "name": "Cancel consignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/cancelConsignment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Initiates a cancellation process for the requested consignment. <br> The consignment can be addressed via the consignment id from the client system (field 'consignmentIdClientSystem') or via the businessObjectId which is the reference of the ICI system. If both fields are entered the businessObjectId will be used.<br> There are two possible outcomes: <ul> <li>Deletion of the consignment and all referenced declarations</li> <li>Invalidation of the consignment and all referenced declarations</li> "
+        },
+        {
+          "info": {
+            "name": "Cancel consignment manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/cancelConsignmentManifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Initiates a cancellation process for the requested consignment manifest. <br> The consignment manifest can be addressed via the consignment id from the client system (field 'consignmentIdClientSystem') or via the businessObjectId which is the reference of the ICI system. If both fields are entered the businessObjectId will be used.<br> There are two possible outcomes: <ul> <li>Deletion of the consignment manifest and all referenced declarations</li> <li>Invalidation of the consignment manifest a"
+        },
+        {
+          "info": {
+            "name": "Cancel declaration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/cancelDeclaration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Initiates a cancellation process for the requested declaration. <br> There are two possible outcomes: <ul> <li>Deletion of the declaration</li> <li>Invalidation of the declaration</li> </ul> If it is not possible to delete or invalidate nothing will be done."
+        },
+        {
+          "info": {
+            "name": "Create a consignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/createConsignment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new consignment. If any fields on consignment or delivery level are empty which are mandatory an error message will be created and the creation stopped. Only if the mandatory fields are filled the consignment will be created and imported."
+        },
+        {
+          "info": {
+            "name": "Create a consignment manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/createConsignmentManifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a consignment manifest. If any fields are empty which are mandatory an error message will be created and the creation stopped. Only if the mandatory fields are filled the consignment manifest will be created and imported."
+        },
+        {
+          "info": {
+            "name": "Create a delivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/createDelivery",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a delivery. If any fields are empty which are mandatory an error message will be created and the creation stopped. Only if the mandatory fields are filled the delivery will be created and imported."
+        },
+        {
+          "info": {
+            "name": "Get broker declarations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/getBrokerDeclarations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the broker declarations specified by the list of business object ids or consignmentIdClientSystem in the request. You may also specify the amount of broker declaration data returned by choosing from a set of scenarios."
+        },
+        {
+          "info": {
+            "name": "Get changed declarations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/getChangedDeclarations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all changed (modified) declarations, which were not yet acknowledged.<br> Only declarations, for which the client system is subscribed, will be returned.<br> If the caller has processed the returned declarations, he should call {@link #acknowledgeGetChangedDeclarations(ICAcknowledgeGetChangedDeclarationsRequestDTO)} to acknowledge."
+        },
+        {
+          "info": {
+            "name": "Get codes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/getCodes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a list of valid codes and its descriptions for the given request parameters. <br> Use the value \"CODELISTS\" for request parameter 'codeListCode' to get all possible values for this field."
+        },
+        {
+          "info": {
+            "name": "Get consignments of manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/getConsignmentsOfManifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Retrieves a list of business object ids of all consignments collected in the manifest."
+        },
+        {
+          "info": {
+            "name": "Get declaration attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/getDeclarationAttachments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Gets one or more attachments from a declaration."
+        },
+        {
+          "info": {
+            "name": "Get declarations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/getDeclarations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the declarations specified by the list of business object ids in the request. You may also specify the amount of declaration data returned by choosing from a set of scenarios."
+        },
+        {
+          "info": {
+            "name": "Send declarations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/sendDeclarations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Sends declaration messages for the specified declarations to the respective customs systems. If the declarations are not ready for sending, an email notification is sent out, if configured."
+        },
+        {
+          "info": {
+            "name": "Set declaration attachment status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/InternationalCustomsBFBean/setDeclarationAttachmentsStatus",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Sets the status of one or more attachments."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "LISBF20Bean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "calculateTargetTime",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/calculateTargetTime",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Determines the event chain for the given plan and performs a backward calculation starting with the given delivery date in the request. The resulting shipping date is returned in the response."
+        },
+        {
+          "info": {
+            "name": "getConsignments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getConsignments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a list of consignments for the given requestDTO"
+        },
+        {
+          "info": {
+            "name": "getDocumentCategories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getDocumentCategories",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the document categories for a requested client."
+        },
+        {
+          "info": {
+            "name": "getEventDefinitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getEventDefinitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all event definitions found for the given requestDTO."
+        },
+        {
+          "info": {
+            "name": "getMODocument",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getMODocument",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a document by its key. The key can be determined by calling the sync or export. It is mentioned in LISExpDocumentMetadata20DTO"
+        },
+        {
+          "info": {
+            "name": "getOrderFulfillmentPlans",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getOrderFulfillmentPlans",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all order fulfillment plans for the given requestDTO. The order fulfilment steps of a plan come sorted by their sequence number. The events of a step come partially sorted. The milestone events sorted by their sort number. Then the monitored events unsorted."
+        },
+        {
+          "info": {
+            "name": "getQuickSearchResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getQuickSearchResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Perform a quick search for the given requestDTO.\n The search will deliver the same results that would be obtained when a search term (reference number) would be entered in the quick search application GUI (located in the assistent pane of the Assist4Monitoring & Alerting desktop). Therefore the user's settings of the user specified in the requestDTO will be applied while conducting the search."
+        },
+        {
+          "info": {
+            "name": "getTrackingEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getTrackingEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all tracking events for the given requestDTO."
+        },
+        {
+          "info": {
+            "name": "getTrackingObjectEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getTrackingObjectEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the events of a single tracking object referenced in the requestDTO. The allowed tracking object types in the reference DTO are 'CONS' and 'HANDUNIT'."
+        },
+        {
+          "info": {
+            "name": "getUniqueConsignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/getUniqueConsignment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detailed information of a single consignment referenced in the requestDTO"
+        },
+        {
+          "info": {
+            "name": "lisBfDummyMethod",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/lisBfDummyMethod",
+            "params": [
+              {
+                "name": "argument",
+                "value": "",
+                "type": "query",
+                "description": "argument"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Dummy method for testing."
+        },
+        {
+          "info": {
+            "name": "receiveAreaDependSchedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveAreaDependSchedule",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Area depend schedule\" message. This creates a area depend schedule in the system."
+        },
+        {
+          "info": {
+            "name": "receiveConsignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveConsignment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Consignment\" message. This creates a consignment in the system."
+        },
+        {
+          "info": {
+            "name": "receiveConsignmentWithTransports",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveConsignmentWithTransports",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"ConsignmentWithTransports\" message. This creates a shipment in the system."
+        },
+        {
+          "info": {
+            "name": "receiveEventCodeList",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveEventCodeList",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Event code list\" message."
+        },
+        {
+          "info": {
+            "name": "receiveHandlingUnits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveHandlingUnits",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"HandlingUnits\" message. That message can contain one or more handling units at the same time."
+        },
+        {
+          "info": {
+            "name": "receiveMaterialMasterFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveMaterialMasterFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"MaterialMasterFile\" message. This creates a master data entries for materials."
+        },
+        {
+          "info": {
+            "name": "receiveMultiReferenceTrackingObjectDocuments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveMultiReferenceTrackingObjectDocuments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"TrackingObjectDocument\" message with multiple references."
+        },
+        {
+          "info": {
+            "name": "receiveOrder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveOrder",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Order\" message. This creates an order in the system."
+        },
+        {
+          "info": {
+            "name": "receivePhysicalTransport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receivePhysicalTransport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Physical Transport\" message."
+        },
+        {
+          "info": {
+            "name": "receiveTrackingEvent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveTrackingEvent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Tracking event\" message. This creates a tracking event in the system."
+        },
+        {
+          "info": {
+            "name": "receiveTrackingEventList",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveTrackingEventList",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Tracking event list\" message. This is a list containing multiple tracking events."
+        },
+        {
+          "info": {
+            "name": "receiveTrackingObjectDocuments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveTrackingObjectDocuments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"TrackingObjectDocument\" message."
+        },
+        {
+          "info": {
+            "name": "receiveTransport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveTransport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"Transport\" message. This creates a Transport in the system."
+        },
+        {
+          "info": {
+            "name": "receiveTransportUnit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/receiveTransportUnit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receive a \"TransportUnit\" message."
+        },
+        {
+          "info": {
+            "name": "resetConsignmentWithTransports",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/resetConsignmentWithTransports",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Reset the status of a LISConsignment and all its transports."
+        },
+        {
+          "info": {
+            "name": "syncConsignments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/LISBF20Bean/syncConsignments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows the synchronization of client system transactions with the engine consignments. By the use of a `syncId` it is possible to return only `consignments` that have changed between two `syncConsignment` calls."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2bsm/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2bsm/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned."
+        },
+        {
+          "info": {
+            "name": "searchCompanies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/companies",
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "false",
+                "type": "query",
+                "description": "Use this filter field with value 'true' if you want to get enabled companies only."
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "company_number_like",
+                "value": "123",
+                "type": "query",
+                "description": "Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number."
+              },
+              {
+                "name": "name_like",
+                "value": "AEB",
+                "type": "query",
+                "description": "Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "city_like",
+                "value": "*ttgart*",
+                "type": "query",
+                "description": "Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "postcode_like",
+                "value": "70*",
+                "type": "query",
+                "description": "Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported."
+              },
+              {
+                "name": "country_iso_code",
+                "value": "DE",
+                "type": "query",
+                "description": "Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: 'US' for USA, 'DE' for Germany, 'IT' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getCompanyRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/company-roles"
+          },
+          "docs": "Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "O&P UI",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "openMaterialMasterDataSearchUI",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesUIs/openMaterialMasterDataSearchUI",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Opens the search for material master data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Declaration of Origin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getDeclarationOfOrigin",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/DeclarationOfOriginBFBean/getDeclarationOfOrigin",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get a declaration of origin"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "O&P",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeGetChangedMaterialMasterData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/acknowledgeGetChangedMaterialMasterData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Acknowledge the handled material master data (Limits) via syncId"
+        },
+        {
+          "info": {
+            "name": "getChangedMaterialMasterData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/getChangedMaterialMasterData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get changed material master data (Limits) from the engine"
+        },
+        {
+          "info": {
+            "name": "getMaterialMasterData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/getMaterialMasterData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get material master data from the engine"
+        },
+        {
+          "info": {
+            "name": "transferAddresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/transferAddresses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Transfer addresses to the engine"
+        },
+        {
+          "info": {
+            "name": "transferBillOfMaterials",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/transferBillOfMaterials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Transfer bill of materials to the engine"
+        },
+        {
+          "info": {
+            "name": "transferGoodsReceipts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/transferGoodsReceipts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Transfer goods receipts to the engine"
+        },
+        {
+          "info": {
+            "name": "transferMaterials",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/transferMaterials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Transfer materials to the engine"
+        },
+        {
+          "info": {
+            "name": "transferPurchaseOrders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/transferPurchaseOrders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Transfer purchase orders to the engine"
+        },
+        {
+          "info": {
+            "name": "transferSalesOrders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/OriginAndPreferencesBFBean/transferSalesOrders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Transfer sales orders to the engine"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "WorkstationServiceAgent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "connect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2bsm/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status0",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        },
+        {
+          "info": {
+            "name": "connect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userActivityTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration."
+              },
+              {
+                "name": "registerTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection."
+              },
+              {
+                "name": "processingTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s)."
+              },
+              {
+                "name": "nextPollingRequestTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions."
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2bsm/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2bsm/rest/wssagent/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Routing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "createRoutingTask",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/createRoutingTask",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new routing task and returns a unique task id.<br> <br> In case of successful creation, the response will contain the unique taskId of the created routing task. The respective routing task can be found by this task id. Proposal calculation starts in an asynchronous process. The current state of calculation can be requested by handing over the provided task id via the call of getRoutingTaskResult(GetRoutingTaskResultRequestDTO) or waitForRoutingTaskResult(WaitForRoutingTaskResultRequest"
+        },
+        {
+          "info": {
+            "name": "createSupplementTask",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/createSupplementTask",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new supplement task and returns a unique task id.<br> <br>In case of successful creation, the response will contain the unique taskId of the created supplement task. The respective supplement task can be found by this task id. Supplement calculation starts in an asynchronous process. The current state of calculation can be request by handing over the provided task id via the call of getSupplementTaskResult(GetSupplementTaskResultRequestDTO).<br>"
+        },
+        {
+          "info": {
+            "name": "getAllCarriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getAllCarriers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all carriers available for the target client.<br> <br> This call might help to find the correct identCode of a carrier and service as well as the value-added services belonging to that carrier, which shall be added to the supplement task by using createSupplementTask(CreateSupplementTaskRequestDTO)."
+        },
+        {
+          "info": {
+            "name": "getHandoverPoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getHandoverPoints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all handover points available for the target client.<br> <br> Handover points are master file data. This call can be used to choose a handover point from a drop down application. It is <b>not</b> intended that this call is used for master data maintenance or master data synchronization.<br><br> The address is <b>not</b> included in the response."
+        },
+        {
+          "info": {
+            "name": "getRatingProfiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getRatingProfiles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all rating profiles available for the target client.<br> <br> This call might help to find the correct identCode of a rating profile, which shall be added to the routing task by using createRoutingTask(CreateRoutingTaskRequestDTO). This becomes more important, if a rating profile other than the default profile shall be used for proposal calculation.<br>"
+        },
+        {
+          "info": {
+            "name": "getRejectedRoutingTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getRejectedRoutingTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a sorted list of the rejected proposals for the provided task id and its current calculation state.<br> The rejected proposals are those proposals which were filtered out according to the settings in the rating profile.<br> <br> Possible states of calculation are:<br> - INPROGRESS: entries (and ordering) might change in future calls. <br> - RANKED: ordering and entries fixed, at least one supplement missing. <br> - COMPLETE: ordering and entries fixed, all supplements are calculated. <br"
+        },
+        {
+          "info": {
+            "name": "getRoutingRequirementTypes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getRoutingRequirementTypes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all requirements and requirement types available for the target client.<br> <br> This call might help to find the correct identCode of a requirement, which shall be added to the routing task by using createRoutingTask(CreateRoutingTaskRequestDTO).<br>"
+        },
+        {
+          "info": {
+            "name": "getRoutingTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getRoutingTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a sorted list of proposals for the provided task id and its current calculation state.<br> <br> The final list of proposals is ranked according to a rating profile. A rating profile uses supplements for score calculation and ranking.<br> <br> Possible states of calculation are:<br> - INPROGRESS: entries (and ordering) might change in future calls. <br> - RANKED: ordering and entries fixed, at least one supplement missing. <br> - COMPLETE: ordering and entries fixed, all supplements are c"
+        },
+        {
+          "info": {
+            "name": "getSupplementTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/getSupplementTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns an intermediate result of calculated supplements for the provided task id and its current calculation state.<br> <br> Possible states of calculation are:<br> - INPROGRESS: entries (and ordering) might change in future calls. <br> - COMPLETE: ordering and entries fixed, all supplements are calculated. <br> <br> A new supplement task can be created by using createSupplementTask(CreateSupplementTaskRequestDTO).<br>"
+        },
+        {
+          "info": {
+            "name": "waitForRoutingTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/RoutingBFBean/waitForRoutingTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Waits for the task calculation to finish and returns a sorted list of proposals for the provided task id and its current calculation state.<br> <br> If the calculation takes longer than the set waiting time limit, the list of proposals will be returned in its current unfinished calculation state as soon as the limit is reached.<br> <br> The final list of proposals is ranked according to a rating profile. A rating profile uses supplements for score calculation and ranking.<br><br>Possible states "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "x360",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Endpoint to perfom a compliance screening for a Haufe x360 customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2bsm/rest/x360/handleEvent",
+            "headers": [
+              {
+                "name": "BSM-Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint will automatically be triggered whenever a customer is modified inside the x360 erp system."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

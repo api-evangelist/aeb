@@ -1,0 +1,3120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Product Classification HTTP API",
+    "version": "4.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-XNSG_WEB_TOKEN",
+      "value": "{{X-XNSG_WEB_TOKEN}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CoreBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "checkBFFunctionExists",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/checkBFFunctionExists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Can be called to know if a BF function exist."
+        },
+        {
+          "info": {
+            "name": "echo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/echo",
+            "params": [
+              {
+                "name": "echo",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the given echo parameter value."
+        },
+        {
+          "info": {
+            "name": "echoUpperCase",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/echoUpperCase",
+            "params": [
+              {
+                "name": "echo",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the given echo parameter value in uppercase."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getAllMonitoringValues"
+          },
+          "docs": "Returns all available monitoring values of the server."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getBuildForSolution",
+            "params": [
+              {
+                "name": "solutionName",
+                "value": "",
+                "type": "query",
+                "description": "solutionName the name of the solution for which version information is to be obtained"
+              }
+            ]
+          },
+          "docs": "Return the build information of a solution that is deployed in the product on this server. The RFC name of this function is \\\"/AEB/XNSG_IF_BLDSOL\\\"."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getMonitoringValue",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the current monitoring value for the given group and name."
+        },
+        {
+          "info": {
+            "name": "getProductInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getProductInfo"
+          },
+          "docs": "Return information about the server that is answering this request. This includes the product name and various version informations. The RFC name of this function is \\\"/AEB/XNSG_IF_PRINFO\\\"."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getRuntimeInfo"
+          },
+          "docs": "Return runtime information about the server that is answering this request. This includes the server name, ports and various other runtime informations. The RFC name of this function is \\\"/AEB/XNSG_IF_RTINFO\\\"."
+        },
+        {
+          "info": {
+            "name": "getRuntimeState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getRuntimeState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Return runtime state information about the server that is answering this request. This includes if the server is doing fine or not. Also included are the supported operations (bfs) for the installation repository The RFC name of this function is \\\"/AEB/XNSG_IF_RTSTATE\\\"."
+        },
+        {
+          "info": {
+            "name": "getThreadDump",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getThreadDump"
+          },
+          "docs": "Generate Thread-Dump."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/getVersionForSolution",
+            "params": [
+              {
+                "name": "solutionName",
+                "value": "",
+                "type": "query",
+                "description": "solutionName the name of the solution for which version information is to be obtained"
+              }
+            ]
+          },
+          "docs": "Return the version information of a solution that is deployed in the product on this server. The RFC name of this function is \\\"/AEB/XNSG_IF_VERSOL\\\"."
+        },
+        {
+          "info": {
+            "name": "restartRFCServer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/CoreBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \\\"/AEB/XNSG_IF_RSTRFCSRV\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationAFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "releaseApplicationFacade",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationAFBean/releaseApplicationFacade",
+            "params": [
+              {
+                "name": "sessionid",
+                "value": "",
+                "type": "query",
+                "description": "sessionid The sessionid returned by any UI API method, e.g. workplace @throws RemoteException"
+              }
+            ]
+          },
+          "docs": "Release a UI API which is no longer needed.<br> This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.<br> The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.<br> The RFC name of this function is \\\"/AEB/XNSG_IF_RELAF\\\"."
+        },
+        {
+          "info": {
+            "name": "workplace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationAFBean/workplace",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an UI API to be able to display the workplace.<br> The difference of this method compared to the the method \\\"IFoundationBF.getWorkplaceURL()\\\" is the fact, that no logon mask will be dipsplayed before entering the workplace<br> The RFC name of this function is \\\"/AEB/XNSG_IF_WPL\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/logon/authToken"
+          },
+          "docs": "Logon from the \"Authorization\" header (e.g. type \"Basic\"). The generated authentication token can be used in subsequent calls in the \"Authorization\" header, type \"Bearer\"."
+        },
+        {
+          "info": {
+            "name": "logonUser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/logon/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logon with classical procedure: user, client and password."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataFeedBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgePublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/DataFeedBFBean/acknowledgePublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge the processed published data feed parts retrieved with getPublishedDataFeedParts containing the synchronization ID up to which all parts are acknowledged."
+        },
+        {
+          "info": {
+            "name": "getDataFeedPartContentForRest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/DataFeedBFBean/dataFeedParts/:client/:id",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the data feed part content."
+        },
+        {
+          "info": {
+            "name": "getPublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/DataFeedBFBean/getPublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ExternalTelemetryBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTelemetryStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/ExternalTelemetryBFBean/getStatus",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "getTelemetryStatusByParams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/ExternalTelemetryBFBean/status",
+            "params": [
+              {
+                "name": "externalSystemId",
+                "value": "",
+                "type": "query",
+                "description": "externalSystemId, the id of the calling system, mandatory"
+              },
+              {
+                "name": "reportClientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "reportClientIdentCode, the identCode of the client to call the status for"
+              }
+            ]
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "sendTelemetryReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/ExternalTelemetryBFBean/telemetryReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits telemetry data for a new telemetry report.<br> The external system id must be sent with the request, a client IdentCode only if client dependent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/acknowledgeFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledges a file download."
+        },
+        {
+          "info": {
+            "name": "announceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/announceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Announces a stop of the installation."
+        },
+        {
+          "info": {
+            "name": "cancelAnnounceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/cancelAnnounceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Revokes an already announced stop."
+        },
+        {
+          "info": {
+            "name": "changeAdminPassword",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/changeAdminPassword",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the admin password."
+        },
+        {
+          "info": {
+            "name": "queryClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/client",
+            "params": [
+              {
+                "name": "identCode",
+                "value": "",
+                "type": "query",
+                "description": "Filter for client ident code"
+              },
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "Filter for debtor number"
+              }
+            ]
+          },
+          "docs": "Requests all clients from this engine, or one client identified by values in query parameter"
+        },
+        {
+          "info": {
+            "name": "createClient",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/client",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a client."
+        },
+        {
+          "info": {
+            "name": "downloadFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/downloadFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a file for download."
+        },
+        {
+          "info": {
+            "name": "generateClientIdentCode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/generateClientIdentCode",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a client ident code."
+        },
+        {
+          "info": {
+            "name": "getAllActiveClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/client/active"
+          },
+          "docs": "Requests all active clients from this engine."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/monitoringValue"
+          },
+          "docs": "Requests all monitoring values from this engine."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/solution/:name/build",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the build info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getDownloadableFilesRefs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/downloadableFileRefs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves refs for download."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/monitoringValue/:groupName/:valueName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "group name"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "path",
+                "description": "value name"
+              }
+            ]
+          },
+          "docs": "Requests a specific monitoring value from this engine."
+        },
+        {
+          "info": {
+            "name": "getNumberOfClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/numberOfClients"
+          },
+          "docs": "Returns the number of clients."
+        },
+        {
+          "info": {
+            "name": "getProductInfo_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/productInfo"
+          },
+          "docs": "Requests the product info from this engine."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/runtimeInfo"
+          },
+          "docs": "Requests the runtime info from this engine."
+        },
+        {
+          "info": {
+            "name": "getScriptExecutionState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/scriptExecutionState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "gets a script execution state"
+        },
+        {
+          "info": {
+            "name": "getTableUpdateState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/tableUpdateState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the status of the table update."
+        },
+        {
+          "info": {
+            "name": "getUploadSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/uploadSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves the upload settings."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/solution/:name/version",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the version info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getWorkplaceURL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/workplaceURL"
+          },
+          "docs": "Requests the workplace url from this engine."
+        },
+        {
+          "info": {
+            "name": "isDebtorNumberKnown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/checkDebtorNumber",
+            "params": [
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "the debtor number to check"
+              }
+            ]
+          },
+          "docs": "Checks if debtor number is known."
+        },
+        {
+          "info": {
+            "name": "publishUserMessage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/publishUserMessage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "creates a user message, in several languages if required"
+        },
+        {
+          "info": {
+            "name": "requestReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/roles"
+          },
+          "docs": "Requests the current engine to report all its roles"
+        },
+        {
+          "info": {
+            "name": "requestReport_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/roles/:clientIdentCode",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "path",
+                "description": "Client ident code for retrieving its roles."
+              }
+            ]
+          },
+          "docs": "Requests the current engine to report all roles for a specific client"
+        },
+        {
+          "info": {
+            "name": "restartRFCServer_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \"/AEB/XNSG_IF_RSTRFCSRV\""
+        },
+        {
+          "info": {
+            "name": "sendMail",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/sendMail",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a mail."
+        },
+        {
+          "info": {
+            "name": "startScriptExecution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/startScriptExecution",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts a script execution"
+        },
+        {
+          "info": {
+            "name": "startTableUpdate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/startTableUpdate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts the table update."
+        },
+        {
+          "info": {
+            "name": "systemSearch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/systemSearch/:language",
+            "params": [
+              {
+                "name": "language",
+                "value": "",
+                "type": "path",
+                "description": "the langauge"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a system search in this engine."
+        },
+        {
+          "info": {
+            "name": "uploadFileMultiPart",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FoundationBFBean/uploadFileMultiPart",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "metaInfo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Uploads a file using multipart."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RemoteAdminBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/RemoteAdminBFBean/clientRoles/:clientId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        },
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/RemoteAdminBFBean/roles",
+            "params": [
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "the dataset to return"
+              },
+              {
+                "name": "clientIdentCodes",
+                "value": "",
+                "type": "query",
+                "description": "includeClientIdentCodes"
+              },
+              {
+                "name": "resultLanguageIsoCodes",
+                "value": "",
+                "type": "query",
+                "description": "resultLanguageIsoCodes"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SyncBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/SyncBFBean/acknowledgeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge events got with {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)}.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getNotAcknowledgedEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/SyncBFBean/getNotAcknowledgedEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll any not acknowledged events for the client system.<br> This method does not require, that the client system fills {@link SyncEventsRequestDTO#syncId}.<br> However, it requires, that a call to {@link #acknowledgeEvents(AcknowledgeEventsRequestDTO)} is done for acknowledge of the events.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getPartnerSystemSubscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/SyncBFBean/getPartnerSystemSubscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a list of registered subscriptions (either all or filtered by the business object type).<br>Only subscription belonging to the provided <code>clientSystemId</code> are returned (mandatory field)<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "subscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/SyncBFBean/subscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Subscribe a partner system to be able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "synchronizeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/SyncBFBean/synchronizeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll the next events for the client system.<br> This method requires the client system to persist the synchronisation state itself and passing a proper value for {@link SyncEventsRequestDTO#syncId}<br> See {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)} for a version of the method, were the syncronisation state is kept within the Engine."
+        },
+        {
+          "info": {
+            "name": "unsubscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/SyncBFBean/unsubscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Unsubscribe a partner system from being able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ClassificationProposalBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates a new document template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/certTemplate",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new document template."
+        },
+        {
+          "info": {
+            "name": "Creates a new classification code template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/codeTemplate",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new classification code template."
+        },
+        {
+          "info": {
+            "name": "Gets the data of a document template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/certTemplate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of a document template."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "Gets the data of a document template."
+        },
+        {
+          "info": {
+            "name": "Updates an existing document template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/certTemplate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of a document template."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing document template."
+        },
+        {
+          "info": {
+            "name": "Deletes an existing document template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/certTemplate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of a document template."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ]
+          },
+          "docs": "Deletes an existing document template."
+        },
+        {
+          "info": {
+            "name": "Gets the data of a classification code template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/codeTemplate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of a classification code template."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "Gets the data of a classification code template."
+        },
+        {
+          "info": {
+            "name": "Updates an existing classification code template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/codeTemplate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of a classification code template."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used.."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing classification code template."
+        },
+        {
+          "info": {
+            "name": "Creates a new classification code template.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/codeTemplate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of a classification code template."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ]
+          },
+          "docs": "Creates a new classification code template."
+        },
+        {
+          "info": {
+            "name": "Searches for suitable document templates matching the criteria of the given search input.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/certTemplate/search",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for suitable document templates matching the criteria of the given search input."
+        },
+        {
+          "info": {
+            "name": "Searches for suitable classification code templates matching the criteria of the given search input.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/ClassificationProposalBFBean/codeTemplate/search",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for suitable classification code templates matching the criteria of the given search input."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FTMaterialClassification20BFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "closeMaterialTransfFromEngine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/closeMaterialTransfFromEngine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Closes the transfer of material data and its classifications from the Classification Engine back to the host system.<br><br>See also <b>openMaterialTransferFromEngine</b> and <b>transferMaterialFromEngine</b>"
+        },
+        {
+          "info": {
+            "name": "closeMaterialTransferToEngine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/closeMaterialTransferToEngine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Closes the transfer of material data and its classifications from the host system to the Classification Engine.<br><br>See also <b>openMaterialTransferToEngine</b> and <b>transferMaterialToEngine</b>"
+        },
+        {
+          "info": {
+            "name": "getActiveClassificationSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/getActiveClassificationSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all active classification settings for the given client."
+        },
+        {
+          "info": {
+            "name": "getClassificationData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/getClassificationData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get classifications for a number of materials."
+        },
+        {
+          "info": {
+            "name": "getClientInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/getClientInfo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get information about a specific client"
+        },
+        {
+          "info": {
+            "name": "getMaterialData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/getMaterialData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets the material and its classification data for one concrete material."
+        },
+        {
+          "info": {
+            "name": "openMaterialTransferFromEngine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/openMaterialTransferFromEngine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Opens the transfer of material data and its classifications from the Classification Engine back to the host system.<br><br>See also <b>transferMaterialFromEngine</b> and <b>closeMaterialTransfFromEngine</b>"
+        },
+        {
+          "info": {
+            "name": "openMaterialTransferToEngine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/openMaterialTransferToEngine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Opens the transfer of material data and its classifications from the host system to the Classification Engine.<br><br>See also <b>transferMaterialToEngine</b> and <b>closeMaterialTransferToEngine</b>"
+        },
+        {
+          "info": {
+            "name": "setMaterialAttachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/setMaterialAttachment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set the material attachment for one concrete material."
+        },
+        {
+          "info": {
+            "name": "setMaterialData",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/setMaterialData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set the material data for one concrete material."
+        },
+        {
+          "info": {
+            "name": "transferMaterialFromEngine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/transferMaterialFromEngine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Transfers material data and its classifications from the classification server (engine) back to the host system. The transfer has to be opened before with the help of <b>openMaterialTransferFromEngine</b>. At the end of the transfer <b>closeMaterialTransfFromEngine</b> has to called to end the transaction.<br><br>Attention: only about <b>500</b> materials will be passed in one call, but it will be indicated if more data sets are available in the engine. Just call this method again many times."
+        },
+        {
+          "info": {
+            "name": "transferMaterialToEngine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/FTMaterialClassification20BFBean/transferMaterialToEngine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Transfers material data and its classifications to the classification server (engine). The transfer has to be opened before with the help of <b>openMaterialTransferToEngine</b>. At the end of the transfer <b>closeMaterialTransferToEngine</b> has to called to provide a safe transaction.<br><br>Attention: only about <b>500</b> materials should be passed in one call. To transfer more call this method many times. "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MaterialBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "addPartnersystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/partnerSystems",
+            "params": [
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "clientSystemId Required. The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "setOwner",
+                "value": "",
+                "type": "query",
+                "description": "setOwner Optional. If true, the clientSystemId is set as owner of the material. Default value is false."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new partner system to the materials. If a partner system subscription exists, journal entries will be created for the partner system."
+        },
+        {
+          "info": {
+            "name": "deletePartnersystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/partnerSystems",
+            "params": [
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "clientSystemId Required. The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes a partner system from the materials."
+        },
+        {
+          "info": {
+            "name": "Get the data for one material.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/:materialNumber",
+            "params": [
+              {
+                "name": "materialNumber",
+                "value": "",
+                "type": "path",
+                "description": "The material number which identifies a material uniquely for the client."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only classification values that are valid on the specified date are returned. Defaults to today, if empty. Format: yyyy-MM-dd."
+              },
+              {
+                "name": "ignoreMaterialDetails",
+                "value": "",
+                "type": "query",
+                "description": "If true, material details are ommited in the response."
+              },
+              {
+                "name": "ignoreMaterialDescriptions",
+                "value": "",
+                "type": "query",
+                "description": "If true, material descriptions are ommited in the response."
+              },
+              {
+                "name": "ignoreLinkAttachments",
+                "value": "",
+                "type": "query",
+                "description": "If true, attachments are ommited in the response."
+              },
+              {
+                "name": "ignoreFeatures",
+                "value": "",
+                "type": "query",
+                "description": "If true, features are ommited in the response."
+              },
+              {
+                "name": "ignoreClassifications",
+                "value": "",
+                "type": "query",
+                "description": "If true, classifications are ommited in the response."
+              },
+              {
+                "name": "ignoreClassificationValues",
+                "value": "",
+                "type": "query",
+                "description": "If true, classification values are ommited in the response."
+              },
+              {
+                "name": "ignoreCertificates",
+                "value": "",
+                "type": "query",
+                "description": "If true, certificates are ommited in the response."
+              }
+            ]
+          },
+          "docs": "Get the data for one material."
+        },
+        {
+          "info": {
+            "name": "Update the data of one material.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/:materialNumber",
+            "params": [
+              {
+                "name": "materialNumber",
+                "value": "",
+                "type": "path",
+                "description": "The material number which identifies a material uniquely for the client."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "transferMode",
+                "value": "",
+                "type": "query",
+                "description": "The mode in which the data specified in the request body shall be applied.\n<dl><dt>ADD_ONLY (default)</dt><dd>Only adds new data.</dd>\n<dt>OVERWRITE_ONLY_MASTER_DATA</dt><dd>Changes existing master data (e.g. features, material descriptions). Meanwhile only new classification values and customs documents are added.</dd>\n<dt>OVERWRITE</dt><dd>Changes existing data.</dd>\n<dt>FULL_SYNC_ONLY_MASTER_DATA</dt><dd>Deletes all existing master data, and adds the sent data.</dd>\n<dt>FULL_SYNC</dt><dd>Deletes all existing data, and adds the sent data.</dd></dl>\nHint: Updates for priority/dueDate of a classification are always taken into account. But only changes to more urgency will be accepted."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the data of one material."
+        },
+        {
+          "info": {
+            "name": "deleteMaterial",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/:materialNumber",
+            "params": [
+              {
+                "name": "materialNumber",
+                "value": "",
+                "type": "path",
+                "description": "The material number which identifies a material uniquely for the client."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "Initiates the deletion of a material if the caller is owner of the material. If this is not the case, the partnersystem with the caller's clientSystemId is removed from the material."
+        },
+        {
+          "info": {
+            "name": "Gets the data of a material related business object.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/businessObjects/:type/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identification of the business object."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of the business object."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The unique identification code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "This method is meant to be used in combination with the ISyncBF API to get data of single business objects separately."
+        },
+        {
+          "info": {
+            "name": "Returns classification values of a classification profile for the requested material.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/:materialNumber/classificationProfiles/:profileCode",
+            "params": [
+              {
+                "name": "materialNumber",
+                "value": "",
+                "type": "path",
+                "description": "The material number which identifies a material uniquely for the client."
+              },
+              {
+                "name": "profileCode",
+                "value": "",
+                "type": "path",
+                "description": "The code of the profile to request."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only classification values that are valid on the specified date are returned. Defaults to today, if empty. Format: yyyy-MM-dd."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "useAliasAsTypeName",
+                "value": "",
+                "type": "query",
+                "description": "If true, the typename of the returned classification values will be replaced by their profile specific alias (if available)."
+              }
+            ]
+          },
+          "docs": "Returns classification values of a classification profile for the requested material."
+        },
+        {
+          "info": {
+            "name": "Ensures, that the a classification for the requested material and profile exists.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/:materialNumber/classificationProfiles/:profileCode",
+            "params": [
+              {
+                "name": "materialNumber",
+                "value": "",
+                "type": "path",
+                "description": "The material number which identifies a material uniquely for the client."
+              },
+              {
+                "name": "profileCode",
+                "value": "",
+                "type": "path",
+                "description": "The code of the profile to request."
+              },
+              {
+                "name": "priority",
+                "value": "",
+                "type": "query",
+                "description": "Value between -9999 and 9999. A higher value means a higher priority."
+              },
+              {
+                "name": "dueDate",
+                "value": "",
+                "type": "query",
+                "description": "Date by which the classification shall be completed."
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "query",
+                "description": "Provides tracking the priority/due date; e.g. an order number."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the request."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the request."
+              },
+              {
+                "name": "ignoreClassificationValues",
+                "value": "",
+                "type": "query",
+                "description": "If true, classification values are ommited in the response."
+              },
+              {
+                "name": "useAliasAsTypeName",
+                "value": "",
+                "type": "query",
+                "description": "If true, the typename of the returned classification values will be replaced by their profile specific alias (if available)."
+              }
+            ]
+          },
+          "docs": "<p>Optionally returns all classification values which have been maintained for this classification.</p>\n<p>Optionally updates the workflow fields (priority/due date) regarding the worst-case principle:</p>\n<ul>\n<li>It's only possible to update to a lower #priority (= more urgent)</li>\n<li>It's only possible to update to an earlier #dueDate</li>\n<li>Both fields are taken separately into account, in case one is set the #reference will be set also.</li>\n</ul>\n"
+        },
+        {
+          "info": {
+            "name": "Returns classification values of a classification profile for the requested materials.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/classificationProfiles/:profileCode",
+            "params": [
+              {
+                "name": "profileCode",
+                "value": "",
+                "type": "path",
+                "description": "The code of the profile to request."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only classification values that are valid on the specified date are returned. Defaults to today, if empty. Format: yyyy-MM-dd."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "useAliasAsTypeName",
+                "value": "",
+                "type": "query",
+                "description": "If true, the typename of the returned classification values will be replaced by their profile specific alias (if available)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns classification values of a classification profile for the requested materials."
+        },
+        {
+          "info": {
+            "name": "Get the data for multiple materials.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials",
+            "params": [
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only classification values that are valid on the specified date are returned. Defaults to today, if empty. Format: yyyy-MM-dd."
+              },
+              {
+                "name": "ignoreMaterialDetails",
+                "value": "",
+                "type": "query",
+                "description": "If true, material details are ommited in the response."
+              },
+              {
+                "name": "ignoreMaterialDescriptions",
+                "value": "",
+                "type": "query",
+                "description": "If true, material descriptions are ommited in the response."
+              },
+              {
+                "name": "ignoreLinkAttachments",
+                "value": "",
+                "type": "query",
+                "description": "If true, attachments are ommited in the response."
+              },
+              {
+                "name": "ignoreFeatures",
+                "value": "",
+                "type": "query",
+                "description": "If true, features are ommited in the response."
+              },
+              {
+                "name": "ignoreClassifications",
+                "value": "",
+                "type": "query",
+                "description": "If true, classifications are ommited in the response."
+              },
+              {
+                "name": "ignoreClassificationValues",
+                "value": "",
+                "type": "query",
+                "description": "If true, classification values are ommited in the response."
+              },
+              {
+                "name": "ignoreCertificates",
+                "value": "",
+                "type": "query",
+                "description": "If true, certificates are ommited in the response."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get the data for multiple materials."
+        },
+        {
+          "info": {
+            "name": "Update an attachment file in the engine.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialBFBean/materials/:materialNumber/attachmentFiles/:fileName",
+            "params": [
+              {
+                "name": "materialNumber",
+                "value": "",
+                "type": "path",
+                "description": "The material number which identifies a material uniquely for the client."
+              },
+              {
+                "name": "fileName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the file to add or modify."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "A short description of the file."
+              },
+              {
+                "name": "clientSystemId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the client system. Used to identify the origin of the update."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an attachment file in the engine."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MaterialConfigurationBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check if the supplied value is valid for the given type.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialConfigurationBFBean/classificationValueTypes/:typeName/values/:value/validate",
+            "params": [
+              {
+                "name": "typeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the type."
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "path",
+                "description": "The value to be validated."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "Check the validity of the given value on this date. Defaults to today, if empty. Format: yyyy-MM-dd."
+              }
+            ]
+          },
+          "docs": "Check if the supplied value is valid for the given type."
+        },
+        {
+          "info": {
+            "name": "Get a specific classification profile of the client.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialConfigurationBFBean/classificationProfiles/:profileCode",
+            "params": [
+              {
+                "name": "profileCode",
+                "value": "",
+                "type": "path",
+                "description": "The code of the profile."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "Get a specific classification profile of the client."
+        },
+        {
+          "info": {
+            "name": "Get classification profiles of the client.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialConfigurationBFBean/classificationProfiles",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "ignoreInactive",
+                "value": "",
+                "type": "query",
+                "description": "If true, only active profiles are returned."
+              }
+            ]
+          },
+          "docs": "Get classification profiles of the client."
+        },
+        {
+          "info": {
+            "name": "Get a specific classification value type of the client.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialConfigurationBFBean/classificationValueTypes/:typeName",
+            "params": [
+              {
+                "name": "typeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the type."
+              },
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "Get a specific classification value type of the client."
+        },
+        {
+          "info": {
+            "name": "Get classification value types of the client.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialConfigurationBFBean/classificationValueTypes",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "ignoreInactive",
+                "value": "",
+                "type": "query",
+                "description": "If true, only active classification value types are returned."
+              }
+            ]
+          },
+          "docs": "Get classification value types of the client."
+        },
+        {
+          "info": {
+            "name": "Get information about a specific client.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/MaterialConfigurationBFBean/clientInfo",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "The code of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              }
+            ]
+          },
+          "docs": "Get information about a specific client."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/test2cl/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned."
+        },
+        {
+          "info": {
+            "name": "searchCompanies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/companies",
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "false",
+                "type": "query",
+                "description": "Use this filter field with value 'true' if you want to get enabled companies only."
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "company_number_like",
+                "value": "123",
+                "type": "query",
+                "description": "Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number."
+              },
+              {
+                "name": "name_like",
+                "value": "AEB",
+                "type": "query",
+                "description": "Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "city_like",
+                "value": "*ttgart*",
+                "type": "query",
+                "description": "Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "postcode_like",
+                "value": "70*",
+                "type": "query",
+                "description": "Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported."
+              },
+              {
+                "name": "country_iso_code",
+                "value": "DE",
+                "type": "query",
+                "description": "Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: 'US' for USA, 'DE' for Germany, 'IT' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getCompanyRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/company-roles"
+          },
+          "docs": "Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "WorkstationServiceAgent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "connect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status0",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        },
+        {
+          "info": {
+            "name": "connect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userActivityTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration."
+              },
+              {
+                "name": "registerTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection."
+              },
+              {
+                "name": "processingTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s)."
+              },
+              {
+                "name": "nextPollingRequestTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions."
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/test2cl/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/wssagent/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "GenericAFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getGenericApplicationFacadeInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/GenericAFBean/getGenericApplicationFacadeInfo"
+          }
+        },
+        {
+          "info": {
+            "name": "open",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/GenericAFBean/applications/:applicationName",
+            "params": [
+              {
+                "name": "applicationName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "TariffContent20BFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getAESCertificateTypes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getAESCertificateTypes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets all certificates for a specific country."
+        },
+        {
+          "info": {
+            "name": "getAdditionalCodeProposals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getAdditionalCodeProposals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets proposals additional codes for a specific combination of commodity code, decisive date, country's ISO-code and a descriptions' language ISO-code."
+        },
+        {
+          "info": {
+            "name": "getCertificateProposals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getCertificateProposals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets proposals for certificates/documents for a specific combination of commodity code, decisive date, country's ISO-code and a descriptions' language ISO-code."
+        },
+        {
+          "info": {
+            "name": "getCommodityCode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getCommodityCode",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets the data of exactly one commodity code. This function can also be used to check the validity of a commodity code."
+        },
+        {
+          "info": {
+            "name": "getCommodityCodeSubstitutions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getCommodityCodeSubstitutions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A list of commodity code substitutions, normally relevant for a turn of the year."
+        },
+        {
+          "info": {
+            "name": "getCommodityCodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getCommodityCodes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "All valid commodity codes for the given decisive date."
+        },
+        {
+          "info": {
+            "name": "getContents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getContents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A list of contents which are licensed for the given client."
+        },
+        {
+          "info": {
+            "name": "getCountriesForCountryGroup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getCountriesForCountryGroup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A list of countries referenced in the given country group."
+        },
+        {
+          "info": {
+            "name": "getCountryGroups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getCountryGroups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A list of all country groups related in the tariff content."
+        },
+        {
+          "info": {
+            "name": "getExportControlNumber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getExportControlNumber",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets the data of exactly one export control number. This function can also be used to check the validity of a export control number."
+        },
+        {
+          "info": {
+            "name": "getExportControlNumberMapping",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getExportControlNumberMapping",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets the mapping data of a commodity code to a list of export control numbers."
+        },
+        {
+          "info": {
+            "name": "getExportControlNumbers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getExportControlNumbers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "All valid export control numbers for the given decisive date."
+        },
+        {
+          "info": {
+            "name": "getImportMeasures",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getImportMeasures",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets all valid import measures for a commodity code, country, content and decisive date."
+        },
+        {
+          "info": {
+            "name": "getKnCodeCertificateProposals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getKnCodeCertificateProposals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets the proposals for certificates/documents for a specific combination of commodity code, decisive date, destination country's ISO-code and a descriptions' language ISO-code. @deprecated This method does not support different contents. Please use {@link ITariffContent20BF#getCertificateProposals(TCGetCertificateProposalsRequestDTO)} instead."
+        },
+        {
+          "info": {
+            "name": "getKnCodeCertificateTypes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/test2cl/rest/TariffContent20BFBean/getKnCodeCertificateTypes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets all certificates for a specific knCode/country/destination-id/decisive date combination."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CustomsContentServiceBF",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Requests one final code from a catalog.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CustomsContentServiceBF/content/:contentIdentCode/finalCode/:code",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "APITEST",
+                "type": "query",
+                "description": "The unique identifier of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "contentIdentCode",
+                "value": "AEB.EU.NCL.EXP",
+                "type": "path",
+                "description": "The unique identifier of the catalog the code shall belong to."
+              },
+              {
+                "name": "code",
+                "value": "01013000",
+                "type": "path",
+                "description": "Code that is requested."
+              },
+              {
+                "name": "languageISOCodes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated 2-digit ISO codes of the languages which the returned code descriptions shall have. Default are all available languages of the catalog."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "Optional decisive date at which the returned code shall be valid. Default is today."
+              },
+              {
+                "name": "includeSupplementaryInfos",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether the returned code shall contain supplementary information (like special units in case of a commodity code)."
+              }
+            ]
+          },
+          "docs": "Requests one final code from a catalog."
+        },
+        {
+          "info": {
+            "name": "Requests final codes from a catalog. Result may be resticted with a prefix.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CustomsContentServiceBF/content/:contentIdentCode/finalCodes",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "APITEST",
+                "type": "query",
+                "description": "The unique identifier of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "contentIdentCode",
+                "value": "AEB.EU.NCL.EXP",
+                "type": "path",
+                "description": "The unique identifier of the catalog the final codes shall belong to."
+              },
+              {
+                "name": "prefix",
+                "value": "01",
+                "type": "query",
+                "description": "Restricts the returned codes to codes that start with this prefix (e.g. some chapter of a nomenclature)."
+              },
+              {
+                "name": "languageISOCodes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated 2-digit ISO codes of the languages which the returned code descriptions shall have. Default are all imported languages of the catalog."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "Optional decisive date at which the returned codes shall be valid. Default is today."
+              },
+              {
+                "name": "includeSupplementaryInfos",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether the returned codes shall contain supplementary information (like special units in case of commodity codes)."
+              }
+            ]
+          },
+          "docs": "Requests final codes from a catalog. Result may be resticted with a prefix."
+        },
+        {
+          "info": {
+            "name": "Searches for codes matching the given criteria.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/test2cl/rest/CustomsContentServiceBF/content/:contentIdentCode/search/:searchTerm",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "APITEST",
+                "type": "query",
+                "description": "The unique identifier of the client. If empty, the client of the authentication is used."
+              },
+              {
+                "name": "userName",
+                "value": "",
+                "type": "query",
+                "description": "Names the user from the client system. Used to identify the origin of the call."
+              },
+              {
+                "name": "contentIdentCode",
+                "value": "AEB.EU.NCL.EXP",
+                "type": "path",
+                "description": "The unique identifier of the catalog the matching codes shall belong to."
+              },
+              {
+                "name": "searchTerm",
+                "value": "",
+                "type": "path",
+                "description": "Search term that either the code itself shall start with or that shall be contained in its text. Enclose with quotes to search for an exact term or group of words."
+              },
+              {
+                "name": "languageISOCode",
+                "value": "",
+                "type": "query",
+                "description": "2-digit ISO code of the language which the returned code descriptions shall have. Also the language in which the textual search will be executed. Default language of the catalog."
+              },
+              {
+                "name": "decisiveDate",
+                "value": "",
+                "type": "query",
+                "description": "Optional decisive date at which the returned codes shall be valid. Default is today."
+              },
+              {
+                "name": "maxNumberResults",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of matching code elements that shall be returned. Default is 10."
+              }
+            ]
+          },
+          "docs": "Searches for codes matching the given criteria."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,314 @@
+aid: aeb
+url: https://raw.githubusercontent.com/api-evangelist/aeb/refs/heads/main/apis.yml
+name: AEB
+kind: company
+description: 'AEB SE is a German supply chain and global trade software company, headquartered in Stuttgart
+  and 100% employee-owned, whose platform is used by 7,300+ companies for customs filing, trade compliance,
+  multi-carrier shipping, transport and freight cost management, and warehouse management. In the logistics
+  chain AEB sits at the intermediation layer of customs and trade tech: it is the certified filer between
+  the shipper or forwarder and the customs authority (German ATLAS, EU AES/NCTS/ICS, EMCS, Intrastat,
+  UK CHIEF), and the multi-carrier abstraction between the shipper and 300+ carriers, generating the carrier
+  EDI so the customer never has to. Its API posture is unusually open for this tier: four public ReadMe
+  developer hubs (Customs, Trade Compliance, Transport & Freight Management, SAP add-ons) publish machine-readable
+  OpenAPI 3.0.1 for every product, served live and unauthenticated from AEB''s own test and demo instances,
+  with shared try-it credentials in the docs. But the contract is entirely proprietary — a REST-over-RPC
+  business-facade shape unique to AEB, with a legacy SOAP business facade still exposed beside it — and
+  production access requires registering with AEB and licensing the products, so it is a documented, quotable,
+  contract-gated API rather than a self-serve one.'
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/aeb.png
+tags:
+- Logistics
+- Supply Chain
+- Germany
+- Customs
+- Trade Compliance
+- Freight Forwarding
+- Multi-Carrier Shipping
+- Parcel
+- Track and Trace
+- Export Control
+- Sanctions Screening
+- Warehouse Management
+- Transportation Management
+- SAP
+created: '2026-07-30'
+modified: '2026-07-30'
+specificationVersion: '0.23'
+apis:
+- aid: aeb:aeb-customs-management-api
+  name: AEB Customs Management API
+  description: Electronic customs declaration filing for import, export and transit. Creates consignments
+    and deliveries, transmits them to national customs systems (German ATLAS, EU AES/NCTS, UK CHIEF),
+    and polls declarations, statuses, MRNs, documents and attachments back. Also exposes Intrastat, EMCS
+    and tariff/fee calculation operations.
+  humanURL: https://customsmanagement.docs.developers.aeb.com/
+  baseURL: https://rz3.aeb.de/test2ici/rest
+  tags:
+  - Customs
+  - Trade Compliance
+  - Customs Declaration
+  - ATLAS
+  - NCTS
+  - AES
+  - Intrastat
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-customs-management-openapi.json
+  - type: Documentation
+    url: https://customsmanagement.docs.developers.aeb.com/
+  - type: APIReference
+    url: https://customsmanagement.docs.developers.aeb.com/reference/how-to-use-the-api-reference
+  - type: GettingStarted
+    url: https://customsmanagement.docs.developers.aeb.com/docs/your-first-consignment
+  - type: ChangeLog
+    url: https://customsmanagement.docs.developers.aeb.com/changelog
+  - type: SOAP
+    url: https://rz3.aeb.de/test2ici/servlet/bf
+- aid: aeb:aeb-customs-inventory-management-api
+  name: AEB Customs Inventory Management API
+  description: Customs warehouse / bonded inventory management. Books goods receipts and issues against
+    customs warehouse stock, tracks entries by MRN or ATLAS registration number, and reconciles inventory
+    positions for the customs authority.
+  humanURL: https://customsmanagement.docs.developers.aeb.com/
+  baseURL: https://rz3.aeb.de/test2cim/rest
+  tags:
+  - Customs
+  - Customs Warehouse
+  - Inventory
+  - Bonded Warehouse
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-customs-inventory-management-openapi.json
+  - type: Documentation
+    url: https://customsmanagement.docs.developers.aeb.com/
+  - type: SOAP
+    url: https://rz3.aeb.de/test2cim/servlet/bf
+- aid: aeb:aeb-customs-broker-portal-api
+  name: AEB Customs Broker Portal API
+  description: The broker-facing surface of AEB's customs platform. Lets a customs broker or forwarder
+    retrieve broker instructions and declarations filed on behalf of a principal, send broker instruction
+    events back, and audit the exchange between the goods owner and the filing agent.
+  humanURL: https://customsmanagement.docs.developers.aeb.com/
+  baseURL: https://rz3.aeb.de/test2broker/rest
+  tags:
+  - Customs
+  - Customs Broker
+  - Freight Forwarding
+  - Trade Compliance
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-customs-broker-portal-openapi.json
+  - type: Documentation
+    url: https://customsmanagement.docs.developers.aeb.com/
+  - type: SOAP
+    url: https://rz3.aeb.de/test2broker/servlet/bf
+- aid: aeb:aeb-product-classification-api
+  name: AEB Product Classification API
+  description: Assigns and validates commodity/tariff classification for materials — HS and national tariff
+    numbers, classification profiles, classification proposals and value templates — and serves the resulting
+    customs content data to the customs and compliance products.
+  humanURL: https://customsmanagement.docs.developers.aeb.com/docs/about-product-classification
+  baseURL: https://rz3.aeb.de/test2cl/rest
+  tags:
+  - Trade Compliance
+  - Product Classification
+  - HS Codes
+  - Tariff
+  - Customs
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-product-classification-openapi.json
+  - type: Documentation
+    url: https://customsmanagement.docs.developers.aeb.com/docs/about-product-classification
+  - type: SOAP
+    url: https://rz3.aeb.de/test2cl/servlet/bf
+- aid: aeb:aeb-trade-compliance-management-api
+  name: AEB Trade Compliance Management API
+  description: Restricted/denied party screening, export control and risk assessment as an API. Screens
+    addresses and transactions against sanctions lists, manages good-guy releases and match handling,
+    runs export control checks and licence management, and exposes compliance foundation master data.
+  humanURL: https://trade-compliance.docs.developers.aeb.com/
+  baseURL: https://rz3.aeb.de/test4ce/rest
+  tags:
+  - Trade Compliance
+  - Sanctions Screening
+  - Denied Party Screening
+  - Export Control
+  - Customs
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-trade-compliance-management-openapi.json
+  - type: Documentation
+    url: https://trade-compliance.docs.developers.aeb.com/
+  - type: APIReference
+    url: https://trade-compliance.docs.developers.aeb.com/reference/compliance-foundation
+  - type: GettingStarted
+    url: https://trade-compliance.docs.developers.aeb.com/docs/accessing-the-rest-services
+  - type: GitHubRepository
+    url: https://github.com/AEB-labs/docs-trade-compliance
+- aid: aeb:aeb-carrier-connect-api
+  name: AEB Carrier Connect API
+  description: Multi-carrier shipping API covering 300+ carriers and parcel services. Creates shipments,
+    packages and items, produces labels and shipping documents, builds and manifests pickups (AEB sends
+    the carrier EDI on the customer's behalf), and manages carrier definitions, terms of delivery and
+    shipment objectives across parcel, pallet, FCL/LCL, road, rail, ocean and air.
+  humanURL: https://transport-freight-management.docs.developers.aeb.com/
+  baseURL: https://rz3.aeb.de/demo1cai/rest
+  tags:
+  - Multi-Carrier Shipping
+  - Parcel
+  - Shipping
+  - Labels
+  - Freight
+  - Logistics
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-carrier-connect-openapi.json
+  - type: Documentation
+    url: https://transport-freight-management.docs.developers.aeb.com/
+  - type: APIReference
+    url: https://transport-freight-management.docs.developers.aeb.com/reference/shipping
+  - type: Pricing
+    url: https://www.aeb.com/en/carrier-connect/carrier-connect-api.php
+  - type: Integrations
+    url: https://www.aeb.com/en/carrier-connect/all-transport-service-providers-carriers.php
+  - type: GitHubRepository
+    url: https://github.com/AEB-labs/docs-transport-freight-management
+- aid: aeb:aeb-carrier-select-api
+  name: AEB Carrier Select API
+  description: Carrier selection and routing. Creates routing tasks for a shipment and returns the carrier,
+    service and route determined from the customer's routing rules, rates and constraints.
+  humanURL: https://transport-freight-management.docs.developers.aeb.com/reference/createroutingtask
+  baseURL: https://rz3.aeb.de/demo1routing/rest
+  tags:
+  - Routing
+  - Carrier Selection
+  - Transport Planning
+  - Logistics
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-carrier-select-openapi.json
+  - type: APIReference
+    url: https://transport-freight-management.docs.developers.aeb.com/reference/createroutingtask
+  - type: Documentation
+    url: https://transport-freight-management.docs.developers.aeb.com/
+- aid: aeb:aeb-carrier-event-service-api
+  name: AEB Carrier Event Service API
+  description: Track-and-trace event aggregation across carriers. Registers shipments, configures per-carrier
+    tracking connections, and returns resolved status events by shipment or reference number, including
+    proof-of-delivery / entry certification. Also exposes an inbound PushApi endpoint that carriers and
+    tracking providers post raw event data into.
+  humanURL: https://transport-freight-management.docs.developers.aeb.com/reference/getshipmentsevents
+  baseURL: https://xnsg.dc.aeb.com/demo1ces/rest
+  tags:
+  - Track and Trace
+  - Supply Chain Visibility
+  - Events
+  - Logistics
+  - Parcel
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-carrier-event-service-openapi.json
+  - type: APIReference
+    url: https://transport-freight-management.docs.developers.aeb.com/reference/getshipmentsevents
+  - type: Documentation
+    url: https://transport-freight-management.docs.developers.aeb.com/docs/carrier-event-service/llms.txt
+- aid: aeb:aeb-logistics-cost-management-api
+  name: AEB Logistics Cost Management API
+  description: Freight cost management and freight settlement. Exposes billing scenarios, services, rates,
+    settlements, settlement items and invoices so freight charges can be calculated, accrued and reconciled
+    against carrier invoices.
+  humanURL: https://transport-freight-management.docs.developers.aeb.com/reference/getbillingscenario
+  baseURL: https://rz3.aeb.de/demo1billing/rest
+  tags:
+  - Freight Cost
+  - Freight Settlement
+  - Billing
+  - Rates
+  - Logistics
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-logistics-cost-management-openapi.json
+  - type: APIReference
+    url: https://transport-freight-management.docs.developers.aeb.com/reference/getbillingscenario
+  - type: Documentation
+    url: https://transport-freight-management.docs.developers.aeb.com/docs/logistics-cost-management/llms.txt
+- aid: aeb:aeb-document-service-api
+  name: AEB Document Service API
+  description: Document and print output service for the AEB platform. Manages workstations, printers,
+    output channels and document master data, and delivers the labels, customs papers and transport documents
+    generated by the other AEB products.
+  humanURL: https://transport-freight-management.docs.developers.aeb.com/reference/getworkstations
+  baseURL: https://rz3.aeb.de/demo1docs/rest
+  tags:
+  - Documents
+  - Printing
+  - Labels
+  - Logistics
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-document-service-openapi.json
+  - type: APIReference
+    url: https://transport-freight-management.docs.developers.aeb.com/reference/getworkstations
+  - type: Documentation
+    url: https://transport-freight-management.docs.developers.aeb.com/docs/document-service/llms.txt
+- aid: aeb:aeb-bsm-api
+  name: AEB BSM API
+  description: The bundled BSM (Business Solution Modules) HTTP API that AEB exposes for SAP and partner-system
+    integration — one surface spanning BSM Carrier, AEB Delivery, BSM International Customs, Export Control,
+    Origin & Preferences / Declaration of Origin, Routing and the SAP add-on endpoints, plus an /x360/handleEvent
+    inbound event endpoint. Documented in the public AEB-labs docs-bsm repository; no live public ReadMe
+    hub for it was found on 2026-07-30.
+  humanURL: https://github.com/AEB-labs/docs-bsm
+  baseURL: https://rz3.aeb.de/test2bsm/rest
+  tags:
+  - SAP
+  - Customs
+  - Export Control
+  - Origin and Preferences
+  - Shipping
+  - Logistics
+  properties:
+  - type: OpenAPI
+    url: openapi/aeb-bsm-openapi.json
+  - type: GitHubRepository
+    url: https://github.com/AEB-labs/docs-bsm
+  - type: Documentation
+    url: https://sap-plugins.docs.developers.aeb.com/
+common:
+- type: IssueTracker
+  url: https://github.com/AEB-labs/docs-trade-compliance/issues
+- type: Website
+  url: https://www.aeb.com/
+- type: Documentation
+  url: https://customsmanagement.docs.developers.aeb.com/
+  name: API Customs
+- type: Documentation
+  url: https://trade-compliance.docs.developers.aeb.com/
+  name: API Trade Compliance
+- type: Documentation
+  url: https://transport-freight-management.docs.developers.aeb.com/
+  name: API Logistics
+- type: Documentation
+  url: https://sap-plugins.docs.developers.aeb.com/
+  name: API Add-ons for SAP
+- type: SupportPortal
+  url: https://service.aeb.com/hc/en-us
+- type: ChangeLog
+  url: https://customsmanagement.docs.developers.aeb.com/changelog
+- type: TrustCenter
+  url: https://www.aeb.com/en/trust-center/index.php
+- type: GitHubOrganization
+  url: https://github.com/AEB-labs
+- type: Blog
+  url: https://www.aeb.com/en/magazine/index.php
+- type: Pricing
+  url: https://www.aeb.com/en/carrier-connect/carrier-connect-api.php
+- type: Integrations
+  url: https://www.aeb.com/en/carrier-connect/all-transport-service-providers-carriers.php
+- type: SOAP
+  url: https://customsmanagement.docs.developers.aeb.com/page/soap-api
+  name: SOAP business facade overview
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

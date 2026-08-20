@@ -1,0 +1,1612 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Carrier Event Service HTTP API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-XNSG_WEB_TOKEN",
+      "value": "{{X-XNSG_WEB_TOKEN}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PushAPIRestEndpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Receives carrier event data.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/PushApi/v1/push",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Receives carrier specific data in a generic request object. The endpoint deserializes the data and pushes it for further processing into the system."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CarrierEventServiceBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "createShipments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/createShipments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new list of shipments."
+        },
+        {
+          "info": {
+            "name": "deleteCarrierTrackingConfigurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/deleteCarrierTrackingConfigurations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Removes the carrier tracking configurations referenced in the request."
+        },
+        {
+          "info": {
+            "name": "getAllConverterInformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/getAllConverterInformation",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all converters of the system and its associated parameters and information."
+        },
+        {
+          "info": {
+            "name": "getEventsForReferenceNumber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/getEventsForReferenceNumber",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the resolved and unresolved events associated with the requested shipment reference number."
+        },
+        {
+          "info": {
+            "name": "getProvidedTrackingData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/getProvidedTrackingData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns CESProvidedTrackingData by its digest."
+        },
+        {
+          "info": {
+            "name": "getShipmentsEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/getShipmentsEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the resolved events of the given shipments sorted by CESTrackingEventResponseDTO's eventDate in ascending order, taking the time zone into account."
+        },
+        {
+          "info": {
+            "name": "getShipmentsEventsFiltered",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/getShipmentsEventsFiltered",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the resolved events of the shipments filtered by the requested filter sorted by CESTrackingEventResponseDTO's eventDate in ascending order, taking the time zone into account."
+        },
+        {
+          "info": {
+            "name": "getShipmentsWithEntryCertification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/getShipmentsWithEntryCertification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns shipments with entry certifications."
+        },
+        {
+          "info": {
+            "name": "setCarrierTrackingConfigurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/setCarrierTrackingConfigurations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates or updates the given carrier tracking configurations."
+        },
+        {
+          "info": {
+            "name": "synchronizeResolvedEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/synchronizeResolvedEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Synchronizes all resolved events that have occurred since the last synchronization call."
+        },
+        {
+          "info": {
+            "name": "testProviderConnection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CarrierEventServiceBFBean/testProviderConnection",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Tests the connection of the requested tracking provider."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CoreBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "checkBFFunctionExists",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/checkBFFunctionExists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Can be called to know if a BF function exist."
+        },
+        {
+          "info": {
+            "name": "echo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/echo",
+            "params": [
+              {
+                "name": "echo",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the given echo parameter value."
+        },
+        {
+          "info": {
+            "name": "echoUpperCase",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/echoUpperCase",
+            "params": [
+              {
+                "name": "echo",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the given echo parameter value in uppercase."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getAllMonitoringValues"
+          },
+          "docs": "Returns all available monitoring values of the server."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getBuildForSolution",
+            "params": [
+              {
+                "name": "solutionName",
+                "value": "",
+                "type": "query",
+                "description": "solutionName the name of the solution for which version information is to be obtained"
+              }
+            ]
+          },
+          "docs": "Return the build information of a solution that is deployed in the product on this server. The RFC name of this function is \\\"/AEB/XNSG_IF_BLDSOL\\\"."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getMonitoringValue",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the current monitoring value for the given group and name."
+        },
+        {
+          "info": {
+            "name": "getProductInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getProductInfo"
+          },
+          "docs": "Return information about the server that is answering this request. This includes the product name and various version informations. The RFC name of this function is \\\"/AEB/XNSG_IF_PRINFO\\\"."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getRuntimeInfo"
+          },
+          "docs": "Return runtime information about the server that is answering this request. This includes the server name, ports and various other runtime informations. The RFC name of this function is \\\"/AEB/XNSG_IF_RTINFO\\\"."
+        },
+        {
+          "info": {
+            "name": "getRuntimeState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getRuntimeState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Return runtime state information about the server that is answering this request. This includes if the server is doing fine or not. Also included are the supported operations (bfs) for the installation repository The RFC name of this function is \\\"/AEB/XNSG_IF_RTSTATE\\\"."
+        },
+        {
+          "info": {
+            "name": "getThreadDump",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getThreadDump"
+          },
+          "docs": "Generate Thread-Dump."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/getVersionForSolution",
+            "params": [
+              {
+                "name": "solutionName",
+                "value": "",
+                "type": "query",
+                "description": "solutionName the name of the solution for which version information is to be obtained"
+              }
+            ]
+          },
+          "docs": "Return the version information of a solution that is deployed in the product on this server. The RFC name of this function is \\\"/AEB/XNSG_IF_VERSOL\\\"."
+        },
+        {
+          "info": {
+            "name": "restartRFCServer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/CoreBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \\\"/AEB/XNSG_IF_RSTRFCSRV\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationAFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "releaseApplicationFacade",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationAFBean/releaseApplicationFacade",
+            "params": [
+              {
+                "name": "sessionid",
+                "value": "",
+                "type": "query",
+                "description": "sessionid The sessionid returned by any UI API method, e.g. workplace @throws RemoteException"
+              }
+            ]
+          },
+          "docs": "Release a UI API which is no longer needed.<br> This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.<br> The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.<br> The RFC name of this function is \\\"/AEB/XNSG_IF_RELAF\\\"."
+        },
+        {
+          "info": {
+            "name": "workplace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationAFBean/workplace",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an UI API to be able to display the workplace.<br> The difference of this method compared to the the method \\\"IFoundationBF.getWorkplaceURL()\\\" is the fact, that no logon mask will be dipsplayed before entering the workplace<br> The RFC name of this function is \\\"/AEB/XNSG_IF_WPL\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/logon/authToken"
+          },
+          "docs": "Logon from the \"Authorization\" header (e.g. type \"Basic\"). The generated authentication token can be used in subsequent calls in the \"Authorization\" header, type \"Bearer\"."
+        },
+        {
+          "info": {
+            "name": "logonUser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/logon/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logon with classical procedure: user, client and password."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataFeedBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgePublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/DataFeedBFBean/acknowledgePublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge the processed published data feed parts retrieved with getPublishedDataFeedParts containing the synchronization ID up to which all parts are acknowledged."
+        },
+        {
+          "info": {
+            "name": "getDataFeedPartContentForRest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/DataFeedBFBean/dataFeedParts/:client/:id",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the data feed part content."
+        },
+        {
+          "info": {
+            "name": "getPublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/DataFeedBFBean/getPublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ExternalTelemetryBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTelemetryStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/ExternalTelemetryBFBean/getStatus",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "getTelemetryStatusByParams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/ExternalTelemetryBFBean/status",
+            "params": [
+              {
+                "name": "externalSystemId",
+                "value": "",
+                "type": "query",
+                "description": "externalSystemId, the id of the calling system, mandatory"
+              },
+              {
+                "name": "reportClientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "reportClientIdentCode, the identCode of the client to call the status for"
+              }
+            ]
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "sendTelemetryReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/ExternalTelemetryBFBean/telemetryReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits telemetry data for a new telemetry report.<br> The external system id must be sent with the request, a client IdentCode only if client dependent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/acknowledgeFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledges a file download."
+        },
+        {
+          "info": {
+            "name": "announceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/announceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Announces a stop of the installation."
+        },
+        {
+          "info": {
+            "name": "cancelAnnounceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/cancelAnnounceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Revokes an already announced stop."
+        },
+        {
+          "info": {
+            "name": "changeAdminPassword",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/changeAdminPassword",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the admin password."
+        },
+        {
+          "info": {
+            "name": "queryClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/client",
+            "params": [
+              {
+                "name": "identCode",
+                "value": "",
+                "type": "query",
+                "description": "Filter for client ident code"
+              },
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "Filter for debtor number"
+              }
+            ]
+          },
+          "docs": "Requests all clients from this engine, or one client identified by values in query parameter"
+        },
+        {
+          "info": {
+            "name": "createClient",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/client",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a client."
+        },
+        {
+          "info": {
+            "name": "downloadFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/downloadFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a file for download."
+        },
+        {
+          "info": {
+            "name": "generateClientIdentCode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/generateClientIdentCode",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a client ident code."
+        },
+        {
+          "info": {
+            "name": "getAllActiveClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/client/active"
+          },
+          "docs": "Requests all active clients from this engine."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/monitoringValue"
+          },
+          "docs": "Requests all monitoring values from this engine."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/solution/:name/build",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the build info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getDownloadableFilesRefs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/downloadableFileRefs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves refs for download."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/monitoringValue/:groupName/:valueName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "group name"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "path",
+                "description": "value name"
+              }
+            ]
+          },
+          "docs": "Requests a specific monitoring value from this engine."
+        },
+        {
+          "info": {
+            "name": "getNumberOfClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/numberOfClients"
+          },
+          "docs": "Returns the number of clients."
+        },
+        {
+          "info": {
+            "name": "getProductInfo_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/productInfo"
+          },
+          "docs": "Requests the product info from this engine."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/runtimeInfo"
+          },
+          "docs": "Requests the runtime info from this engine."
+        },
+        {
+          "info": {
+            "name": "getScriptExecutionState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/scriptExecutionState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "gets a script execution state"
+        },
+        {
+          "info": {
+            "name": "getTableUpdateState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/tableUpdateState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the status of the table update."
+        },
+        {
+          "info": {
+            "name": "getUploadSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/uploadSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves the upload settings."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/solution/:name/version",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the version info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getWorkplaceURL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/workplaceURL"
+          },
+          "docs": "Requests the workplace url from this engine."
+        },
+        {
+          "info": {
+            "name": "isDebtorNumberKnown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/checkDebtorNumber",
+            "params": [
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "the debtor number to check"
+              }
+            ]
+          },
+          "docs": "Checks if debtor number is known."
+        },
+        {
+          "info": {
+            "name": "publishUserMessage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/publishUserMessage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "creates a user message, in several languages if required"
+        },
+        {
+          "info": {
+            "name": "requestReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/roles"
+          },
+          "docs": "Requests the current engine to report all its roles"
+        },
+        {
+          "info": {
+            "name": "requestReport_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/roles/:clientIdentCode",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "path",
+                "description": "Client ident code for retrieving its roles."
+              }
+            ]
+          },
+          "docs": "Requests the current engine to report all roles for a specific client"
+        },
+        {
+          "info": {
+            "name": "restartRFCServer_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \"/AEB/XNSG_IF_RSTRFCSRV\""
+        },
+        {
+          "info": {
+            "name": "sendMail",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/sendMail",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a mail."
+        },
+        {
+          "info": {
+            "name": "startScriptExecution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/startScriptExecution",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts a script execution"
+        },
+        {
+          "info": {
+            "name": "startTableUpdate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/startTableUpdate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts the table update."
+        },
+        {
+          "info": {
+            "name": "systemSearch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/systemSearch/:language",
+            "params": [
+              {
+                "name": "language",
+                "value": "",
+                "type": "path",
+                "description": "the langauge"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a system search in this engine."
+        },
+        {
+          "info": {
+            "name": "uploadFileMultiPart",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/FoundationBFBean/uploadFileMultiPart",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "metaInfo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Uploads a file using multipart."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RemoteAdminBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/RemoteAdminBFBean/clientRoles/:clientId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        },
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/RemoteAdminBFBean/roles",
+            "params": [
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "the dataset to return"
+              },
+              {
+                "name": "clientIdentCodes",
+                "value": "",
+                "type": "query",
+                "description": "includeClientIdentCodes"
+              },
+              {
+                "name": "resultLanguageIsoCodes",
+                "value": "",
+                "type": "query",
+                "description": "resultLanguageIsoCodes"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SyncBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/SyncBFBean/acknowledgeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge events got with {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)}.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getNotAcknowledgedEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/SyncBFBean/getNotAcknowledgedEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll any not acknowledged events for the client system.<br> This method does not require, that the client system fills {@link SyncEventsRequestDTO#syncId}.<br> However, it requires, that a call to {@link #acknowledgeEvents(AcknowledgeEventsRequestDTO)} is done for acknowledge of the events.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getPartnerSystemSubscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/SyncBFBean/getPartnerSystemSubscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a list of registered subscriptions (either all or filtered by the business object type).<br>Only subscription belonging to the provided <code>clientSystemId</code> are returned (mandatory field)<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "subscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/SyncBFBean/subscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Subscribe a partner system to be able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "synchronizeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/SyncBFBean/synchronizeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll the next events for the client system.<br> This method requires the client system to persist the synchronisation state itself and passing a proper value for {@link SyncEventsRequestDTO#syncId}<br> See {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)} for a version of the method, were the syncronisation state is kept within the Engine."
+        },
+        {
+          "info": {
+            "name": "unsubscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/SyncBFBean/unsubscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Unsubscribe a partner system from being able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned."
+        },
+        {
+          "info": {
+            "name": "searchCompanies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/companies",
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "false",
+                "type": "query",
+                "description": "Use this filter field with value 'true' if you want to get enabled companies only."
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "company_number_like",
+                "value": "123",
+                "type": "query",
+                "description": "Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number."
+              },
+              {
+                "name": "name_like",
+                "value": "AEB",
+                "type": "query",
+                "description": "Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "city_like",
+                "value": "*ttgart*",
+                "type": "query",
+                "description": "Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "postcode_like",
+                "value": "70*",
+                "type": "query",
+                "description": "Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported."
+              },
+              {
+                "name": "country_iso_code",
+                "value": "DE",
+                "type": "query",
+                "description": "Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: 'US' for USA, 'DE' for Germany, 'IT' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getCompanyRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/company-roles"
+          },
+          "docs": "Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "WorkstationServiceAgent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "connect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status0",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        },
+        {
+          "info": {
+            "name": "connect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userActivityTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration."
+              },
+              {
+                "name": "registerTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection."
+              },
+              {
+                "name": "processingTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s)."
+              },
+              {
+                "name": "nextPollingRequestTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions."
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://xnsg.dc.aeb.com/demo1ces/rest/wssagent/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

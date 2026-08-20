@@ -1,0 +1,1023 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Logistics Cost Management HTTP API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-XNSG_WEB_TOKEN",
+      "value": "{{X-XNSG_WEB_TOKEN}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "BillingScenario",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getBillingScenario",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/billing-scenarios/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "001",
+                "type": "path",
+                "description": "The requested ID of the billing scenario."
+              }
+            ]
+          },
+          "docs": "Returns the billing scenario with the requested ID"
+        },
+        {
+          "info": {
+            "name": "searchScenarios",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/billing-scenarios",
+            "params": [
+              {
+                "name": "ident_code_like",
+                "value": "*0*",
+                "type": "query",
+                "description": "Filters billing scenarios by ident code.<br>In the example, all scenarios which include '0' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique."
+              },
+              {
+                "name": "description_code_like",
+                "value": "*A*",
+                "type": "query",
+                "description": "Filters billing scenarios by description.<br>In the example, all scenarios which include 'A' in the description are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              }
+            ]
+          },
+          "docs": "Returns all billing scenarios matching the given filter criteria. In case no scenario matches the given filter criteria, an empty collection is returned. If the filter field supports place holders ('*' or '%'), all scenarios beginning with the value of the filter are returned. I.e. a place holder at the end of the filter value is added automatically."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Service",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getService",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/billing-scenarios/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "001",
+                "type": "path",
+                "description": "The requested ID of the billing scenario."
+              },
+              {
+                "name": "service-id",
+                "value": "UPS_EXPR",
+                "type": "path",
+                "description": "The requested ID of the service."
+              }
+            ]
+          },
+          "docs": "Returns the service of the billing scenario with the requested ID"
+        },
+        {
+          "info": {
+            "name": "createOrUpdateService",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1billing/rest/billing-scenarios/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "001",
+                "type": "path",
+                "description": "The requested ID of the billing scenario."
+              },
+              {
+                "name": "service-id",
+                "value": "UPS_EXPR",
+                "type": "path",
+                "description": "The requested ID of the service."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a service in a billing scenario with the requested ID. If the service with the given ID does not exist, a new service is created. If the service exists, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use GET/billing-scenarios/{id}/services to check whether a service with an ID already exists BEFORE you use PUT/billing-scenarios/{id}/se"
+        },
+        {
+          "info": {
+            "name": "deleteService",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1billing/rest/billing-scenarios/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "001",
+                "type": "path",
+                "description": "The requested ID of the billing scenario."
+              },
+              {
+                "name": "service-id",
+                "value": "UPS_EXPR",
+                "type": "path",
+                "description": "The requested ID of the service."
+              }
+            ]
+          },
+          "docs": "Deletes a service in a billing scenario with the requested ID."
+        },
+        {
+          "info": {
+            "name": "searchServices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/billing-scenarios/:id/services",
+            "params": [
+              {
+                "name": "id",
+                "value": "001",
+                "type": "path",
+                "description": "The requested ID of the billing scenario."
+              },
+              {
+                "name": "ident_code_like",
+                "value": "*UPS*",
+                "type": "query",
+                "description": "Filter services by ident code.<br>In the example, all services which include 'UPS' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique for one billing scenario."
+              },
+              {
+                "name": "description_like",
+                "value": "*UPS*",
+                "type": "query",
+                "description": "Filter services by description.<br>In the example, all services which include 'UPS' in the description are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "attribute_like",
+                "value": "*A*",
+                "type": "query",
+                "description": "Filter services by attribute.<br>In the example, all services which include 'A' in the attribute are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all services of a billing scenario matching the given filter criteria. In case no service matches the given filter criteria, an empty collection is returned. If the filter field supports place holders ('*' or '%'), all scenarios beginning with the value of the filter are returned. I.e. a place holder at the end of the filter value is added automatically."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Settlement",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "get settlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/settlements/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "000001",
+                "type": "path",
+                "description": "The Settlementnumber of the requested Settlement."
+              }
+            ]
+          },
+          "docs": "Returns the settlement with the requested ID"
+        },
+        {
+          "info": {
+            "name": "Search settlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/settlements",
+            "params": [
+              {
+                "name": "settlement_number_like",
+                "value": "000001",
+                "type": "query",
+                "description": "Filter settlements by Settlementnumber. Place holders are supported."
+              },
+              {
+                "name": "settlement_type_like",
+                "value": "Storno",
+                "type": "query",
+                "description": "Filter settlements by Settlementtype. Place holders are supported."
+              },
+              {
+                "name": "billing_scenario_like",
+                "value": "CAI",
+                "type": "query",
+                "description": "Filter settlements by Billingscenario. Place holders are supported."
+              },
+              {
+                "name": "provider_like",
+                "value": "UPS",
+                "type": "query",
+                "description": "Filter settlements by Provider companyNo. Place holders are supported."
+              },
+              {
+                "name": "status_list",
+                "value": "READY,COMPILED",
+                "type": "query",
+                "description": "Filter settlements by status code. Possible Status Codes are: READY, COMPILED, RELEASED, COMPLETE, CANCELLED Place holders are supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all settlements matching the given filter criteria. In case no settlement matches, an empty collection is returned. Supports wildcards in filter fields."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SettlementItem",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search settlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/settlements/:id/settlement-items",
+            "params": [
+              {
+                "name": "id",
+                "value": "000001",
+                "type": "path",
+                "description": "The Settlementnumber of the requested Settlement."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all settlement items matching the given filter criteria. In case no settlement items matches, an empty collection is returned. Supports wildcards in filter fields."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeChangedSettlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/acknowledgeChangedSettlements",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Acknowledge that changed settlements were processed and should no longer be returned by getChangedSettlements."
+        },
+        {
+          "info": {
+            "name": "cancelServiceItems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/cancelServiceItems",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancel the service items in the Billing engine.<br> Cancel a service item will try to logically remove the service item with all of its settelement items, if this is possible.<br> In some cases the cancellation of service items is not (or no longer) possible and will lead to errors.<br> E.g. the service item can not be found, or some of the settlement items of the service item can not or no longer be logically removed.<br> The processing of all items will be done in one transaction, so in case o"
+        },
+        {
+          "info": {
+            "name": "createServiceItems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/createServiceItems",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates one or more service items. For each BServiceItemDTO included in the BCreateServiceItemsRequestDTO one service item is created. Starts pricing if boolean calculatePriceImmediately in BCreateServiceItemParmsDTO is true and returns the calculated prices. Use this method if you want to invoice and or audit the service items."
+        },
+        {
+          "info": {
+            "name": "getBillingScenarios",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/getBillingScenarios",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all billing scenarios for the given client"
+        },
+        {
+          "info": {
+            "name": "getBillingServices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/getBillingServices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all billing services for the given client and billing scenario as optional parameter."
+        },
+        {
+          "info": {
+            "name": "getChangedSettlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/getChangedSettlements",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "<p>Returns all changed settlements.</p> <p> This method should be used together with acknowledgeChangedSettlements. </p> See also BGetChangedSettlementsResponseDTO#syncId"
+        },
+        {
+          "info": {
+            "name": "getServiceItems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/getServiceItems",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all service items for the given client."
+        },
+        {
+          "info": {
+            "name": "offsetServiceItems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/offsetServiceItems",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Offset the service items in the Billing engine.<br> Offsetting a service item will offset all relevant settlement items of this service item, by creating exact copies of the relevant settlement items with reversed sign.<br> Depending on customizing, some settlement items will not take part in offsetting the service item and some settlement items will prevent any offsetting at all, which leads to an error.<br> The processing of all items will be done in one transaction, so in case of any error, n"
+        },
+        {
+          "info": {
+            "name": "setServiceMasterFileData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/setServiceMasterFileData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Create or update multiple Services in the Billing engine.<br> Create or update multiple services in the master file data of the engine. Because of performance and transactional issues it is recommended to transfer about 100 services within one synchronous call. All transfered services will be either created or updated. The identCode and scenarioIdentCode (these are key values) of the service will be checked before processing. In case of any unfilled key value, nothing will be done. In case of ot"
+        },
+        {
+          "info": {
+            "name": "simulateCreateServiceItems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/BillingBFBean/simulateCreateServiceItems",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This method does the same as createServiceItems, but does not store the results in the database.<br> So this method can e.g. be used to precalculate prices for potential service items or just for testing purposes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Rates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "updateRateSheetEntries",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/RateBFBean/updateRateSheetEntries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates entries of a rate sheet. If any errors occur no entry will be changed."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Invoices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeChangedExternalInvoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/ExternalInvoice/acknowledgeChangedExternalInvoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Acknowledge that changed external invoices were processed and should no longer be returned by getChangedExternalInvoices."
+        },
+        {
+          "info": {
+            "name": "createExternalInvoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/ExternalInvoice/createExternalInvoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates one external invoice for every BExternalInvoiceDTO included in the BCreateExternalInvoicesRequestDTO."
+        },
+        {
+          "info": {
+            "name": "getChangedExternalInvoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/ExternalInvoice/getChangedExternalInvoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "<p>Returns all changed external invoices.</p> <p> This method should be used together with acknowledgeChangedExternalInvoices. </p> See also BGetChangedExternalInvoicesResponseDTO#syncId"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/logon/authToken"
+          },
+          "docs": "Logon from the \"Authorization\" header (e.g. type \"Basic\"). The generated authentication token can be used in subsequent calls in the \"Authorization\" header, type \"Bearer\"."
+        },
+        {
+          "info": {
+            "name": "logonUser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/logon/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logon with classical procedure: user, client and password."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataFeedBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgePublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/DataFeedBFBean/acknowledgePublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge the processed published data feed parts retrieved with getPublishedDataFeedParts containing the synchronization ID up to which all parts are acknowledged."
+        },
+        {
+          "info": {
+            "name": "getDataFeedPartContentForRest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/DataFeedBFBean/dataFeedParts/:client/:id",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the data feed part content."
+        },
+        {
+          "info": {
+            "name": "getPublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/DataFeedBFBean/getPublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1billing/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1billing/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned."
+        },
+        {
+          "info": {
+            "name": "searchCompanies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/companies",
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "false",
+                "type": "query",
+                "description": "Use this filter field with value 'true' if you want to get enabled companies only."
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "company_number_like",
+                "value": "123",
+                "type": "query",
+                "description": "Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number."
+              },
+              {
+                "name": "name_like",
+                "value": "AEB",
+                "type": "query",
+                "description": "Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "city_like",
+                "value": "*ttgart*",
+                "type": "query",
+                "description": "Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "postcode_like",
+                "value": "70*",
+                "type": "query",
+                "description": "Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported."
+              },
+              {
+                "name": "country_iso_code",
+                "value": "DE",
+                "type": "query",
+                "description": "Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: 'US' for USA, 'DE' for Germany, 'IT' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getCompanyRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/company-roles"
+          },
+          "docs": "Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "WorkstationServiceAgent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "connect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1billing/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status0",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        },
+        {
+          "info": {
+            "name": "connect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1billing/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userActivityTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration."
+              },
+              {
+                "name": "registerTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection."
+              },
+              {
+                "name": "processingTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s)."
+              },
+              {
+                "name": "nextPollingRequestTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions."
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1billing/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1billing/rest/wssagent/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

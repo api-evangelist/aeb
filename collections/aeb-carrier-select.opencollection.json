@@ -1,0 +1,1184 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Carrier Select HTTP API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-XNSG_WEB_TOKEN",
+      "value": "{{X-XNSG_WEB_TOKEN}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "FoundationAFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "releaseApplicationFacade",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/FoundationAFBean/releaseApplicationFacade",
+            "params": [
+              {
+                "name": "sessionid",
+                "value": "",
+                "type": "query",
+                "description": "sessionid The sessionid returned by any UI API method, e.g. workplace @throws RemoteException"
+              }
+            ]
+          },
+          "docs": "Release a UI API which is no longer needed.<br> This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.<br> The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.<br> The RFC name of this function is \\\"/AEB/XNSG_IF_RELAF\\\"."
+        },
+        {
+          "info": {
+            "name": "workplace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/FoundationAFBean/workplace",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an UI API to be able to display the workplace.<br> The difference of this method compared to the the method \\\"IFoundationBF.getWorkplaceURL()\\\" is the fact, that no logon mask will be dipsplayed before entering the workplace<br> The RFC name of this function is \\\"/AEB/XNSG_IF_WPL\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/logon/authToken"
+          },
+          "docs": "Logon from the \"Authorization\" header (e.g. type \"Basic\"). The generated authentication token can be used in subsequent calls in the \"Authorization\" header, type \"Bearer\"."
+        },
+        {
+          "info": {
+            "name": "logonUser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/logon/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logon with classical procedure: user, client and password."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataFeedBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgePublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/DataFeedBFBean/acknowledgePublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge the processed published data feed parts retrieved with getPublishedDataFeedParts containing the synchronization ID up to which all parts are acknowledged."
+        },
+        {
+          "info": {
+            "name": "getDataFeedPartContentForRest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/DataFeedBFBean/dataFeedParts/:client/:id",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the data feed part content."
+        },
+        {
+          "info": {
+            "name": "getPublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/DataFeedBFBean/getPublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ExternalTelemetryBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTelemetryStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/ExternalTelemetryBFBean/getStatus",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "getTelemetryStatusByParams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/ExternalTelemetryBFBean/status",
+            "params": [
+              {
+                "name": "externalSystemId",
+                "value": "",
+                "type": "query",
+                "description": "externalSystemId, the id of the calling system, mandatory"
+              },
+              {
+                "name": "reportClientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "reportClientIdentCode, the identCode of the client to call the status for"
+              }
+            ]
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "sendTelemetryReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/ExternalTelemetryBFBean/telemetryReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits telemetry data for a new telemetry report.<br> The external system id must be sent with the request, a client IdentCode only if client dependent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned."
+        },
+        {
+          "info": {
+            "name": "searchCompanies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/companies",
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "false",
+                "type": "query",
+                "description": "Use this filter field with value 'true' if you want to get enabled companies only."
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "company_number_like",
+                "value": "123",
+                "type": "query",
+                "description": "Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number."
+              },
+              {
+                "name": "name_like",
+                "value": "AEB",
+                "type": "query",
+                "description": "Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "city_like",
+                "value": "*ttgart*",
+                "type": "query",
+                "description": "Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "postcode_like",
+                "value": "70*",
+                "type": "query",
+                "description": "Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported."
+              },
+              {
+                "name": "country_iso_code",
+                "value": "DE",
+                "type": "query",
+                "description": "Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: 'US' for USA, 'DE' for Germany, 'IT' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getCompanyRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/company-roles"
+          },
+          "docs": "Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "WorkstationServiceAgent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "connect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status0",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        },
+        {
+          "info": {
+            "name": "connect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userActivityTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration."
+              },
+              {
+                "name": "registerTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection."
+              },
+              {
+                "name": "processingTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s)."
+              },
+              {
+                "name": "nextPollingRequestTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions."
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/wssagent/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Carrier",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCarrier",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the carrier with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCarrier",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "Creates a new carrier with the ID 'DHLPAKETINT', if the carrier does not exist. Otherwise fully updates the carrier 'DHLPAKETINT' according to the filled data fields in the request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update the carrier with the specified ID. If the carrier with the given ID does not exist, a new carrier is created. If the carrier exists, the existing carrier is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier. It is therefore recommended to use GET/carriers to check whether a carrier with an ID already exists BEFORE you use PUT/carriers/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCarrier",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete the carrier with the specified ID."
+        },
+        {
+          "info": {
+            "name": "searchCarriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers",
+            "params": [
+              {
+                "name": "ident_code_like",
+                "value": "*DHL*",
+                "type": "query",
+                "description": "Filter carriers by ident code.<br>In the example, all carriers which include 'DHL' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all carriers matching the given filter criteria. In case no carrier matches the given filter criteria, an empty collection is returned. If the filter field supports place holders ('*' or '%'), you get all carriers back beginning with the value of the filter. I.e. a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getInfoTexts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/info-texts",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              }
+            ]
+          },
+          "docs": "Returns all info texts of a carrier."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllInfoTexts",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/info-texts",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all info texts of the specified carrier. If the info text with the given ID does not exist, a new info text is created. If the info text exists, the existing info text is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing info text. It is therefore recommended to use GET/carriers/{id}/info-texts to check whether an info text with an ID already exists BEFORE you use PUT/carriers/{id}/info-texts."
+        },
+        {
+          "info": {
+            "name": "getInfoText",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/info-texts/:info-text-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "info-text-id",
+                "value": "DNF",
+                "type": "path",
+                "description": "The requested carrier info text ID."
+              }
+            ]
+          },
+          "docs": "Returns the info text of a carrier with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateInfoText",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/info-texts/:info-text-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "info-text-id",
+                "value": "DNF",
+                "type": "path",
+                "description": "The requested carrier info text ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update an info text with the specified ID. If the info text with the given ID does not exist, a new info text is created. If the info text exists, the existing info text is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing info text. It is therefore recommended to use GET/carriers/{id}/info-texts to check whether an info text with an ID already exists BEFORE you use PUT/carriers/{id}/info-texts/{id}"
+        },
+        {
+          "info": {
+            "name": "deleteInfoText",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/info-texts/:info-text-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "info-text-id",
+                "value": "DNF",
+                "type": "path",
+                "description": "The requested carrier info text ID."
+              }
+            ]
+          },
+          "docs": "Deletes the info text of a carrier with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getServices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/services",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              }
+            ]
+          },
+          "docs": "Returns all services of a carrier."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllServices",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/services",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all services of specified carrier. If a service with a given ID does not exist, a new service is created. If the service exists, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use GET/carriers/{id}/services to check whether a service with a id already exists BEFORE you use PUT/carriers/{id}/services."
+        },
+        {
+          "info": {
+            "name": "getService",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "service-id",
+                "value": "DHLPAKETINT_PREM",
+                "type": "path",
+                "description": "The requested ID of a service."
+              }
+            ]
+          },
+          "docs": "Returns the service of the carrier with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateService",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "service-id",
+                "value": "DHLPAKETINT_PREM",
+                "type": "path",
+                "description": "The requested ID of a service."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a service with the specified ID. If the service with the given id does not exist, a new service is created. If the service exist, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use the GET/carriers/{id}/services to check whether a service with a ID already exists BEFORE you use  PUT/carriers/{id}/services/{id}"
+        },
+        {
+          "info": {
+            "name": "deleteService",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "service-id",
+                "value": "DHLPAKETINT_PREM",
+                "type": "path",
+                "description": "The requested ID of a service."
+              }
+            ]
+          },
+          "docs": "Deletes the service of the carrier with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getValueAddedServices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/value-added-services",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              }
+            ]
+          },
+          "docs": "Returns all value added services of a carrier."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllValueAddedServices",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/value-added-services",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all value added services of a carrier with the requested ID. If a value added service with a given ID does not exist, a new value added service is created. If the value added service exists, the value added service carrier is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier. It is therefore recommended to use GET/carriers/{id}/value-added-services to check whether a carrier with an ID already"
+        },
+        {
+          "info": {
+            "name": "getValueAddedService",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/value-added-services/:value-added-service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "value-added-service-id",
+                "value": "DHLPAKETINTCDP",
+                "type": "path",
+                "description": "The requested ID of the value added service."
+              }
+            ]
+          },
+          "docs": "Returns a value added service of a carrier with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateValueAddedService",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/value-added-services/:value-added-service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "value-added-service-id",
+                "value": "DHLPAKETINTCDP",
+                "type": "path",
+                "description": "The requested ID of the value added service."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a value added service of a carrier with the requested ID. If the value added service with the given ID does not exist, a new value added service is created. If the value added service exists, the existing value added service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing value added service. It is therefore recommended to use GET/carriers/{id}/value-added-services to check whether a value added "
+        },
+        {
+          "info": {
+            "name": "deleteValueAddedService",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1routing/rest/carriers/:id/value-added-services/:value-added-service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "DHLPAKETINT",
+                "type": "path",
+                "description": "The requested ID of a carrier."
+              },
+              {
+                "name": "value-added-service-id",
+                "value": "DHLPAKETINTCDP",
+                "type": "path",
+                "description": "The requested ID of the value added service."
+              }
+            ]
+          },
+          "docs": "Deletes a value added service of a carrier with the requested ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Routing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "createRoutingTask",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/createRoutingTask",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new routing task and returns a unique task id.<br> <br> In case of successful creation, the response will contain the unique taskId of the created routing task. The respective routing task can be found by this task id. Proposal calculation starts in an asynchronous process. The current state of calculation can be requested by handing over the provided task id via the call of getRoutingTaskResult(GetRoutingTaskResultRequestDTO) or waitForRoutingTaskResult(WaitForRoutingTaskResultRequest"
+        },
+        {
+          "info": {
+            "name": "createSupplementTask",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/createSupplementTask",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new supplement task and returns a unique task id.<br> <br>In case of successful creation, the response will contain the unique taskId of the created supplement task. The respective supplement task can be found by this task id. Supplement calculation starts in an asynchronous process. The current state of calculation can be request by handing over the provided task id via the call of getSupplementTaskResult(GetSupplementTaskResultRequestDTO).<br>"
+        },
+        {
+          "info": {
+            "name": "getAllCarriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getAllCarriers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all carriers available for the target client.<br> <br> This call might help to find the correct identCode of a carrier and service as well as the value-added services belonging to that carrier, which shall be added to the supplement task by using createSupplementTask(CreateSupplementTaskRequestDTO)."
+        },
+        {
+          "info": {
+            "name": "getHandoverPoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getHandoverPoints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all handover points available for the target client.<br> <br> Handover points are master file data. This call can be used to choose a handover point from a drop down application. It is <b>not</b> intended that this call is used for master data maintenance or master data synchronization.<br><br> The address is <b>not</b> included in the response."
+        },
+        {
+          "info": {
+            "name": "getRatingProfiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getRatingProfiles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all rating profiles available for the target client.<br> <br> This call might help to find the correct identCode of a rating profile, which shall be added to the routing task by using createRoutingTask(CreateRoutingTaskRequestDTO). This becomes more important, if a rating profile other than the default profile shall be used for proposal calculation.<br>"
+        },
+        {
+          "info": {
+            "name": "getRejectedRoutingTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getRejectedRoutingTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a sorted list of the rejected proposals for the provided task id and its current calculation state.<br> The rejected proposals are those proposals which were filtered out according to the settings in the rating profile.<br> <br> Possible states of calculation are:<br> - INPROGRESS: entries (and ordering) might change in future calls. <br> - RANKED: ordering and entries fixed, at least one supplement missing. <br> - COMPLETE: ordering and entries fixed, all supplements are calculated. <br"
+        },
+        {
+          "info": {
+            "name": "getRoutingRequirementTypes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getRoutingRequirementTypes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns all requirements and requirement types available for the target client.<br> <br> This call might help to find the correct identCode of a requirement, which shall be added to the routing task by using createRoutingTask(CreateRoutingTaskRequestDTO).<br>"
+        },
+        {
+          "info": {
+            "name": "getRoutingTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getRoutingTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a sorted list of proposals for the provided task id and its current calculation state.<br> <br> The final list of proposals is ranked according to a rating profile. A rating profile uses supplements for score calculation and ranking.<br> <br> Possible states of calculation are:<br> - INPROGRESS: entries (and ordering) might change in future calls. <br> - RANKED: ordering and entries fixed, at least one supplement missing. <br> - COMPLETE: ordering and entries fixed, all supplements are c"
+        },
+        {
+          "info": {
+            "name": "getSupplementTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/getSupplementTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns an intermediate result of calculated supplements for the provided task id and its current calculation state.<br> <br> Possible states of calculation are:<br> - INPROGRESS: entries (and ordering) might change in future calls. <br> - COMPLETE: ordering and entries fixed, all supplements are calculated. <br> <br> A new supplement task can be created by using createSupplementTask(CreateSupplementTaskRequestDTO).<br>"
+        },
+        {
+          "info": {
+            "name": "waitForRoutingTaskResult",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1routing/rest/RoutingBFBean/waitForRoutingTaskResult",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Waits for the task calculation to finish and returns a sorted list of proposals for the provided task id and its current calculation state.<br> <br> If the calculation takes longer than the set waiting time limit, the list of proposals will be returned in its current unfinished calculation state as soon as the limit is reached.<br> <br> The final list of proposals is ranked according to a rating profile. A rating profile uses supplements for score calculation and ranking.<br><br>Possible states "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

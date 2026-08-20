@@ -1,0 +1,2524 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Carrier Connect HTTP API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-XNSG_WEB_TOKEN",
+      "value": "{{X-XNSG_WEB_TOKEN}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CarrierDefinition",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCarrierDefinition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a carrier definition with the requested ID. If the ID does not exist, an error will be returned "
+        },
+        {
+          "info": {
+            "name": "searchCarrierDefinitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions",
+            "params": [
+              {
+                "name": "is_disabled",
+                "value": "false",
+                "type": "query",
+                "description": "If this filter is set to 'true', only carrier definitions which are disabled will be returned."
+              },
+              {
+                "name": "ident_code_like",
+                "value": "*ups*",
+                "type": "query",
+                "description": "Filters carrier defintions by identCode. In the example, all carrier definitions are returned whose identCode contains the segment 'ups'. This filter field is case insensitive and placeholders are supported."
+              },
+              {
+                "name": "name_like",
+                "value": "*dpd*",
+                "type": "query",
+                "description": "Filters carrier defintions by name. In the example, all carrier definitions are returned whose name contains the segment 'dpd'. This filter field is case insensitive and placeholders are supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all carrier definitions matching the given filter criteria. In case no carrier definition matches the given filter criteria an empty carrier definition collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all carrier definitions back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getAdditionalValueDefinitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id/additional-values",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of all the additional values of a carrier definition with the requested ID. If the ID does not exist, an error will be returned "
+        },
+        {
+          "info": {
+            "name": "getCarrierInfoTextDefinitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id/carrier-info-texts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "show_disabled",
+                "value": "false",
+                "type": "query",
+                "description": "If this filter is set to 'true', carrier info text definitions which are disabled will be returned additionally."
+              }
+            ]
+          },
+          "docs": "Returns a list of all the carrier info texts of a carrier definition with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getCarrierDespatchCountries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id/despatch-countries",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of all the despatch countries of a carrier definition with the requested ID. If the ID does not exist, an error will be returned "
+        },
+        {
+          "info": {
+            "name": "getCarrierDefinitionLogos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id/logos",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the logos of a carrier with the requested ID. If the ID does not exist, an error will be returned "
+        },
+        {
+          "info": {
+            "name": "getServiceDefinitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id/services",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "show_disabled",
+                "value": "false",
+                "type": "query",
+                "description": "If this filter is set to 'true', service definitions which are disabled will be returned additionally."
+              }
+            ]
+          },
+          "docs": "Returns a list of all the services of a carrier definition with the requested ID. If the ID does not exist, an error will be returned "
+        },
+        {
+          "info": {
+            "name": "getValueAddedServiceDefinitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-definitions/:id/value-added-services",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "show_disabled",
+                "value": "false",
+                "type": "query",
+                "description": "If this filter is set to 'true', value added service definitions which are disabled will be returned additionally."
+              }
+            ]
+          },
+          "docs": "Returns a list of all the value added services of a carrier definition with the requested ID. If the ID does not exist, an error will be returned "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CarrierDescription",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "searchCarrierDescriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-descriptions",
+            "params": [
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all carrier descriptions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CarrierSetup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCarrierSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCarrierSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a carrier setup with the requested ID. If the carrier setup with the given ID does not exist, a new carrier setup will be created. If the carrier setup exists, the existing carrier setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier setup. It is therefore recommended to use the GET/carrier-setups to check whether a carrier setup with an ID already exists BEFORE you use PUT/carrier-setup"
+        },
+        {
+          "info": {
+            "name": "deleteCarrierSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Delete a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "searchCarrierSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups",
+            "params": [
+              {
+                "name": "ident_code_like",
+                "value": "*DHL*",
+                "type": "query",
+                "description": "Filter carrier setups by ident code.<br>In the example, all carrier setups which includes 'DHL' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all carrier setups matching the given filter criteria. In case no carrier setup matches the given filter criteria an empty collection is returned. If the filter field supports place holders ('*' or '%'), you get all carrier setups back beginning with the value of the filter which means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getAdditionalValueSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/additional-values/:additional-value-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "additional-value-id",
+                "value": "UPSPREMIER",
+                "type": "path",
+                "description": "The requested ID of an additional value setup."
+              }
+            ]
+          },
+          "docs": "Returns an additional value setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAdditionalValueSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/additional-values/:additional-value-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "additional-value-id",
+                "value": "UPSPREMIER",
+                "type": "path",
+                "description": "The requested ID of an additional value setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update an additional value setup of a carrier setup with the requested ID. If the additional value setup with the given ID does not exist, a new additional value setup will be created. If the additional value setup exists, the existing additional value setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing additional value setup. It is therefore recommended to use the GET/carrier-setups/{id}/additional-v"
+        },
+        {
+          "info": {
+            "name": "deleteAdditionalValueSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/additional-values/:additional-value-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "additional-value-id",
+                "value": "UPSPREMIER",
+                "type": "path",
+                "description": "The requested ID of an additional value setup."
+              }
+            ]
+          },
+          "docs": "Deletes an additional value setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getAdditionalValueSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/additional-values",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns all additional value setups of a carrier setup."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllAdditionalValueSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/additional-values",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all additional value setups of a carrier setup with the requested ID. If the additional value setup with the given ID does not exist, a new additional value setup will be created. If the additional value setup exists, the existing additional value setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing additional value setup. It is therefore recommended to use the GET/carrier-setups/{id}/additional"
+        },
+        {
+          "info": {
+            "name": "getCarrierSetupApplicationURL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/application-url",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns the application URL of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getCarrierInfoTextSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/carrier-info-texts",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns all carrier info text setups of a carrier setup."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllCarrierInfoTextSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/carrier-info-texts",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all carrier info text setups of a carrier setup with the requested ID. If the carrier info text setup with the given ID does not exist, a new carrier info text setup will be created. If the carrier info text setup exist, the existing carrier info text setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier info text setup. It is therefore recommended to use the GET/carrier-setups/{id}/carri"
+        },
+        {
+          "info": {
+            "name": "getCarrierInfoTextSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/carrier-info-texts/:carrier-info-text-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "carrier-info-text-id",
+                "value": "HAN",
+                "type": "path",
+                "description": "The requested ID of a carrier info text setup."
+              }
+            ]
+          },
+          "docs": "Returns a carrier info text setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCarrierInfoTextSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/carrier-info-texts/:carrier-info-text-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "carrier-info-text-id",
+                "value": "HAN",
+                "type": "path",
+                "description": "The requested ID of a carrier info text setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a carrier info text setup of a carrier setup with the requested ID. If the carrier info text setup with the given ID does not exist, a new carrier info text setup will be created. If the carrier info text setup exists, the existing carrier info text setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier info text setup. It is therefore recommended to use the GET/carrier-setups/{id}/carrier"
+        },
+        {
+          "info": {
+            "name": "deleteCarrierInfoTextSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/carrier-info-texts/:carrier-info-text-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "carrier-info-text-id",
+                "value": "HAN",
+                "type": "path",
+                "description": "The requested ID of a carrier info text setup."
+              }
+            ]
+          },
+          "docs": "Deletes a carrier info text setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getServiceSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/services",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns all service setups of a carrier setup."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllServiceSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/services",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all service setups of a carrier setup with the requested ID. If the service setup with the given ID does not exist, a new service setup will be created. If the service setup exist, the existing service setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service setup. It is therefore recommended to use the GET/carrier-setups/{id}/services to check whether a service setup with an ID already exis"
+        },
+        {
+          "info": {
+            "name": "getServiceSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "service-id",
+                "value": "UPS_EXPR",
+                "type": "path",
+                "description": "The requested ID of a service setup."
+              }
+            ]
+          },
+          "docs": "Returns a service setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateServiceSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "service-id",
+                "value": "UPS_EXPR",
+                "type": "path",
+                "description": "The requested ID of a service setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a service setup of a carrier setup with the requested ID. If the service setup with the given ID does not exist, a new service setup will be created. If the service setup exist, the existing service setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service setup. It is therefore recommended to use the GET/carrier-setups/{id}/services to check whether a service setup with an ID already exists "
+        },
+        {
+          "info": {
+            "name": "deleteServiceSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/services/:service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "service-id",
+                "value": "UPS_EXPR",
+                "type": "path",
+                "description": "The requested ID of a service setup."
+              }
+            ]
+          },
+          "docs": "Deletes a service setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getCarrierSetupStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns the status of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "getValueAddedServiceSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/value-added-services",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ]
+          },
+          "docs": "Returns all value added service setups of a carrier setup."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateAllValueAddedServiceSetups",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/value-added-services",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update all value added service setups of a carrier setup with the requested ID. If the value added service setup with the given ID does not exist, a new value added service setup will be created. If the value added service setup exists, the value added service carrier setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier setup. It is therefore recommended to use the GET/carrier-setups/{id}/value"
+        },
+        {
+          "info": {
+            "name": "getValueAddedServiceSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/value-added-services/:value-added-service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "value-added-service-id",
+                "value": "COD",
+                "type": "path",
+                "description": "The requested ID of a value added service setup."
+              }
+            ]
+          },
+          "docs": "Returns a value added service setup of a carrier setup with the requested ID."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateValueAddedServiceSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/value-added-services/:value-added-service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "value-added-service-id",
+                "value": "COD",
+                "type": "path",
+                "description": "The requested ID of a value added service setup."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a value added service setup of a carrier setup with the requested ID. If the value added service setup with the given ID does not exist, a new value added service setup will be created. If the value added service setup exists, the existing value added service setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing value added service setup. It is therefore recommended to use the GET/carrier-setups/"
+        },
+        {
+          "info": {
+            "name": "deleteValueAddedServiceSetup",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/carrier-setups/:id/value-added-services/:value-added-service-id",
+            "params": [
+              {
+                "name": "id",
+                "value": "UPS",
+                "type": "path",
+                "description": "The requested ID of a carrier setup."
+              },
+              {
+                "name": "value-added-service-id",
+                "value": "COD",
+                "type": "path",
+                "description": "The requested ID of a value added service setup."
+              }
+            ]
+          },
+          "docs": "Deletes a value added service setup of a carrier setup with the requested ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "TermsOfDelivery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTermsOfDelivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/terms-of-deliveries/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a terms of delivery with the requested ID. If the ID does not exist, an error will be returned "
+        },
+        {
+          "info": {
+            "name": "searchTermsOfDeliveries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/terms-of-deliveries",
+            "params": [
+              {
+                "name": "ident_code_like",
+                "value": "*D*",
+                "type": "query",
+                "description": "Filter terms of deliveries by ident code.<br>In the example, all terms of deliveries which includes 'D' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all terms of deliveries matching the given filter criteria. In case no terms of delivery matches the given filter criteria an empty collection is returned. If the filter field supports place holders ('*' or '%'), you get all terms of deliveries back beginning with the value of the filter which means a place holder at the end of the filter value is added automatically."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ShipmentObjectives",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getShipmentObjectives",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/shipment-objectives",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns objectives for the posted shipment data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Shipping",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "addShipmentAttachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/addShipmentAttachments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Adds attachments to a shipment (e.g. invoices, origin documents, etc.)."
+        },
+        {
+          "info": {
+            "name": "cancelShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/cancelShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels a shipment."
+        },
+        {
+          "info": {
+            "name": "createPickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/createPickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a new pickup for the shipments specified in the request.<br> Depending on the request, an error may be returned when the shipments can't form a single pickup, e.g. when they have different carriers.<br> Optionally the new pickup can be manifested. That means that the EDI is sent to the carrier if necessary and the pickup will be closed.<br> When specified in request, the manifest documents are printed."
+        },
+        {
+          "info": {
+            "name": "createShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/createShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a shipment with the data specified in the shipment request.<br> An error will be returned when the shipment exists already.<br> Optionally various operations like label preparation and label output can be applied on the shipment. A complete processing including the pickup assignment is also possible.<br> The operations are handled asynchronously, so operation processing errors and label documents are not part of the response. They can be retrieved with a <code>syncShipments</code> or <co"
+        },
+        {
+          "info": {
+            "name": "deleteItem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/deleteItem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Deletes an existing item. Packages containing items remain in the shipment and can be packed again with processShipment. Deleting a item is not always possible. It mainly depends on the status of the package containing the item and the shipment."
+        },
+        {
+          "info": {
+            "name": "deletePackage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/deletePackage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Deletes an existing package. Packed items remain unpacked in the shipment and can be packaged again with processShipment. Deleting a package is not always possible. It mainly depends on the status of the package and the shipment."
+        },
+        {
+          "info": {
+            "name": "deletePickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/deletePickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels an existing pickup. All shipments are removed from the pickup and must be assigned to a new pickup by another <code>createPickup</code> call.<br> Warning: EDI data for the existing pickup might have already been sent to the carrier. So check with the carrier that it's fine to cancel the pickup and create a new (differing) one."
+        },
+        {
+          "info": {
+            "name": "getAllCarriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/getAllCarriers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a list of all carrier available for the requested client."
+        },
+        {
+          "info": {
+            "name": "getCarrierPortfolioDetails",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/getCarrierPortfolioDetails",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detailed information about the requested carriers."
+        },
+        {
+          "info": {
+            "name": "getCarrierPortfolioNames",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/getCarrierPortfolioNames",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a list of the names of all supported carriers."
+        },
+        {
+          "info": {
+            "name": "getCarrierProperties",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/getCarrierProperties",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the properties of the requested carrier."
+        },
+        {
+          "info": {
+            "name": "getPickups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/getPickups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detail information about specific pickups."
+        },
+        {
+          "info": {
+            "name": "getShipments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/getShipments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns detail information about specific shipments."
+        },
+        {
+          "info": {
+            "name": "processPackage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/processPackage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows to perform various operations on an existing package. Especially document preparation and document (label) output can be triggered.<br> When the request is specified to handle the operations asynchronously, operation processing errors and label documents are not part of the response. They can be retrieved with a further <code>processPackage</code> call, a <code>syncShipments</code> or <code>getShipments</code> call."
+        },
+        {
+          "info": {
+            "name": "processPackageReturnEnclosedLabel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/processPackageReturnEnclosedLabel",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a return enclosed label in case of a return shipment."
+        },
+        {
+          "info": {
+            "name": "processPickup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/processPickup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Prints or reprints the manifest documents for the pickup. Mainly to be used, when manifest documents were not printed with the <code>createPickup</code> call or if a reprint of the documents is necessary."
+        },
+        {
+          "info": {
+            "name": "processShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/processShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows to add packages or perform various operations on an existing shipment. Especially document preparation and document (label) output can be triggered.<br> When the request is specified to handle the operations asynchronously, operation processing errors and label documents are not part of the response. They can be retrieved with a <code>syncShipments</code> or <code>getShipments</code> call."
+        },
+        {
+          "info": {
+            "name": "syncPickups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/syncPickups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows the synchronization of client system transactions with the engine pickups. By the use of a syncId it is possible to return only pickups that have changed between two syncPickups calls."
+        },
+        {
+          "info": {
+            "name": "syncShipments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/syncShipments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allows the synchronization of client system transactions with the engine shipments. By the use of a syncId it is possible to return only shipments that have changed between two syncShipments calls."
+        },
+        {
+          "info": {
+            "name": "updateCustomsData",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/updateCustomsData",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates customs data for one existing shipment. Updates data on shipment and item level. Updates customs relevant data only."
+        },
+        {
+          "info": {
+            "name": "validateShipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DLCarrierBFBean/validateShipment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Validates a shipment with the data specified in the shipment request.<br> Various validation operations can be applied on the shipment to determine, whether the shipment can be processed."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationAFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "releaseApplicationFacade",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationAFBean/releaseApplicationFacade",
+            "params": [
+              {
+                "name": "sessionid",
+                "value": "",
+                "type": "query",
+                "description": "sessionid The sessionid returned by any UI API method, e.g. workplace @throws RemoteException"
+              }
+            ]
+          },
+          "docs": "Release a UI API which is no longer needed.<br> This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.<br> The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.<br> The RFC name of this function is \\\"/AEB/XNSG_IF_RELAF\\\"."
+        },
+        {
+          "info": {
+            "name": "workplace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationAFBean/workplace",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an UI API to be able to display the workplace.<br> The difference of this method compared to the the method \\\"IFoundationBF.getWorkplaceURL()\\\" is the fact, that no logon mask will be dipsplayed before entering the workplace<br> The RFC name of this function is \\\"/AEB/XNSG_IF_WPL\\\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/logon/authToken"
+          },
+          "docs": "Logon from the \"Authorization\" header (e.g. type \"Basic\"). The generated authentication token can be used in subsequent calls in the \"Authorization\" header, type \"Bearer\"."
+        },
+        {
+          "info": {
+            "name": "logonUser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/logon/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Logon with classical procedure: user, client and password."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataFeedBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgePublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DataFeedBFBean/acknowledgePublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge the processed published data feed parts retrieved with getPublishedDataFeedParts containing the synchronization ID up to which all parts are acknowledged."
+        },
+        {
+          "info": {
+            "name": "getDataFeedPartContentForRest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DataFeedBFBean/dataFeedParts/:client/:id",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the data feed part content."
+        },
+        {
+          "info": {
+            "name": "getPublishedDataFeedParts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/DataFeedBFBean/getPublishedDataFeedParts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ExternalTelemetryBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getTelemetryStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/ExternalTelemetryBFBean/getStatus",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "getTelemetryStatusByParams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/ExternalTelemetryBFBean/status",
+            "params": [
+              {
+                "name": "externalSystemId",
+                "value": "",
+                "type": "query",
+                "description": "externalSystemId, the id of the calling system, mandatory"
+              },
+              {
+                "name": "reportClientIdentCode",
+                "value": "",
+                "type": "query",
+                "description": "reportClientIdentCode, the identCode of the client to call the status for"
+              }
+            ]
+          },
+          "docs": "Returns the current status of the telemetry system.<br> The external system id must be sent with the request."
+        },
+        {
+          "info": {
+            "name": "sendTelemetryReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/ExternalTelemetryBFBean/telemetryReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits telemetry data for a new telemetry report.<br> The external system id must be sent with the request, a client IdentCode only if client dependent."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "FoundationBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/acknowledgeFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledges a file download."
+        },
+        {
+          "info": {
+            "name": "announceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/announceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Announces a stop of the installation."
+        },
+        {
+          "info": {
+            "name": "cancelAnnounceStop",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/cancelAnnounceStop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Revokes an already announced stop."
+        },
+        {
+          "info": {
+            "name": "changeAdminPassword",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/changeAdminPassword",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the admin password."
+        },
+        {
+          "info": {
+            "name": "queryClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/client",
+            "params": [
+              {
+                "name": "identCode",
+                "value": "",
+                "type": "query",
+                "description": "Filter for client ident code"
+              },
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "Filter for debtor number"
+              }
+            ]
+          },
+          "docs": "Requests all clients from this engine, or one client identified by values in query parameter"
+        },
+        {
+          "info": {
+            "name": "createClient",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/client",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a client."
+        },
+        {
+          "info": {
+            "name": "downloadFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/downloadFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves a file for download."
+        },
+        {
+          "info": {
+            "name": "generateClientIdentCode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/generateClientIdentCode",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a client ident code."
+        },
+        {
+          "info": {
+            "name": "getAllActiveClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/client/active"
+          },
+          "docs": "Requests all active clients from this engine."
+        },
+        {
+          "info": {
+            "name": "getAllMonitoringValues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/monitoringValue"
+          },
+          "docs": "Requests all monitoring values from this engine."
+        },
+        {
+          "info": {
+            "name": "getBuildForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/solution/:name/build",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the build info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getDownloadableFilesRefs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/downloadableFileRefs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves refs for download."
+        },
+        {
+          "info": {
+            "name": "getMonitoringValue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/monitoringValue/:groupName/:valueName",
+            "params": [
+              {
+                "name": "groupName",
+                "value": "",
+                "type": "path",
+                "description": "group name"
+              },
+              {
+                "name": "valueName",
+                "value": "",
+                "type": "path",
+                "description": "value name"
+              }
+            ]
+          },
+          "docs": "Requests a specific monitoring value from this engine."
+        },
+        {
+          "info": {
+            "name": "getNumberOfClients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/numberOfClients"
+          },
+          "docs": "Returns the number of clients."
+        },
+        {
+          "info": {
+            "name": "getProductInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/productInfo"
+          },
+          "docs": "Requests the product info from this engine."
+        },
+        {
+          "info": {
+            "name": "getRuntimeInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/runtimeInfo"
+          },
+          "docs": "Requests the runtime info from this engine."
+        },
+        {
+          "info": {
+            "name": "getScriptExecutionState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/scriptExecutionState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "gets a script execution state"
+        },
+        {
+          "info": {
+            "name": "getTableUpdateState",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/tableUpdateState",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the status of the table update."
+        },
+        {
+          "info": {
+            "name": "getUploadSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/uploadSettings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves the upload settings."
+        },
+        {
+          "info": {
+            "name": "getVersionForSolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/solution/:name/version",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of solution."
+              }
+            ]
+          },
+          "docs": "Requests the version info for a solution from this engine."
+        },
+        {
+          "info": {
+            "name": "getWorkplaceURL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/workplaceURL"
+          },
+          "docs": "Requests the workplace url from this engine."
+        },
+        {
+          "info": {
+            "name": "isDebtorNumberKnown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/checkDebtorNumber",
+            "params": [
+              {
+                "name": "debtorNumber",
+                "value": "",
+                "type": "query",
+                "description": "the debtor number to check"
+              }
+            ]
+          },
+          "docs": "Checks if debtor number is known."
+        },
+        {
+          "info": {
+            "name": "publishUserMessage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/publishUserMessage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "creates a user message, in several languages if required"
+        },
+        {
+          "info": {
+            "name": "requestReport",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/roles"
+          },
+          "docs": "Requests the current engine to report all its roles"
+        },
+        {
+          "info": {
+            "name": "requestReport_1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/roles/:clientIdentCode",
+            "params": [
+              {
+                "name": "clientIdentCode",
+                "value": "",
+                "type": "path",
+                "description": "Client ident code for retrieving its roles."
+              }
+            ]
+          },
+          "docs": "Requests the current engine to report all roles for a specific client"
+        },
+        {
+          "info": {
+            "name": "restartRFCServer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/restartRFCServer"
+          },
+          "docs": "This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \"/AEB/XNSG_IF_RSTRFCSRV\""
+        },
+        {
+          "info": {
+            "name": "sendMail",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/sendMail",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a mail."
+        },
+        {
+          "info": {
+            "name": "startScriptExecution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/startScriptExecution",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts a script execution"
+        },
+        {
+          "info": {
+            "name": "startTableUpdate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/startTableUpdate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts the table update."
+        },
+        {
+          "info": {
+            "name": "systemSearch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/systemSearch/:language",
+            "params": [
+              {
+                "name": "language",
+                "value": "",
+                "type": "path",
+                "description": "the langauge"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a system search in this engine."
+        },
+        {
+          "info": {
+            "name": "uploadFileMultiPart",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/FoundationBFBean/uploadFileMultiPart",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "metaInfo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Uploads a file using multipart."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RemoteAdminBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/RemoteAdminBFBean/clientRoles/:clientId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        },
+        {
+          "info": {
+            "name": "getRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/RemoteAdminBFBean/roles",
+            "params": [
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "the dataset to return"
+              },
+              {
+                "name": "clientIdentCodes",
+                "value": "",
+                "type": "query",
+                "description": "includeClientIdentCodes"
+              },
+              {
+                "name": "resultLanguageIsoCodes",
+                "value": "",
+                "type": "query",
+                "description": "resultLanguageIsoCodes"
+              }
+            ]
+          },
+          "docs": "Returns a list of roles"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SyncBFBean",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "acknowledgeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/SyncBFBean/acknowledgeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge events got with {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)}.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getNotAcknowledgedEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/SyncBFBean/getNotAcknowledgedEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll any not acknowledged events for the client system.<br> This method does not require, that the client system fills {@link SyncEventsRequestDTO#syncId}.<br> However, it requires, that a call to {@link #acknowledgeEvents(AcknowledgeEventsRequestDTO)} is done for acknowledge of the events.<br> Since XNSG 4.0, Nov. FP, 2017<br>."
+        },
+        {
+          "info": {
+            "name": "getPartnerSystemSubscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/SyncBFBean/getPartnerSystemSubscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a list of registered subscriptions (either all or filtered by the business object type).<br>Only subscription belonging to the provided <code>clientSystemId</code> are returned (mandatory field)<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "subscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/SyncBFBean/subscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Subscribe a partner system to be able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        },
+        {
+          "info": {
+            "name": "synchronizeEvents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/SyncBFBean/synchronizeEvents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll the next events for the client system.<br> This method requires the client system to persist the synchronisation state itself and passing a proper value for {@link SyncEventsRequestDTO#syncId}<br> See {@link #getNotAcknowledgedEvents(SyncEventsRequestDTO)} for a version of the method, were the syncronisation state is kept within the Engine."
+        },
+        {
+          "info": {
+            "name": "unsubscribePartnerSystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/SyncBFBean/unsubscribePartnerSystem",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Unsubscribe a partner system from being able to receive events for the specified business object type.<br>The subscription is uniquely identified by the <code>clientSystemId</code> and <code>businessObjectType</code> (both mandatory fields).<br> Since XNSG 4.0, Nov. FP, 2021<br>"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "getCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned."
+        },
+        {
+          "info": {
+            "name": "createOrUpdateCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rz3.aeb.de/demo1cai/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}."
+        },
+        {
+          "info": {
+            "name": "deleteCompany",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/companies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "12345",
+                "type": "path",
+                "description": "The requested ID (company number)."
+              }
+            ]
+          },
+          "docs": "Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned."
+        },
+        {
+          "info": {
+            "name": "searchCompanies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/companies",
+            "params": [
+              {
+                "name": "is_enabled",
+                "value": "false",
+                "type": "query",
+                "description": "Use this filter field with value 'true' if you want to get enabled companies only."
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "company_number_like",
+                "value": "123",
+                "type": "query",
+                "description": "Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number."
+              },
+              {
+                "name": "name_like",
+                "value": "AEB",
+                "type": "query",
+                "description": "Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "city_like",
+                "value": "*ttgart*",
+                "type": "query",
+                "description": "Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported."
+              },
+              {
+                "name": "postcode_like",
+                "value": "70*",
+                "type": "query",
+                "description": "Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported."
+              },
+              {
+                "name": "country_iso_code",
+                "value": "DE",
+                "type": "query",
+                "description": "Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: 'US' for USA, 'DE' for Germany, 'IT' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported."
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>"
+              },
+              {
+                "name": "limit",
+                "value": "200",
+                "type": "query",
+                "description": "The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>"
+              }
+            ]
+          },
+          "docs": "Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically."
+        },
+        {
+          "info": {
+            "name": "getCompanyRoles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/company-roles"
+          },
+          "docs": "Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "WorkstationServiceAgent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "connect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/wssagent/connect",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status0",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        },
+        {
+          "info": {
+            "name": "connect0",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rz3.aeb.de/demo1cai/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userActivityTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration."
+              },
+              {
+                "name": "registerTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection."
+              },
+              {
+                "name": "processingTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s)."
+              },
+              {
+                "name": "nextPollingRequestTimeoutMS",
+                "value": "",
+                "type": "query",
+                "description": "Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions."
+              }
+            ]
+          },
+          "docs": "Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object."
+        },
+        {
+          "info": {
+            "name": "disconnect1",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rz3.aeb.de/demo1cai/rest/wssagent/connection/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Ends existing workstation agent. Noop if there is no agent for the id."
+        },
+        {
+          "info": {
+            "name": "status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rz3.aeb.de/demo1cai/rest/wssagent/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "details",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns response object with information about given workstation service agent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
