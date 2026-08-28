@@ -15,6 +15,19 @@ description: 'AEB SE is a German supply chain and global trade software company,
   business-facade shape unique to AEB, with a legacy SOAP business facade still exposed beside it — and
   production access requires registering with AEB and licensing the products, so it is a documented, quotable,
   contract-gated API rather than a self-serve one.'
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/aeb.png
 tags:
 - Logistics
