@@ -4676,6 +4676,9 @@ apis:
   - type: Documentation
     url: https://sap-plugins.docs.developers.aeb.com/
 common:
+- type: CapabilityMap
+  url: capabilities/aeb-capability-edges.yml
+  name: AEB Business Capability Map
 - type: IssueTracker
   url: https://github.com/AEB-labs/docs-trade-compliance/issues
 - type: Website
