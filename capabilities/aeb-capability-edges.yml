@@ -3,7 +3,7 @@ provider: AEB
 generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
-- Software & Technology
+- Transportation & Logistics
 min_confidence: 0.7
 capability_model:
   source: https://github.com/vincentmakes/turbo-ea-capabilities
@@ -11,122 +11,266 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 11
+edge_count: 25
 edges:
-- tag: Shipping
-  spec_file: aeb-shipping-api-openapi.yml
-  capability_id: BC-520.50
-  capability_id_l1: BC-520
-  capability_name: Logistics Operations Management
-  confidence: 0.9
-  evidence: POST /DLCarrierBFBean/createShipment; cancelShipment; createPickup; getAllCarriers; DLShipmentCreationParmsDTO
-  reason: Multi-carrier shipment creation, cancellation and pickup booking against carrier portfolios
-    — this is transport/shipping execution within Logistics Operations Management.
-- tag: Routing
-  spec_file: aeb-routing-api-openapi.yml
-  capability_id: BC-520.50
-  capability_id_l1: BC-520
-  capability_name: Logistics Operations Management
-  confidence: 0.85
-  evidence: POST /RoutingBFBean/createRoutingTask; getAllCarriers; getHandoverPoints; getRatingProfiles;
-    RoutingProposalDTO, RouteScheduleDTO, BillingAdditionalFreightCalculationDataDTO
-  reason: Carrier selection and routing of shipments — routing tasks, handover points, carrier lists,
-    freight rating profiles — is transport/logistics execution, i.e. Logistics Operations Management.
-- tag: BSM Carrier
-  spec_file: aeb-bsm-carrier-api-openapi.yml
-  capability_id: BC-520.50
-  capability_id_l1: BC-520
-  capability_name: Logistics Operations Management
-  confidence: 0.8
-  evidence: POST /BSMCarrierBFBean/createShipment, getQuotes, getShipment; schemas DLShipmentResponseDataDTO,
-    DLHazardousGoodsItemResponseDataDTO, DLTransportEquipmentReferenceDTO, GetQuotedServiceDTO
-  reason: Creating shipments with carriers, requesting carrier service quotes and retrieving shipment
-    data is transport/carrier execution — logistics operations management within the supply chain.
 - tag: Compliance Screening
   spec_file: aeb-compliance-screening-api-openapi.yml
-  capability_id: BC-130.10
-  capability_id_l1: BC-130
-  capability_name: Regulatory Compliance Management
-  confidence: 0.8
-  evidence: POST /ComplianceScreening/screenAddresses  'Address screening'; GET '.../lastRestrictedPartyListUpdate  Get
-    last update date of a restricted party list'; schemas RestrictedPartyAddressDTO, GoodGuyAddressDTO
-  reason: Operations screen business-partner addresses against restricted-party (sanctions/denied-party)
-    lists with match handling and audit logs — sector-specific export-control/trade regulatory compliance,
-    i.e. Regulatory Compliance Management. Not financial-crime AML in this frame, and the candidate list
-    offers no trade-compliance-specific capability, so BC-130.10 is the honest fit.
-- tag: Export Control
-  spec_file: aeb-export-control-api-openapi.yml
-  capability_id: BC-130.10
-  capability_id_l1: BC-130
-  capability_name: Regulatory Compliance Management
-  confidence: 0.8
-  evidence: POST /ExportControl/v2/checkTransaction — 'Check a transaction in Export Controls.'; 'Create
-    a new questionnaire for a transaction in Export Controls'; 'Finalize an approval.'
-  reason: Operations screen business transactions against export-control regimes, raise compliance questionnaires,
-    and record clearing/approval decisions with customs info updates. This is adherence to sector-specific
-    export/trade regulation, i.e. Regulatory Compliance Management, not a logistics execution capability.
-- tag: TariffContentFeeCalculationBFBean
-  spec_file: aeb-tariffcontentfeecalculationbfbean-api-openapi.yml
-  capability_id: BC-220.20
-  capability_id_l1: BC-220
-  capability_name: Indirect Tax Management
-  confidence: 0.8
-  evidence: POST /TariffContentFeeCalculationBFBean/calculateCustomsDuty  Result including the calculated
-    custom duties; calculateTax
-  reason: Operations compute customs duties and taxes on goods — indirect tax and customs duty determination.
-- tag: LISBF20Bean
-  spec_file: aeb-lisbf20bean-api-openapi.yml
-  capability_id: BC-520.50
-  capability_id_l1: BC-520
-  capability_name: Logistics Operations Management
-  confidence: 0.78
-  evidence: getConsignments; getTrackingEvents; getOrderFulfillmentPlans; schema LISHandlingUnitReceiveRequest20DTO,
-    LISTransport20DTO
-  reason: Operations retrieve consignments, transports, handling units, tracking events and order fulfilment
-    plans — shipment execution and transport visibility, i.e. logistics operations within the supply chain.
-- tag: CarrierEventServiceBFBean
-  spec_file: aeb-carriereventservicebfbean-api-openapi.yml
-  capability_id: BC-520.50
-  capability_id_l1: BC-520
-  capability_name: Logistics Operations Management
-  confidence: 0.72
-  evidence: POST /CarrierEventServiceBFBean/createShipments; getShipmentsEvents; getProvidedTrackingData;
-    setCarrierTrackingConfigurations
-  reason: Creates shipments and retrieves carrier tracking events/status for those shipments — transport
-    execution and shipment visibility, i.e. Logistics Operations Management.
-- tag: Compliance Screening Applications
-  spec_file: aeb-compliance-screening-applications-api-openapi.yml
-  capability_id: BC-130.10
-  capability_id_l1: BC-130
-  capability_name: Regulatory Compliance Management
-  confidence: 0.72
-  evidence: '''manualAddressScreening  Manual address screening UI'', ''restrictedPartyList  Restricted
-    party list'', ''screeningLogs  Screening logs overview'''
-  reason: Same restricted-party screening capability as the core screening tag, exposed as embedded UI/application
-    launchers (match handling overview, screening logs, statistics). Substance is trade-compliance screening
-    operations, so Regulatory Compliance Management; slight discount because the surface is UI-launch
-    plumbing over the capability.
-- tag: Export Control Applications
-  spec_file: aeb-export-control-applications-api-openapi.yml
-  capability_id: BC-130.10
-  capability_id_l1: BC-130
-  capability_name: Regulatory Compliance Management
-  confidence: 0.7
-  evidence: '''Get application for the Commerce Control List.''; ''Get application for the EU export control
-    list.''; ''Get application for the overview of Export Controls log entries.'''
-  reason: Although these are application-facade endpoints returning UI screens, every one is scoped to
-    export-control artefacts — Commerce Control List, EU export control list, ECCN classification, export
-    control transactions and logs. The subject matter is export-control regulatory compliance; confidence
-    reduced because the operations themselves are UI launch wrappers.
+  capability_id: BC-2480.40
+  capability_id_l1: BC-2480
+  capability_name: Sanctions and Denied-Party Screening Management
+  confidence: 0.95
+  evidence: POST /ComplianceScreening/screenAddresses  Address screening; GET /ComplianceScreening/lastRestrictedPartyListUpdate  Get
+    last update date of a restricted party list
+  reason: Operations screen addresses against restricted party lists with match handling and good-guy
+    exclusions — textbook sanctions/denied-party screening.
 - tag: International Customs API
   spec_file: aeb-international-customs-api-api-openapi.yml
-  capability_id: BC-130.10
-  capability_id_l1: BC-130
-  capability_name: Regulatory Compliance Management
+  capability_id: BC-2480.20
+  capability_id_l1: BC-2480
+  capability_name: Customs Declaration Management
+  confidence: 0.93
+  evidence: cancelDeclaration 'Cancel declaration'; getBrokerDeclarations 'Get broker declarations'; createConsignmentManifest
+    'Create a consignment manifest'; ICDeliverySummaryDeclarationDEDTO
+  reason: The surface creates, amends, cancels and tracks customs declarations, consignments and manifests
+    with attachments and deferred payment data — plainly the filing of import/export/transit declarations
+    with customs authorities.
+- tag: InternationalCustomsBFBean
+  spec_file: aeb-internationalcustomsbfbean-api-openapi.yml
+  capability_id: BC-2480.20
+  capability_id_l1: BC-2480
+  capability_name: Customs Declaration Management
+  confidence: 0.92
+  evidence: POST /InternationalCustomsBFBean/cancelDeclaration  Cancel declaration; getBrokerDeclarations  Get
+    broker declarations; createConsignment; ICDeliverySummaryDeclarationDEDTO
+  reason: Operations create, cancel and retrieve customs declarations and consignments with broker/transit/deferred-payment
+    structures, matching filing of import, export and transit declarations with customs authorities.
+- tag: Compliance Screening Applications
+  spec_file: aeb-compliance-screening-applications-api-openapi.yml
+  capability_id: BC-2480.40
+  capability_id_l1: BC-2480
+  capability_name: Sanctions and Denied-Party Screening Management
+  confidence: 0.9
+  evidence: manualAddressScreening  Manual address screening UI; restrictedPartyList  Restricted party
+    list; matchHandlingView  Match handling overview
+  reason: Same denied-party screening capability exposed as UI applications (manual screening, restricted
+    party lists, match handling, screening logs).
+- tag: TariffContentFeeCalculationBFBean
+  spec_file: aeb-tariffcontentfeecalculationbfbean-api-openapi.yml
+  capability_id: BC-2480.60
+  capability_id_l1: BC-2480
+  capability_name: Duty and Indirect Tax Management
+  confidence: 0.9
+  evidence: '"calculateCustomsDuty  Result including the calculated custom duties", "calculateTax  Result
+    including the calculated packed taxes"'
+  reason: Explicit duty and import tax calculation engine for customs declarations — duty and indirect
+    tax determination on cross-border movements.
+- tag: CarrierEventServiceBFBean
+  spec_file: aeb-carriereventservicebfbean-api-openapi.yml
+  capability_id: BC-2510.10
+  capability_id_l1: BC-2510
+  capability_name: Event Capture and Status Management
+  confidence: 0.85
+  evidence: POST /CarrierEventServiceBFBean/getShipmentsEvents; POST /CarrierEventServiceBFBean/getEventsForReferenceNumber;
+    POST /CarrierEventServiceBFBean/setCarrierTrackingConfigurations
+  reason: Operations register shipments and retrieve/synchronise carrier tracking events per shipment
+    reference, with tracking-provider configuration and CEStandardEventTextDTO/CESTrackingEventLocationResponseDTO
+    schemas — capture of carrier shipment events and translation into statuses.
+- tag: Declaration of Origin
+  spec_file: aeb-declaration-of-origin-api-openapi.yml
+  capability_id: BC-2480.30
+  capability_id_l1: BC-2480
+  capability_name: Origin and Free Trade Agreement Management
+  confidence: 0.85
+  evidence: POST /DeclarationOfOriginBFBean/getDeclarationOfOrigin; DeclarationOfOriginResponseDTO
+  reason: Retrieval of declarations of origin (supplier/preferential origin evidence) is origin determination
+    and certification under trade agreements.
+- tag: Export Control
+  spec_file: aeb-export-control-api-openapi.yml
+  capability_id: BC-2480
+  capability_id_l1: BC-2480
+  capability_name: Customs & Trade Compliance Management
+  confidence: 0.85
+  evidence: POST /ExportControl/v2/checkTransaction  'Check a transaction in Export Controls.'; 'Finalize
+    a clearing.'; ECClassificationDTO
+  reason: Operations run export-control checks on business transactions, create risk questionnaires, and
+    finalise approvals/clearings with customs info updates — this is cross-border trade compliance screening.
+    Kept at L1 because export-control checking spans denied-party/sanctions screening and goods classification
+    rather than naming one sub-capability.
+- tag: x360
+  spec_file: aeb-x360-api-openapi.yml
+  capability_id: BC-2480.40
+  capability_id_l1: BC-2480
+  capability_name: Sanctions and Denied-Party Screening Management
+  confidence: 0.82
+  evidence: POST /x360/handleEvent — 'Endpoint to perfom a compliance screening for a Haufe x360 customer'
+  reason: Single operation triggers a compliance screening of a customer from the BSM (business/sanctions
+    screening) module of a global-trade vendor, which matches denied-party/sanctions screening of parties.
+    Slight ambiguity remains because the endpoint is an event hook, hence not 0.95.
+- tag: BSM International Customs
+  spec_file: aeb-bsm-international-customs-api-openapi.yml
+  capability_id: BC-2480.20
+  capability_id_l1: BC-2480
+  capability_name: Customs Declaration Management
+  confidence: 0.8
+  evidence: POST /BSMInternationalCustomsBFBean/createConsignment; schemas ICDeliverySummaryDeclarationDEDTO,
+    ICDeliveryTransitEUDTO, ICDeliveryItemExportDEDTO, ICDeferredPaymentDTO
+  reason: The single operation creates a consignment whose payload is built from customs declaration structures
+    (summary declaration DE, EU transit, export/import items, deferred payment, licence data) — i.e. preparing/filing
+    cross-border customs declarations, consistent with AEB's customs filing business.
+- tag: LISBF20Bean
+  spec_file: aeb-lisbf20bean-api-openapi.yml
+  capability_id: BC-2510.20
+  capability_id_l1: BC-2510
+  capability_name: Shipment Tracking Management
+  confidence: 0.8
+  evidence: getTrackingEvents; getTrackingObjectEvents; getConsignments; getOrderFulfillmentPlans; LISExpTrackingEvent20DTO
+  reason: Operations retrieve consignments, tracking events and event definitions plus target-time calculation,
+    i.e. shipment status resolution and visibility across a shipment lifecycle.
+- tag: Settlement
+  spec_file: aeb-settlement-api-openapi.yml
+  capability_id: BC-2530
+  capability_id_l1: BC-2530
+  capability_name: Freight Billing & Settlement Management
+  confidence: 0.8
+  evidence: '"GET /settlements/{id}  get settlement", "searchSettlements  Search settlements"; schemas
+    "BSettlementStatusRestDTO", "BAmountOfMoneyDTO", "PeriodRestDTO"'
+  reason: Freight cost settlement documents (amounts, periods, status, settlement company) in Logistics
+    Cost Management — freight billing/settlement. Cannot tell from evidence whether it is customer invoicing
+    or carrier audit/payment, so no L2.
+- tag: SettlementItem
+  spec_file: aeb-settlementitem-api-openapi.yml
+  capability_id: BC-2530
+  capability_id_l1: BC-2530
+  capability_name: Freight Billing & Settlement Management
+  confidence: 0.8
+  evidence: '"GET /settlements/{id}/settlement-items  searchSettlementItem"; schemas "VATInfoRestDTO",
+    "CalculationReferencesRestDTO", "BSettlementItemStatusRestDTO"'
+  reason: Line-item detail of freight settlements with VAT, currency rates and calculation references
+    — freight billing and settlement. L1 only, as the direction (self-billing vs carrier invoice audit)
+    is not stated.
+- tag: Shipping
+  spec_file: aeb-shipping-api-openapi.yml
+  capability_id: BC-2420
+  capability_id_l1: BC-2420
+  capability_name: Transport Operations Management
+  confidence: 0.8
+  evidence: '"createShipment", "cancelShipment", "createPickup", "getPickups", "getAllCarriers", "getCarrierPortfolioDetails"'
+  reason: Multi-carrier shipment creation, cancellation and pickup booking against carrier portfolios
+    — execution of transport moves. Straddles pickup operations and carrier booking, so L1 Transport Operations
+    Management without an L2.
+- tag: TariffContent20BFBean
+  spec_file: aeb-tariffcontent20bfbean-api-openapi.yml
+  capability_id: BC-2480.10
+  capability_id_l1: BC-2480
+  capability_name: Tariff Classification Management
+  confidence: 0.8
+  evidence: '"getCommodityCode", "getCommodityCodes", "getCommodityCodeSubstitutions", "getExportControlNumbers",
+    "getCertificateProposals"'
+  reason: 'Customs tariff content lookup: commodity (HS/KN) codes, substitutions, import measures, certificates
+    and export control numbers — determination and maintenance of tariff classification for traded goods.
+    Some overlap with export-control/measures content keeps it at 0.8.'
+- tag: O&P
+  spec_file: aeb-o-p-api-openapi.yml
+  capability_id: BC-2480.30
+  capability_id_l1: BC-2480
+  capability_name: Origin and Free Trade Agreement Management
+  confidence: 0.78
+  evidence: POST /OriginAndPreferencesBFBean/transferBillOfMaterials; transferGoodsReceipts; getMaterialMasterData
+  reason: OriginAndPreferences endpoints feed materials, BOMs, goods receipts and purchase/sales orders
+    into AEB's preferential-origin calculation, i.e. determination and certification of preferential origin
+    under FTAs.
+- tag: Billing
+  spec_file: aeb-billing-api-openapi.yml
+  capability_id: BC-2530
+  capability_id_l1: BC-2530
+  capability_name: Freight Billing & Settlement Management
+  confidence: 0.75
+  evidence: POST /BillingBFBean/createServiceItems; POST /BillingBFBean/getChangedSettlements; schemas
+    BAccountingItemResultDTO, BVatInfoResultDTO, BServiceItemDTO
+  reason: 'Part of AEB ''Logistics Cost Management'': creation, cancellation, offsetting and settlement
+    of billable logistics service items with VAT and accounting scenarios — freight billing and settlement.
+    Evidence does not clearly separate customer invoicing from carrier-cost settlement, so only the L1
+    is asserted.'
+- tag: ClassificationProposalBFBean
+  spec_file: aeb-classificationproposalbfbean-api-openapi.yml
+  capability_id: BC-2480.10
+  capability_id_l1: BC-2480
+  capability_name: Tariff Classification Management
+  confidence: 0.75
+  evidence: PUT /ClassificationProposalBFBean/codeTemplate 'Creates a new classification code template';
+    'Searches for suitable classification code templates matching the criteria of the given search input'
+  reason: AEB Product Classification proposes goods classification codes (customs tariff/export-control
+    codes) and related document templates, supporting determination and maintenance of classifications
+    for traded goods. Slight ambiguity as templates also cover documents/certificates.
+- tag: CustomsTransitBFBean
+  spec_file: aeb-customstransitbfbean-api-openapi.yml
+  capability_id: BC-2480.20
+  capability_id_l1: BC-2480
+  capability_name: Customs Declaration Management
+  confidence: 0.75
+  evidence: POST /CustomsTransitBFBean/sendConformUnloadingRemarks  Send conform unloading remarks; ICCustomsProcessTypeDTO
+  reason: Sending unloading remarks is a step in the customs transit (NCTS) declaration procedure with
+    the customs authority.
+- tag: PushAPIRestEndpoint
+  spec_file: aeb-pushapirestendpoint-api-openapi.yml
+  capability_id: BC-2510.10
+  capability_id_l1: BC-2510
+  capability_name: Event Capture and Status Management
+  confidence: 0.75
+  evidence: POST /PushApi/v1/push  'Receives carrier event data.'; PushApiRequestContentDTO
+  reason: Inbound endpoint of the Carrier Event Service that receives carrier event data, i.e. capture
+    of shipment events from carriers for status resolution; it is a push channel, so partly technical.
+- tag: Rates
+  spec_file: aeb-rates-api-openapi.yml
+  capability_id: BC-2520.10
+  capability_id_l1: BC-2520
+  capability_name: Tariff and Rate Card Management
+  confidence: 0.72
+  evidence: POST /RateBFBean/updateRateSheetEntries; BRateSheetEntryUpdateDTO
+  reason: Maintains freight rate sheet entries inside AEB's Logistics Cost Management, which is definition
+    and maintenance of freight rate cards/tariffs; whether these are public tariffs or negotiated contract
+    rates is not stated.
+- tag: BISAuditBFBean
+  spec_file: aeb-bisauditbfbean-api-openapi.yml
+  capability_id: BC-2450.40
+  capability_id_l1: BC-2450
+  capability_name: Customs Brokerage Management
   confidence: 0.7
-  evidence: POST /InternationalCustomsBFBean/cancelDeclaration 'Cancel declaration'; 'Get broker declarations';
-    'Create a consignment manifest'; ICDeclarationExtensionDataDTO, ICDeferredPaymentDTO
-  reason: Operations create, amend, cancel and track customs declarations, consignments and manifests
-    with attachments and licence data — i.e. filing and managing mandated customs submissions to authorities.
-    Best fits Regulatory Compliance Management; some ambiguity against indirect tax/customs duty handling
-    keeps confidence at 0.7.
+  evidence: POST /BISAuditBFBean/getAuditData; schemas CustomsBrokerDeclarationDTO, AuditDataBrokerInstructionDTO,
+    BISDeclarationReferenceDTO
+  reason: Despite the word 'Audit', the operation returns customs-broker declaration and broker-instruction
+    data within a 'Customs Broker Portal' spec — customs brokerage service data, not internal audit management.
+- tag: BISBFBean
+  spec_file: aeb-bisbfbean-api-openapi.yml
+  capability_id: BC-2450.40
+  capability_id_l1: BC-2450
+  capability_name: Customs Brokerage Management
+  confidence: 0.7
+  evidence: POST /BISBFBean/getCustomerBrokerInstructions; POST /BISBFBean/addBrokerInstructionEvents;
+    schemas BrokerInstructionEnvelopeDTO, CustomsBrokerDeclarationReferenceDTO
+  reason: Exchange of customer instructions and status events with a customs broker in the 'Customs Broker
+    Portal' API is customs brokerage coordination. Some chance the better fit is Customs Declaration Management
+    (BC-2480.20), hence 0.7.
+- tag: Export Control Applications
+  spec_file: aeb-export-control-applications-api-openapi.yml
+  capability_id: BC-2480
+  capability_id_l1: BC-2480
+  capability_name: Customs & Trade Compliance Management
+  confidence: 0.7
+  evidence: getCommerceControlList 'Get application for the Commerce Control List.'; getEUExportControlList
+    'Get application for the EU export control list.'; getQuickCheck 'Get application for a Quick check.'
+  reason: Although these are application-facade openers (ApplicationFacadeDTO), the surface is explicitly
+    export-control content — Commerce Control List, EU export control list, export-control transactions
+    and logs — which belongs to customs & trade compliance. Confidence moderated because the operations
+    themselves only launch UI applications.
+- tag: InternationalCustomsAFBean
+  spec_file: aeb-internationalcustomsafbean-api-openapi.yml
+  capability_id: BC-2480.20
+  capability_id_l1: BC-2480
+  capability_name: Customs Declaration Management
+  confidence: 0.7
+  evidence: openDeclarationFolder 'Open declaration folder'; openDeclarationSearch 'Open declaration search';
+    ICCustomsProcessTypeDTO
+  reason: Application-facade operations that open customs declaration folders, attachments and declaration
+    search within the Customs Management product, supporting declaration handling. Confidence reduced
+    because these operations only launch UI views rather than execute filings themselves.
