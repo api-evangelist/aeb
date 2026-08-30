@@ -1,0 +1,1163 @@
+openapi: 3.2.0
+info:
+  title: BSM (TEST2) HTTP AEB Delivery API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: AEB Delivery
+  description: API for the AEBDelivery
+paths:
+  /AEBDeliveryBFBean/deleteDelivery:
+    post:
+      tags:
+      - AEB Delivery
+      summary: deleteDelivery
+      description: Delete the AEBDelivery
+      operationId: deleteDelivery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAEBDeliveryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/DeleteAEBDeliveryRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAEBDeliveryResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DeleteAEBDeliveryResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /AEBDeliveryBFBean/getDelivery:
+    post:
+      tags:
+      - AEB Delivery
+      summary: getDelivery
+      description: Get the AEBDelivery
+      operationId: getDelivery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAEBDeliveryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GetAEBDeliveryRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAEBDeliveryResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetAEBDeliveryResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /AEBDeliveryBFBean/updateDelivery:
+    post:
+      tags:
+      - AEB Delivery
+      summary: updateDelivery
+      description: Update the AEBDelivery
+      operationId: updateDelivery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAEBDeliveryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UpdateAEBDeliveryRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAEBDeliveryResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdateAEBDeliveryResponseDTO'
+      security:
+      - BASIC_AUTH: []
+components:
+  schemas:
+    GetAEBDeliveryResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        delivery:
+          $ref: '#/components/schemas/GetAEBDeliveryDTO'
+      description: Response for getting an AEBDelivery
+    GetAEBPartyDTO:
+      type: object
+      properties:
+        companyNumber:
+          type: string
+          description: Length 20 - Company number
+        country:
+          type: string
+          description: Length 3 - Country
+        city:
+          type: string
+          description: Length 40 - City
+        cityPostBox:
+          type: string
+          description: Length 40 - City post box
+        county:
+          type: string
+          description: Length 40 - County
+        district:
+          type: string
+          description: Length 40 - District
+        fax:
+          type: string
+          description: Length 20 - Fax
+        phone:
+          type: string
+          description: Length 20 - Phone
+        email:
+          type: string
+          description: Length 255 - Email
+        name1:
+          type: string
+          description: Length 40 - Name 1
+        name2:
+          type: string
+          description: Length 40 - Name 2
+        name3:
+          type: string
+          description: Length 40 - Name 3
+        name4:
+          type: string
+          description: Length 40 - Name 4
+        postCode:
+          type: string
+          description: Length 10 - Post code
+        postCodePostBox:
+          type: string
+          description: Length 10 - Post code post box
+        postBox:
+          type: string
+          description: Length 10 - Post box
+        type:
+          type: string
+          description: Length 50 - Type
+        street:
+          type: string
+          description: Length 80 - Street
+        street2:
+          type: string
+          description: Length 80 - Street2
+        contact:
+          $ref: '#/components/schemas/GetAEBPersonDTO'
+      description: Party/Partner
+    UpdateAEBPackedItemDTO:
+      type: object
+      properties:
+        itemIdClientSystem:
+          type: string
+          description: Length 100 - Item id client system
+        quantity:
+          type: number
+          description: Length 15,3 - Quantity
+      description: Packed item
+    GetAEBCostDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        value:
+          type: number
+          description: Length 15,2 - Value
+        currency:
+          type: string
+          description: Length 5 - Currency
+      description: Cost data
+    GetAEBDeliveryItemDTO:
+      type: object
+      properties:
+        itemNumber:
+          type: string
+          description: Length 20 - ItemNumber
+        idClientSystem:
+          type: string
+          description: Length 100 - Id client system
+        itemDescription:
+          type: string
+          description: Length 255 - Item description
+        prefOriginCountry:
+          type: string
+          description: Length 3 - Preferential origin country
+        originCountry:
+          type: string
+          description: Length 3 - Origin country
+        originRegion:
+          type: string
+          description: Length 3 - Origin region
+        orderNumber:
+          type: string
+          description: Length 70 - Order number
+        orderItemNumber:
+          type: string
+          description: Length 20 - Order item number
+        orderItemReasonType:
+          type: string
+          description: Length 20 - Order item reason type
+        invoiceIdClientSystem:
+          type: string
+          description: Length 255 - Invoice Id client system
+        goodsDescriptions:
+          type: array
+          description: Goods descriptions
+          items:
+            $ref: '#/components/schemas/GetAEBGoodsDescriptionDTO'
+        parties:
+          type: array
+          description: Parties
+          items:
+            $ref: '#/components/schemas/GetAEBPartyDTO'
+        costs:
+          type: array
+          description: Costs
+          items:
+            $ref: '#/components/schemas/GetAEBCostDTO'
+        quantities:
+          type: array
+          description: Quantities
+          items:
+            $ref: '#/components/schemas/GetAEBQuantityDTO'
+        classifications:
+          type: array
+          description: Classifications
+          items:
+            $ref: '#/components/schemas/GetAEBClassificationDTO'
+        additionalFields:
+          type: array
+          description: Additional fields
+          items:
+            $ref: '#/components/schemas/GetAEBAdditionalFieldDTO'
+        materialNo:
+          type: string
+          description: Length 40 - Material number
+      description: Delivery item
+    UpdateAEBDeliveryItemDTO:
+      type: object
+      properties:
+        itemNumber:
+          type: string
+          description: Length 20 - ItemNumber
+        idClientSystem:
+          type: string
+          description: Length 100 - Id client system
+        itemDescription:
+          type: string
+          description: Length 255 - Item description
+        prefOriginCountry:
+          type: string
+          description: Length 3 - Preferential origin country
+        originCountry:
+          type: string
+          description: Length 3 - Origin country
+        originRegion:
+          type: string
+          description: Length 3 - Origin region
+        orderNumber:
+          type: string
+          description: Length 70 - Order number
+        orderItemNumber:
+          type: string
+          description: Length 20 - Order item number
+        orderItemReasonType:
+          type: string
+          description: Length 20 - Order item reason type
+        invoiceIdClientSystem:
+          type: string
+          description: Length 255 - Invoice Id client system
+        goodsDescriptions:
+          type: array
+          description: Goods descriptions
+          items:
+            $ref: '#/components/schemas/UpdateAEBGoodsDescriptionDTO'
+        parties:
+          type: array
+          description: Parties
+          items:
+            $ref: '#/components/schemas/UpdateAEBPartyDTO'
+        costs:
+          type: array
+          description: Costs
+          items:
+            $ref: '#/components/schemas/UpdateAEBCostDTO'
+        quantities:
+          type: array
+          description: Quantities
+          items:
+            $ref: '#/components/schemas/UpdateAEBQuantityDTO'
+        classifications:
+          type: array
+          description: Classifications
+          items:
+            $ref: '#/components/schemas/UpdateAEBClassificationDTO'
+        additionalFields:
+          type: array
+          description: Additional fields
+          items:
+            $ref: '#/components/schemas/UpdateAEBAdditionalFieldDTO'
+        materialNo:
+          type: string
+          description: Length 40 - Material number
+        orderType:
+          type: string
+          description: Length 20 - Order type
+        orderItemType:
+          type: string
+          description: Length 20 - Order item type
+        interactionControls:
+          type: array
+          description: Interaction controls
+          items:
+            $ref: '#/components/schemas/BSInteractionControlItemDTO'
+      description: Delivery item
+    UpdateAEBInvoiceDTO:
+      type: object
+      properties:
+        invoiceNumber:
+          type: string
+          description: Length 70 - Invoice Number
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        boIdClientSystemLabel:
+          type: string
+          description: Length 255 - Business object id client system label
+        invoicePrice:
+          $ref: '#/components/schemas/UpdateAEBCostDTO'
+        invoiceDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+      description: Invoice data
+    UpdateAEBDeliveryResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        businessObjectId:
+          type: string
+          description: Length 32 - Business object id
+        wasCreated:
+          type: boolean
+          description: Was object initially created
+      description: Response for updating/creating an AEBDelivery
+    GetAEBClassificationDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        classificationValue:
+          type: string
+          description: Length 20 - Value
+      description: Classification data
+    DeleteAEBDeliveryResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response for deleting an AEBDelivery
+    UpdateAEBClassificationDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        classificationValue:
+          type: string
+          description: Length 20 - Value
+      description: Classification data
+    UpdateAEBTransportMeansDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 35 - Type
+        identification:
+          type: string
+          description: Length 27 - Identification
+        nationality:
+          type: string
+          description: Length 2 - Nationality
+        code:
+          type: string
+          description: Length 2 - Code
+        transportModeCode:
+          type: string
+          description: Length 2 - Transport mode code
+      description: Transport means
+    UpdateAEBHandlingUnitDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        parentBoIdClientSystem:
+          type: string
+          description: Length 255 - Parent business object id client system
+        referenceNoHandlingUnit:
+          type: string
+          description: Length 50 - Reference number of handling unit
+        typeCode:
+          type: string
+          description: Length 40 - Type code
+        typeUNECECode:
+          type: string
+          description: Length 3 - UNECE Type code
+        referenceSourceObject:
+          type: string
+          description: Length 30 - Reference of source object
+        handlingUnitNumberFrom:
+          type: string
+          description: Length 30 - Handling unit number from
+        handlingUnitNumberTo:
+          type: string
+          description: Length 30 - Handling unit number to
+        contentDescription:
+          type: string
+          description: Length 40 - Content description
+        dimensionHeight:
+          type: number
+          description: Length 15,3 - Dimension height
+        dimensionWidth:
+          type: number
+          description: Length 15,3 - Dimension width
+        dimensionLength:
+          type: number
+          description: Length 15,3 - Dimension length
+        dimensionQuantityUnit:
+          type: string
+          description: Length 10 - Dimension quantity unit
+        quantities:
+          type: array
+          description: Quantities
+          items:
+            $ref: '#/components/schemas/UpdateAEBQuantityDTO'
+        packedItems:
+          type: array
+          description: Packed items
+          items:
+            $ref: '#/components/schemas/UpdateAEBPackedItemDTO'
+        packedHandlingUnits:
+          type: array
+          description: Packed handling units
+          items:
+            $ref: '#/components/schemas/UpdateAEBHandlingUnitDTO'
+        additionalFields:
+          type: array
+          description: Additional fields
+          items:
+            $ref: '#/components/schemas/UpdateAEBAdditionalFieldDTO'
+      description: Handling unit
+    UpdateAEBDeliveryRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        delivery:
+          $ref: '#/components/schemas/UpdateAEBDeliveryDTO'
+        mappingProfile:
+          type: string
+          description: Mapping profile
+      description: Data for updating/creating an AEBDelivery
+    UpdateAEBPartyDTO:
+      type: object
+      properties:
+        companyNumber:
+          type: string
+          description: Length 20 - Company number
+        country:
+          type: string
+          description: Length 3 - Country
+        city:
+          type: string
+          description: Length 40 - City
+        cityPostBox:
+          type: string
+          description: Length 40 - City post box
+        county:
+          type: string
+          description: Length 40 - County
+        district:
+          type: string
+          description: Length 40 - District
+        fax:
+          type: string
+          description: Length 20 - Fax
+        phone:
+          type: string
+          description: Length 20 - Phone
+        email:
+          type: string
+          description: Length 255 - Email
+        name1:
+          type: string
+          description: Length 40 - Name 1
+        name2:
+          type: string
+          description: Length 40 - Name 2
+        name3:
+          type: string
+          description: Length 40 - Name 3
+        name4:
+          type: string
+          description: Length 40 - Name 4
+        postCode:
+          type: string
+          description: Length 10 - Post code
+        postCodePostBox:
+          type: string
+          description: Length 10 - Post code post box
+        postBox:
+          type: string
+          description: Length 10 - Post box
+        type:
+          type: string
+          description: Length 50 - Type
+        street:
+          type: string
+          description: Length 80 - Street
+        street2:
+          type: string
+          description: Length 80 - Street2
+        contact:
+          $ref: '#/components/schemas/UpdateAEBPersonDTO'
+      description: Party/Partner
+    UpdateAEBGoodsDescriptionDTO:
+      type: object
+      properties:
+        language:
+          type: string
+          description: Length 2 - Language
+        description:
+          type: string
+          description: Length 512 - Description
+      description: Goods description
+    GetAEBPersonDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        forename:
+          type: string
+          description: Length 20 - Forename
+        surname:
+          type: string
+          description: Length 30 - Surname
+        email:
+          type: string
+          description: Length 255 - Email
+        phone:
+          type: string
+          description: Length 20 - Phone
+        initials:
+          type: string
+          description: Length 20 - Initials
+      description: Person
+    UpdateAEBPersonDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        forename:
+          type: string
+          description: Length 20 - Forename
+        surname:
+          type: string
+          description: Length 30 - Surname
+        email:
+          type: string
+          description: Length 255 - Email
+        phone:
+          type: string
+          description: Length 20 - Phone
+        initials:
+          type: string
+          description: Length 20 - Initials
+      description: Person
+    GetAEBDeliveryRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+      description: Request data for getting an AEBDelivery.
+    GetAEBGoodsDescriptionDTO:
+      type: object
+      properties:
+        language:
+          type: string
+          description: Length 2 - Language
+        description:
+          type: string
+          description: Length 512 - Description
+      description: Goods description
+    GetAEBPackedItemDTO:
+      type: object
+      properties:
+        itemIdClientSystem:
+          type: string
+          description: Length 100 - Item id client system
+        quantity:
+          type: number
+          description: Length 15,3 - Quantity
+      description: Packed item
+    GetAEBHandlingUnitDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        referenceNoHandlingUnit:
+          type: string
+          description: Length 50 - Reference number of handling unit
+        typeCode:
+          type: string
+          description: Length 40 - Type code
+        typeUNECECode:
+          type: string
+          description: Length 3 - UNECE Type code
+        referenceSourceObject:
+          type: string
+          description: Length 30 - Reference of source object
+        handlingUnitNumberFrom:
+          type: string
+          description: Length 30 - Handling unit number from
+        handlingUnitNumberTo:
+          type: string
+          description: Length 30 - Handling unit number to
+        contentDescription:
+          type: string
+          description: Length 40 - Content description
+        dimensionHeight:
+          type: number
+          description: Length 15,3 - Dimension height
+        dimensionWidth:
+          type: number
+          description: Length 15,3 - Dimension width
+        dimensionLength:
+          type: number
+          description: Length 15,3 - Dimension length
+        dimensionQuantityUnit:
+          type: string
+          description: Length 10 - Dimension quantity unit
+        quantities:
+          type: array
+          description: Quantities
+          items:
+            $ref: '#/components/schemas/GetAEBQuantityDTO'
+        packedItems:
+          type: array
+          description: Packed items
+          items:
+            $ref: '#/components/schemas/GetAEBPackedItemDTO'
+        packedHandlingUnits:
+          type: array
+          description: Packed handling units
+          items:
+            $ref: '#/components/schemas/GetAEBHandlingUnitDTO'
+        additionalFields:
+          type: array
+          description: Additional fields
+          items:
+            $ref: '#/components/schemas/GetAEBAdditionalFieldDTO'
+      description: Handling unit
+    GetAEBDeliveryDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        boIdClientSystemLabel:
+          type: string
+          description: Length 255 - Business object id client system label
+        deliveryNumber:
+          type: string
+          description: Length 70 - Delivery number
+        deliveryType:
+          type: string
+          description: Length 30 - Delivery type
+        items:
+          type: array
+          description: Items
+          items:
+            $ref: '#/components/schemas/GetAEBDeliveryItemDTO'
+        parties:
+          type: array
+          description: Parties
+          items:
+            $ref: '#/components/schemas/GetAEBPartyDTO'
+        persons:
+          type: array
+          description: Persons
+          items:
+            $ref: '#/components/schemas/GetAEBPersonDTO'
+        costs:
+          type: array
+          description: Costs
+          items:
+            $ref: '#/components/schemas/GetAEBCostDTO'
+        quantities:
+          type: array
+          description: Quantities
+          items:
+            $ref: '#/components/schemas/GetAEBQuantityDTO'
+        handlingUnits:
+          type: array
+          description: Handling units
+          items:
+            $ref: '#/components/schemas/GetAEBHandlingUnitDTO'
+        additionalFields:
+          type: array
+          description: Additional fields
+          items:
+            $ref: '#/components/schemas/GetAEBAdditionalFieldDTO'
+        transportMeans:
+          type: array
+          description: Transport means
+          items:
+            $ref: '#/components/schemas/GetAEBTransportMeansDTO'
+        deliveryDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        shippingDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        shippingType:
+          type: string
+          description: Length 20 - Shipping type
+        incotermIdentCode:
+          type: string
+          description: Length 3 - Incoterm identcode
+        incotermDescription:
+          type: string
+          description: Length 35 - Incoterm description
+        incotermDestination:
+          type: string
+          description: Length 255 - Incoterm destination
+        invoices:
+          type: array
+          description: Invoices
+          items:
+            $ref: '#/components/schemas/GetAEBInvoiceDTO'
+      description: Delivery data
+    GetAEBTransportMeansDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 35 - Type
+        identification:
+          type: string
+          description: Length 27 - Identification
+        nationality:
+          type: string
+          description: Length 2 - Nationality
+        code:
+          type: string
+          description: Length 2 - Code
+        transportModeCode:
+          type: string
+          description: Length 2 - Transport mode code
+      description: Transport means
+    BSInteractionControlUsecaseDTO:
+      type: object
+      properties:
+        usecaseId:
+          type: string
+          description: Usecase id
+      description: Usecase for interaction control
+    GetAEBQuantityDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        unit:
+          type: string
+          description: Length 10 - Unit
+        value:
+          type: number
+          description: Length 15,3 - Quantity
+      description: Quantity
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    UpdateAEBAdditionalFieldDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 20 - Type e.g. the name of the field
+        value:
+          type: string
+          description: Length 50 - Value
+      description: Additional field to extend data of the business object where it is referenced.
+    GetAEBAdditionalFieldDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 20 - Type e.g. the name of the field
+        value:
+          type: string
+          description: Length 50 - Value
+      description: Additional field to extend data of the business object where it is referenced.
+    BSInteractionControlIDDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        clientSystemId:
+          type: string
+          description: Length 255 - Business object id client system label
+      description: DTO for interaction control id
+    DateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
+    BSInteractionControlItemIDDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        clientSystemId:
+          type: string
+          description: Length 255 - Business object id client system label
+        boItemIdClientSystem:
+          type: string
+          description: Length 100 - The item id of the interaction control.
+      description: The DTO for the item id of an interaction control.
+    DeleteAEBDeliveryRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+      description: Request for deleting an AEBDelivery
+    BSInteractionControlDTO:
+      type: object
+      properties:
+        usecase:
+          $ref: '#/components/schemas/BSInteractionControlUsecaseDTO'
+        ids:
+          type: array
+          description: Interaction control ids
+          items:
+            $ref: '#/components/schemas/BSInteractionControlIDDTO'
+      description: DTO for interaction control
+    UpdateAEBDeliveryDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        boIdClientSystemLabel:
+          type: string
+          description: Length 255 - Business object id client system label
+        deliveryNumber:
+          type: string
+          description: Length 70 - Delivery number
+        deliveryType:
+          type: string
+          description: Length 30 - Delivery type
+        items:
+          type: array
+          description: Items
+          items:
+            $ref: '#/components/schemas/UpdateAEBDeliveryItemDTO'
+        parties:
+          type: array
+          description: Parties
+          items:
+            $ref: '#/components/schemas/UpdateAEBPartyDTO'
+        persons:
+          type: array
+          description: Persons
+          items:
+            $ref: '#/components/schemas/UpdateAEBPersonDTO'
+        costs:
+          type: array
+          description: Costs
+          items:
+            $ref: '#/components/schemas/UpdateAEBCostDTO'
+        quantities:
+          type: array
+          description: Quantities
+          items:
+            $ref: '#/components/schemas/UpdateAEBQuantityDTO'
+        handlingUnits:
+          type: array
+          description: Handling units
+          items:
+            $ref: '#/components/schemas/UpdateAEBHandlingUnitDTO'
+        additionalFields:
+          type: array
+          description: Additional fields
+          items:
+            $ref: '#/components/schemas/UpdateAEBAdditionalFieldDTO'
+        transportMeans:
+          type: array
+          description: Transport means
+          items:
+            $ref: '#/components/schemas/UpdateAEBTransportMeansDTO'
+        deliveryDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        shippingDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        shippingType:
+          type: string
+          description: Length 20 - Shipping type
+        incotermIdentCode:
+          type: string
+          description: Length 3 - Incoterm identcode
+        incotermDescription:
+          type: string
+          description: Length 35 - Incoterm description
+        incotermDestination:
+          type: string
+          description: Length 255 - Incoterm destination
+        invoices:
+          type: array
+          description: Invoices
+          items:
+            $ref: '#/components/schemas/UpdateAEBInvoiceDTO'
+        interactionControls:
+          type: array
+          description: Interaction controls
+          items:
+            $ref: '#/components/schemas/BSInteractionControlDTO'
+      description: Delivery data for update
+    GetAEBInvoiceDTO:
+      type: object
+      properties:
+        invoiceNumber:
+          type: string
+          description: Length 70 - Invoice Number
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        boIdClientSystemLabel:
+          type: string
+          description: Length 255 - Business object id client system label
+        invoicePrice:
+          $ref: '#/components/schemas/GetAEBCostDTO'
+        invoiceDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+      description: Invoice data
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    UpdateAEBCostDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        value:
+          type: number
+          description: Length 15,2 - Value
+        currency:
+          type: string
+          description: Length 5 - Currency
+      description: Cost data
+    BSInteractionControlItemDTO:
+      type: object
+      properties:
+        usecase:
+          $ref: '#/components/schemas/BSInteractionControlUsecaseDTO'
+        ids:
+          type: array
+          description: ids of the item
+          items:
+            $ref: '#/components/schemas/BSInteractionControlItemIDDTO'
+      description: Item for interaction control
+    UpdateAEBQuantityDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Length 50 - Type
+        unit:
+          type: string
+          description: Length 10 - Unit
+        value:
+          type: number
+          description: Length 15,3 - Quantity
+      description: Quantity
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

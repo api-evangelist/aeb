@@ -1,0 +1,1194 @@
+openapi: 3.2.0
+info:
+  title: Select HTTP Carrier API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/demo1routing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Carrier
+  description: Rest API for carriers
+paths:
+  /carriers/{id}:
+    get:
+      tags:
+      - Carrier
+      description: Returns the carrier with the requested ID.
+      operationId: getCarrier
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrier'
+              examples:
+                Carrier entry:
+                  description: Carrier entry
+                  value:
+                    identCode: DHLPAKETINT
+                    name: DHL Paket international
+                    isCarrierValidationSupported: true
+                    isBillingAdapterSupported: true
+        '404':
+          description: Carrier with the given ID not Found
+          content:
+            application/json:
+              examples:
+                'Carrier not found ':
+                  description: 'Carrier not found '
+                  value:
+                    errorMessage: HTTP 404 Not Found
+    put:
+      tags:
+      - Carrier
+      description: Create or update the carrier with the specified ID. If the carrier with the given ID does not exist, a new carrier is created. If the carrier exists, the existing carrier is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier. It is therefore recommended to use GET/carriers to check whether a carrier with an ID already exists BEFORE you use PUT/carriers/{id}.
+      operationId: createOrUpdateCarrier
+      parameters:
+      - name: id
+        in: path
+        description: Creates a new carrier with the ID 'DHLPAKETINT', if the carrier does not exist. Otherwise fully updates the carrier 'DHLPAKETINT' according to the filled data fields in the request.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Carrier'
+            examples:
+              Carrier entry:
+                description: Carrier entry
+                value:
+                  identCode: DHLPAKETINT
+                  name: DHL Paket international
+                  isCarrierValidationSupported: true
+                  isBillingAdapterSupported: true
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrier'
+              examples:
+                Carrier entry:
+                  description: Carrier entry
+                  value:
+                    identCode: DHLPAKETINT
+                    name: DHL Paket international
+                    isCarrierValidationSupported: true
+                    isBillingAdapterSupported: true
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+    delete:
+      tags:
+      - Carrier
+      description: Delete the carrier with the specified ID.
+      operationId: deleteCarrier
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrier'
+              examples:
+                Carrier entry:
+                  description: Carrier entry
+                  value:
+                    identCode: DHLPAKETINT
+                    name: DHL Paket international
+                    isCarrierValidationSupported: true
+                    isBillingAdapterSupported: true
+        '404':
+          description: Carrier with the given Id not Found
+          content:
+            application/json:
+              examples:
+                'Carrier not found ':
+                  description: 'Carrier not found '
+                  value:
+                    errorMessage: HTTP 404 Not Found
+  /carriers:
+    get:
+      tags:
+      - Carrier
+      description: Returns all carriers matching the given filter criteria. In case no carrier matches the given filter criteria, an empty collection is returned. If the filter field supports place holders ('*' or '%'), you get all carriers back beginning with the value of the filter. I.e. a place holder at the end of the filter value is added automatically.
+      operationId: searchCarriers
+      parameters:
+      - name: ident_code_like
+        in: query
+        description: Filter carriers by ident code.<br>In the example, all carriers which include 'DHL' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique.
+        schema:
+          maxLength: 20
+          minLength: 0
+          type: string
+        example: '*DHL*'
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierPage'
+              examples:
+                Carrier list:
+                  description: Carrier list
+                  value:
+                    totalElements: '2'
+                    content:
+                    - identCode: UPS
+                      name: UPS EMEA
+                      isCarrierValidationSupported: true
+                      isBillingAdapterSupported: true
+                    - identCode: DHLPAKETINT
+                      name: DHL Paket international
+                      isCarrierValidationSupported: true
+                      isBillingAdapterSupported: true
+  /carriers/{id}/info-texts:
+    get:
+      tags:
+      - Carrier
+      description: Returns all info texts of a carrier.
+      operationId: getInfoTexts
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoText'
+              examples:
+                Info text list:
+                  description: Info text list
+                  value:
+                    content:
+                    - identCode: DNF
+                      translations:
+                      - language: DE
+                        description: Nicht einfrieren
+                      - language: EN
+                        description: Do no freeze
+                    - identCode: DNS
+                      translations:
+                      - language: DE
+                        description: Nicht schütteln
+                      - language: EN
+                        description: Do no shake
+    put:
+      tags:
+      - Carrier
+      description: Create or update all info texts of the specified carrier. If the info text with the given ID does not exist, a new info text is created. If the info text exists, the existing info text is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing info text. It is therefore recommended to use GET/carriers/{id}/info-texts to check whether an info text with an ID already exists BEFORE you use PUT/carriers/{id}/info-texts.
+      operationId: createOrUpdateAllInfoTexts
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierInfoTextList'
+            examples:
+              Info text list request:
+                description: Info text list request
+                value:
+                  content:
+                  - identCode: DNF
+                    translations:
+                    - language: DE
+                      description: Nicht einfrieren
+                    - language: EN
+                      description: Do no freeze
+                  - identCode: DNS
+                    translations:
+                    - language: DE
+                      description: Nicht schütteln
+                    - language: EN
+                      description: Do no shake
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoTextList'
+              examples:
+                Info text list:
+                  description: Info text list
+                  value:
+                    content:
+                    - identCode: DNF
+                      translations:
+                      - language: DE
+                        description: Nicht einfrieren
+                      - language: EN
+                        description: Do no freeze
+                    - identCode: DNS
+                      translations:
+                      - language: DE
+                        description: Nicht schütteln
+                      - language: EN
+                        description: Do no shake
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+  /carriers/{id}/info-texts/{info-text-id}:
+    get:
+      tags:
+      - Carrier
+      description: Returns the info text of a carrier with the requested ID.
+      operationId: getInfoText
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: info-text-id
+        in: path
+        description: The requested carrier info text ID.
+        required: true
+        schema:
+          type: string
+        example: DNF
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoText'
+              examples:
+                Info text entry:
+                  description: Info text entry
+                  value:
+                    identCode: DNF
+                    translations:
+                    - language: DE
+                      description: Nicht einfrieren
+                    - language: EN
+                      description: Do no freeze
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+        '404':
+          description: Carrier info text for the given ID and carrier not found
+          content:
+            application/json:
+              examples:
+                Info text not found:
+                  description: Info text not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+    put:
+      tags:
+      - Carrier
+      description: Create or update an info text with the specified ID. If the info text with the given ID does not exist, a new info text is created. If the info text exists, the existing info text is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing info text. It is therefore recommended to use GET/carriers/{id}/info-texts to check whether an info text with an ID already exists BEFORE you use PUT/carriers/{id}/info-texts/{id}
+      operationId: createOrUpdateInfoText
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: info-text-id
+        in: path
+        description: The requested carrier info text ID.
+        required: true
+        schema:
+          type: string
+        example: DNF
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierInfoText'
+            examples:
+              Infotext request:
+                description: Infotext request
+                value:
+                  identCode: DNF
+                  translations:
+                  - language: DE
+                    description: Nicht einfrieren
+                  - language: EN
+                    description: Do no freeze
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoText'
+              examples:
+                Info text entry:
+                  description: Info text entry
+                  value:
+                    identCode: DNF
+                    translations:
+                    - language: DE
+                      description: Nicht einfrieren
+                    - language: EN
+                      description: Do no freeze
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+    delete:
+      tags:
+      - Carrier
+      description: Deletes the info text of a carrier with the requested ID.
+      operationId: deleteInfoText
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: info-text-id
+        in: path
+        description: The requested carrier info text ID.
+        required: true
+        schema:
+          type: string
+        example: DNF
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoText'
+              examples:
+                'Info text entry ':
+                  description: 'Info text entry '
+                  value:
+                    identCode: DNF
+                    translations:
+                    - language: DE
+                      description: Nicht einfrieren
+                    - language: EN
+                      description: Do no freeze
+        '404':
+          description: Carrier info text for the given ID and carrier not found
+          content:
+            application/json:
+              examples:
+                Info text not found:
+                  description: Info text not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+  /carriers/{id}/services:
+    get:
+      tags:
+      - Carrier
+      description: Returns all services of a carrier.
+      operationId: getServices
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierService'
+              examples:
+                Service list:
+                  description: Service list
+                  value:
+                    content:
+                    - identCode: DHLPAKETINT
+                      translations:
+                      - language: DE
+                        name: DHL Paket int.
+                      - language: EN
+                        name: DHL Paket int.
+                    - identCode: DHLPAKETINT_PREM
+                      translations:
+                      - language: DE
+                        name: DHL Paket int. Premium
+                      - language: EN
+                        name: DHL Paket int. Premium
+    put:
+      tags:
+      - Carrier
+      description: Create or update all services of specified carrier. If a service with a given ID does not exist, a new service is created. If the service exists, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use GET/carriers/{id}/services to check whether a service with a id already exists BEFORE you use PUT/carriers/{id}/services.
+      operationId: createOrUpdateAllServices
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierServiceList'
+            examples:
+              Service list request:
+                description: Service list request
+                value:
+                  content:
+                  - identCode: DHLPAKETINT
+                    translations:
+                    - language: DE
+                      name: DHL Paket int.
+                    - language: EN
+                      name: DHL Paket int.
+                  - identCode: DHLPAKETINT_PREM
+                    translations:
+                    - language: DE
+                      name: DHL Paket int. Premium
+                    - language: EN
+                      name: DHL Paket int. Premium
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierServiceList'
+              examples:
+                Service list:
+                  description: Service list
+                  value:
+                    content:
+                    - identCode: DHLPAKETINT
+                      translations:
+                      - language: DE
+                        name: DHL Paket int.
+                      - language: EN
+                        name: DHL Paket int.
+                    - identCode: DHLPAKETINT_PREM
+                      translations:
+                      - language: DE
+                        name: DHL Paket int. Premium
+                      - language: EN
+                        name: DHL Paket int. Premium
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+  /carriers/{id}/services/{service-id}:
+    get:
+      tags:
+      - Carrier
+      description: Returns the service of the carrier with the requested ID.
+      operationId: getService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: service-id
+        in: path
+        description: The requested ID of a service.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT_PREM
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierService'
+              examples:
+                Service entry:
+                  description: Service entry
+                  value:
+                    identCode: DHLPAKETINT_PREM
+                    translations:
+                    - language: DE
+                      name: DHL Paket int. Premium
+                    - language: EN
+                      name: DHL Paket int. Premium
+        '404':
+          description: Carrier service for he given ID and carrier not found
+          content:
+            application/json:
+              examples:
+                Service not found:
+                  description: Service not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+    put:
+      tags:
+      - Carrier
+      description: Create or update a service with the specified ID. If the service with the given id does not exist, a new service is created. If the service exist, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use the GET/carriers/{id}/services to check whether a service with a ID already exists BEFORE you use  PUT/carriers/{id}/services/{id}
+      operationId: createOrUpdateService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: service-id
+        in: path
+        description: The requested ID of a service.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT_PREM
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierService'
+            examples:
+              Service request:
+                description: Service request
+                value:
+                  identCode: DHLPAKETINT_PREM
+                  translations:
+                  - language: DE
+                    name: DHL Paket int. Premium
+                  - language: EN
+                    name: DHL Paket int. Premium
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierService'
+              examples:
+                Service entry:
+                  description: Service entry
+                  value:
+                    identCode: DHLPAKETINT_PREM
+                    translations:
+                    - language: DE
+                      name: DHL Paket int. Premium
+                    - language: EN
+                      name: DHL Paket int. Premium
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+    delete:
+      tags:
+      - Carrier
+      description: Deletes the service of the carrier with the requested ID.
+      operationId: deleteService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: service-id
+        in: path
+        description: The requested ID of a service.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT_PREM
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierService'
+              examples:
+                Service entry:
+                  description: Service entry
+                  value:
+                    identCode: DHLPAKETINT_PREM
+                    translations:
+                    - language: DE
+                      name: DHL Paket int. Premium
+                    - language: EN
+                      name: DHL Paket int. Premium
+        '404':
+          description: Service for the given ID and carrier not found
+          content:
+            application/json:
+              examples:
+                Service not found:
+                  description: Service not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+  /carriers/{id}/value-added-services:
+    get:
+      tags:
+      - Carrier
+      description: Returns all value added services of a carrier.
+      operationId: getValueAddedServices
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierValueAddedServiceList'
+              examples:
+                Value added service list:
+                  description: Value added service list
+                  value:
+                    content:
+                    - identCode: DHLPAKETINTCDP
+                      translations:
+                      - language: DE
+                        name: Closest Droppoint
+                      - language: EN
+                        name: Closest Droppoint
+                    - identCode: DHLPAKETINTBULKY
+                      translations:
+                      - language: DE
+                        name: Sperrgut
+                      - language: EN
+                        name: Bulky goods
+    put:
+      tags:
+      - Carrier
+      description: Create or update all value added services of a carrier with the requested ID. If a value added service with a given ID does not exist, a new value added service is created. If the value added service exists, the value added service carrier is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier. It is therefore recommended to use GET/carriers/{id}/value-added-services to check whether a carrier with an ID already exists BEFORE you use PUT /carriers/{id}/value-added-services/{id}.
+      operationId: createOrUpdateAllValueAddedServices
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierValueAddedServiceList'
+            examples:
+              Value added Service list request:
+                description: Value added Service list request
+                value:
+                  content:
+                  - identCode: DHLPAKETINTCDP
+                    translations:
+                    - language: DE
+                      name: Closest Droppoint
+                    - language: EN
+                      name: Closest Droppoint
+                  - identCode: DHLPAKETINTBULKY
+                    translations:
+                    - language: DE
+                      name: Sperrgut
+                    - language: EN
+                      name: Bulky goods
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierValueAddedServiceList'
+              examples:
+                ' Value added service list':
+                  description: ' Value added service list'
+                  value:
+                    content:
+                    - identCode: DHLPAKETINTCDP
+                      translations:
+                      - language: DE
+                        name: Closest Droppoint
+                      - language: EN
+                        name: Closest Droppoint
+                    - identCode: DHLPAKETINTBULKY
+                      translations:
+                      - language: DE
+                        name: Sperrgut
+                      - language: EN
+                        name: Bulky goods
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+  /carriers/{id}/value-added-services/{value-added-service-id}:
+    get:
+      tags:
+      - Carrier
+      description: Returns a value added service of a carrier with the requested ID.
+      operationId: getValueAddedService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: value-added-service-id
+        in: path
+        description: The requested ID of the value added service.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINTCDP
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierValueAddedService'
+              examples:
+                Value added Service entry:
+                  description: Value added Service entry
+                  value:
+                    identCode: DHLPAKETINTCDP
+                    translations:
+                    - language: DE
+                      name: Closest Droppoint
+                    - language: EN
+                      name: Closest Droppoint
+        '404':
+          description: Carrier value added service for the given ID and carrier not found
+          content:
+            application/json:
+              examples:
+                Value added service not found:
+                  description: Value added service not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+    put:
+      tags:
+      - Carrier
+      description: Create or update a value added service of a carrier with the requested ID. If the value added service with the given ID does not exist, a new value added service is created. If the value added service exists, the existing value added service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing value added service. It is therefore recommended to use GET/carriers/{id}/value-added-services to check whether a value added service with an ID already exists BEFORE you use PUT /carriers/{id}/value-added-services/{id}.
+      operationId: createOrUpdateValueAddedService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: value-added-service-id
+        in: path
+        description: The requested ID of the value added service.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINTCDP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierValueAddedService'
+            examples:
+              Value added Service request:
+                description: Value added Service request
+                value:
+                  identCode: DHLPAKETINTCDP
+                  translations:
+                  - language: DE
+                    name: Closest Droppoint
+                  - language: EN
+                    name: Closest Droppoint
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierValueAddedService'
+              examples:
+                Value added service entry:
+                  description: Value added service entry
+                  value:
+                    identCode: DHLPAKETINTCDP
+                    translations:
+                    - language: DE
+                      name: Closest Droppoint
+                    - language: EN
+                      name: Closest Droppoint
+        '400':
+          description: Something went wrong during the call
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+    delete:
+      tags:
+      - Carrier
+      description: Deletes a value added service of a carrier with the requested ID.
+      operationId: deleteValueAddedService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINT
+      - name: value-added-service-id
+        in: path
+        description: The requested ID of the value added service.
+        required: true
+        schema:
+          type: string
+        example: DHLPAKETINTCDP
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierValueAddedService'
+              examples:
+                Value added service entry:
+                  description: Value added service entry
+                  value:
+                    identCode: DHLPAKETINTCDP
+                    translations:
+                    - language: DE
+                      name: Closest Droppoint
+                    - language: EN
+                      name: Closest Droppoint
+        '404':
+          description: Carrier value added service for the given ID and carrier no found
+          content:
+            application/json:
+              examples:
+                Value added service not found:
+                  description: Value added service not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+components:
+  schemas:
+    CarrierValueAddedServiceTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 250
+          minLength: 0
+          type: string
+    CarrierServiceList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierService'
+    CarrierInfoTextTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+    AebProblemError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
+          type: string
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
+    CarrierPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Carrier'
+    Carrier:
+      required:
+      - identCode
+      - isBillingAdapterSupported
+      - isCarrierValidationSupported
+      - name
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the carrier setup
+          example: DHL Paket international
+        isCarrierValidationSupported:
+          type: boolean
+          description: When false, validation through CCO is not supported
+          example: false
+        isBillingAdapterSupported:
+          type: boolean
+          description: If false, price calculation through LCM is not supported
+          example: false
+    CarrierServiceTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 250
+          minLength: 0
+          type: string
+    CarrierValueAddedService:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierValueAddedServiceTextTranslation'
+    AebProblem:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'A URI reference that uniquely identifies the problem type in the
+
+            context of the provided API. Opposed to the specification in RFC-7807,
+
+            it neither points to a human-readable documentation nor globally
+
+            unique for the problem type.'
+          format: uri
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 404
+        title:
+          type: string
+          description: Title
+          example: Not found
+        detail:
+          type: string
+          description: Detail info
+          example: Item not found
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          format: uri
+          example: item/12345
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          format: date-time
+          example: '2024-03-28T12:45:31.7857371Z'
+        xRequestId:
+          type: string
+          description: ID of the request that is associated with the problem.
+        errors:
+          type: array
+          description: Array of related errors
+          items:
+            $ref: '#/components/schemas/AebProblemError'
+    CarrierValueAddedServiceList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierValueAddedService'
+    CarrierService:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierServiceTextTranslation'
+    CarrierInfoText:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextTextTranslation'
+    CarrierInfoTextList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierInfoText'
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

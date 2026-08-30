@@ -1,0 +1,2527 @@
+openapi: 3.2.0
+info:
+  title: BSM (TEST2) HTTP BSM International Customs API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: BSM International Customs
+  description: API for BSM International Customs operations
+paths:
+  /BSMInternationalCustomsBFBean/createConsignment:
+    post:
+      tags:
+      - BSM International Customs
+      summary: createConsignment
+      description: Creates a consignment in Customs Management
+      operationId: createConsignment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BSMICCreateConsignmentRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BSMICCreateConsignmentRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BSMICCreateConsignmentResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BSMICCreateConsignmentResponseDTO'
+      security:
+      - BASIC_AUTH: []
+components:
+  schemas:
+    ICDeliveryExtensionDataDTO:
+      type: object
+      properties:
+        exportBroker:
+          $ref: '#/components/schemas/ICDeliveryBrokerDTO'
+        importBroker:
+          $ref: '#/components/schemas/ICDeliveryBrokerDTO'
+        exportGB:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        importGB:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        transitGB:
+          $ref: '#/components/schemas/ICDeliveryTransitEUDTO'
+        ensXI:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        ensGB:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportNL:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        importNL:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        transitNL:
+          $ref: '#/components/schemas/ICDeliveryTransitEUDTO'
+        exportBE:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        importBE:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        transitBE:
+          $ref: '#/components/schemas/ICDeliveryTransitEUDTO'
+        ensBE:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportAT:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportDK:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportFR:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        ensFR:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportPL:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportSE:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        exportDE:
+          $ref: '#/components/schemas/ICDeliveryExportDEDTO'
+        importDE:
+          $ref: '#/components/schemas/ICDeliveryImportDEDTO'
+        transitDE:
+          $ref: '#/components/schemas/ICDeliveryTransitEUDTO'
+        exportUS:
+          $ref: '#/components/schemas/ICDeliveryExportUSDTO'
+        gvmsGB:
+          $ref: '#/components/schemas/ICDeliveryGVMSGBDTO'
+        ensIE:
+          $ref: '#/components/schemas/ICDeliveryEUDTO'
+        summaryDeclarationDE:
+          $ref: '#/components/schemas/ICDeliverySummaryDeclarationDEDTO'
+        exportCH:
+          $ref: '#/components/schemas/ICDeliveryExportCHDTO'
+        importCH:
+          $ref: '#/components/schemas/ICDeliveryImportCHDTO'
+        gmrCH:
+          $ref: '#/components/schemas/ICDeliveryGMRCHDTO'
+        transitCH:
+          $ref: '#/components/schemas/ICDeliveryTransitEUDTO'
+        consumerShipmentXI:
+          $ref: '#/components/schemas/ICDeliveryConsumerShipmentXIDTO'
+        ensSTI:
+          $ref: '#/components/schemas/ICDeliverySTIDTO'
+      description: DTO to hold delivery extension data for customs processes. Extension data is only required in some cases. Not all customs processes are supported.
+    ICExtraFieldDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          type: string
+          description: Code of the extra field.
+        value:
+          maxLength: 1000
+          type: string
+          description: Value of the extra field.
+      description: Represents an extra field (or additional field). Extra fields must be configured in ICI and linked to the customs process.
+    ICDeliveryBrokerDTO:
+      type: object
+      properties:
+        extraFields:
+          type: array
+          description: Extra fields for the delivery.
+          items:
+            $ref: '#/components/schemas/ICExtraFieldDTO'
+      description: DTO to hold Broker extension data for a ICDeliveryDTO.
+    OutwardProcessingIdentificationMeansFieldDTO:
+      type: object
+      properties:
+        type:
+          maxLength: 1
+          type: string
+          description: Commodity code
+        description:
+          maxLength: 350
+          type: string
+          description: Description of identification means for type S
+      description: Represents an identification means field for outward processing
+    ICTransportEquipmentDTO:
+      type: object
+      properties:
+        equipmentType:
+          maxLength: 35
+          type: string
+          description: Specific equimpment type. <ul> <li>'CONTAINER' - Container number</li> <li>'TRAILER' - Trailer ID</li> </ul>
+        identification:
+          maxLength: 17
+          type: string
+          description: The equipment identification number, e.g. container number or trailer id.
+        seals:
+          type: array
+          description: List of seals which belong to the transport equipment.
+          items:
+            $ref: '#/components/schemas/ICSealDTO'
+      description: DTO to hold data of transport equipment.
+    ICDeferredPaymentDTO:
+      type: object
+      properties:
+        categoryCode:
+          maxLength: 1
+          type: string
+          description: Deferment category code.
+        typeCode:
+          maxLength: 1
+          type: string
+          description: Deferment type code.
+        deferralAccountNumber:
+          maxLength: 7
+          type: string
+          description: Number of the deferment account.
+      description: DTO to hold data for deferred payments.
+    ICDeliveryTransitEUDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of transport documents, supporting documents and additional references
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        guarantees:
+          type: array
+          description: List of guarantees
+          items:
+            $ref: '#/components/schemas/ICGuaranteeDTO'
+      description: Holds delivery data that is specific to the EU NCTS / transit processes.
+    ICDeliveryGMRCHDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents.
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        additionalOperations:
+          type: array
+          description: List of additional operations.
+          items:
+            $ref: '#/components/schemas/ICAdditionalOperationCHDTO'
+        otherRecipients:
+          type: array
+          description: List of other recipients identification numbers.
+          items:
+            type: string
+            description: List of other recipients identification numbers.
+        emptyJourney:
+          type: boolean
+          description: Indicates the goods movement is an empty journey.
+        additionalInformation:
+          type: string
+          description: Additional information for the goods movement.
+        direction:
+          type: string
+          description: Direction of movement. Valid values are ENTRY and EXIT.
+        voyageId:
+          maxLength: 79
+          type: string
+          description: Voyage ID for the goods movement.
+        loadingUnitContainerType:
+          maxLength: 35
+          type: string
+          description: Loading unit container type for the goods movement.
+        loadingUnitType:
+          maxLength: 35
+          type: string
+          description: Loading unit type for the goods movement.<ul><li>'CONTAINER' for container</li><li>'RAIL_CARRIAGE' for trains</li><li>'SEMI_TRAILER' for semi-trailer</li><li>'SWAP_BODY' for swap bodies</li><li>'TRUCK' for trucks</li><li>'UNIT_LOAD_DEVICE' for unit load devices</li><li>'VESSEL' for vessels</li></ul>
+        loadingUnitId:
+          maxLength: 35
+          type: string
+          description: Loading unit identification for the goods movement.
+      description: CH specific extension data for a goods movement record.
+    ICLicenseDataDTO:
+      type: object
+      properties:
+        licenses:
+          type: array
+          description: License data.
+          items:
+            $ref: '#/components/schemas/ICLicenseDTO'
+      description: DTO to hold a list of an licenses.
+    ICDeliverySummaryDeclarationDEDTO:
+      type: object
+      properties:
+        previousDocument:
+          $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        arrivalDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        presentationDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        containerQuantity:
+          type: integer
+          description: Amount of containers
+          format: int32
+      description: DTO to hold Summary Declaration DE specific extension data for a ICDeliveryDTO.
+    ICAttachmentDTO:
+      type: object
+      properties:
+        attachmentCode:
+          maxLength: 250
+          type: string
+          description: Code of the attachment.<br> When adding external attachments the attachmentCode must be filled a with filename.
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+        data:
+          type: string
+          description: Attachment data.
+          format: byte
+        statusCode:
+          maxLength: 20
+          type: string
+          description: Attachment status.<br> Only used when attachments are returned by ICI.
+        description:
+          maxLength: 250
+          type: string
+          description: Description of the document.<br> Only used when attachments are returned by ICI.
+        revisionCount:
+          maxLength: 10
+          type: integer
+          description: Count of the documents revision.<br> Only used when attachments are returned by ICI.
+          format: int32
+        mediaType:
+          maxLength: 255
+          type: string
+          description: Media Type of the attachment.
+      description: DTO to hold attachment data.
+    ICAdditionDeductionDTO:
+      type: object
+      properties:
+        adjustmentType:
+          maxLength: 35
+          type: string
+          description: 'Specific adjustment type: <ul><li>BROKER_COMMISSIONS - Broker commissions</li><li>AIR_FREIGHT_COSTS - Air freight costs</li><li>TRANSPORT - Transport costs</li><li>INSURANCE - Insurance costs</li><li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=ADJUSTMENT_TYPE</li></ul>'
+          example: BROKER_COMMISSIONS
+        value:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li><li>'EXPORT_SE' - Export process for Sweden</li><li>'EXPORT_NL' - Export process for Netherlands</li><li>'TRANSIT_NL' - Transit process for Netherlands</li><li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+      description: DTO to hold data for additions and deductions to a base value.
+    ICDeliveryItemExportDEDTO:
+      type: object
+      properties:
+        transactionNatureCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the nature of transaction.
+        producedDocuments:
+          type: array
+          description: List of produced documents. The number of items per documentType must not exceed 99.
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        preferentialData:
+          $ref: '#/components/schemas/ICPreferentialDataEUDTO'
+        originCountryRegionCode:
+          maxLength: 4
+          type: string
+          description: ISO code of country region where the goods of this item originate from.
+        templateName:
+          type: string
+          description: Item template name in AES
+        terminationCustomsWarehouse:
+          $ref: '#/components/schemas/ICCustomsWarehouseTerminationDEDTO'
+        additionalInfoForCustoms:
+          maxLength: 512
+          type: string
+          description: Additional information  for customs
+      description: DTO to hold Export DE specific extension data for a ICDeliveryItemDTO.
+    ICDeliveryItemDTO:
+      type: object
+      properties:
+        itemIdClientSystem:
+          maxLength: 255
+          type: string
+          description: ID of the item in ERP system.
+        itemNumber:
+          maxLength: 20
+          type: string
+          description: No. of item
+        material:
+          $ref: '#/components/schemas/ICMaterialDTO'
+        materialNumber:
+          type: string
+          description: 'DEPRECATED: Use ICDeliveryItemDTO.material instead. Typically for internal use and not needed for customs declaration.'
+          deprecated: true
+        invoiceIdClientSystem:
+          maxLength: 255
+          type: string
+          description: References to the invoice for further processing
+        grossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        netMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        netPrice:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        originCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of country where the goods of this item originate from.
+        preferentialOriginCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the preferential origin country.
+        dispatchCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country from which the goods are originally dispatched/exported without any commercial transaction taken place in intermediate countries.
+        destinationCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country at which the goods are destined
+        isEligiblePreference:
+          type: boolean
+          description: Indicates if the item is eligible for preference
+        statisticalValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        additionalAggregationKey:
+          maxLength: 100
+          type: string
+          description: Additional aggregation key considered during transmutation
+        additionalSplitCriteria:
+          maxLength: 100
+          type: string
+          description: Additional split criteria considered during transmutation
+        extension:
+          $ref: '#/components/schemas/ICDeliveryItemExtensionDataDTO'
+        freeTemplateCriteria:
+          type: array
+          description: List of ICFreeTemplateCriterion, including a string for the criterion and the corresponding customs process.
+          items:
+            $ref: '#/components/schemas/ICFreeTemplateCriterionDTO'
+        clientSpecificFields:
+          $ref: '#/components/schemas/ClientSpecificFieldsDTO'
+        classifications:
+          type: array
+          description: List of classifications (e.g. commodity codes)
+          items:
+            $ref: '#/components/schemas/ICClassificationDTO'
+        goodsDescription:
+          type: array
+          description: Description of goods in different languages (if available)
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        parties:
+          type: array
+          description: List of parties, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICPartyDTO'
+        costs:
+          type: array
+          description: A list of costs like freight cost, insurance or additonal cost for the delivery item
+          items:
+            $ref: '#/components/schemas/ICCostDTO'
+        adjustments:
+          type: array
+          description: A list of additions and deductions to a base value for the delivery item
+          items:
+            $ref: '#/components/schemas/ICAdditionDeductionDTO'
+        quantities:
+          type: array
+          description: A list of quantities, like item quantity, statisticalquantity...
+          items:
+            $ref: '#/components/schemas/ICQuantityDTO'
+        additionalReferences:
+          type: array
+          description: List of additional references which belong to the delivery.
+          items:
+            $ref: '#/components/schemas/ICAdditionalReferenceDTO'
+        customsProcedures:
+          type: array
+          description: List of customs procedure codes.
+          items:
+            $ref: '#/components/schemas/ICCustomsProcedureDTO'
+        locations:
+          type: array
+          description: List of locations, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICLocationDTO'
+        freeTemplateCriterion:
+          maxLength: 50
+          type: string
+          description: 'DEPRECATED: Use freeTemplateCriteria.value instead. Free textual criterion which can be referenced in template selectors.'
+        tradeTerms:
+          $ref: '#/components/schemas/ICTradeTermsDTO'
+        returns:
+          $ref: '#/components/schemas/ICReturnsHandlingDTO'
+        customsSpecialProcedures:
+          $ref: '#/components/schemas/ICCustomsSpecialProceduresDTO'
+        licenseData:
+          $ref: '#/components/schemas/ICLicenseDataDTO'
+      description: DTO to hold data of a delivery item.
+    ICPackageDTO:
+      type: object
+      properties:
+        packageIdClientSystem:
+          maxLength: 255
+          type: string
+          description: ID of the package in the ERP system.
+        quantity:
+          maxLength: 8
+          type: integer
+          description: Number of packages
+          format: int32
+        typeCode:
+          maxLength: 40
+          type: string
+          description: Client specific package type.
+        typeUneceCode:
+          maxLength: 3
+          type: string
+          description: Common valid UN/ECE package type.
+        grossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        netMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        marks:
+          maxLength: 70
+          type: string
+          description: Shipping marks - deprecated use marksAndNumbers instead
+        marksAndNumbers:
+          $ref: '#/components/schemas/TextInLanguageDTO'
+        seals:
+          type: array
+          description: List of seals which belong to the transport equipment.
+          items:
+            $ref: '#/components/schemas/ICSealDTO'
+        packedItems:
+          type: array
+          description: Information about the items which are packed into this package.
+          items:
+            $ref: '#/components/schemas/ICPackedItemDTO'
+      description: DTO to hold data of a package.
+    BSInteractionControlUsecaseDTO:
+      type: object
+      properties:
+        usecaseId:
+          type: string
+          description: Usecase id
+      description: Usecase for interaction control
+    BSMICCreateConsignmentRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        bsmConsignment:
+          $ref: '#/components/schemas/BSMICConsignmentDTO'
+      description: The DTO for the request.
+    ICDeliveryItemSTIDTO:
+      type: object
+      properties:
+        transactionNatureCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the nature of transaction.
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        preferentialData:
+          $ref: '#/components/schemas/ICPreferentialDataEUDTO'
+        originCountryRegionCode:
+          maxLength: 4
+          type: string
+          description: ISO code of country region where the goods of this item originate from.
+        postalValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+      description: DTO to hold STI specific extension data for a ICDeliveryItemDTO.
+    ICCustomsIdentifcationDTO:
+      type: object
+      properties:
+        identificationType:
+          maxLength: 35
+          type: string
+          description: 'Specific identification type: <ul> <li>EORI - EORI number</li> <li>VAT - VAT number</li> <li>BRANCH - BRANCH number</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_IDENTIFICATION_TYPE</li> </ul>'
+        identification:
+          maxLength: 20
+          type: string
+          description: Customs id number.
+      description: DTO to hold data for customs identification.
+    ICDeliveryItemImportCHDTO:
+      type: object
+      description: DTO to hold CH specific extension data for a ICDeliveryItemDTO.
+    ICWarehouseDTO:
+      type: object
+      properties:
+        identification:
+          maxLength: 35
+          type: string
+          description: Warehouse Identification.
+        typeCode:
+          maxLength: 1
+          type: string
+          description: Warehouse type.
+        country:
+          maxLength: 2
+          type: string
+          description: ' ISO code of the country at which warehouse is located.'
+      description: DTO to hold data of customs warehouse.
+    ICDeliveryItemExtensionDataDTO:
+      type: object
+      properties:
+        exportAT:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportBE:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        importBE:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        transitBE:
+          $ref: '#/components/schemas/ICDeliveryItemTransitEUDTO'
+        ensBE:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportDK:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportFR:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        ensFR:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        ensXI:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        ensGB:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportGB:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        importGB:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        transitGB:
+          $ref: '#/components/schemas/ICDeliveryItemTransitEUDTO'
+        exportNL:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        importNL:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        transitNL:
+          $ref: '#/components/schemas/ICDeliveryItemTransitEUDTO'
+        exportPL:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportSE:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportBroker:
+          $ref: '#/components/schemas/ICDeliveryItemBrokerDTO'
+        importBroker:
+          $ref: '#/components/schemas/ICDeliveryItemBrokerDTO'
+        exportDE:
+          $ref: '#/components/schemas/ICDeliveryItemExportDEDTO'
+        importDE:
+          $ref: '#/components/schemas/ICDeliveryItemImportDEDTO'
+        transitDE:
+          $ref: '#/components/schemas/ICDeliveryItemTransitEUDTO'
+        exportUS:
+          $ref: '#/components/schemas/ICDeliveryItemExportUSDTO'
+        ensIE:
+          $ref: '#/components/schemas/ICDeliveryItemEUDTO'
+        exportCH:
+          $ref: '#/components/schemas/ICDeliveryItemExportCHDTO'
+        importCH:
+          $ref: '#/components/schemas/ICDeliveryItemImportCHDTO'
+        transitCH:
+          $ref: '#/components/schemas/ICDeliveryItemTransitEUDTO'
+        intrastatImportDE:
+          $ref: '#/components/schemas/ICDeliveryItemIntrastatDEDTO'
+        intrastatDispatchDE:
+          $ref: '#/components/schemas/ICDeliveryItemIntrastatDEDTO'
+        consumerShipmentXI:
+          $ref: '#/components/schemas/ICDeliveryItemConsumerShipmentXIDTO'
+        ensSTI:
+          $ref: '#/components/schemas/ICDeliveryItemSTIDTO'
+      description: DTO to hold delivery item extension data for customs processes. Extension data is only required in very rare cases. Not all customs processes are supported.
+    ICFreeTemplateCriterionDTO:
+      type: object
+      properties:
+        value:
+          maxLength: 50
+          type: string
+          description: Free textual criterion which can be referenced in template selectors.
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+      description: DTO to hold data of a party.
+    DateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
+    ICDeliveryItemEUDTO:
+      type: object
+      properties:
+        transactionNatureCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the nature of transaction.
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        preferentialData:
+          $ref: '#/components/schemas/ICPreferentialDataEUDTO'
+        originCountryRegionCode:
+          maxLength: 4
+          type: string
+          description: ISO code of country region where the goods of this item originate from.
+      description: DTO to hold EU specific extension data for a ICDeliveryItemDTO.
+    ICCurrencyRateDTO:
+      type: object
+      properties:
+        rate:
+          type: number
+          description: Rate value. <p> length=18, 6 </p>
+        rateDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+      description: DTO to hold data of currency rate.
+    OutwardProcessingFieldDTO:
+      type: object
+      properties:
+        authNumber:
+          maxLength: 35
+          type: string
+          description: Outward processing authorisation number
+        dateOfReImport:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        countriesOfReImport:
+          type: array
+          description: List of iso codes for countries of re-import
+          items:
+            type: string
+            description: List of iso codes for countries of re-import
+        products:
+          type: array
+          description: List of processed products
+          items:
+            $ref: '#/components/schemas/OutwardProcessingCommodityCodeFieldDTO'
+        identities:
+          type: array
+          description: List of identification methods.
+          items:
+            $ref: '#/components/schemas/OutwardProcessingIdentificationMeansFieldDTO'
+      description: Represents an outward processing field
+    ICGnssDTO:
+      type: object
+      properties:
+        latitude:
+          maxLength: 17
+          type: string
+          description: Latitude of the location in decimal degrees, using negative values for south.
+        longitude:
+          maxLength: 17
+          type: string
+          description: Longitude of the location in decimal degrees, using negative values for west.
+      description: Global Navigation Satellite System data
+    BSMICDeliveryDTO:
+      required:
+      - deliveryIdClientSystem
+      - deliveryNumber
+      type: object
+      properties:
+        deliveryIdClientSystem:
+          maxLength: 255
+          type: string
+          description: Unique id of the delivery within the ERP system
+        organizationUnitClientSystem:
+          maxLength: 255
+          type: string
+          description: Additional criteria two separate different organisational units within one Engine's client.
+        freeTemplateCriterion:
+          maxLength: 50
+          type: string
+          description: 'DEPRECATED: Use freeTemplateCriteria.value instead. Free textual criterion which can be referenced in template selectors.'
+        deliveryNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the delivery.
+        remark:
+          maxLength: 1000
+          type: string
+          description: Optional textual remark
+        totalGrossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        totalNetMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        dispatchCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country from which the goods are originally dispatched/exported without any commercial transaction taken place in intermediate countries.
+        destinationCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country at which the goods are destined
+        decisiveDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        tradeTerms:
+          $ref: '#/components/schemas/ICTradeTermsDTO'
+        isContainerised:
+          type: boolean
+          description: Flags, if the delivery is shipped in a container.
+        warehouse:
+          $ref: '#/components/schemas/ICWarehouseDTO'
+        freeTemplateCriteria:
+          type: array
+          description: List of ICFreeTemplateCriterion, including a string for the criterion and the corresponding customs process.
+          items:
+            $ref: '#/components/schemas/ICFreeTemplateCriterionDTO'
+        clientSpecificFields:
+          $ref: '#/components/schemas/ClientSpecificFieldsDTO'
+        parties:
+          type: array
+          description: List of parties, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICPartyDTO'
+        locations:
+          type: array
+          description: List of locations, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICLocationDTO'
+        transportEquipments:
+          type: array
+          description: List of transport equipments (e.g. containers)
+          items:
+            $ref: '#/components/schemas/ICTransportEquipmentDTO'
+        customsOffices:
+          type: array
+          description: List of customs offices.
+          items:
+            $ref: '#/components/schemas/ICCustomsOfficeDTO'
+        transportMeans:
+          type: array
+          description: List of transport means.
+          items:
+            $ref: '#/components/schemas/ICTransportMeansDTO'
+        itinerary:
+          type: array
+          description: List of countries of the itinerary.
+          items:
+            $ref: '#/components/schemas/ICRoutingCountryDTO'
+        invoices:
+          type: array
+          description: List of invoices.
+          items:
+            $ref: '#/components/schemas/ICInvoiceDTO'
+        items:
+          type: array
+          description: List of items.
+          items:
+            $ref: '#/components/schemas/ICDeliveryItemDTO'
+        packages:
+          type: array
+          description: List of packages.
+          items:
+            $ref: '#/components/schemas/ICPackageDTO'
+        extension:
+          $ref: '#/components/schemas/ICDeliveryExtensionDataDTO'
+        goodsDescription:
+          type: array
+          description: Description of goods in different languages. Each description can have a length of 512.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        additionalReferences:
+          type: array
+          description: List of additional references which belong to the delivery.
+          items:
+            $ref: '#/components/schemas/ICAdditionalReferenceDTO'
+        bsmItems:
+          type: array
+          description: List of items. The items of superclass will be ignored.
+          items:
+            $ref: '#/components/schemas/BSMICDeliveryItemDTO'
+      description: DTO for a delivery.
+    ICDeliveryItemTransitEUDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of transport documents, supporting documents and additional references
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+      description: Holds item data that is specific to the EU NCTS / transit processes.
+    BSMICCreateConsignmentResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        consignment:
+          $ref: '#/components/schemas/ICConsignmentResultDTO'
+      description: The DTO for the createConsignment-API response.
+    ICQuantityDTO:
+      type: object
+      properties:
+        quantityType:
+          maxLength: 10
+          type: string
+          description: 'Specific quantity type: <ul> <li>ITEM - Item quantity</li> <li>CUSTOMS - Customs quantity</li> <li>EXCISE - Excise quantity</li> <li>STATISTICAL - Statistical quantity</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=QUANTITY_TYPE</li> </ul>'
+        quantity:
+          $ref: '#/components/schemas/QuantityDTO'
+      description: DTO to hold data for quantity.
+    ICCustomsSpecialProceduresDTO:
+      type: object
+      properties:
+        referencesRemoval:
+          type: array
+          description: List of references to booking requests. Only relevant for removal bookings (outbound).
+          items:
+            $ref: '#/components/schemas/ICCustomsSpecialProceduresReferencesDTO'
+        identitiesEntry:
+          type: array
+          description: 'List of identities (German: Nämlichkeiten) used for an inbound entry booking. Maximum length of an identity = 50.'
+          items:
+            type: string
+            description: 'List of identities (German: Nämlichkeiten) used for an inbound entry booking. Maximum length of an identity = 50.'
+      description: DTO to hold data for customs special procedures.
+    OutwardProcessingCommodityCodeFieldDTO:
+      type: object
+      properties:
+        commodityCode:
+          maxLength: 8
+          type: string
+          description: Commodity code
+        description:
+          maxLength: 512
+          type: string
+          description: Description of the product
+      description: Represents a commodity code field for outward processing
+    ICDeliveryEUDTO:
+      type: object
+      properties:
+        goodsLocation:
+          $ref: '#/components/schemas/ICLocationDTO'
+        expectedArrivalTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        expectedDepartureTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        deferredPayments:
+          type: array
+          description: Deferred payments.
+          items:
+            $ref: '#/components/schemas/ICDeferredPaymentDTO'
+        departureAirportCode:
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: Code (IATA key) for the airport of departure
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+      description: DTO to hold EU extension data for a ICDeliveryDTO.
+    NamedGenericDataRecordDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this record, i.e. the role the record plays in the enclosing record.<br> When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.
+        record:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+      description: A generic data record with a name.<br> Wrapper class to encapsulate subrecords with their name and with the ability to have explicit null records.
+      example:
+      - name: child
+        record:
+          fields: []
+          subrecords: []
+    AmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    ICReturnsHandlingDTO:
+      type: object
+      properties:
+        returnProcessItemId:
+          maxLength: 50
+          type: string
+          description: Unique ID of the delivery item as an identification of the item through the whole return process.
+        isReturn:
+          type: boolean
+          description: Indicates that the item is a return to an originally exported or imported good.
+        refundEntity:
+          maxLength: 50
+          type: string
+          description: ID of the refund entity, e.g. a (web) shop or retailer.
+      description: DTO to hold data related to a returns process.
+    ICCustomsWarehouseItemReferenceDEDTO:
+      type: object
+      properties:
+        entryInATLAS:
+          type: boolean
+          description: Indicates that the referenced account was registered in the ATLAS IT procedure.
+        customsRegistrationNumber:
+          maxLength: 22
+          type: string
+          description: Customs registration number (ATLAS registration number or MRN) of access to customs warehouse source process to which the item of the termination refers.
+        itemNumber:
+          maxLength: 5
+          type: integer
+          description: Number of the item of the entry to the customs warehouse source procedure, to which the item of the termination refers.
+          format: int32
+        usualTreatment:
+          type: boolean
+          description: Indicates that the goods were subjected to usual treatment.
+        additionalInformation:
+          maxLength: 100
+          type: string
+          description: Additional information from the owner of the customs warehouse process on an item of the termination (e.g., on a usual treatment that was applied).
+        commodityCode:
+          maxLength: 11
+          minLength: 11
+          type: string
+          description: Commodity code (11 digits) according to the german electronic customs tariff (EZT).
+        removalQuantity:
+          $ref: '#/components/schemas/QuantityDTO'
+        removalQuantityAfterTreatment:
+          $ref: '#/components/schemas/QuantityDTO'
+      description: DTO to hold specific item reference data for a customs warehouse termination.
+    ICDeliveryItemExportCHDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+      description: DTO to hold CH specific extension data for a ICDeliveryItemDTO.
+    ICAttachmentLinkDTO:
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          type: string
+          description: The displayed name of the link.
+        url:
+          maxLength: 1000
+          type: string
+          description: URL
+      description: DTO to hold link data.
+    ICCustomsWarehouseTerminationDEDTO:
+      type: object
+      properties:
+        authorisationNumber:
+          maxLength: 35
+          type: string
+          description: Authorization number of the customs warehouse. Slashes allowed, will be removed automatically.
+        items:
+          type: array
+          description: List of termination items
+          items:
+            $ref: '#/components/schemas/ICCustomsWarehouseItemReferenceDEDTO'
+      description: Customs warehouse termination
+    ICCustomsOfficeDTO:
+      type: object
+      properties:
+        officeType:
+          maxLength: 35
+          type: string
+          description: 'Specific office type: <ul> <li>ENTRY - Entry office</li> <li>EXIT - Exit office</li> <li>EXPORT - Export office</li> <li>TRANSIT - Transit office</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_OFFICE_TYPE</li> </ul>'
+        sequenceNumber:
+          maxLength: 2
+          type: integer
+          description: Sequence number of the customs office within the itinerary.
+          format: int32
+        officeCode:
+          maxLength: 30
+          type: string
+          description: Code of the customs office.
+      description: DTO to hold data for a customs office.
+    ICAdditionalReferenceDTO:
+      type: object
+      properties:
+        referenceType:
+          maxLength: 20
+          type: string
+          description: 'Specific type of the reference: <ul> <li>PORT_BOOKING_NUMBER - Booking reference of a port notification</li> <li>EXPORT_REG_NUMBER - Registration number of a export declaration</li> <li>IMPORT_REG_NUMBER - Registration number of a import declaration</li> <li>TRANSIT_REG_NUMBER - Registration number of a transit declaration</li> <li>EMCS_ARC_NUMBER - Administrative reference code .</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=REFERENCE_TYPE </li>  </ul>'
+        reference:
+          maxLength: 50
+          type: string
+          description: The reference number.
+        issueDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        itemNumber:
+          type: integer
+          description: Item number of the referenced declaration or business object.
+          format: int32
+        quantity:
+          $ref: '#/components/schemas/QuantityDTO'
+      description: DTO to hold data of a additional reference.
+    ICCostDTO:
+      type: object
+      properties:
+        costType:
+          maxLength: 35
+          type: string
+          description: 'Specific cost type: <ul> <li>TRANSPORT - Transport costs</li> <li>INSURANCE - Insurance costs</li>> <li>ADDITIONAL - Additional costs</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=COST_TYPE</li> </ul>'
+          example: TRANSPORT
+        costTypeQualifier:
+          maxLength: 35
+          type: string
+          description: 'Optional qualifier for cost type: <ul> <li>AIR_FREIGHT - Air freight costs</li> <li>INDIRECT_PAYMENT - Indirect payments</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=COST_TYPE_QUALIFIER</li> </ul>'
+          example: INDIRECT_PAYMENT
+        value:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+      description: DTO to hold data for costs.
+    ICTransportMeansDTO:
+      type: object
+      properties:
+        meansType:
+          maxLength: 35
+          type: string
+          description: 'Specific means type: <ul> <li>BORDER - Transport means at border</li> <li>ARRIVAL - Transport means at arrival</li> <li>DEPARTURE - Transport means at departure</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=TRANSPORT_MEANS_TYPE</li> </ul>'
+        transportModeCode:
+          maxLength: 2
+          type: string
+          description: Mode of transport.
+        transportMeansCode:
+          maxLength: 2
+          type: string
+          description: Type of transport means
+        identification:
+          maxLength: 27
+          type: string
+          description: 'Identifier to identify the means of transport. Sea: ITU Standard or Lloyd''s number; Air: IATA aircraft ID; Road: national license plate; Rail: locomotive number'
+        nationalityCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the nationality of the means of transport.
+        customsOffice:
+          $ref: '#/components/schemas/ICCustomsOfficeDTO'
+      description: DTO to hold data for transport means.
+    GenericDataRecordDTO:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: The fields of the record.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        subrecords:
+          type: array
+          description: Subrecords of the record.
+          example:
+          - name: child
+            record:
+              fields: []
+              subrecords: []
+          items:
+            $ref: '#/components/schemas/NamedGenericDataRecordDTO'
+      description: A generic record of data.<br>Each field is qualified by name and type and has a value.
+    ICAdditionalOperationCHDTO:
+      type: object
+      properties:
+        referenceNumber:
+          maxLength: 35
+          type: string
+          description: Reference number of the additional operation.
+        additionalOperationType:
+          maxLength: 2
+          type: string
+          description: Specific additional operation type.<ul><li>'10' for Carnet ATA</li><li>'20' for Carnet TIR</li><li>'30' for T2 corridor</li><li>'40' for AC corridor</li><li>'50' for Informal postponement</li><li>'60' for Shuttle service</li><li>'70' for Form-based procedures</li><li>'90' for Emergency procedures / others</li></ul>
+        goodsDescription:
+          maxLength: 512
+          type: string
+          description: Goods description of the additional operation.
+        grossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        customsTariffNumber:
+          maxLength: 9
+          type: string
+          description: Customs tariff number of the additonal operation.
+        numberOfPackages:
+          type: integer
+          description: Number of packages of the additional operation.
+          format: int32
+      description: DTO to hold data for EU produced documents.
+    ICDeliveryItemConsumerShipmentXIDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+      description: GB specific extension data for Consumer shipments XI.
+    BSInteractionControlItemDTO:
+      type: object
+      properties:
+        usecase:
+          $ref: '#/components/schemas/BSInteractionControlUsecaseDTO'
+        ids:
+          type: array
+          description: ids of the item
+          items:
+            $ref: '#/components/schemas/BSInteractionControlItemIDDTO'
+      description: Item for interaction control
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    ICPreferentialDataEUDTO:
+      type: object
+      properties:
+        preferenceType:
+          maxLength: 3
+          type: string
+          description: Preferential request code.
+      description: DTO to hold data for preferential request (EU).
+    ClientSpecificFieldsDTO:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: List of client specific fields (key/value pairs).<p>Fields need to be defined for the respective process/declaration, otherwise they will be ignored.</p>
+          items:
+            $ref: '#/components/schemas/ClientSpecificFieldDTO'
+      description: Represents the container for client specific fields.
+    ICConsignmentResultDTO:
+      type: object
+      properties:
+        businessObjectId:
+          maxLength: 20
+          type: string
+          description: The business object id of the consignment in the system.
+        installationIdClientSystem:
+          maxLength: 20
+          type: string
+          description: Id of the ERP system. Important so separate two different ERP systems within on Engine's client.
+        decisiveDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        consignmentNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the consignment.
+        deliveryNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the delivery.
+      description: The result DTO which contains the information to the consignment created on the system.
+    ICPersonDTO:
+      type: object
+      properties:
+        forename:
+          maxLength: 20
+          type: string
+          description: Forename of the person in charge
+        surname:
+          maxLength: 30
+          type: string
+          description: Surname of the person in charge
+        email:
+          maxLength: 255
+          type: string
+          description: Email address of the person in charge
+        phone:
+          maxLength: 20
+          type: string
+          description: Phone number of the person in charge
+        supplement:
+          maxLength: 10
+          type: string
+          description: Phone number of the person in charge
+        initials:
+          maxLength: 20
+          type: string
+          description: Initials/login of the person in charge
+        professionalTitle:
+          maxLength: 35
+          type: string
+          description: Professional title of the person in charge
+      description: DTO to hold data of a person.
+    ICDeliverySumDecWriteOffInfoDEDTO:
+      type: object
+      properties:
+        assignmentCriteria:
+          type: string
+          description: The assignment criteria for the summary declaration items.
+        numberOfPackages:
+          type: integer
+          description: Number of packages to be written off.
+          format: int32
+      description: DTO to hold the write off data for summary declaration assignment.
+    ICDeliveryConsumerShipmentXIDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        qualifiesForReturn:
+          type: boolean
+          description: Indicator of whether the delivery qualifies for returns
+        deliveryPlace:
+          $ref: '#/components/schemas/ICLocationDTO'
+      description: GB specific extension data for Consumer shipments items XI.
+    ICDeliveryExportCHDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        isFirstShipment:
+          type: boolean
+          description: Indicates that this is the first partial shipment.
+        firstShipmentReference:
+          maxLength: 18
+          type: string
+          description: Reference to the first partial shipment.
+      description: DTO to hold CH extension data for a ICDeliveryDTO.
+    ICDeliverySTIDTO:
+      type: object
+      properties:
+        goodsLocation:
+          $ref: '#/components/schemas/ICLocationDTO'
+        expectedArrivalTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        expectedDepartureTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        deferredPayments:
+          type: array
+          description: Deferred payments.
+          items:
+            $ref: '#/components/schemas/ICDeferredPaymentDTO'
+        departureAirportCode:
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: Code (IATA key) for the airport of departure
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        actualDepartureTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        postalCharges:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+      description: DTO to hold STI specific extension data for a ICDeliveryDTO.
+    ICPreviousDocumentDTO:
+      type: object
+      properties:
+        type:
+          maxLength: 6
+          type: string
+          description: Code specifying the type of a previous document.
+        category:
+          maxLength: 1
+          type: string
+          description: Code specifying the type of a previous document.
+        reference:
+          maxLength: 70
+          type: string
+          description: Free text field for a document reference.
+        complementaryInfo:
+          maxLength: 70
+          type: string
+          description: Additional free text field.
+        typeOfPackages:
+          maxLength: 2
+          type: string
+          description: Type of packages.
+        numberOfPackages:
+          maxLength: 8
+          type: integer
+          description: Number of packages.
+          format: int32
+        measurementUnitAndQualifier:
+          maxLength: 4
+          type: string
+          description: Measurement unit and qualifier.
+        quantity:
+          type: number
+          description: Measurement unit and qualifier. <p>length=22, scale=6</p>
+        goodsItemIdentifier:
+          maxLength: 5
+          type: integer
+          description: Goodsitem identifier.
+          format: int32
+      description: DTO to hold data for previous documents.
+    ICDeliveryItemImportDEDTO:
+      type: object
+      properties:
+        transactionNatureCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the nature of transaction.
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        preferentialData:
+          $ref: '#/components/schemas/ICPreferentialDataEUDTO'
+        originCountryRegionCode:
+          maxLength: 4
+          type: string
+          description: ISO code of country region where the goods of this item originate from.
+        articlePrice:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        invoicePrice:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        tobaccoRevenueStampNumber:
+          type: string
+          description: Tobacco revenue stamp number
+        departureAirport:
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: Code (IATA key) for the airport of departure
+        proportionateAirFreightInEU:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        proportionateAirFreightOutEU:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        additionalInfoForCustoms:
+          maxLength: 512
+          type: string
+          description: 'Additional information  for customs - In case of normal declarations items this will be cut at 100 characters '
+      description: DTO to hold Import DE specific extension data for a ICDeliveryItemDTO.
+    GenericDataFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
+        value:
+          type: string
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
+    ICInvoiceDTO:
+      type: object
+      properties:
+        invoiceIdClientSystem:
+          maxLength: 255
+          type: string
+          description: Unique id of the invoice within the ERP system
+        invoiceNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the invoice.
+        invoiceDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        invoicePrice:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        invoicePriceRate:
+          $ref: '#/components/schemas/ICCurrencyRateDTO'
+      description: DTO to hold data of an invoice.
+    ICPackedItemDTO:
+      type: object
+      properties:
+        itemIdClientSystem:
+          maxLength: 255
+          type: string
+          description: ID of the item in ERP system.
+        packedQuantity:
+          type: number
+          description: Quantity of the referenced item packed in the current package. The quantity unit is implied by the item's quantity unit. <p> length=11,3 </p>
+      description: DTO to hold data of a packed item.
+    ICLicenseDTO:
+      type: object
+      properties:
+        customsProcessCountryCode:
+          maxLength: 2
+          type: string
+          description: The country of the customs process for which the applies, e.g. "US", "GB" or "DE". The special value "EU" is used for licenses which may be used for declarations in all EU countries.
+        licenseTypeCode:
+          maxLength: 81
+          type: string
+          description: ' A code for the customs system for the license type. E.g., for EU and GB, this is the concatenation of code/qualifier of a produced document for the license type.'
+        licenseNumber:
+          maxLength: 100
+          type: string
+          description: The license number or the ID of a license exception (US) or a common license (EU).
+        licenseItemNumber:
+          maxLength: 100
+          type: string
+          description: The license item number.
+        licenseValidFromDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        licenseExpirationDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        holder:
+          $ref: '#/components/schemas/ICPartyDTO'
+        decrementValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        decrementQuantity:
+          $ref: '#/components/schemas/QuantityDTO'
+        extension:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+      description: DTO to hold data of an license for a transaction.
+    ICTradeTermsDTO:
+      type: object
+      properties:
+        incotermCode:
+          maxLength: 3
+          type: string
+          description: Code specifying the delivery or transport terms. See EDIFACT codes.
+        country:
+          type: string
+          description: ISO code of the country of the point or port of departure, shipment or destination, as required under the applicable terms of delivery, e.g. Incoterm.
+        place:
+          maxLength: 256
+          type: string
+          description: Name of the point or port of departure, shipment or destination, as required under the applicable terms of delivery, e.g. Incoterm.
+        placeCode:
+          maxLength: 256
+          type: string
+          description: UN/LOCODE of the point or port of departure, shipment or destination, as required under the applicable terms of delivery, e.g. Incoterm.
+        info:
+          maxLength: 100
+          type: string
+          description: Additional information e.g. for type 'XXX'.
+      description: DTO to hold data of trade terms.
+    BSMICConsignmentDTO:
+      required:
+      - consignmentIdClientSystem
+      - consignmentNumber
+      type: object
+      properties:
+        consignmentIdClientSystem:
+          maxLength: 255
+          type: string
+          description: Unique id of the consignment within the ERP system
+        organizationUnitClientSystem:
+          maxLength: 255
+          type: string
+          description: Additional criteria two separate different organisational units within one Engine's client.
+        consignmentNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the consignment.
+        internalReference:
+          maxLength: 255
+          type: string
+          description: Internal reference of the consignment.
+        remark:
+          maxLength: 1000
+          type: string
+          description: Optional textual remark
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Ident code of the consignment profile which is configured in the Engine. The consignment profile manages mainly the transmutation.
+        personInCharge:
+          $ref: '#/components/schemas/ICPersonDTO'
+        deliveries:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDeliveryDTO'
+        costs:
+          type: array
+          description: A list of costs like freight cost, insurance or additonal cost for the consignment
+          items:
+            $ref: '#/components/schemas/ICCostDTO'
+        adjustments:
+          type: array
+          description: A list of additions and deductions to a base value for the consignment
+          items:
+            $ref: '#/components/schemas/ICAdditionDeductionDTO'
+        attachments:
+          type: array
+          description: List of attached documents.
+          items:
+            $ref: '#/components/schemas/ICAttachmentDTO'
+        attachmentLinks:
+          type: array
+          description: List of corresponding links.
+          items:
+            $ref: '#/components/schemas/ICAttachmentLinkDTO'
+        bsmDeliveries:
+          type: array
+          description: List of deliveries. The deliveries of superclass will be ignored.
+          items:
+            $ref: '#/components/schemas/BSMICDeliveryDTO'
+        interactionControls:
+          type: array
+          description: List of interaction controls.
+          items:
+            $ref: '#/components/schemas/BSInteractionControlDTO'
+      description: DTO for a consignment.
+      xml:
+        name: consignment
+    BSInteractionControlIDDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        clientSystemId:
+          type: string
+          description: Length 255 - Business object id client system label
+      description: DTO for interaction control id
+    ICProducedDocumentBrokerDTO:
+      type: object
+      properties:
+        typeCode:
+          maxLength: 9
+          type: string
+          description: Code specifying the name of a document. Qualifier has to be separated with a "/".
+        reference:
+          maxLength: 35
+          type: string
+          description: Free text field for a document reference.
+        informationDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        expiryDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        quantity:
+          $ref: '#/components/schemas/QuantityDTO'
+        amount:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        complementaryInfo:
+          maxLength: 35
+          type: string
+          description: Additional free text field.
+        statusCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the status of a document.
+        detail:
+          maxLength: 12
+          type: string
+          description: Provides detailed information on the document.
+        issuingAuthorityName:
+          maxLength: 70
+          type: string
+          description: Issuing authority name.
+        documentLineItemNumber:
+          maxLength: 5
+          type: integer
+          description: Document line item number.
+          format: int32
+      description: DTO to hold data for produced documents.
+    ICDeliveryItemIntrastatDEDTO:
+      type: object
+      properties:
+        transactionNatureCode:
+          maxLength: 2
+          type: string
+          description: Nature of transaction
+        invoicePrice:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        destinationCountryRegionCode:
+          maxLength: 2
+          type: string
+          description: Destination region
+        goodsMovementDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        originCountryRegionCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the origin region.
+      description: DTO to hold Intrastat DE specific extension data for a ICDeliveryItemDTO.
+    ICDeliveryImportDEDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        sumDecWriteOffInfo:
+          type: array
+          description: List of write off data for summary declaration assignment
+          items:
+            $ref: '#/components/schemas/ICDeliverySumDecWriteOffInfoDEDTO'
+        destinationCountryRegionCode:
+          maxLength: 2
+          type: string
+          description: Country region code of destination (ATLAS code list A1270)
+        departureAirport:
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: Code (IATA key) for the airport of departure
+        proportionateAirFreightInEU:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        proportionateAirFreightOutEU:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        discount:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        discountPercent:
+          type: number
+          description: Discount in percent (cost distribution)
+        cashDiscount:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        cashDiscountPercent:
+          type: number
+          description: Cash discount in percent (cost distribution)
+        promilleInsurance:
+          type: number
+          description: Permill rate of the insurance premium for the transport insurance in relation to the invoice value (cost distribution)
+        additionalInfoForCustoms:
+          maxLength: 2000
+          type: string
+          description: Additional information for customs- In case of IMPOST this will be cut at 512 characters
+      description: DTO to hold Import DE specific extension data for a ICDeliveryDTO.
+    BSInteractionControlDTO:
+      type: object
+      properties:
+        usecase:
+          $ref: '#/components/schemas/BSInteractionControlUsecaseDTO'
+        ids:
+          type: array
+          description: Interaction control ids
+          items:
+            $ref: '#/components/schemas/BSInteractionControlIDDTO'
+      description: DTO for interaction control
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    ICProducedDocumentEUDTO:
+      type: object
+      properties:
+        documentType:
+          maxLength: 25
+          type: string
+          description: Specific document type.<ul><li>'SUPPORTING' for produced documents (called supporting documents in current UCC)</li><li>'TRANSPORT' for transport documents</li><li>'ADDITIONAL_REFERENCE' for additional reference documents</li></ul>see also /InternationalCustomsBFBean/getCodes with codeListCode=PRODUCED_DOCUMENT_TYPE<p>this field might be omitted<ul><li>for customs systems that do not differentiate the three types. I.e. that have not yet implemented the current UCC. Transitions into customs processes that do not differentiate will ignore the type if filled.</li><li>if the document type is not known to the host system. In this case the transition into a customs process that differentiates the types will try to determine the document type based on the master data in the system.</li></ul>
+          example: SUPPORTING
+        typeCode:
+          maxLength: 9
+          type: string
+          description: Code specifying the name of a document. Qualifier has to be separated with a "/".
+        reference:
+          maxLength: 70
+          type: string
+          description: Free text field for a document reference.
+        informationDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        expiryDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        quantity:
+          $ref: '#/components/schemas/QuantityDTO'
+        amount:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        complementaryInfo:
+          maxLength: 35
+          type: string
+          description: Additional free text field.
+        statusCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the status of a document.
+        documentPart:
+          maxLength: 5
+          type: string
+          description: Identifies a part of a document (e.g. a licence line).
+        detail:
+          maxLength: 12
+          type: string
+          description: Provides detailed information on the document.
+        atHand:
+          type: boolean
+          description: 'Provides detailed information on the document. '
+        procedureSpecificDocumentCode:
+          maxLength: 12
+          type: string
+          description: Different coding for the document required for reporting to customs.
+        issuingAuthorityName:
+          maxLength: 70
+          type: string
+          description: Issuing authority name.
+        documentLineItemNumber:
+          maxLength: 5
+          type: integer
+          description: Document line item number.
+          format: int32
+      description: DTO to hold data for EU produced documents.
+    ICDeliveryItemExportUSDTO:
+      type: object
+      properties:
+        licenseQualifier:
+          maxLength: 1
+          type: string
+          description: Code specifying the license qualificator.
+        licenseType:
+          maxLength: 3
+          type: string
+          description: Code specifying the license type.
+        licenseNumber:
+          maxLength: 35
+          type: string
+          description: String representing the license number.
+        licenseSymbol:
+          maxLength: 2
+          type: string
+          description: Code specifying the license symbol.
+        ddtcRegistration:
+          maxLength: 35
+          type: string
+          description: String representing the DDTC registration number.
+        commCodeQualifier:
+          maxLength: 2
+          type: string
+          description: Code specifying the commodity code qualificator.
+      description: DTO to hold US specific extension data for a ICDeliveryItemDTO.
+    ICPartyDTO:
+      type: object
+      properties:
+        partyType:
+          maxLength: 40
+          type: string
+          description: Specific party type. <ul> <li>'DECLARANT' for Declarant of the declaration</li> <li>'EXPORTER' for Export of goods</li> <li>'AGENT' for Agent or representative</li> <li>'... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=PARTY_TYPE </li> </ul>
+          example: DECLARANT
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+        companyNumber:
+          maxLength: 20
+          type: string
+          description: Internal ID which identifies a stored address. This could be an adress in the ICI master data entry or could be used in a partner system. Check special documentation about the use of this field in concrete contexts.
+        name:
+          maxLength: 120
+          type: string
+          description: Company name
+        name2:
+          maxLength: 120
+          type: string
+          description: Additional company name
+        street:
+          maxLength: 70
+          type: string
+          description: Street with number.
+        street2:
+          maxLength: 70
+          type: string
+          description: Additional street.
+        city:
+          maxLength: 35
+          type: string
+          description: City
+        postCode:
+          maxLength: 17
+          type: string
+          description: Postal code
+        district:
+          maxLength: 35
+          type: string
+          description: District within the city.
+        country:
+          maxLength: 2
+          type: string
+          description: Country Iso code
+        countryRegionCode:
+          maxLength: 5
+          type: string
+          description: Code of the region/state within the country.
+        contact:
+          $ref: '#/components/schemas/ICPersonDTO'
+        initFromCompanyMasterFileData:
+          type: boolean
+          description: If true company data is taken from the company master data and overwrites the given DTO fields. A company is identified by the companyNumber. If not filled the field name is taken. For reasons of uniqueness it isrecommended to fill the field companyNumber.
+        customsIds:
+          type: array
+          description: List of customs ids.
+          items:
+            $ref: '#/components/schemas/ICCustomsIdentifcationDTO'
+      description: DTO to hold data of a party.
+    ICLocationDTO:
+      type: object
+      properties:
+        locationType:
+          maxLength: 35
+          type: string
+          description: 'Specific location type: <ul> <li>LOADING_PLACE - Place of loading</li> <li>UNLOADING_PLACE - Place of unloading</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=LOCATION_TYPE</li> </ul>'
+        code:
+          maxLength: 35
+          type: string
+          description: Location code
+        name:
+          maxLength: 35
+          type: string
+          description: Location name
+        street:
+          type: string
+          description: Street.  <p> length=70 </p> <p> For NL used as optional Address, length=22 </p>
+        streetNumber:
+          maxLength: 10
+          type: string
+          description: Street number
+        city:
+          maxLength: 35
+          type: string
+          description: City
+        postCode:
+          maxLength: 7
+          type: string
+          description: Postal code
+        country:
+          maxLength: 2
+          type: string
+          description: Country Iso code
+        complement:
+          maxLength: 4
+          type: string
+          description: Complementing data
+        unLocode:
+          maxLength: 17
+          type: string
+          description: UN/LOCODE
+        type:
+          maxLength: 1
+          type: string
+          description: Type of location, coded
+        gnss:
+          $ref: '#/components/schemas/ICGnssDTO'
+        qualifierOfIdentification:
+          maxLength: 1
+          type: string
+          description: Qualifier of identification
+        authorisationNumber:
+          maxLength: 35
+          type: string
+          description: Authorisation number
+        contactPerson:
+          $ref: '#/components/schemas/ICPersonDTO'
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+      description: DTO to hold data of a location.
+    ICDeliveryItemBrokerDTO:
+      type: object
+      properties:
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentBrokerDTO'
+        extraFields:
+          type: array
+          description: Extra fields for the delivery item.
+          items:
+            $ref: '#/components/schemas/ICExtraFieldDTO'
+      description: DTO to hold Broker specific extension data for a ICDeliveryItemDTO}.
+    ICDeliveryGVMSGBDTO:
+      type: object
+      properties:
+        isUnaccompanied:
+          type: boolean
+          description: 'Indicates that the vehicle will not be accompanying the trailer(s) during the crossing. '
+        plannedCrossingRouteId:
+          maxLength: 200
+          type: string
+          description: ID of the crossing route.
+        plannedCrossingDepartureDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+      description: GB specific extension data for a goods movement record.
+    ICGuaranteeDTO:
+      type: object
+      properties:
+        guaranteeType:
+          maxLength: 1
+          type: string
+          description: Guarantee type
+        otherGuaranteeReference:
+          maxLength: 35
+          type: string
+          description: Reference for other type of guarantee
+        guaranteeReferenceNumber:
+          maxLength: 24
+          type: string
+          description: Guarantee reference number
+        accessCode:
+          maxLength: 4
+          type: string
+          description: Access code
+        amountToBeCovered:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+      description: DTO to hold data of a guarantee.
+    ICDeliveryImportCHDTO:
+      type: object
+      description: DTO to hold CH import extension data for a ICDeliveryDTO.
+    ICClassificationDTO:
+      type: object
+      properties:
+        classificationType:
+          maxLength: 35
+          type: string
+          description: 'Specific classification type: <ul> <li>COCOEXPORT - Commodity code export</li> <li>COCOIMPORT - Commodity code import</li> <li>UNDG - UNDG number</li> <li>ADDCODE1 - Additional code 1 of the commodity code</li> <li>ADDCODE2 - Additional code 2 of the commodity code</li> <li>''... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=COMMODITY_CLASSIFICATION_TYPE</li> </ul>'
+        classificationValue:
+          maxLength: 35
+          type: string
+          description: E.g. the commodity code, depends on the type above.
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+      description: DTO to hold data for classification.
+    QuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: A quantity with a value and a quantity unit. Quantity units are encoded by using AEB unit codes mainly based on the International System of Unit (e.g. 'Gram' is encoded by the code 'gr') or - if supported - UNECE unit codes (e.g. 'Gram' is encoded by the code 'GRM').<br>Recoding of the quantity unit code from capital letters to small letters (e.g. from 'LB' to 'lb') may be supported, depending on the AEB product.<br>The quantity unit type is specified by the usage context, i.e. if this quantity is a weight, a volume or similar.
+    ICDeliveryDTO:
+      required:
+      - deliveryIdClientSystem
+      - deliveryNumber
+      type: object
+      properties:
+        deliveryIdClientSystem:
+          maxLength: 255
+          type: string
+          description: Unique id of the delivery within the ERP system
+        organizationUnitClientSystem:
+          maxLength: 255
+          type: string
+          description: Additional criteria two separate different organisational units within one Engine's client.
+        freeTemplateCriterion:
+          maxLength: 50
+          type: string
+          description: 'DEPRECATED: Use freeTemplateCriteria.value instead. Free textual criterion which can be referenced in template selectors.'
+        deliveryNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the delivery.
+        remark:
+          maxLength: 1000
+          type: string
+          description: Optional textual remark
+        totalGrossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        totalNetMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        dispatchCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country from which the goods are originally dispatched/exported without any commercial transaction taken place in intermediate countries.
+        destinationCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country at which the goods are destined
+        decisiveDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        tradeTerms:
+          $ref: '#/components/schemas/ICTradeTermsDTO'
+        isContainerised:
+          type: boolean
+          description: Flags, if the delivery is shipped in a container.
+        warehouse:
+          $ref: '#/components/schemas/ICWarehouseDTO'
+        freeTemplateCriteria:
+          type: array
+          description: List of ICFreeTemplateCriterion, including a string for the criterion and the corresponding customs process.
+          items:
+            $ref: '#/components/schemas/ICFreeTemplateCriterionDTO'
+        clientSpecificFields:
+          $ref: '#/components/schemas/ClientSpecificFieldsDTO'
+        parties:
+          type: array
+          description: List of parties, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICPartyDTO'
+        locations:
+          type: array
+          description: List of locations, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICLocationDTO'
+        transportEquipments:
+          type: array
+          description: List of transport equipments (e.g. containers)
+          items:
+            $ref: '#/components/schemas/ICTransportEquipmentDTO'
+        customsOffices:
+          type: array
+          description: List of customs offices.
+          items:
+            $ref: '#/components/schemas/ICCustomsOfficeDTO'
+        transportMeans:
+          type: array
+          description: List of transport means.
+          items:
+            $ref: '#/components/schemas/ICTransportMeansDTO'
+        itinerary:
+          type: array
+          description: List of countries of the itinerary.
+          items:
+            $ref: '#/components/schemas/ICRoutingCountryDTO'
+        invoices:
+          type: array
+          description: List of invoices.
+          items:
+            $ref: '#/components/schemas/ICInvoiceDTO'
+        items:
+          type: array
+          description: List of items.
+          items:
+            $ref: '#/components/schemas/ICDeliveryItemDTO'
+        packages:
+          type: array
+          description: List of packages.
+          items:
+            $ref: '#/components/schemas/ICPackageDTO'
+        extension:
+          $ref: '#/components/schemas/ICDeliveryExtensionDataDTO'
+        goodsDescription:
+          type: array
+          description: Description of goods in different languages. Each description can have a length of 512.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        additionalReferences:
+          type: array
+          description: List of additional references which belong to the delivery.
+          items:
+            $ref: '#/components/schemas/ICAdditionalReferenceDTO'
+      description: DTO to hold data of a delivery.
+    ICMaterialDTO:
+      required:
+      - materialId
+      type: object
+      properties:
+        materialId:
+          maxLength: 50
+          type: string
+          description: A persistent ID for identifying a material / good in the AEB Customs systems. If a link to the AEB Customs Inventory Management exists, the material ID also serves as a unique identifier for the goods to be booked into or out of the inventory.
+          example: M-1000
+      description: DTO to hold data of a material.
+    ICCustomsProcedureDTO:
+      type: object
+      properties:
+        customsProcedureType:
+          maxLength: 35
+          type: string
+          description: "Specific types are: <ul> <li>EXPORTPROC - Customs procedure code export</li> <li>EXPORTPROCNAT - Customs national procedure code export</li> <li>EXPORTCPCGRP - Customs procedure code category/group export</li> <li>IMPORTPROC - Customs procedure code import</li> <li>IMPORTPROCNAT - Customs national procedure code import</li> <li>IMPORTCPCGRP - Customs procedure code category/group import</li>\t *  <li>'... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCEDURE_TYPE</li> </ul>"
+        customsProcedureCode:
+          maxLength: 20
+          type: string
+          description: The code depending on the type above.
+      description: DTO to hold data for customs procedure codes
+    ClientSpecificFieldDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Ident code of the custom field.
+        value:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: <p>Value of the client specific field.</p><p>Supported data types:</p><ul><li>String</li><li>Boolean such as 'true' or 'false'</li><li>Decimal such as '10' or with additional precision '10.245'. The actual length and scale of the value depends on the field configuration, maximum length is 15 and maximum scale is 9. The scale will be set to the configured scale with half up rounding if the scale of the value exceeds the configured scale.</li><li>Date such as '2024-06-24'</li><li>DateTime in UTC such as '2024-06-24T10:15:30Z' or with additional precision up to nanoseconds such as '2024-06-24T10:15:30.999666333Z'</li><li>Time such as '10:15:30' or with additional precision up to nanoseconds such as '10:15:30.999666333'</li></ul><p>If the value cannot be parsed according to the configured data type, the value will be ignored and an error will be logged.</p>
+        customsProcess:
+          maxLength: 20
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>... for full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE</li></ul></p>
+          example: EXPORT_BE
+      description: Represents a client specific declaration field. Client specific fields must be configured for the resulting declaration and are never intended to be used as actual fields which are send to customs. However this can be for example an additional criteria which is necessary for the customs process. The field can be used as a template criterion, used in filters and data extractions.
+    ICSealDTO:
+      type: object
+      properties:
+        identification:
+          maxLength: 35
+          type: string
+          description: The seals number.
+      description: DTO to hold data for a seal.
+    BSInteractionControlItemIDDTO:
+      type: object
+      properties:
+        boIdClientSystem:
+          type: string
+          description: Length 255 - Business object id client system
+        clientSystemId:
+          type: string
+          description: Length 255 - Business object id client system label
+        boItemIdClientSystem:
+          type: string
+          description: Length 100 - The item id of the interaction control.
+      description: The DTO for the item id of an interaction control.
+    ICCustomsSpecialProceduresReferencesDTO:
+      required:
+      - bookingRequestId
+      type: object
+      properties:
+        bookingRequestId:
+          maxLength: 64
+          type: string
+          description: Unique id of the booking request.
+          example: BR-1000-ID
+      description: DTO to hold references to a booking request.
+    ICRoutingCountryDTO:
+      type: object
+      properties:
+        sequenceNumber:
+          maxLength: 2
+          type: integer
+          description: Sequence number of the country within the itinerary.
+          format: int32
+        countryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country
+      description: DTO to hold data for a routing country.
+    ICDeliveryExportDEDTO:
+      type: object
+      properties:
+        goodsLocation:
+          $ref: '#/components/schemas/ICLocationDTO'
+        expectedArrivalTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        expectedDepartureTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        deferredPayments:
+          type: array
+          description: Deferred payments.
+          items:
+            $ref: '#/components/schemas/ICDeferredPaymentDTO'
+        departureAirportCode:
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: Code (IATA key) for the airport of departure
+        producedDocuments:
+          type: array
+          description: List of produced documents
+          items:
+            $ref: '#/components/schemas/ICProducedDocumentEUDTO'
+        previousDocuments:
+          type: array
+          description: List of previous documents
+          items:
+            $ref: '#/components/schemas/ICPreviousDocumentDTO'
+        templateName:
+          type: string
+          description: Head template name in AES
+        presentationOfGoodsStartDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        presentationOfGoodsEndDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        outwardProcessing:
+          $ref: '#/components/schemas/OutwardProcessingFieldDTO'
+        additionalInfoForCustoms:
+          maxLength: 512
+          type: string
+          description: Additional information for customs that will be used for type X0000.
+      description: DTO to hold Export DE specific extension data for a ICDeliveryDTO.
+    ICDeliveryExportUSDTO:
+      type: object
+      properties:
+        carrierCode:
+          maxLength: 4
+          type: string
+          description: Code specifying the carrier.
+        consigneeRelatedIndicator:
+          maxLength: 3
+          type: string
+          description: Code specifying the consignee related indicator.
+        consigneeType:
+          maxLength: 2
+          type: string
+          description: Code specifying the consignee type.
+        expectedDepartureTime:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        exportationPort:
+          maxLength: 4
+          type: string
+          description: Code specifying the exportation port.
+        unladingPort:
+          maxLength: 5
+          type: string
+          description: Code specifying the unlading port.
+        originRegion:
+          maxLength: 2
+          type: string
+          description: Code specifying the origin region.
+        soldEnRouteIndicator:
+          maxLength: 2
+          type: string
+          description: Code specifying the sold en route indicator.
+        transportationReferenceNumber:
+          maxLength: 30
+          type: string
+          description: Code specifying the transportation reference.
+        inbondCode:
+          maxLength: 2
+          type: string
+          description: Code specifying the in-bond status.
+      description: DTO to hold Export US specific extension data for a ICDeliveryDTO.
+    BSMICDeliveryItemDTO:
+      type: object
+      properties:
+        itemIdClientSystem:
+          maxLength: 255
+          type: string
+          description: ID of the item in ERP system.
+        itemNumber:
+          maxLength: 20
+          type: string
+          description: No. of item
+        material:
+          $ref: '#/components/schemas/ICMaterialDTO'
+        materialNumber:
+          type: string
+          description: 'DEPRECATED: Use ICDeliveryItemDTO.material instead. Typically for internal use and not needed for customs declaration.'
+          deprecated: true
+        invoiceIdClientSystem:
+          maxLength: 255
+          type: string
+          description: References to the invoice for further processing
+        grossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        netMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        netPrice:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        originCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of country where the goods of this item originate from.
+        preferentialOriginCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the preferential origin country.
+        dispatchCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country from which the goods are originally dispatched/exported without any commercial transaction taken place in intermediate countries.
+        destinationCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the country at which the goods are destined
+        isEligiblePreference:
+          type: boolean
+          description: Indicates if the item is eligible for preference
+        statisticalValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        additionalAggregationKey:
+          maxLength: 100
+          type: string
+          description: Additional aggregation key considered during transmutation
+        additionalSplitCriteria:
+          maxLength: 100
+          type: string
+          description: Additional split criteria considered during transmutation
+        extension:
+          $ref: '#/components/schemas/ICDeliveryItemExtensionDataDTO'
+        freeTemplateCriteria:
+          type: array
+          description: List of ICFreeTemplateCriterion, including a string for the criterion and the corresponding customs process.
+          items:
+            $ref: '#/components/schemas/ICFreeTemplateCriterionDTO'
+        clientSpecificFields:
+          $ref: '#/components/schemas/ClientSpecificFieldsDTO'
+        classifications:
+          type: array
+          description: List of classifications (e.g. commodity codes)
+          items:
+            $ref: '#/components/schemas/ICClassificationDTO'
+        goodsDescription:
+          type: array
+          description: Description of goods in different languages (if available)
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        parties:
+          type: array
+          description: List of parties, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICPartyDTO'
+        costs:
+          type: array
+          description: A list of costs like freight cost, insurance or additonal cost for the delivery item
+          items:
+            $ref: '#/components/schemas/ICCostDTO'
+        adjustments:
+          type: array
+          description: A list of additions and deductions to a base value for the delivery item
+          items:
+            $ref: '#/components/schemas/ICAdditionDeductionDTO'
+        quantities:
+          type: array
+          description: A list of quantities, like item quantity, statisticalquantity...
+          items:
+            $ref: '#/components/schemas/ICQuantityDTO'
+        additionalReferences:
+          type: array
+          description: List of additional references which belong to the delivery.
+          items:
+            $ref: '#/components/schemas/ICAdditionalReferenceDTO'
+        customsProcedures:
+          type: array
+          description: List of customs procedure codes.
+          items:
+            $ref: '#/components/schemas/ICCustomsProcedureDTO'
+        locations:
+          type: array
+          description: List of locations, including their role within the consignment.
+          items:
+            $ref: '#/components/schemas/ICLocationDTO'
+        freeTemplateCriterion:
+          maxLength: 50
+          type: string
+          description: 'DEPRECATED: Use freeTemplateCriteria.value instead. Free textual criterion which can be referenced in template selectors.'
+        tradeTerms:
+          $ref: '#/components/schemas/ICTradeTermsDTO'
+        returns:
+          $ref: '#/components/schemas/ICReturnsHandlingDTO'
+        customsSpecialProcedures:
+          $ref: '#/components/schemas/ICCustomsSpecialProceduresDTO'
+        licenseData:
+          $ref: '#/components/schemas/ICLicenseDataDTO'
+        interactionControls:
+          type: array
+          description: List of interaction controls.
+          items:
+            $ref: '#/components/schemas/BSInteractionControlItemDTO'
+      description: DTO for a delivery item.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

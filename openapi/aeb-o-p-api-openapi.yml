@@ -1,0 +1,1470 @@
+openapi: 3.2.0
+info:
+  title: BSM (TEST2) HTTP O&P API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: O&P
+  description: The API with all about Origin and Preferences
+paths:
+  /OriginAndPreferencesBFBean/acknowledgeGetChangedMaterialMasterData:
+    post:
+      tags:
+      - O&P
+      summary: acknowledgeGetChangedMaterialMasterData
+      description: Acknowledge the handled material master data (Limits) via syncId
+      operationId: acknowledgeGetChangedMaterialMasterData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeGetChangedMaterialMasterDataRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeGetChangedMaterialMasterDataRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeGetChangedMaterialMasterDataResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeGetChangedMaterialMasterDataResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/getChangedMaterialMasterData:
+    post:
+      tags:
+      - O&P
+      summary: getChangedMaterialMasterData
+      description: Get changed material master data (Limits) from the engine
+      operationId: getChangedMaterialMasterData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetChangedMaterialMasterDataRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GetChangedMaterialMasterDataRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetChangedMaterialMasterDataResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetChangedMaterialMasterDataResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/getMaterialMasterData:
+    post:
+      tags:
+      - O&P
+      summary: getMaterialMasterData
+      description: Get material master data from the engine
+      operationId: getMaterialMasterData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialMasterDataRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GetMaterialMasterDataRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialMasterDataResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetMaterialMasterDataResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/transferAddresses:
+    post:
+      tags:
+      - O&P
+      summary: transferAddresses
+      description: Transfer addresses to the engine
+      operationId: transferAddresses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferAddressesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferAddressesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/transferBillOfMaterials:
+    post:
+      tags:
+      - O&P
+      summary: transferBillOfMaterials
+      description: Transfer bill of materials to the engine
+      operationId: transferBillOfMaterials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferBillOfMaterialsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferBillOfMaterialsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/transferGoodsReceipts:
+    post:
+      tags:
+      - O&P
+      summary: transferGoodsReceipts
+      description: Transfer goods receipts to the engine
+      operationId: transferGoodsReceipts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferGoodsReceiptsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferGoodsReceiptsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/transferMaterials:
+    post:
+      tags:
+      - O&P
+      summary: transferMaterials
+      description: Transfer materials to the engine
+      operationId: transferMaterials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferMaterialsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferMaterialsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/transferPurchaseOrders:
+    post:
+      tags:
+      - O&P
+      summary: transferPurchaseOrders
+      description: Transfer purchase orders to the engine
+      operationId: transferPurchaseOrders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferPurchaseOrdersRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferPurchaseOrdersRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /OriginAndPreferencesBFBean/transferSalesOrders:
+    post:
+      tags:
+      - O&P
+      summary: transferSalesOrders
+      description: Transfer sales orders to the engine
+      operationId: transferSalesOrders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferSalesOrdersRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferSalesOrdersRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferBusinessObjectsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+components:
+  schemas:
+    TransferSalesOrderItemRequestDTO:
+      type: object
+      properties:
+        itemIdHost:
+          type: string
+          description: 'Length: 32 - The unique id of the host system.'
+        itemLabelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        itemReferenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material no which is referenced in the item.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the material no which is referenced in the item.'
+        materialOrderItemReference:
+          type: string
+          description: 'Length: 60 - The material order item reference which is referenced in the item.'
+        customerMaterialNo:
+          type: string
+          description: 'Length: 40 - The customer material no which is referenced in the item.'
+        itemNo:
+          type: string
+          description: 'Length: 8 - The item no of the item.'
+        value:
+          type: number
+          description: 'Length: 15,3 - The value (price) of the item.'
+        currency:
+          type: string
+          description: 'Length: 3 - The currency of the item.'
+        lotSize:
+          type: number
+          description: 'Length: 20,7 - The lot size of the item.'
+        quantityUnit:
+          type: string
+          description: 'Length: 10 - The quantity unit of the item.'
+      description: Transfer DTO for sales order item
+    TransferBusinessObjectResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        idHost:
+          type: string
+          description: 'Length: 32 - The idHost of the business object'
+      description: Response DTO for transfer a business object
+    TransferMaterialsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        materialRequests:
+          type: array
+          description: A list of requests for materials.
+          items:
+            $ref: '#/components/schemas/TransferMaterialRequestDTO'
+      description: Request DTO to transfer a list of a materials
+    TransferBusinessObjectsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        responses:
+          type: array
+          description: Responses of transfering a list business objects
+          items:
+            $ref: '#/components/schemas/TransferBusinessObjectResponseDTO'
+      description: Response DTO for transfer a list of a business objects
+    GetChangedMaterialMasterDataRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+      description: DTO to request the changed MaterialMasterData (Limits)
+    TransferSalesOrdersRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        salesOrderRequests:
+          type: array
+          description: A list of requests for sales orders.
+          items:
+            $ref: '#/components/schemas/TransferSalesOrderRequestDTO'
+      description: Request DTO to transfer a list of a sales orders
+    TransferAddressesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        adressRequests:
+          type: array
+          description: A list of requests for addresses
+          items:
+            $ref: '#/components/schemas/TransferAddressRequestDTO'
+      description: Request DTO to transfer a list of a addresses
+    TransferBillOfMaterialsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        billOfMaterialRequests:
+          type: array
+          description: A list of requests for bill of materials.
+          items:
+            $ref: '#/components/schemas/TransferBillOfMaterialRequestDTO'
+      description: Request DTO to transfer a list of a boms
+    TransferPurchaseOrderItemRequestDTO:
+      type: object
+      properties:
+        itemIdHost:
+          type: string
+          description: 'Length: 32 - The unique id of the host system.'
+        itemLabelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        itemReferenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material no which is referenced in the item.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the material no which is referenced in the item.'
+        supplierMaterialNo:
+          type: string
+          description: 'Length: 40 - The supplier material no which is referenced in the item.'
+        itemNo:
+          type: string
+          description: 'Length: 8 - The item no of the item.'
+        supplierNo:
+          type: string
+          description: 'Length: 40 - The supplier no which is referenced in this item.'
+        value:
+          type: number
+          description: 'Length: 15,3 - The value (price) of the item.'
+        currency:
+          type: string
+          description: 'Length: 3 - The currency of the item.'
+        lotSize:
+          type: number
+          description: 'Length: 20,7 - The lotsize of the item.'
+        quantityUnit:
+          type: string
+          description: 'Length: 10 - The quantity unit of the item.'
+        isSupplierMaterial:
+          type: boolean
+          description: Indicates if the material is provided by a supplier.
+        comment:
+          type: string
+          description: 'Length: 255 - The comment of the item.'
+      description: Transfer DTO for purchase order item
+    TransferQuantityDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'Length: 20 - The type of the quantity.'
+        quantity:
+          $ref: '#/components/schemas/QuantityDTO'
+      description: DTO to transfer a quantity with a type
+    TransferMaterialRequestDTO:
+      type: object
+      properties:
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizationalUnit to the corresponding document in the partner system'
+        referenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material number of the material.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the material number of the material.'
+        isActive:
+          type: boolean
+          description: The indicator whether the material is active or not.
+        factoryType:
+          type: string
+          description: 'Length: 1 - The factory type of the material. Indicator whether it is an in-house production(i), purchased material(v) or whether goods are of mixed origin(X)'
+        materialPriority:
+          type: number
+          description: 'Length: 1 - Material priority e.g.: 1-5 (1 = high priority, 5 = low priority)'
+        commodityCode1:
+          type: string
+          description: 'Length: 12 - Commodity code 1 (commercial law)'
+        commodityCode2:
+          type: string
+          description: 'Length: 12 - Commodity code 2 (preference law)'
+        commodityCode3:
+          type: string
+          description: 'Length: 12 - Commodity code 3 (country-specific)'
+        purchaseValue:
+          type: number
+          description: 'Length: 15,3 - The purchase price of the material.'
+        lotSize:
+          type: number
+          description: The lot size of the material.
+        currency:
+          type: string
+          description: 'Length: 3 - The currency of the material.'
+        quantityUnit:
+          type: string
+          description: 'Length: 10 - The quantity unit of the material.'
+        isRelavantForCalculation:
+          type: boolean
+          description: The indicator whether material is relevant for calculation or not.
+        averageStorage:
+          type: number
+          description: 'Length: 4 - The average storage duration of the material.'
+        mainDescriptionLanguage:
+          type: string
+          description: 'Length: 2 - The main description language of the material.'
+        orderItemReference:
+          type: string
+          description: 'Length: 60 - The reference to the order item for this material.'
+        isCompositionOfGoods:
+          type: boolean
+          description: Indicator if the material is a set or not.
+        requestMaterial:
+          type: string
+          description: 'Length: 1 - Indicator if the material is to be requested in a LTSD.'
+        isConfigured:
+          type: boolean
+          description: The indicator whether material is configured or not.
+        nonPreferentialOriginCountry:
+          type: string
+          description: 'Length: 2 - The non preferential origin country of the material.'
+        descriptions:
+          type: array
+          description: The descriptions of the material.
+          items:
+            $ref: '#/components/schemas/TransferMaterialDescriptionRequestDTO'
+        materialType:
+          type: string
+          description: 'Length: 4 - The material type of the material.'
+        quantities:
+          type: array
+          description: Quantities of the material.
+          items:
+            $ref: '#/components/schemas/TransferQuantityDTO'
+      description: Request DTO to transfer the material
+    GenericDataFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
+        value:
+          type: string
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
+    TransferGoodsReceiptsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        goodsReceiptRequests:
+          type: array
+          description: A list of requests for goods receipts.
+          items:
+            $ref: '#/components/schemas/TransferGoodsReceiptRequestDTO'
+      description: Request DTO to transfer a list of a goods receipt
+    TransferBillOfMaterialRequestDTO:
+      type: object
+      properties:
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizationalUnit to the corresponding document in the partner system'
+        referenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material number of the BOM.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the material number of the BOM.'
+        orderItemReference:
+          type: string
+          description: 'Length: 60 - In case of order BOMs the technical reference to the Order Item'
+        description:
+          type: string
+          description: 'Length: 255 - A description for the BOM.'
+        createDate:
+          type: string
+          description: 'Length: 10 - The create date of the bom in the host system. Format "yyyy-MM-dd"'
+        modifyDate:
+          type: string
+          description: 'Length: 10 - The modify date of the bom in the host system. Format "yyyy-MM-dd"'
+        validToDate:
+          type: string
+          description: 'Length: 10 - The valid to date of the bom. Format "yyyy-MM-dd"'
+        quantity:
+          type: number
+          description: 'Length: 20,7 - The quantity of the bom.'
+        quantityUnit:
+          type: string
+          description: 'Length: 10 - The quantity unit of the bom.'
+        value:
+          type: number
+          description: 'Length: 15,3 - The value of the bom.'
+        manufactoringCosts:
+          type: number
+          description: 'Length: 15,3 - The manufactoring costs of the bom.'
+        currency:
+          type: string
+          description: 'Length: 3 - The currency of the bom.'
+        lotSize:
+          type: number
+          description: 'Length: 20,7 - The lotsize of the bom.'
+        isHandledMinimal:
+          type: boolean
+          description: The indicator if the bom is minimal handled.
+        isMaterialSet:
+          type: boolean
+          description: The indicator if the bom is a material set.
+        isActive:
+          type: boolean
+          description: The indicator if the bom is active.
+        alternativeNo:
+          type: string
+          description: 'Length: 20 - The alternative number of the bom.'
+        productOrigin:
+          type: string
+          description: 'Length: 2 - The product origin of the bom.'
+        items:
+          type: array
+          description: The items of the bom.
+          items:
+            $ref: '#/components/schemas/TransferBillOfMaterialItemRequestDTO'
+      description: Request DTO to transfer the head data of a bom
+    TransferPurchaseOrderRequestDTO:
+      type: object
+      properties:
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizationalUnit to the corresponding document in the partner system'
+        referenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        purchaseOrderNo:
+          type: string
+          description: 'Length: 30 - The number of the purchase order.'
+        purchaseOrderDate:
+          type: string
+          description: 'Length: 10 - The date of the purchaseOrder. Format (yyyy-MM-dd)'
+        items:
+          type: array
+          description: The items of the goods receipt.
+          items:
+            $ref: '#/components/schemas/TransferPurchaseOrderItemRequestDTO'
+        supplierNo:
+          type: string
+          description: 'Length: 40 - The supplier no of the purchase order.'
+        supplierNoInternal:
+          type: string
+          description: 'Length: 40 - The internal supplier no of the purchase order.'
+      description: Request DTO to transfer purchase order
+    TransferGoodsReceiptItemRequestDTO:
+      type: object
+      properties:
+        itemIdHost:
+          type: string
+          description: 'Length: 32 - The unique id of the host system.'
+        itemLabelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        itemReferenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material no which is referenced in the item.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the material no which is referenced in the item.'
+        supplierMaterialNo:
+          type: string
+          description: 'Length: 40 - The supplier material no which is referenced in the item.'
+        itemNo:
+          type: string
+          description: 'Length: 8 - The item no of the item.'
+        purchaseOrderNo:
+          type: string
+          description: 'Length: 30 - The purchase order no which is referenced in this item.'
+        supplierNo:
+          type: string
+          description: 'Length: 40 - The supplier no which is referenced in this item.'
+        supplierNoInternal:
+          type: string
+          description: 'Length: 40 - The internal supplier no which is referenced in this item.'
+        value:
+          type: number
+          description: 'Length: 15,3 - The value (price) of the item.'
+        currency:
+          type: string
+          description: 'Length: 3 - The currency of the item.'
+        lotSize:
+          type: number
+          description: 'Length: 20,7 - The lotsize of the item.'
+        quantityUnit:
+          type: string
+          description: 'Length: 10 - The quantity unit of the item.'
+        valueForSubcontracting:
+          type: number
+          description: 'Length: 15,3 - The value (price) to be used for subcontracting handling.'
+        movementType:
+          type: string
+          description: 'Length: 3 - The movement type of the goods receipt item. Required for subcontracting handling.'
+        specialStockIndicator:
+          type: string
+          description: 'Length: 1 - The special stock indicator of the goods receipt item. Required for subcontracting handling.'
+      description: Transfer DTO for goods receipt item
+    TransferSalesOrderRequestDTO:
+      type: object
+      properties:
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizationalUnit to the corresponding document in the partner system'
+        referenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        salesOrderNo:
+          type: string
+          description: 'Length: 30 - The number of the sales order.'
+        salesOrderDate:
+          type: string
+          description: 'Length: 10 - The date of the salesOrder. Format (yyyy-MM-dd)'
+        items:
+          type: array
+          description: The items of the sales order.
+          items:
+            $ref: '#/components/schemas/TransferSalesOrderItemRequestDTO'
+        customerNo:
+          type: string
+          description: 'Length: 40 - The customer no of the sales order.'
+        customerNoInternal:
+          type: string
+          description: 'Length: 40 - The internal customer no of the sales order.'
+      description: Request DTO to transfer sales order
+    TransferPurchaseOrdersRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        purchaseOrderRequests:
+          type: array
+          description: A list of requests for purchase orders.
+          items:
+            $ref: '#/components/schemas/TransferPurchaseOrderRequestDTO'
+      description: Request DTO to transfer a list of a purchase orders
+    AcknowledgeGetChangedMaterialMasterDataRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          type: string
+          description: Synchronization ID for for acknowledging.
+      description: DTO to acknowledge the changed MaterialMasterData (Limits) via last handled syncId
+    QuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: A quantity with a value and a quantity unit. Quantity units are encoded by using AEB unit codes mainly based on the International System of Unit (e.g. 'Gram' is encoded by the code 'gr') or - if supported - UNECE unit codes (e.g. 'Gram' is encoded by the code 'GRM').<br>Recoding of the quantity unit code from capital letters to small letters (e.g. from 'LB' to 'lb') may be supported, depending on the AEB product.<br>The quantity unit type is specified by the usage context, i.e. if this quantity is a weight, a volume or similar.
+    GetMaterialMasterDataRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        materialNo:
+          type: string
+          description: length 40 - The materialNo of the material data.
+        materialNoInternal:
+          type: string
+          description: length 40 - The internal representation of the materialNo of the material data.
+        destinationCountry:
+          type: string
+          description: length 2 - The destination country of the material master data.
+        orderItemReference:
+          type: string
+          description: length 60 - The reference to the order item of the material data.
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizational unit of the corresponding business object.'
+      description: DTO to request MaterialMasterData (Limits)
+    TransferMaterialDescriptionRequestDTO:
+      type: object
+      properties:
+        description:
+          type: string
+          description: 'Length: 240 - The description of the material.'
+        isDeleted:
+          type: boolean
+          description: The indicator whether the description is deleted or not.
+        language:
+          type: string
+          description: 'Length: 2 - The language of the description.'
+      description: Request DTO to transfer the material description
+    TransferAddressRequestDTO:
+      type: object
+      properties:
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizationalUnit to the corresponding document in the partner system'
+        referenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        addressNo:
+          type: string
+          description: 'Length: 40 - The address no. for the address.'
+        addressNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the address no. for the address.'
+        supplierPriority:
+          type: string
+          description: 'Length: 1 - The supplier priority of the address.'
+        dunsNo:
+          type: string
+          description: 'Length: 40 - The duns no. of the address.'
+        name1:
+          type: string
+          description: 'Length: 40 - The name1 of the address.'
+        name2:
+          type: string
+          description: 'Length: 40 - The name2 of the address.'
+        name3:
+          type: string
+          description: 'Length: 40 - The name3 of the address.'
+        name4:
+          type: string
+          description: 'Length: 40 - The name4 of the address.'
+        streetAndNo:
+          type: string
+          description: 'Length: 70 - The street and number of the address.'
+        city:
+          type: string
+          description: 'Length: 40 - The city of the address.'
+        postBoxCity:
+          type: string
+          description: 'Length: 40 - The city of the postbox of the address.'
+        postBox:
+          type: string
+          description: 'Length: 10 - The postbox of the address.'
+        postCodeStreet:
+          type: string
+          description: 'Length: 10 - The postal code of the address.'
+        postCodePostbox:
+          type: string
+          description: 'Length: 10 - The postal code of post box of the address.'
+        contactPerson:
+          type: string
+          description: 'Length: 35 - The contact person of the address.'
+        contactPersonTitle:
+          type: string
+          description: 'Length: 20 - The title of the contact person of the address.'
+        department:
+          type: string
+          description: 'Length: 35 - The department of the address.'
+        telephoneNo:
+          type: string
+          description: 'Length: 30 - The telephone number of the address.'
+        faxNo:
+          type: string
+          description: 'Length: 30 - The fax number of the address.'
+        email:
+          type: string
+          description: 'Length: 255 - The email of the address.'
+        country:
+          type: string
+          description: 'Length: 2 - The country of the address.'
+        language:
+          type: string
+          description: 'Length: 2 - The language of the address.'
+        defaultPrefVerificationType:
+          type: string
+          description: 'Length: 30 - The standard type of proof of the address.'
+        role:
+          type: string
+          description: 'Length: 2 - The role of the address. (CU = Customer, SU = Supplier)'
+        outputType:
+          type: string
+          description: 'Length: 25 - The Output type indicates whether a proof is printed or e-mailed by default. Valid characters: "PRINT" and "MAIL".'
+        createProof:
+          type: boolean
+          description: Indicator whether to create a proof or not.
+        address:
+          type: string
+          description: The complete address city, street, postbox etc.
+      description: Request DTO to transfer the address data (Customer,Vendor)
+    MaterialMasterDataDTO:
+      type: object
+      properties:
+        materialNo:
+          type: string
+          description: length 40 - The materialNo of the material data.
+        orderItemReference:
+          type: string
+          description: length 60 - The reference to the order item of the material data.
+        organizationalUnit:
+          type: string
+          description: length 30 - The organizational unit of the material master data.
+        destinationCountry:
+          type: string
+          description: length 2 - The destination country of the material master data.
+        calculationDate:
+          type: string
+          description: length 8 - The calculation date of the material master data.
+        evaluationDate:
+          type: string
+          description: length 8 - The evaluation date of the material master data.
+        agreement:
+          type: string
+          description: length 255 - The agreement of the material master data.
+        sourceCountry1:
+          type: string
+          description: length 2 - The preferential origin of the material master data.
+        sourceCountry2:
+          type: string
+          description: length 2 - The commercial origin of the material master data.
+        sourceCountry3:
+          type: string
+          description: length 2 - The made-in origin of the material master data.
+        sourceRegion:
+          type: string
+          description: length 5 - The source region of the material master data.
+        commodityCode1:
+          type: string
+          description: length 12 - The commodity code 1 of the material master data.
+        commodityCode2:
+          type: string
+          description: length 12 - The commodity code 2 of the material master data.
+        productionCosts:
+          type: number
+          description: length 15,3 - The production costs of the material master data.
+        minimumSalesValue:
+          type: number
+          description: length 15,3 - The minimu sales value of the material master data.
+        valueHasPreference:
+          type: number
+          description: length 15,3 - The preference value of the material master data.
+        valueHasNoPreference:
+          type: number
+          description: length 15,3 - The no preference value of the material master data.
+        cummulationType:
+          type: string
+          description: length 1 - The cummulation type of the material master data.
+        currency:
+          type: string
+          description: length 3 - The currency of the material master data.
+        cummulationCountries:
+          type: string
+          description: length 1000 - The cummulation countries of the material master data.
+        lotSize:
+          type: number
+          description: length 20,7 - The lotsize of the material master data.
+        quantityUnit:
+          type: string
+          description: length 10 - The quantity unit of the material master data.
+        aalaCountry:
+          type: string
+          description: length 2 - The aala country of the material master data.
+        originCriteria:
+          type: string
+          description: length 10 - The origin criteria of the material master data.
+        isLogicalDeleted:
+          type: boolean
+          description: The flag if material is deleted or not.
+      description: DTO of content of MaterialMasterData (Limits)
+    TransferGoodsReceiptRequestDTO:
+      type: object
+      properties:
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizationalUnit to the corresponding document in the partner system'
+        referenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        goodsReceiptNo:
+          type: string
+          description: 'Length: 30 - The number of the goods receipt.'
+        goodsReceiptDate:
+          type: string
+          description: 'Length: 10 - The date of the goods receipt. Format (yyyy-MM-dd)'
+        documentType:
+          type: string
+          description: 'Length: 1 - The document type of the goods receipt'
+        items:
+          type: array
+          description: The items of the goods receipt.
+          items:
+            $ref: '#/components/schemas/TransferGoodsReceiptItemRequestDTO'
+        deliveryNo:
+          type: string
+          description: 'Length: 30 - The delivery no of the referenced delivery.'
+        deliveryDate:
+          type: string
+          description: 'Length: 10 - The delivery date of the referenced delivery. Format (yyyy-MM-dd)'
+        invoiceNo:
+          type: string
+          description: 'Length: 30 - The invoice no of the referenced invoice.'
+        invoiceDate:
+          type: string
+          description: 'Length: 10 - The invoice date of the referenced invoice. Format (yyyy-MM-dd)'
+        customerNoForSubcontracting:
+          type: string
+          description: 'Length: 10 - The customer number to be used for subcontracting handling.'
+      description: Request DTO to transfer goods receipts
+    TransferBillOfMaterialItemRequestDTO:
+      type: object
+      properties:
+        itemIdHost:
+          type: string
+          description: 'Length: 32 - The unique id of the host system.'
+        itemLabelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        itemReferenceNo:
+          type: string
+          description: 'Length: 40 - An generic reference for the object.'
+        isDeleted:
+          type: boolean
+          description: The flag indicates whether the object is deleted or not. If this indicator is changed, nothing else will be updated.
+        additionalFields:
+          type: array
+          description: The additional fields are fields which are not already explicit part of the api.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material number of the referenced BOM/Material.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of the material number of the referenced BOM/Material.'
+        materialOrderItemReference:
+          type: string
+          description: 'Length: 60 - In case of order BOMs the technical reference to the Order Item'
+        type:
+          type: string
+          description: 'Length: 1 - The type of the item. M = Material BOM'
+        description:
+          type: string
+          description: 'Length: 255 - A description for the BOM item.'
+        quantity:
+          type: number
+          description: 'Length: 20,7 - The quantity of the material/bom referenced in this item.'
+        quantityUnit:
+          type: string
+          description: 'Length: 10 - The quantity unit of the material/bom referenced in this item.'
+        value:
+          type: number
+          description: 'Length: 15,3 - The value of the material/bom referenced in this item.'
+        lotSize:
+          type: number
+          description: 'Length: 20,7 - The lotsize of the bom item.'
+      description: Request DTO to transfer the item data of a bom
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    GetMaterialMasterDataResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        materialMasterData:
+          $ref: '#/components/schemas/MaterialMasterDataDTO'
+      description: Response DTO for MaterialMasterData (Limits)
+    AcknowledgeGetChangedMaterialMasterDataResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of acknowledge the changed MaterialMasterData (Limits)
+    GetChangedMaterialMasterDataResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        syncId:
+          type: string
+          description: Synchronization ID for for acknowledging.
+        isComplete:
+          type: boolean
+          description: True, if the synchronization is complete and currently no further modified material master data is available.
+        materialMasterData:
+          type: array
+          description: DTO of content of MaterialMasterData (Limits)
+          items:
+            $ref: '#/components/schemas/MaterialMasterDataDTO'
+      description: Response DTO for the changed MaterialMasterData (Limits)
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

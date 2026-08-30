@@ -1,0 +1,950 @@
+openapi: 3.2.0
+info:
+  title: Product Classification HTTP FT Material Classification20 BF Bean API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test2cl/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: FTMaterialClassification20BFBean
+  description: API for the foreign trade material classification (version 2.0)
+paths:
+  /FTMaterialClassification20BFBean/closeMaterialTransfFromEngine:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Closes the transfer of material data and its classifications from the Classification Engine back to the host system.<br><br>See also <b>openMaterialTransferFromEngine</b> and <b>transferMaterialFromEngine</b>
+      operationId: closeMaterialTransfFromEngine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCCloseMaterialTransferRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCCloseMaterialTransferResultDTO'
+  /FTMaterialClassification20BFBean/closeMaterialTransferToEngine:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Closes the transfer of material data and its classifications from the host system to the Classification Engine.<br><br>See also <b>openMaterialTransferToEngine</b> and <b>transferMaterialToEngine</b>
+      operationId: closeMaterialTransferToEngine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCCloseMaterialTransferRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCCloseMaterialTransferResultDTO'
+  /FTMaterialClassification20BFBean/getActiveClassificationSettings:
+    post:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Returns all active classification settings for the given client.
+      operationId: getActiveClassificationSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCGetActiveClassificationSettingsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCGetActiveClassificationSettingsResultDTO'
+  /FTMaterialClassification20BFBean/getClassificationData:
+    post:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Get classifications for a number of materials.
+      operationId: getClassificationData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCGetClassificationDataRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCGetClassificationDataResultDTO'
+  /FTMaterialClassification20BFBean/getClientInfo:
+    post:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Get information about a specific client
+      operationId: getClientInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCClientInfoRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCClientInfoResultDTO'
+  /FTMaterialClassification20BFBean/getMaterialData:
+    post:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Gets the material and its classification data for one concrete material.
+      operationId: getMaterialData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCGetMaterialDataRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCGetMaterialDataResult20DTO'
+  /FTMaterialClassification20BFBean/openMaterialTransferFromEngine:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Opens the transfer of material data and its classifications from the Classification Engine back to the host system.<br><br>See also <b>transferMaterialFromEngine</b> and <b>closeMaterialTransfFromEngine</b>
+      operationId: openMaterialTransferFromEngine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCOpenMaterialTransferFromEngineRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCOpenMaterialTransferResultDTO'
+  /FTMaterialClassification20BFBean/openMaterialTransferToEngine:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Opens the transfer of material data and its classifications from the host system to the Classification Engine.<br><br>See also <b>transferMaterialToEngine</b> and <b>closeMaterialTransferToEngine</b>
+      operationId: openMaterialTransferToEngine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCOpenMaterialTransferToEngineRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCOpenMaterialTransferResultDTO'
+  /FTMaterialClassification20BFBean/setMaterialAttachment:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Set the material attachment for one concrete material.
+      operationId: setMaterialAttachment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCSetMaterialAttachmentRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCSetMaterialAttachmentResultDTO'
+  /FTMaterialClassification20BFBean/setMaterialData:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: Set the material data for one concrete material.
+      operationId: setMaterialData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCSetMaterialDataRequest20DTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCSetMaterialDataResultDTO'
+  /FTMaterialClassification20BFBean/transferMaterialFromEngine:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: 'Transfers material data and its classifications from the classification server (engine) back to the host system. The transfer has to be opened before with the help of <b>openMaterialTransferFromEngine</b>. At the end of the transfer <b>closeMaterialTransfFromEngine</b> has to called to end the transaction.<br><br>Attention: only about <b>500</b> materials will be passed in one call, but it will be indicated if more data sets are available in the engine. Just call this method again many times.'
+      operationId: transferMaterialFromEngine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCTransferMaterialFromEngineRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCTransferMaterialFromEngineResult20DTO'
+  /FTMaterialClassification20BFBean/transferMaterialToEngine:
+    put:
+      tags:
+      - FTMaterialClassification20BFBean
+      description: 'Transfers material data and its classifications to the classification server (engine). The transfer has to be opened before with the help of <b>openMaterialTransferToEngine</b>. At the end of the transfer <b>closeMaterialTransferToEngine</b> has to called to provide a safe transaction.<br><br>Attention: only about <b>500</b> materials should be passed in one call. To transfer more call this method many times. '
+      operationId: transferMaterialToEngine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FTMCTransferMaterialToEngineRequest20DTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FTMCTransferMaterialToEngineResultDTO'
+components:
+  schemas:
+    FTMCAdditionalClassificationInfoDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: <p> Specifies the meaning of the additional information. </p> <p> length=20 </p>
+        value:
+          type: string
+          description: <p> The actual value, e.g. the binding commodity code of a binding tariff information. </p> <p> The length depends on the <code>FTMCAdditionalClassificationInfoDTO#identCode</code>. </p>
+      description: Additional information of <code>FTMaterialClassification</code>
+    FTMCClientInfoRequestDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+      description: Request DTO for <code>IFTMaterialClassification20BF#getClientInfo(FTMCClientInfoRequestDTO)</code>
+    FTMCMaterialDescriptionDTO:
+      required:
+      - languageISOCode
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the description. <p> length=2 </p>
+        description:
+          type: string
+          description: Description in the given language. <p> length=1000 </p>
+      description: DTO to hold data of the description of a material in a defined language.
+    FTMCTransferMaterialToEngineResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        isSuccessfully:
+          type: boolean
+          description: <p> True if the material transfer call was processed successfully, false if not. </p>
+        requestId:
+          type: string
+          description: Technical ID of the request, that belongs to this response. Null, if the request was sent with no requestId.
+      description: Result DTO of a material transfer call from the host system to the Classification Engine.
+    FTMCCloseMaterialTransferResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        isSuccessfully:
+          type: boolean
+          description: <p> True if the material transfer session could be closed successfully, false if not. </p>
+      description: Result DTO of the closure of the material transfer.
+    FTMCDateDTO:
+      type: object
+      properties:
+        date:
+          type: string
+          description: '<p> The string representation of a date. The following format should be used: <b>yyyy-MM-dd</b> </p> <p> length=10 </p>'
+      description: Contains a date as string.
+    FTMCTransferMaterialFromEngineResult20DTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        transferSessionId:
+          type: string
+          description: <p> The ID of the transfer session this block belongs to. </p> <p> length=50 </p>
+        isComplete:
+          type: boolean
+          description: <p> True, if the no further material classification data are available. False if not. </p> <p> Because a maximum the transfer block size not all material may be transfered in one call and therefore the result may be incomplete. </p>
+        materials:
+          type: array
+          description: <p> A list of classified materials </p> <p> A maximum number is limited to the transfer block size. </p>
+          items:
+            $ref: '#/components/schemas/FTMCMaterial20DTO'
+        changedTS:
+          $ref: '#/components/schemas/FTMCTimestampDTO'
+        blockNumber:
+          type: integer
+          description: The block number of this material block.
+          format: int32
+        materialCount:
+          type: integer
+          description: The number of materials sent by this block.
+          format: int32
+      description: Result DTO of a material transfer call from the classification server (engine) back to the host system.
+    FTMCCertificateDTO:
+      type: object
+      properties:
+        typeCode:
+          type: string
+          description: <p> Code of the certificate/document type (e.g. TARIC code) </p> <p> length=5 </p>
+        typeQualifier:
+          type: string
+          description: <p> Additional, national qualifier. </p> <p> length=3 </p>
+        validFrom:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        validTo:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        geoId:
+          type: string
+          description: <p> The ISO code of the country (2 letter code) or the ID of the country group for which the document is valid. </p> <p> length=10 </p>
+        certReference:
+          type: string
+          description: <p> Reference which belongs to the document; </p> <p> length=35 </p>
+        certDateOfIssue:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        certEndOfValidity:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        certDetail:
+          type: string
+          description: <p> Detail description which belongs to the document; </p> <p> length=12 </p>
+        certAdditionalExpl:
+          type: string
+          description: <p> Additional explanation which belongs to the document; </p> <p> length=35 </p>
+      description: DTO to hold data of a certificate/document
+    FTMCMaterialClassification20DTO:
+      type: object
+      properties:
+        countryISOCode:
+          type: string
+          description: <p> ISO code from the country the classification belongs to. </p> <p> length=2 </p> Required - by only filling the ISO code the existence of a corresponding  classification (= task of classifying the material regarding the settings for  this country) can be ensured.
+        remark:
+          type: string
+          description: <p> Internal remark to describe the classification, e.g. the reasons for the decision why the classification was made this way. </p> <p> If this field is left empty within an update, the remark will be left as set before. </p>
+        isClassificationComplete:
+          type: boolean
+          description: If <code>true</code>, the classification is treated as "complete" (if all necessary data is filled, i.e. it is possible to complete the classification).  <p> If the field is not set, also <code>true</code> is assumed!  Thus, to avoid that the classification is treated as "complete", explicitly define this flag as <code>false</code>. Only complete classifications may serve as training-data for learning auto-proposals. </p>
+        isClassificationWithoutChecks:
+          type: boolean
+          description: If <code>true</code> sets the classification's flag "no checks". If you want to force a classification to complete you have to set  <code>isClassificationComplete</code> and <code>isClassificationWithoutChecks</code> to <code>true</code>. This is theonly way to accept invalid classifications to be set to complete.  <p> If this field is not set within an update, the flag will be left as set before. </p>
+        values:
+          type: array
+          description: List of classification values which belongs to the current classification.
+          items:
+            $ref: '#/components/schemas/FTMCMaterialClassificationValueDTO'
+        additionalClassificationInfo:
+          type: array
+          description: List of additional information which belongs to the current classification.
+          items:
+            $ref: '#/components/schemas/FTMCAdditionalClassificationInfoDTO'
+        certificates:
+          type: array
+          description: List of certificates/documents which belongs to the current classification.
+          items:
+            $ref: '#/components/schemas/FTMCCertificateDTO'
+      description: DTO to hold data of material classifications
+    FTMCUserMessageDTO:
+      type: object
+      properties:
+        messageType:
+          maxLength: 35
+          type: string
+          description: <p>Message type.</p><p>Indicates the type of message. The possible values are defined as constants in this class.</p>
+        messageText:
+          maxLength: 255
+          type: string
+          description: Detailed message content.
+      description: DTO encapsulates problem and information messages.
+    FTMCSetMaterialAttachmentResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        isSuccessfully:
+          type: boolean
+          description: <p> True if the material attachment was set successfully, false if not. </p>
+      description: Result DTO of setting of one defined material attachment.
+    FTMCSetMaterialDataRequest20DTO:
+      required:
+      - clientIdentCode
+      - transferMode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        material:
+          $ref: '#/components/schemas/FTMCMaterial20DTO'
+        transferMode:
+          type: string
+          description: <p> The transfer modus which describes which system has the higher priority if data where changed in the host system and the classification server (engine) at the same time. </p> <p> length=20 </p>
+      description: Request DTO to set material data of one defined material.
+    FTMCMaterialFeatureDTO:
+      required:
+      - featureIdentCode
+      type: object
+      properties:
+        featureIdentCode:
+          type: string
+          description: <p> The code (short name) of the feature. </p> <p> length=100 </p>
+        featureGroupIdentCode:
+          type: string
+          description: <p> The optional code of the feature group. </p> <p> length=30 </p>
+        featureValue:
+          type: string
+          description: <p> The value of the feature. </p> <p> length=1000 </p>
+      description: DTO to hold data of a feature of a material.
+    FTMCMaterial20DTO:
+      required:
+      - materialNumber
+      type: object
+      properties:
+        materialNumber:
+          type: string
+          description: <p> The material number which identifies a material uniquely in the client. </p> <p> length=50 </p>
+        alternativeMaterialNumber:
+          type: string
+          description: <p> Alternative material number. This is typically a representation of the materialNumber that has a better readability. </p> Cannot be updated afterwards, this field is only relevant for new materials. <p> length=50 </p>
+        priority:
+          type: string
+          description: <p> The indicator for this material. </p> <p> length=10 </p>
+        descriptions:
+          type: array
+          description: <p> A list of descriptions of the material in different languages. </p>
+          items:
+            $ref: '#/components/schemas/FTMCMaterialDescriptionDTO'
+        validFrom:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        validTo:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        changedTS:
+          $ref: '#/components/schemas/FTMCTimestampDTO'
+        features:
+          type: array
+          description: <p> A list of features which describe the material. </p>
+          items:
+            $ref: '#/components/schemas/FTMCMaterialFeatureDTO'
+        classifications:
+          type: array
+          description: <p> A list of classifications belonging to the current material. </p>
+          items:
+            $ref: '#/components/schemas/FTMCMaterialClassification20DTO'
+        classificationCodes:
+          type: array
+          description: <p> A list of additional classification codes belonging to the current material. </p>
+          items:
+            $ref: '#/components/schemas/FTMCMaterialClassificationCode20DTO'
+      description: DTO to hold data of a material.
+    FTMCGetMaterialDataResult20DTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        material:
+          $ref: '#/components/schemas/FTMCMaterial20DTO'
+      description: Result DTO to hold classification data of one defined material.
+    FTMCGetClassificationDataRequestDTO:
+      required:
+      - classificationCountryISOCode
+      - classificationIdentCode
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        classificationIdentCode:
+          type: string
+          description: <p> Specifies the type of requested classification. </p> <p> length=20 </p>
+        classificationCountryISOCode:
+          type: string
+          description: <p> ISO code from the country the classification belongs to. </p> <p> length=2 </p>
+        parameter:
+          type: array
+          description: Further parameters for the request.
+          items:
+            $ref: '#/components/schemas/FTMCGetClassificationDataRequestParameterDTO'
+      description: Request DTO to get a single type of classification for multiple materials.
+    FTMCGetMaterialDataRequestDTO:
+      required:
+      - clientIdentCode
+      - materialNumber
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        materialNumber:
+          type: string
+          description: <p> The material number which identifies a material uniquely in the client. </p> <p> length=50 </p>
+      description: Request DTO to get classifications data of one defined material.
+    FTMCMaterialAttachmentDTO:
+      required:
+      - attachmentDescription
+      - fileName
+      - materialNumber
+      type: object
+      properties:
+        materialNumber:
+          type: string
+          description: <p> The number of the material the attachment should be associated with. </p> <p> length=50 </p>
+        attachmentDescription:
+          type: string
+          description: <p> A description of the attachment. </p> <p> length=1000 </p>
+        attachmentData:
+          type: string
+          description: <p> The actual data of the attachment. If not set, the 'fileName' will be treated like an URL.  </p>
+          format: byte
+        fileName:
+          type: string
+          description: <p> Name or path to the file. A path can be an URL to a reachable server file or an URL. </p> <p> length=250 </p>
+        fileDate:
+          $ref: '#/components/schemas/FTMCTimestampDTO'
+        encoding:
+          type: string
+          description: <p> Encoding of the attachment. Needed when attachment is a text document. </p> <p> length=50 </p>
+        mimeType:
+          type: string
+          description: <p> MIME type of the attachment </p> <p> length=50 </p>
+      description: DTO to hold data of a material attachment
+    FTMCSetMaterialDataResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        isSuccessfully:
+          type: boolean
+          description: <p> True if the material data were set successfully, false if not. </p>
+      description: Result DTO of setting of one defined material.
+    FTMCClassificationSettingDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        countryISOCode:
+          type: string
+          description: ISO code of the country the classification setting belongs to. <p> length=2 </p>
+        classificationFieldSettings:
+          type: array
+          description: Settings for the possible classification fields. <p> length=2 </p>
+          items:
+            $ref: '#/components/schemas/FTMClassificationFieldSettingDTO'
+      description: DTO for active classification setting.
+    FTMCTransferMaterialFromEngineRequestDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        transferSessionId:
+          type: string
+          description: <p> The session ID of a successfully opened material data transfer. The ID has to be passed in further calls of <code>IFTMaterialClassification20BF#transferMaterialToEngine(FTMCTransferMaterialToEngineRequest20DTO)</code>. If empty the transfer didn't open correctly. </p> <p> length=50 </p>
+        blockNumber:
+          type: integer
+          description: Block number of if the return data are separated in different blocks. First block has number 1. The client has to increment the block number for each all in one transfer session. The end of a transfer session will be indicated by <code>FTMCTransferMaterialFromEngineResult20DTO#isComplete</code><p> length=4 </p>
+          format: int32
+      description: Request DTO to hold data of the material transfer from the classification server (engine) back to the host system.
+    FTMCClientInfoResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        useOnlyMaterialData:
+          type: boolean
+          description: Indicates if the client only uses material data from Classification
+      description: Results of a call to <code>IFTMaterialClassification20BF#getClientInfo(FTMCClientInfoRequestDTO)</code>
+    FTMCTransferMaterialToEngineRequest20DTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        transferSessionId:
+          type: string
+          description: <p> The session ID of a successfully opened material transfer. The ID will be generated when opening a transfer. </p> <p> length=50 </p>
+        requestId:
+          type: string
+          description: Technical ID for this request. The requestId will be sent back by the response, so that the response can be matched to a specific request.
+        materials:
+          type: array
+          description: '<p> List of material data. Attention: only about <b>500</b> materials should be passed in one call. To transfer more materials call this method multiple times. </p>'
+          items:
+            $ref: '#/components/schemas/FTMCMaterial20DTO'
+      description: Request DTO to hold data of the material transfer from the host system to the Classification Engine.
+    FTMCOpenMaterialTransferFromEngineRequestDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        transferBlockSize:
+          type: integer
+          description: <p> Number of material data sets which will be transfered in one call to avoid heap space and process time problems </p>
+          format: int32
+        lastChangedTS:
+          $ref: '#/components/schemas/FTMCTimestampDTO'
+        requestId:
+          type: string
+          description: Technical ID for this request. The requestId will be sent back by the response, so that the response can be matched to a specific request.
+      description: Request DTO to open the material transfer session from the classification server (engine) back to the host system.
+    FTMCOpenMaterialTransferResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        transferSessionId:
+          type: string
+          description: <p> The session ID of a successfully opened material data transfer. The ID has to be passed in further calls. If empty the transfer didn't open correctly. </p> <p> length=50 </p>
+        requestId:
+          type: string
+          description: Technical ID of the request, that belongs to this response. Null, if the request was sent with no requestId.
+        totalBlockCount:
+          type: integer
+          description: Total number of blocks, that this session has.
+          format: int32
+        totalMaterialCount:
+          type: integer
+          description: Total number of materials, that will transfer.
+          format: int32
+      description: Result DTO of the opening of the data transfer of materials and its classifications between the host system and the classification server (engine).
+    FTMCGetActiveClassificationSettingsRequestDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+      description: Maintains data for requesting classification settings.
+    FTMCMaterialClassificationCode20DTO:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: <p> The identification code (short name) of the classification code type. </p> <p> length=50 </p>
+        isoCode:
+          type: string
+          description: <p> The country ISO code of the classification code type. Can be null. </p> <p> length=2 </p>
+        value:
+          type: string
+          description: <p> The value of the classification code. </p> <p> length=255 </p>
+        approved:
+          type: boolean
+          description: <p> True, if the value has been approved for the given validity period. </p>
+        invalid:
+          type: boolean
+          description: <p> True, if the value has been marked invalid for the given validity period. </p>
+        validFrom:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        validTo:
+          $ref: '#/components/schemas/FTMCDateDTO'
+      description: DTO to hold data of additional classification codes of a material.
+    FTMCGetClassificationDataResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        classifications:
+          type: array
+          description: Results per material.
+          items:
+            $ref: '#/components/schemas/FTMCMaterialClassificationLookupDTO'
+      description: Results of a call to getClassification data.
+    FTMClassificationFieldSettingDTO:
+      type: object
+      properties:
+        classificationFieldIdentCode:
+          type: string
+          description: <p> The identCode of the field to classify. </p> <p> length=20 </p>
+        fieldTranslations:
+          type: array
+          description: <p> The human-readable forms of <code>classificationFieldIdentCode</code>. </p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        content:
+          $ref: '#/components/schemas/TCContentDTO'
+        checkClassification:
+          type: boolean
+          description: If <code>true</code> then classification values will be checked.
+      description: Maintains data that relates a classification field to its content.
+    FTMCMaterialClassificationValueDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: <p> Specifies the meaning of the classification value. </p> <p> length=20 </p>
+        value:
+          type: string
+          description: <p> The value of the classification, e.g. the commodity code or the dual use number. </p> <p> The length depends on the <code>FTMCMaterialClassificationValueDTO#identCode</code> (max = 250).</p>
+        approved:
+          type: boolean
+          description: <p> True, if the  <code>FTMCMaterialClassificationValueDTO#value</code> (rsp.  <code>FTMCMaterialClassificationValueDTO#isWithoutValue</code>)  has been approved individually. </p> <p> Only relevant for transfer from engine resp. getMaterialData. </p>
+        isWithoutValue:
+          type: boolean
+          description: In case the value has type <code>FTMCMaterialClassificationValueDTO#EXPORT_CONTROL_LIST_NUMBER_IDENTCODE</code>) and no <code>FTMCMaterialClassificationValueDTO#value</code> is send, this field might be send as <code>true</code> to clarify that the research has led to the result there is no export control number needed.
+        valueNew:
+          type: string
+          description: <p> New value of the classification which will be valid in the future. </p> <p> The length depends on the <code>FTMCMaterialClassificationValueDTO#identCode</code> (max = 250).</p>
+        validFromValueNew:
+          $ref: '#/components/schemas/FTMCDateDTO'
+        isWithoutValueNew:
+          type: boolean
+          description: Compare <code>FTMCMaterialClassificationValueDTO#isWithoutValue</code>. Send <code>true</code> to clarify there is no <code>FTMCMaterialClassificationValueDTO#valueNew</code> needed at the new validity begin.
+      description: DTO to hold a set of data of a material classification value.
+    FTMCCloseMaterialTransferRequestDTO:
+      required:
+      - clientIdentCode
+      - transferSessionId
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        transferSessionId:
+          type: string
+          description: <p> The session ID of a successfully opened material transfer. The ID will be generated when opening a transfer. </p> <p> length=50 </p>
+      description: Request DTO to close a material transfer session.
+    TCContentDTO:
+      type: object
+      properties:
+        contentIdentCode:
+          type: string
+          description: Code of the content (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+        textTranslations:
+          type: array
+          description: List of language specific texts of the content.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: DTO to hold meta data of a content.
+    FTMCTimestampDTO:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: '<p> The string representation of a date. The following format should be used: <b>yyyy-MM-dd HH:mm:ss</b> </p> <p> length=19 </p>'
+        timeZone:
+          type: string
+          description: The timezone to interpret the field dateInTimezone. Valid timezone's are e.g. "GMT+01:00" or "GMT-02:00" <p> length=10 </p>
+      description: Contains a time stamp as string including the time zone the strings belongs to.
+    FTMCMaterialClassificationLookupDTO:
+      type: object
+      properties:
+        materialNumber:
+          type: string
+          description: <p> The material number which identifies a material uniquely in the client. </p> <p> length=50 </p>
+        countryIsoCode:
+          type: string
+          description: <p> ISO code from the country the classification belongs to. </p> <p> length=2 </p>
+        value:
+          $ref: '#/components/schemas/FTMCMaterialClassificationValueDTO'
+        isClassificationComplete:
+          type: boolean
+          description: True, if the classification was set to "completed" by the user, false if not.<br> New since FP 05-2019.
+        goodsDescription:
+          type: string
+          description: 'For commodity codes only: The goods description for export (in case of export commodity codes) or for import (in case of import commodity codes).<br> New since FP 05-2019.'
+      description: DTO to hold data of the classification.
+    FTMCSetMaterialAttachmentRequestDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        attachment:
+          $ref: '#/components/schemas/FTMCMaterialAttachmentDTO'
+      description: Request DTO to set a single attachment to a material.
+    FTMCOpenMaterialTransferToEngineRequestDTO:
+      required:
+      - clientIdentCode
+      - transferMode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: The code of the client in the Classification Engine.
+        installationIdHost:
+          maxLength: 20
+          type: string
+          description: The installation ID of the host system to be able to separate material data to different host systems.
+        transferMode:
+          type: string
+          description: <p> The transfer modus which describes which system has the higher priority if data where changed in the host system and the classification server (engine) at the same time. </p> <p> length=20 </p>
+        isDeltaTransfer:
+          type: boolean
+          description: <p> Indicates that only new/changed material data sets will be transfered </p>
+        requestId:
+          type: string
+          description: Technical ID for this request. The requestId will be sent back by the response, so that the response can be matched to a specific request.
+      description: Request DTO to open the material transfer session from the host system to the Classification Engine.
+    FTMCGetActiveClassificationSettingsResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages.
+          items:
+            $ref: '#/components/schemas/FTMCUserMessageDTO'
+        classificationSettings:
+          type: array
+          description: Available classification settings. <p> length=2 </p>
+          items:
+            $ref: '#/components/schemas/FTMCClassificationSettingDTO'
+      description: Maintains all classification settings available for a client,
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    FTMCGetClassificationDataRequestParameterDTO:
+      required:
+      - materialNumber
+      type: object
+      properties:
+        materialNumber:
+          type: string
+          description: <p> The material number which identifies a material uniquely in the client. </p> <p> length=50 </p>
+        knownClassificationPrefix:
+          type: string
+          description: An optional know prefix of the requested classification. If the material is unkown, or the classification is not filled in the material master file, this prefix is used to lookup for possible classifications in the catalog. If there is exactly one possible classification in the catalog with this prefix, this unique classification will be returned.<br> This is especially useful for passing an (already known) export commodity code, and finding the corresponding (if unambiguous) import commodity code.<br> This field is currently ignored for export control numbers.<br> New since FP 05/2019.<br> max length = 15
+      description: Class to hold request parameters. Currently only the material number is contained. To be prepared for future changes, this is wrapped in this parameter dto.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

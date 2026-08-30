@@ -1,0 +1,467 @@
+openapi: 3.2.0
+info:
+  title: Logistics Cost Management HTTP Settlement API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/demo1billing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Settlement
+  description: REST API for settlements
+paths:
+  /settlements/{id}:
+    get:
+      tags:
+      - Settlement
+      summary: get settlement
+      description: Returns the settlement with the requested ID
+      operationId: getSettlement
+      parameters:
+      - name: id
+        in: path
+        description: The Settlementnumber of the requested Settlement.
+        required: true
+        schema:
+          type: string
+        example: '000001'
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BSettlementRestDTO'
+              examples:
+                Settlement entry:
+                  description: Settlement entry
+                  value:
+                    settlementNumber: SETTL-2025-000123
+                    createdAt: '2025-10-01T08:15:30Z'
+                    lastDispoDate: '2025-10-02T09:20:00Z'
+                    lastDispoUserLoginName: jane.doe
+                    settlementType:
+                      identCode: STANDARD
+                      scenIdentCode: SCEN_MAIN
+                    referenceNumber: EXT-REF-456
+                    additionalReferenceNumber1: CUST-ADD-01
+                    numberOfCancelledSettlement: '0'
+                    settlementDate: '2025-10-01'
+                    chargeDateMin: '2025-09-01'
+                    chargeDateMax: '2025-09-30'
+                    valueDate: '2025-10-03'
+                    provider:
+                      companyNo: PROV001
+                    orderer:
+                      companyNo: ORD001
+                    payer:
+                      companyNo: PAY001
+                    isDataReady: true
+                    isCompiled: false
+                    isCumulated: false
+                    isReleased: false
+                    isCompleted: false
+                    isAutoConfirmStatusSuppressed: false
+                    boStatus:
+                      statusID: 200
+                      dirty: false
+                      identCode: READY
+                      error: false
+                    isCancelled: false
+                    cancellationType: null
+                    isAnnulation: false
+                    settlementItemRevisionNumber: 1
+                    note: Quarterly settlement for September.
+                    processingIdentCode: PROC_MAIN
+                    totalSettlNetPrice:
+                      value: 1000.0
+                      currency: EUR
+                    totalSettlGrsPrice:
+                      value: 1190.0
+                      currency: EUR
+                    totalSettlClNetPrice:
+                      value: 1065.0
+                      currency: USD
+                    totalSettlClGrsPrice:
+                      value: 1267.35
+                      currency: USD
+                    totalSettlVatPrice:
+                      value: 190.0
+                      currency: EUR
+                    totalSettlClVatPrice:
+                      value: 202.35
+                      currency: USD
+                    rateDateClPrice: '2025-09-30'
+                    usdSpltFlds:
+                      usePayer: true
+                      useProvider: true
+                      useSettlCurrency: true
+                      useSettlType: true
+                      useBillingScenario: true
+                      useOrderer: false
+                      usePeriod: true
+                      useService: true
+                      useOrderNumber: false
+                      useClientOrga: false
+                    period:
+                      start: '2025-09-01'
+                      end: '2025-09-30'
+                      type: MONTH
+                    service:
+                      identCode: SRV_TRANSPORT
+                      description: International Transport
+                    billingScenario:
+                      identCode: BILL_SCEN_STD
+                    contractNumber: CON-778899
+                    orderNumber: ORD-556677
+                    clientOrgaId: CL001
+                    paymentTerm:
+                      identCode: NET30
+                      description: Net 30 Days
+                    paymentMethod:
+                      identCode: BANK_TRANSFER
+                      description: Bank Transfer
+                    isPartiallyDeleted: false
+                    archiveInfo:
+                      archiveState: NEW
+                      archivedAt: '2025-10-01T08:15:30Z'
+                      archiveId: ARCH-00001
+                      transactionId: TX-123456789
+                      onRetrySince: '2025-10-01T08:15:30Z'
+                    storageAdapterId: S3-STORAGE-01
+        '404':
+          description: Requested settlement does not exist.
+          content:
+            application/json:
+              examples:
+                Settlement not found:
+                  description: Settlement not found
+                  value:
+                    error: No settlement with the ID '0001' found.
+  /settlements:
+    get:
+      tags:
+      - Settlement
+      summary: Search settlements
+      description: Returns all settlements matching the given filter criteria. In case no settlement matches, an empty collection is returned. Supports wildcards in filter fields.
+      operationId: searchSettlements
+      parameters:
+      - name: settlement_number_like
+        in: query
+        description: Filter settlements by Settlementnumber. Place holders are supported.
+        schema:
+          maxLength: 50
+          minLength: 0
+          type: string
+        example: '000001'
+      - name: settlement_type_like
+        in: query
+        description: Filter settlements by Settlementtype. Place holders are supported.
+        schema:
+          maxLength: 50
+          minLength: 0
+          type: string
+        example: Storno
+      - name: billing_scenario_like
+        in: query
+        description: Filter settlements by Billingscenario. Place holders are supported.
+        schema:
+          maxLength: 50
+          minLength: 0
+          type: string
+        example: CAI
+      - name: provider_like
+        in: query
+        description: Filter settlements by Provider companyNo. Place holders are supported.
+        schema:
+          maxLength: 50
+          minLength: 0
+          type: string
+        example: UPS
+      - name: status_list
+        in: query
+        description: 'Filter settlements by status code. Possible Status Codes are: READY, COMPILED, RELEASED, COMPLETE, CANCELLED Place holders are supported.'
+        schema:
+          maxItems: 50
+          minItems: 0
+          type: array
+          items:
+            type: string
+        example:
+        - READY
+        - COMPILED
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementPage'
+        '400':
+          description: Invalid Status.
+          content:
+            application/json:
+              examples:
+                Invalid Status:
+                  description: Invalid Status
+                  value:
+                    error: Invalid status 'Status'.
+components:
+  schemas:
+    SettlementTypeRestDTO:
+      required:
+      - identCode
+      - scenarioIdentCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The SettlementType Ident Code.
+        scenarioIdentCode:
+          type: string
+          description: The Scenario Ident Code.
+      description: Settlement type (workflow classification).
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
+    SettlementPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of settlements.
+          items:
+            $ref: '#/components/schemas/BSettlementRestDTO'
+    PeriodRestDTO:
+      required:
+      - end
+      - start
+      - type
+      type: object
+      properties:
+        start:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        end:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        type:
+          type: string
+          description: The Type of Period.
+          enum:
+          - DAY
+          - HALFAMONTH
+          - HALFAYEAR
+          - MONTH
+          - QUARTER
+          - DECADE
+          - TWOWEEKS
+          - WEEK
+          - YEAR
+      description: Period covered by this settlement item.
+    BAmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    BSettlementStatusRestDTO:
+      required:
+      - identCode
+      - statusID
+      type: object
+      properties:
+        statusID:
+          type: integer
+          description: The statusId
+          format: int32
+        identCode:
+          type: string
+          description: 'The status Ident Code. Possible Status Codes are: READY, COMPILED, RELEASED, COMPLETE, CANCELLED'
+          enum:
+          - READY
+          - COMPILED
+          - RELEASED
+          - COMPLETE
+          - CANCELLED
+      description: Business object status (workflow / lifecycle state).
+    BSettlementRestDTO:
+      required:
+      - billingScenarioIdentCode
+      - cancellationTypeIdentCode
+      - isAnnulation
+      - orderer
+      - payer
+      - paymentMethodIdentCode
+      - paymentTermIdentCode
+      - period
+      - provider
+      - settlementNumber
+      - settlementType
+      - status
+      - totalSettlClGrsPrice
+      - totalSettlClNetPrice
+      - totalSettlClVatPrice
+      - totalSettlGrsPrice
+      - totalSettlNetPrice
+      - totalSettlVatPrice
+      type: object
+      properties:
+        createdAt:
+          type: string
+          description: Timestamp when the settlement was created.
+          format: date-time
+        lastDispoDate:
+          type: string
+          description: Date of last disposition (e.g. last workflow / allocation step).
+          format: date-time
+        settlementType:
+          $ref: '#/components/schemas/SettlementTypeRestDTO'
+        referenceNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: External reference number associated with the settlement (e.g. external system id).
+        settlementNumber:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Internal unique settlement number.
+        additionalReferenceNumber1:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Additional reference number (custom usage).
+        numberOfCancelledSettlement:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Number of cancelled settlements aggregated here (if applicable).
+        settlementDate:
+          type: string
+          description: Business date of the settlement (e.g. accounting / posting date).
+          format: date-time
+        chargeDateMin:
+          type: string
+          description: Minimum charge date across included settlement items.
+          format: date-time
+        chargeDateMax:
+          type: string
+          description: Maximum charge date across included settlement items.
+          format: date-time
+        valueDate:
+          type: string
+          description: Value date used for currency conversion / accounting.
+          format: date-time
+        provider:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        orderer:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        payer:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        status:
+          $ref: '#/components/schemas/BSettlementStatusRestDTO'
+        cancellationTypeIdentCode:
+          type: string
+          description: The identCode of the cancellation type
+        isAnnulation:
+          type: boolean
+          description: Flag indicating the settlement represents an annulation (reversal).
+        totalSettlNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        totalSettlGrsPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        totalSettlClNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        totalSettlClGrsPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        totalSettlVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        totalSettlClVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        rateDateClPrice:
+          type: string
+          description: Rate date used for pricing in client currency.
+          format: date-time
+        period:
+          $ref: '#/components/schemas/PeriodRestDTO'
+        serviceIdentCode:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Primary service associated with the settlement.
+        billingScenarioIdentCode:
+          type: string
+          description: Billing scenario driving pricing logic.
+        contractNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Contract number related to the settlement.
+        orderNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Order number related to the settlement.
+        clientOrgaId:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: Client organization identifier.
+        paymentMethodIdentCode:
+          type: string
+          description: The Payment Method Ident Code.
+        paymentTermIdentCode:
+          type: string
+          description: The PaymentTerm IdentCode.
+      description: Settlement REST Data Transfer Object containing master data, status flags and monetary totals for a settlement.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

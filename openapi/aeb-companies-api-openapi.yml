@@ -1,0 +1,683 @@
+openapi: 3.2.0
+info:
+  title: Aeb Companies API
+  version: '1.0'
+  description: 'Operations tagged Companies across 10 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+- url: https://rz3.aeb.de/demo1cai/rest
+- url: https://xnsg.dc.aeb.com/demo1ces/rest
+- url: https://rz3.aeb.de/demo1routing/rest
+- url: https://rz3.aeb.de/test2broker/rest
+- url: https://rz3.aeb.de/test2cim/rest
+- url: https://rz3.aeb.de/test2ici/rest
+- url: https://rz3.aeb.de/demo1billing/rest
+- url: https://rz3.aeb.de/test2cl/rest
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Companies
+  description: Rest API for companies
+paths:
+  /companies/{id}:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - Companies
+      description: Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned.
+      operationId: getCompany
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID (company number).
+        required: true
+        schema:
+          type: string
+        example: 12345
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+              examples:
+                Successful call:
+                  description: Successful call
+                  value:
+                    companyNumber: '12345'
+                    name: AEB SE
+                    name2: Name 2
+                    name3: Name 3
+                    name4: Name 4
+                    street: Sigmaringerstr. 109
+                    street2: Street 2
+                    postcode: '70567'
+                    city: Stuttgart
+                    district: Möhringen
+                    countryIsoCode: DE
+                    county: BW
+                    poBox: '12345'
+                    postcodePoBox: '70567'
+                    cityPoBox: Stuttgart
+                    emailAddress: max.mustermann@aeb.com
+                    phoneNumber: 0711 12345
+                    faxNumber: 0711 12345
+                    vatNumber: DE123456789
+                    isEnabled: true
+                    homepage: www.aeb.com
+                    remark: Logistics company
+                    roles:
+                    - identCode: DLSHIPPT
+                      description: Versandstelle
+        '400':
+          description: Either the requested company number is not unique or something went wrong during the validation.
+          content:
+            application/problem+json:
+              examples:
+                Company number is not unique:
+                  description: Company number is not unique
+                  value:
+                    type: company/company-number-not-unique
+                    status: 400
+                    title: Company not unique
+                    detail: Es gibt mehrere Firmen mit der gleichen Firmennummer
+                    timestamp: '2024-04-24T13:34:01.051128600Z'
+                    errors: []
+                    companyNumber: '12345'
+        '404':
+          description: Requested company not found
+          content:
+            application/json:
+              examples:
+                Requested company not found:
+                  description: Requested company not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+    put:
+      tags:
+      - Companies
+      description: Create or update a company with the specified ID (company number). If the company with the given ID does not exist, a new company is created. If the company exist, the existing company is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an already existing company. It is therefore recommended to use the GET/companies to check whether a company with a specific ID exists or not BEFORE you use PUT/companies/{id}.
+      operationId: createOrUpdateCompany
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID (company number).
+        required: true
+        schema:
+          type: string
+        example: 12345
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Company'
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+              examples:
+                Successful call:
+                  description: Successful call
+                  value:
+                    companyNumber: '12345'
+                    name: AEB SE
+                    name2: Name 2
+                    name3: Name 3
+                    name4: Name 4
+                    street: Sigmaringerstr. 109
+                    street2: Street 2
+                    postcode: '70567'
+                    city: Stuttgart
+                    district: Möhringen
+                    countryIsoCode: DE
+                    county: BW
+                    poBox: '12345'
+                    postcodePoBox: '70567'
+                    cityPoBox: Stuttgart
+                    emailAddress: max.mustermann@aeb.com
+                    phoneNumber: 0711 12345
+                    faxNumber: 0711 12345
+                    vatNumber: DE123456789
+                    isEnabled: true
+                    homepage: www.aeb.com
+                    remark: Logistics company
+                    roles:
+                    - identCode: DLSHIPPT
+                      description: Versandstelle
+        '400':
+          description: Either the requested company number is not unique or something went wrong during the validation.
+          content:
+            application/problem+json:
+              examples:
+                Company number is not unique:
+                  description: Company number is not unique
+                  value:
+                    type: company/company-number-not-unique
+                    status: 400
+                    title: Company not unique
+                    detail: Es gibt mehrere Firmen mit der gleichen Firmennummer
+                    timestamp: '2024-04-24T13:34:01.051128600Z'
+                    errors: []
+                    companyNumber: '12345'
+                Validation error:
+                  description: Validation error
+                  value:
+                    type: about:blank
+                    status: 400
+                    title: Invalid data
+                    timestamp: '2024-04-24T13:35:11.511687Z'
+                    errors:
+                    - code: INVALID_VALUE
+                      message: darf nicht leer sein
+                      field: name
+                      value: ''
+                    - code: INVALID_VALUE
+                      message: Größe muss zwischen 1 und 40 sein
+                      field: name
+                      value: ''
+        '404':
+          description: Requested company not found
+          content:
+            application/json:
+              examples:
+                Requested company not found:
+                  description: Requested company not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+        '409':
+          description: Locking error
+          content:
+            application/problem+json:
+              examples:
+                Requested company cannot be locked:
+                  description: Requested company cannot be locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Firma - [AEB SE] fehlgeschlagen.
+                    timestamp: '2024-04-24T13:43:17.602220800Z'
+                    errors: []
+    delete:
+      tags:
+      - Companies
+      description: Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned.
+      operationId: deleteCompany
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID (company number).
+        required: true
+        schema:
+          type: string
+        example: 12345
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+              examples:
+                Successful call:
+                  description: Successful call
+                  value:
+                    companyNumber: '12345'
+                    name: AEB SE
+                    name2: Name 2
+                    name3: Name 3
+                    name4: Name 4
+                    street: Sigmaringerstr. 109
+                    street2: Street 2
+                    postcode: '70567'
+                    city: Stuttgart
+                    district: Möhringen
+                    countryIsoCode: DE
+                    county: BW
+                    poBox: '12345'
+                    postcodePoBox: '70567'
+                    cityPoBox: Stuttgart
+                    emailAddress: max.mustermann@aeb.com
+                    phoneNumber: 0711 12345
+                    faxNumber: 0711 12345
+                    vatNumber: DE123456789
+                    isEnabled: true
+                    homepage: www.aeb.com
+                    remark: Logistics company
+                    roles:
+                    - identCode: DLSHIPPT
+                      description: Versandstelle
+        '400':
+          description: Either the requested company number is not unique or something went wrong during the validation.
+          content:
+            application/problem+json:
+              examples:
+                Company number is not unique:
+                  description: Company number is not unique
+                  value:
+                    type: company/company-number-not-unique
+                    status: 400
+                    title: Company not unique
+                    detail: Es gibt mehrere Firmen mit der gleichen Firmennummer
+                    timestamp: '2024-04-24T13:34:01.051128600Z'
+                    errors: []
+                    companyNumber: '12345'
+        '404':
+          description: Requested company not found
+          content:
+            application/json:
+              examples:
+                Requested company not found:
+                  description: Requested company not found
+                  value:
+                    errorMessage: HTTP 404 Not Found
+        '409':
+          description: Locking error
+          content:
+            application/problem+json:
+              examples:
+                Requested company cannot be locked:
+                  description: Requested company cannot be locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Firma - [AEB SE] fehlgeschlagen.
+                    timestamp: '2024-04-24T13:43:17.602220800Z'
+                    errors: []
+  /companies:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - Companies
+      description: Returns all companies matching the given filter criteria. In case no company matches the given filter criteria an empty companies collection is returned. All filter fields are case insensitive. If the filter field supports place holders ('*' or '%'), you get all companies back beginning with the value of the filter. Means a place holder at the end of the filter value is added automatically.
+      operationId: searchCompanies
+      parameters:
+      - name: is_enabled
+        in: query
+        description: Use this filter field with value 'true' if you want to get enabled companies only.
+        schema:
+          type: boolean
+        example: false
+      - name: roles
+        in: query
+        description: Filters companies by company roles. Use the API method GET/company-roles to retrieve all company roles. When searching for more than one role, all companies including one of the given roles are returned.<br>This filter field is case insensitive.<br>Place holders are not supported.
+        schema:
+          type: array
+          items:
+            type: string
+      - name: company_number_like
+        in: query
+        description: Filters companies by company number.<br>In the example, all companies whose company number begins with '123' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.<br>The company number is in some AEB services <b>not unique</b>, so the result may return more than one company with the same company number.
+        schema:
+          type: string
+        example: 123
+      - name: name_like
+        in: query
+        description: Filters companies by name.<br>In the example, all companies whose name begins with 'AEB' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.
+        schema:
+          type: string
+        example: AEB
+      - name: city_like
+        in: query
+        description: Filters companies by city.<br>In the example, all companies whose city includes 'ttgart' are returned.<br>This filter field is case insensitive.<br>Place holders are supported.
+        schema:
+          type: string
+        example: '*ttgart*'
+      - name: postcode_like
+        in: query
+        description: Filters companies by postcode.<br>In the example, all companies whose postcode starts with '70' are returned.<br>This filter field is case insensitive (relevant for alphanumeric postcodes, like in GB).<br>Place holders are supported.
+        schema:
+          type: string
+        example: 70*
+      - name: country_iso_code
+        in: query
+        description: 'Filters companies by the 2 digit country ISO code according to ISO 3166. Examples for valid codes: ''US'' for USA, ''DE'' for Germany, ''IT'' for Italy, etc.<br>In the example, all German companies are returned.<br>This filter field is case insensitive.<br>Place holders are not supported.'
+        schema:
+          maxLength: 2
+          minLength: 2
+          type: string
+        example: DE
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyPage'
+              examples:
+                List with two companies:
+                  description: List with two companies
+                  value:
+                    totalElements: 42
+                    content:
+                    - companyNumber: '1111'
+                      name: AEB GmbH
+                      name2: Advanced Global Trade Solutions
+                      street: Julius-Hölder-Straße 39
+                      postcode: '70597'
+                      city: Stuttgart
+                      countryIsoCode: DE
+                      emailAddress: info@aeb.de
+                      phoneNumber: +49/711/7 28 42-300
+                      faxNumber: +49/711/7 28 42-333
+                      vatNumber: '12345'
+                      isEnabled: true
+                      homepage: http://www.aeb.de
+                      roles:
+                      - identCode: DLSHIPPT
+                        description: Versandstelle
+                    - companyNumber: '2222'
+                      name: AEB SE
+                      name2: Name 2
+                      name3: Name 3
+                      name4: Name 4
+                      street: Sigmaringerstr. 109
+                      street2: Street 2
+                      postcode: '70567'
+                      city: Stuttgart
+                      district: Möhringen
+                      countryIsoCode: DE
+                      county: BW
+                      poBox: '12345'
+                      postcodePoBox: '70567'
+                      cityPoBox: Stuttgart
+                      emailAddress: max.mustermann@aeb.com
+                      phoneNumber: 0711 12345
+                      faxNumber: 0711 12345
+                      vatNumber: DE123456789
+                      isEnabled: true
+                      homepage: www.aeb.com
+                      remark: Logistics company
+                      roles: []
+                Empty list:
+                  description: Empty list
+                  value:
+                    totalElements: 42
+                    content: []
+        '400':
+          description: Either the requested company role is unknown or something went wrong during the validation.
+          content:
+            application/problem+json:
+              examples:
+                Unknown company role:
+                  description: Filtered company role does not exist
+                  value:
+                    type: about:blank
+                    status: 400
+                    title: Invalid data
+                    timestamp: '2024-04-24T13:01:32.275722800Z'
+                    errors:
+                    - code: INVALID_DATA
+                      message: Unbekannte Firmenrolle
+                      field: company_roles
+                      value: TEST
+                Validation error:
+                  description: Invalid value for param limit
+                  value:
+                    type: about:blank
+                    status: 400
+                    title: Invalid data
+                    timestamp: '2024-04-24T13:16:04.903767200Z'
+                    errors:
+                    - code: INVALID_VALUE
+                      message: muss größer-gleich 1 sein
+                      field: limit
+                      value: '0'
+  /company-roles:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - Companies
+      description: Returns all company roles of this AEB service. Company roles are domain specific characteristics and can differ between the different AEB services.
+      operationId: getCompanyRoles
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyRoleList'
+              examples:
+                All companies roles for this specific AEB service:
+                  description: All companies roles for this specific AEB service
+                  value:
+                    roles:
+                    - identCode: DLSHIPPT
+                      description: Shipping point
+components:
+  schemas:
+    CompanyPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of companies.
+          items:
+            $ref: '#/components/schemas/Company'
+    CompanyRole:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the role.
+          example: DLSHIPPT
+        description:
+          maxLength: 80
+          minLength: 0
+          type: string
+          description: The name of the role in request language.
+          readOnly: true
+          example: Shipping point
+      description: A role of a company. Company roles are domain specific characteristics and can differ between the different AEB services.
+    CompanyRoleList:
+      required:
+      - roles
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyRole'
+    Company:
+      required:
+      - companyNumber
+      - countryIsoCode
+      - name
+      type: object
+      properties:
+        companyNumber:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Company number. The company number is in some AEB services not unique.
+          readOnly: true
+          example: '12345'
+        name:
+          maxLength: 40
+          minLength: 1
+          type: string
+          description: Name of the company (first address line).
+          example: AEB SE
+        name2:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: Address name line 2.
+        name3:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: Address name line 3.
+        name4:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: Address name line 4.
+        street:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: Street (line 1) of the address.
+          example: Sigmaringer Str. 109
+        street2:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: Street (line 2) of the address.
+        postcode:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Postcode of the street address.
+          example: '70567'
+        city:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: City of the address.
+          example: Stuttgart
+        district:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: District (city line 2) of the address.
+        countryIsoCode:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: Country of address. Unique alpha-2 ISO code of country according to ISO 3166.
+          example: DE
+        county:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: County of the address.
+          example: BW
+        poBox:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: PO-Box.
+        postcodePoBox:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Postcode of the poBox address.
+        cityPoBox:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: City of the po-box address.
+        emailAddress:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Email address of the address.
+          format: email
+          example: support@aeb.com
+        phoneNumber:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: Phone number of reception.
+          example: +49 711 72842 0
+        faxNumber:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: Fax number of reception.
+        vatNumber:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: 'International VAT identification number. Example of format: DE123456789'
+          example: DE123456789
+        isEnabled:
+          type: boolean
+          description: If false, the company is logically deleted. Disabled companies will not be linked to new transactional data. It is possible to enable a disabled company by overwriting the value with 'true' or leave it empty.
+          example: true
+        disabledAt:
+          type: string
+          description: Date at wich the company was set as disabled. Empty if the company is not disabled. This date is always UTC time zone and has the RFC-3339 date format.
+          format: date-time
+          readOnly: true
+        homepage:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: Homepage of the company.
+          example: www.aeb.com
+        remark:
+          maxLength: 4000
+          minLength: 0
+          type: string
+          description: Remarks about the company.
+          example: :)
+        roles:
+          type: array
+          description: Roles of the company. The possible roles depends on the AEB service. Use API method GET /company-roles to retrieve all possible company roles.
+          items:
+            $ref: '#/components/schemas/CompanyRole'
+      description: A complete address of a company.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-refined-from:
+- aeb-bsm-openapi.json
+- aeb-carrier-connect-openapi.json
+- aeb-carrier-event-service-openapi.json
+- aeb-carrier-select-openapi.json
+- aeb-customs-broker-portal-openapi.json
+- aeb-customs-inventory-management-openapi.json
+- aeb-customs-management-openapi.json
+- aeb-logistics-cost-management-openapi.json
+- aeb-product-classification-openapi.json
+- aeb-trade-compliance-management-openapi.json
+x-proxy-enabled: false

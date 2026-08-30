@@ -1,0 +1,675 @@
+openapi: 3.2.0
+info:
+  title: Logistics Cost Management HTTP Invoices API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/demo1billing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Invoices
+  description: API for handling external invoices
+paths:
+  /ExternalInvoice/acknowledgeChangedExternalInvoices:
+    post:
+      tags:
+      - Invoices
+      summary: acknowledgeChangedExternalInvoices
+      description: Acknowledge that changed external invoices were processed and should no longer be returned by getChangedExternalInvoices.
+      operationId: acknowledgeChangedExternalInvoices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BAcknowledgeChangedExternalInvoicesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BAcknowledgeChangedExternalInvoicesResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /ExternalInvoice/createExternalInvoices:
+    post:
+      tags:
+      - Invoices
+      summary: createExternalInvoices
+      description: Creates one external invoice for every BExternalInvoiceDTO included in the BCreateExternalInvoicesRequestDTO.
+      operationId: createExternalInvoices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BCreateExternalInvoicesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BCreateExternalInvoicesResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /ExternalInvoice/getChangedExternalInvoices:
+    post:
+      tags:
+      - Invoices
+      summary: getChangedExternalInvoices
+      description: <p>Returns all changed external invoices.</p> <p> This method should be used together with acknowledgeChangedExternalInvoices. </p> See also BGetChangedExternalInvoicesResponseDTO#syncId
+      operationId: getChangedExternalInvoices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BGetChangedExternalInvoicesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BGetChangedExternalInvoicesResponseDTO'
+      security:
+      - BASIC_AUTH: []
+components:
+  schemas:
+    BCreateExternalInvoicesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        clientIdentCode:
+          type: string
+          description: Client ident code, this field includes the same data like the field in the request.<br> <p>length=10</p>
+        billingSzenarioIdentCode:
+          type: string
+          description: Billing scenario ident code, this field includes the same data like the field in the request.<br> <p>length=50</p>
+        clientSystemId:
+          type: string
+          description: Id or identification name of the client system, this field includes the same data like the field in the request.<br> <p>length=50</p>
+        invoicesResults:
+          type: array
+          description: For every invoice in the request there will be one BExternalInvoiceResultDTO in this array, in the same order as in the request.
+          items:
+            $ref: '#/components/schemas/BExternalInvoiceResultDTO'
+      description: Response DTO which contains errors / infos / warnings about data import of external invoices
+    BGetChangedExternalInvoicesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+      description: Request parameter for IExternalInvoiceBF#getChangedExternalInvoices.
+    BAttachmentBytesInfoDTO:
+      type: object
+      properties:
+        bytes:
+          type: string
+          description: A byte stream which is added as new document (attachment) in the documents list of the invoice.<br> You have to fill fileExtension also, so that the attachment will be opened with the correct editor.<br> It is highly recommended to upload only smaller files/data, smaller than 10MB. <br> Otherwise a timeout may appear while sending the request.
+          format: byte
+        fileExtension:
+          type: string
+          description: 'File extension, only used if bytes is filled. The file extension defines the mime type for the byte stream, used to display the byte stream (attachment) with the correct editor.<br> E.g. fill with ''pdf'' or ''txt''.<br> Excerpt of supported extensions: ''csv'' , ''pdf'' , ''jpg'', ''png'' , ''gif'', ''html'', ''xml'', ''txt'', ''xlsx'''
+        description:
+          type: string
+          description: The description of the attached document. With the help of this description the user can identify the uploaded attachment more exactly from the list of documents in the invoice.
+        originalFileName:
+          type: string
+          description: The original file name of the transmitted attachment byte stream. The original file name is stored in the properties of the attached document, only for information purpose.
+      description: DTO including bytes and some additional data, from which an attachment is created and linked to it's model object.
+    BAcknowledgeChangedExternalInvoicesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response for IExternalInvoiceBF#acknowledgeGetChangedExternalInvoices
+    BCreateExternalInvoicesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        billingScenarioIdentCode:
+          type: string
+          description: Ident code of the billing scenario.<br> <p>length=50</p>
+        clientSystemUser:
+          $ref: '#/components/schemas/BContactDTO'
+        parms:
+          $ref: '#/components/schemas/BCreateExternalInvoicesParmsDTO'
+        invoices:
+          type: array
+          description: The invoices, included in this request.
+          items:
+            $ref: '#/components/schemas/BExternalInvoiceDTO'
+      description: 'A DTO which contains all data for creating at minimum one external invoice including: <br> - General informations, like data for storing the invoice(s) at the correct place(Logistics Cost Management client) <br> and data about the sending system<br> - Parameters which manage details regarding data import or response<br> - The invoice data including it''s item data.<br>'
+    BDateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and zone for Logistics Cost Management.
+    BQuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: Quantities for Billing.
+    BCreateExternalInvoicesParmsDTO:
+      type: object
+      properties:
+        returnTraceInfo:
+          type: boolean
+          description: If true, the response will contain detailed trace information
+      description: Request parameter for BCreateExternalInvoicesRequestDTO
+    BExternalInvoiceDTO:
+      type: object
+      properties:
+        clientOrgaId:
+          type: string
+          description: <p>Human readable id which identifies a client organization</p> <p>length=20</p>
+        clientUser:
+          $ref: '#/components/schemas/BContactDTO'
+        originCode:
+          type: string
+          description: <p>Origin of invoice (e.g. CSV, Webservice)</p> <p>length=20</p>
+        invoiceNumber:
+          type: string
+          description: The number for this invoice.<br> This number must be unique in combination with the clientIdentCode of the BCreateExternalInvoicesRequestDTO. <br> <p>length=50</p>
+        additionalReferenceNumber1:
+          type: string
+          description: Additional reference number 1. <br> <p>length=50</p>
+        invoiceDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        dueDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        providerCompanyNumber:
+          type: string
+          description: Company number of the provider. <p>length=20</p>
+        providerContact:
+          $ref: '#/components/schemas/BContactDTO'
+        payerCompanyNumber:
+          type: string
+          description: Company number of the payer. <p>length=20</p>
+        payerContact:
+          $ref: '#/components/schemas/BContactDTO'
+        currencyIsoCode:
+          type: string
+          description: The three letter ISO code, defined in ISO 1666-2 of the currency of all amounts of money in this invoice.<br> <p>length=3</p>
+        netPriceValue:
+          type: number
+          description: The net price value of the invoice.<br> Net, VAT and gross price do have the same currency - see currencyIsoCode.<br> <p>length=15, scale=2</p>
+        grossPriceValue:
+          type: number
+          description: The gross price value of the invoice.<br> Net, VAT and gross price do have the same currency - see currencyIsoCode.<br> <p>length=15, scale=2</p>
+        vatPriceValue:
+          type: number
+          description: The vat price value of the invoice.<br> Net, VAT and gross price do have the same currency - see currencyIsoCode.<br> <p>length=15, scale=2</p>
+        attribute:
+          type: string
+          description: Optional ident code, used to determine the settings for this invoice import. <br> <p>length=50</p>
+        documentText:
+          type: string
+          description: Additional large text of the invoice.<br>  <p>length=1000</p>
+        attachmentFileInfo:
+          $ref: '#/components/schemas/BAttachmentFileInfoDTO'
+        attachmentBytesInfo:
+          $ref: '#/components/schemas/BAttachmentBytesInfoDTO'
+        invoiceUri:
+          type: string
+          description: Resource locator to execute a shell with a (pdf) viewer on the invoice.   <br> <p>length=250</p>
+        invoiceItems:
+          type: array
+          description: The items of this invoice
+          items:
+            $ref: '#/components/schemas/BExternalInvoiceItemDTO'
+      description: An external invoice that contains all prices and invoice items.<br>
+    BAcknowledgeChangedExternalInvoicesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          maxLength: 20
+          type: string
+          description: <p>Synchronization ID for acknowledging.</p> <p>Use the value received in BGetChangedExternalInvoicesResponseDTO#syncId from the previous call to IExternalInvoiceBF#getChangedExternalInvoices.</p>
+      description: Request parameter for IExternalInvoiceBF#acknowledgeGetChangedExternalInvoices.
+    BExternalInvoiceItemDTO:
+      type: object
+      properties:
+        referenceNumber:
+          type: string
+          description: Main reference number for the invoice item<br>  <p>length=50</p>
+        referenceNumberProvider:
+          type: string
+          description: Service provider reference number for the invoice item<br>  <p>length=50</p>
+        referenceDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        netPriceValue:
+          type: number
+          description: The net price value of the item. <p>length=15, scale=2</p>
+        vatRatePercent:
+          type: number
+          description: The VAT rate in percent of the item. <p>length=15, scale=2</p>
+        vatPrice:
+          type: number
+          description: The VAT amount of the item. <p>length=15, scale=2</p>
+        inputPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        inputCurrencyRate:
+          type: number
+          description: The rate of of the input currency. <p>length=15, scale=8</p>
+        chargeableWeight:
+          $ref: '#/components/schemas/BQuantityDTO'
+        chargeCode:
+          type: string
+          description: The charge code of the item similar to price type<br>  <p>length=50</p>
+        documentText:
+          type: string
+          description: Additional large text of the item.<br>  <p>length=1000</p>
+        additionalField1:
+          type: string
+          description: Additional field 1 of the item.<br>  <p>length=50</p>
+        additionalField2:
+          type: string
+          description: Additional field 2 of the item.<br>  <p>length=50</p>
+        additionalField3:
+          type: string
+          description: Additional field 3 of the item.<br>  <p>length=50</p>
+        description:
+          type: string
+          description: Description of the item <p>length=250</p>
+      description: DTO for external invoice items, used to import external invoices
+    BAmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    BExternalInvoiceSyncDTO:
+      type: object
+      properties:
+        isDeleted:
+          type: boolean
+          description: <p>Indicates whether the invoice was deleted.</p> If true, only invoiceNumber and provider will be filled.
+        invoiceNumber:
+          maxLength: 50
+          type: string
+          description: Number of the invoice.
+        origin:
+          maxLength: 6
+          type: string
+          description: '<p>Origin type of the invoice.</p> Possible values: <li>"WS": Created via web service.</li> <li>"MANUAL": Created manually via UI.</li> <li>"CSV": Created via CSV import.</li>'
+        invoiceStatusIdentCode:
+          maxLength: 15
+          type: string
+          description: '<p>Status code of the invoice.</p> Possible values: <li>empty: Invoice was newly created.</li> <li>"READY": Invoice data is complete, audit can begin.</li> <li>"AUDIT": Invoice is currently in audit.</li> <li>"COMPLETE": Invoice audit is complete.</li> <li>"REJECTED": Invoice is rejected.</li>'
+        processingIdentCode:
+          maxLength: 50
+          type: string
+          description: Processing ident code of the invoice. Usually code of the user that is auditing the invoice.
+        billingScenarioIdentCode:
+          maxLength: 50
+          type: string
+          description: Ident code of the billing scenario of the invoice.
+        invoiceDate:
+          type: string
+          description: Invoice date of the invoice.
+          format: date-time
+        dueDate:
+          type: string
+          description: Due date of the invoice.
+          format: date-time
+        payer:
+          $ref: '#/components/schemas/BCompanyDTO'
+        provider:
+          $ref: '#/components/schemas/BCompanyDTO'
+        attribute:
+          maxLength: 50
+          type: string
+          description: Attribute of the invoice.
+        note:
+          maxLength: 1000
+          type: string
+          description: Note of the invoice.
+        rejectionReason:
+          maxLength: 250
+          type: string
+          description: Rejection reason of the invoice. Only relevant if the invoice is rejected.
+        invoiceNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        invoiceVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        invoiceGrossPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlement:
+          $ref: '#/components/schemas/BExternalInvoiceSettlementSyncDTO'
+      description: Synchronization data of an invoice and its associated settlement.
+    BGetChangedExternalInvoicesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        invoices:
+          type: array
+          description: Changed invoices.
+          items:
+            $ref: '#/components/schemas/BExternalInvoiceSyncDTO'
+        syncId:
+          maxLength: 20
+          type: string
+          description: Synchronization ID for acknowledging. <p> Use this syncId in subsequent calls to ExternalInvoiceBF#acknowledgeChangedExternalInvoices to acknowledge the processing of the changed invoices. </p> <p> This syncId may be null if no invoices were found to synchronize. In this case no call to IExternalInvoiceBF#acknowledgeChangedExternalInvoices is necessary.
+        isComplete:
+          type: boolean
+          description: <p>True, if the synchronization is complete and currently no further changed invoices are available.</p> <p>False if not.<br> In this case, after acknowledging with IExternalInvoiceBF#acknowledgeChangedExternalInvoices, an immediate second call to IExternalInvoiceBF#getChangedExternalInvoices would be sensible.</p>
+      description: Response of ExternalInvoiceBF#getChangedExternalInvoices.
+    BAttachmentFileInfoDTO:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: File name of a document, the file content is added as new document (attachment) in the documents list of the invoice.<br> You have to set the full name & path, e.g. 'c:\temp\test.pdf'.<br>  Ensure that the file is accessible by the server.<br> It is highly recommended to upload only smaller files, smaller than 10MB.<br> Otherwise a timeout may appear while sending the request.
+        description:
+          type: string
+          description: The description of the attached document. With the help of this description the user can identify the uploaded attachment more exactly from the list of documents in the invoice.
+      description: DTO for importing references to a file which should be attached to its model object. DTO including an absolute path reference to a file and some additional data, from which an attachment is created and linked to it's model object.
+    BExternalInvoiceSettlementSyncDTO:
+      type: object
+      properties:
+        settlementNumber:
+          maxLength: 50
+          type: string
+          description: Settlement number of the settlement.
+        settlementStatusIdentCode:
+          maxLength: 15
+          type: string
+          description: '<p>Status code of the settlement.</p> Possible values: <li>empty: Settlement was newly created.</li> <li>"READY": Settlement data is complete.</li> <li>"COMPILED": Settlement is compiled.</li> <li>"RELEASED": Settlement is for released for further processes.</li> <li>"COMPLETE": Settlement is complete.</li> <li>"CANCELLED": Settlement is cancelled.</li>'
+        settlementDate:
+          type: string
+          description: Settlement date of the invoice.
+          format: date-time
+        settlementNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementGrossPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementLastModifiedBy:
+          maxLength: 254
+          type: string
+          description: Last modifier of the settlement.
+        settlementLastModifiedAt:
+          type: string
+          description: Date of the last modification of the settlement.
+          format: date-time
+      description: Synchronization data of a settlement that is associated with an invoice.
+    BCompanyDTO:
+      type: object
+      properties:
+        companyNumber:
+          type: string
+          description: Company Number <p>length=20</p>
+        name:
+          type: string
+          description: Name of the company (first address line) <p>length=40</p>
+        name2:
+          type: string
+          description: Address name line 2 <p>length=40</p>
+        name3:
+          type: string
+          description: Address name line 3 <p>length=40</p>
+        name4:
+          type: string
+          description: Address name line 4 <p>length=40</p>
+        street:
+          type: string
+          description: Street (line 1) of the address. <p>length=40</p>
+        street2:
+          type: string
+          description: Street (line 2) of the address. <p>length=40</p>
+        postcode:
+          type: string
+          description: Postcode of the street address. <p>length=10</p>
+        city:
+          type: string
+          description: City of the address. <p>length=40</p>
+        district:
+          type: string
+          description: District (city line 2) of the address. <p>length=40</p>
+        countryISOCode:
+          type: string
+          description: Country of address <p>length=2</p>
+        county:
+          type: string
+          description: County of the address <p>length=40</p>
+        poBox:
+          type: string
+          description: PO-Box. <p>length=10</p>
+        postcodePOBox:
+          type: string
+          description: Postcode of the poBox address. <p>length=10</p>
+        cityPOBox:
+          type: string
+          description: City of the po-box address. <p>length=40</p>
+        emailAddress:
+          type: string
+          description: Email address of the address. <p>length=256</p>
+        phone:
+          type: string
+          description: Phone number of reception <p>length=20</p>
+        fax:
+          type: string
+          description: Fax number of reception <p>length=20</p>
+      description: A complete address of a company for Logistics Cost Management.
+    BExternalInvoiceResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        invoiceNumber:
+          type: string
+          description: The number for this invoice.<br>  This number must be unique in combination with the BCreateExternalInvoicesRequestDTO#clientIdentCode. <br> This field includes the same data like the field in the request<br>. <p>length=50</p>
+      description: Result DTO for external invoice
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    BContactDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of contact.
+
+            > `length=80`'
+        phone:
+          type: string
+          description: 'Phone number.
+
+            > `length=20`'
+        fax:
+          type: string
+          description: 'Fax number.
+
+            > `length=20`'
+        email:
+          type: string
+          description: 'Email address.
+
+            > `length=256`'
+      description: Contains data for contacting a person for Logistics Cost Management.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

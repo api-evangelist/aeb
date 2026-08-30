@@ -1,0 +1,53 @@
+openapi: 3.2.0
+info:
+  title: BSM (TEST2) HTTP X360 API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: x360
+  description: All Haufe x360 specific APIs to interact with the BSM.
+paths:
+  /x360/handleEvent:
+    post:
+      tags:
+      - x360
+      summary: Endpoint to perfom a compliance screening for a Haufe x360 customer
+      description: This endpoint will automatically be triggered whenever a customer is modified inside the x360 erp system.
+      operationId: handleEvent_1
+      parameters:
+      - name: BSM-Authorization
+        in: header
+        schema:
+          type: string
+      requestBody:
+        description: The request body of the X360 push notification
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: The event successfully handled.
+        '400':
+          description: Invalid request, .e.g. invalid body.
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed. Use POST method.
+        '500':
+          description: Other errors, like a malformed request or internal server error. See errorMessage for details.
+components:
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

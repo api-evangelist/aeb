@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: Trade Compliance Management HTTP Export Control Internal API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Export Control Internal
+  description: Internal API for export control
+paths:
+  /ExportControlInternal/setFinalTransactionLabelHost:
+    post:
+      tags:
+      - Export Control Internal
+      summary: Update existing transaction labels.
+      description: Update the transaction label for existing export control transaction protocols, clearings and clearing protocols after they were created. This method should only be called by the SAP plugin, which always provides a transaction label containing "[SAP has not assigned a no. yet]" in the first check of a check transaction. This placeholder is supposed to be replaced with the help of this method (although the whole label must be passed).
+      operationId: setFinalTransactionLabelHost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetFinalLabelRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/SetFinalLabelRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetFinalLabelRequestDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SetFinalLabelRequestDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+components:
+  schemas:
+    SetFinalLabelRequestDTO:
+      required:
+      - transactionIdHost
+      - transactionLabelHost
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        transactionIdHost:
+          type: string
+          description: Combined with <code>clientIdentCode</code> and <code>clientSystemId</code>, uniquely identifies the check transaction in question.
+          example: MANDANT=001/BELNO=80004989
+        transactionLabelHost:
+          type: string
+          description: The updated reference label.
+          example: Mandant = 001; Auftragsnr. = 80004989
+      description: Request DTO for <code>/ExportControlInternal/setFinalTransactionLabelHost</code> containing identifying data for the entries to be updated as well as the new transaction label.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

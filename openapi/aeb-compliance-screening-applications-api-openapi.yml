@@ -1,0 +1,1280 @@
+openapi: 3.2.0
+info:
+  title: Trade Compliance Management HTTP Compliance Screening Applications API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Compliance Screening Applications
+  description: Get URLs to various parts of the Compliance Screening application.
+paths:
+  /ComplianceScreeningApplications/manualAddressScreening:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Manual address screening UI
+      description: Returns a URL that allows you to embed manual address screening into another application.
+      operationId: manualAddressScreening
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualAddressScreeningRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ManualAddressScreeningRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed manual address screening into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/manualLogEntry:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Manual log entry editor
+      description: Returns a URL that allows you to embed an editor to enter a manual log entry into another application.
+      operationId: manualLogEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualLogEntryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ManualLogEntryRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed an editor to enter a manual log entry into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/matchHandlingView:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Match handling overview
+      description: Returns a URL that allows you to embed the match handling overview into another application.
+      operationId: matchHandlingView
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchHandlingOverviewRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/MatchHandlingOverviewRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed the match handling overview into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/matchHandlingViewEntry:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Match handling entry
+      description: Returns a URL that allows you to embed a match handling entry into another application.
+      operationId: matchHandlingViewEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchHandlingEntryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/MatchHandlingEntryRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed a match handling entry into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/restrictedPartyAddress:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Restricted party address
+      description: Returns a URL that allows you to embed the restricted party address of one list entry into another application.
+      operationId: restrictedPartyAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestrictedPartyAddressRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/RestrictedPartyAddressRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed the restricted party address into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/restrictedPartyList:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Restricted party list
+      description: Returns a URL that allows you to embed the restricted party list into another application.
+      operationId: restrictedPartyList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestrictedPartyListRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/RestrictedPartyListRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed the restricted party list into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/screeningLogEntry:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Screening log entry editor
+      description: Returns a URL that allows you to embed the screening log entry for an address match, Good Guy alarm or non match into another application.
+      operationId: screeningLogEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreeningProtocolEntryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ScreeningProtocolEntryRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed screening log entry for an address match, Good Guy alarm or non match into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/screeningLogs:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Screening logs overview
+      description: Returns a URL that allows you to embed the screening logs overview into another application.
+      operationId: screeningLogs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreeningLogsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ScreeningLogsRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed screening logs overview into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/screeningProtocolEntry:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Screening log entry editor
+      description: Returns a URL that allows you to embed the screening log entry for an address match, Good Guy alarm or non match into another application.
+      operationId: screeningProtocolEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreeningProtocolEntryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ScreeningProtocolEntryRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed screening log entry for an address match, Good Guy alarm or non match into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+      deprecated: true
+  /ComplianceScreeningApplications/statisticalData:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Statistical overview application
+      description: Returns a URL that allows you to embed the statistical overview into another application.
+      operationId: statisticalData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatisticalDataRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/StatisticalDataRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed the statistical overview into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreeningApplications/statisticalKeyFigures:
+    post:
+      tags:
+      - Compliance Screening Applications
+      summary: Statistical key figures application
+      description: Returns a URL that allows you to embed statistical key figures into another application.
+      operationId: statisticalKeyFigures
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatisticalKeyFiguresRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/StatisticalKeyFiguresRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to embed statistical key figures into another application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+components:
+  schemas:
+    StatisticalKeyFiguresParmsDTO:
+      type: object
+      properties:
+        searchDateFromPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or after a specific date. Has to be specified together with <code>searchDateToPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        searchDateToPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or before a specific date. Has to be specified together with <code>searchDateFromPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        clientIdentCodePattern:
+          maxLength: 10
+          type: string
+          description: Value of the search criterion to find statistical data of events of a specific client. Must be a valid client ident code the client and user used for authentication has access to. If omitted, the client filter is set according to the authentication user's access rights.
+          example: APITEST
+        profileIdentCodePattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events using a specific profile. Optional and only appropriate in combination with a clientIdentCodePattern. If given, must be the ident code of an existing Compliance profile valid for the client filtered for.
+          example: DEFAULT
+        clientSystemIdPattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events related to a specific partner system. Can be omitted.
+          example: API-TEST
+      description: Application specific parameters to display the statistical key figures.
+    ScreeningProtocolEntryRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ScreeningProtocolEntryParmsDTO'
+      description: Request object to get the URL to display a screening log entry for an address match, Good Guy alarm or non match.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
+          type: string
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
+    ApplicationFacadeParmsDTO:
+      type: object
+      properties:
+        client:
+          type: string
+          description: The client of the new session. This should be a legal identCode of a client in the system.<br> If it is NOT a legal identCode of a client in the system, the user will see a login prompt before he is able to see the UI API. (See IFoundationBF.getAllClients()). <br>When the UI API web service call is authenticated, this value will be checked against the authentication data and the call is rejected if it does not match.
+          example: APITEST
+        user:
+          type: string
+          description: 'The user of the new session.<br> It is not required, that this user is a valid user name of the client. However: Such a user may get granted only have the role "I_EVERYONE" unless XNSG is configured to use e.g. an LDAP server and the user can be found in the LDAP server with some roles granted to the user. <br> No password is required because other servers which contact over the API will be trusted to have checked the users access rights. This enables a kind of "single sign on" between different e.g. XNSG servers.'
+          example: API_TEST
+        workstationId:
+          type: string
+          description: The unique workstation identifier of the new session.<br><br>The identifier of the workstation must be configured and unique within the same client.
+        workstationSessionId:
+          type: string
+          description: The unique workstation agent session identifier of the new session.<br>It defines a concrete and already established session agent bound to the local workstation e.g. locally started service agent.<br>The workstation agent is used for accessing local peripheries (e.g. local printers).<p><b>The caller must ensure that the corresponding session has been established</b></p>
+        language:
+          type: string
+          description: The two letter ISO code of the language of the new session.
+          example: en
+        displayFullWorkplace:
+          type: boolean
+          description: <code>true</code> to display the complete workspace (central, user and info panel). Use false or null to display only the single ac.
+          example: true
+        isACEmbedded:
+          type: boolean
+          description: <code>true</code> to display header and statusbar, false if ac should be embedded in another
+          example: true
+        displayStatusbar:
+          type: boolean
+          description: <code>true</code> to display statusbar, <code>false</code>
+          example: true
+        displayTitlebar:
+          type: boolean
+          description: <code>true</code> to display header, <code>false</code> if ac should not show header
+          example: true
+        stylevariant:
+          type: string
+          description: Deprecated.
+          example: NEUTRAL
+        acceptTechnology:
+          type: string
+          description: 'Specify which technology the clients wants to access the application; one token (or several, separated by semicolon) - the server may chose to ignore this possible tokens are specific for each server technology, XNSG-Servers currently honor strings from the GUIInvocationTechnology enum (e.g.: VAADIN) if <code>null</code> a default technology is chosen.'
+          example: VAADIN
+        productname:
+          type: string
+          description: Optional field, which may be set if productname differs from standard product name
+        productShortName:
+          type: string
+          description: Optional field, which may be set if productShortName differs from standard product name
+        preferredWidth:
+          type: integer
+          description: Optional field, which may be set if preferred width of AF should be different from default. Preferred height may not be always applyable but wins against workstation settings. - not available for vaadin, invoker must open browser in correct way
+          format: int32
+        preferredHeight:
+          type: integer
+          description: Optional field, which may be set if preferred height of AF should be different from default. Preferred height may not be always applyable but wins against workstation settings. - not available for vaadin, invoker must open browser in correct way
+          format: int32
+        openToTray:
+          type: boolean
+          description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
+      description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    ManualProtocolEntryAFParmsDTO:
+      type: object
+      properties:
+        module:
+          type: string
+          description: The module this event belongs to. May be <code>null</code>, in which case the user has to select the module with a combobox.
+          example: ComplianceScreening
+          enum:
+          - ComplianceScreening
+          - ExportControl
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: The ident code of the Compliance profile. The value must be a valid ident code of a profile customized for the client identified by the <code>ApplicationFacadeParmsDTO</code>.<br><br>May be <code>null</code>. The profile is optional for logging.
+          example: DEFAULT
+        referenceId:
+          maxLength: 255
+          type: string
+          description: Initial value for the reference ID for the note.<br>This field is for internal technical use to build references between the compliance protocols and the client system.<br>The user can overwrite this value or specify the reference ID manually if omitted.<br>May be <code>null</code>.
+          example: CUSNO=4711;CLIENT=800;USER=BEN003;PC=PC-PHILIPP
+        info:
+          maxLength: 60000
+          type: string
+          description: Initial value for the description of the event, which can be altered by the user.<br>May be <code>null</code>.
+          example: Compliance officer overwrite of delivery block.
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: A unique ID of the host system calling this API for logging.
+          example: SAP_[sys]_[client]
+      description: Application specific parameters to display the manual log entry application.
+    MatchHandlingEntryAFParmsDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        referenceId:
+          type: string
+          description: Internal reference to identify the match to be displayed. If this field is left empty, clientReferenceComment needs to be filled.
+          example: customer.4711.aeb.123
+        clientReferenceComment:
+          type: string
+          description: Reference comment to identify the match to be displayed. If this field is left empty, referenceId needs to be filled.
+          example: 'Type: Customer, Id: 4711, Company name: AEB, Order number: 123'
+        clientSystemId:
+          type: string
+          description: Partner system to identify the match to be displayed. This field is not required, but should be transmitted if matches created by a partner system are supposed to be found.
+          example: API-TEST
+        clientIdentCode:
+          type: string
+          description: Client to identify the match to be displayed.
+          example: APICLIENT
+      description: Application specific parameters to display a match handling entry.
+    StatisticalDataParmsDTO:
+      type: object
+      properties:
+        searchDateFromPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or after a specific date. Has to be specified together with <code>searchDateToPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        searchDateToPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or before a specific date. Has to be specified together with <code>searchDateFromPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        clientIdentCodePattern:
+          maxLength: 10
+          type: string
+          description: Value of the search criterion to find statistical data of events of a specific client. Must be a valid client ident code the client and user used for authentication has access to. If omitted, the client filter is set according to the authentication user's access rights.
+          example: APITEST
+        profileIdentCodePattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events using a specific profile. Optional and only appropriate in combination with a clientIdentCodePattern. If given, must be the ident code of an existing Compliance profile valid for the client filtered for.
+          example: DEFAULT
+        clientSystemIdPattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events related to a specific partner system. Can be omitted.
+          example: API-TEST
+      description: Application specific parameters to display the statistical overview application.
+    RestrictedPartyListRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/RestrictedPartyListParmsDTO'
+      description: Request object to get the URL to display a restricted party list.
+    MatchHandlingOverviewParmsDTO:
+      type: object
+      properties:
+        storedViewName:
+          type: string
+          description: 'The abbreviation or a (translated) name of a view. The respective view must be created beforehand using the GUI.
+
+            If omitted, the default view is used.
+
+            A call for a nonexistent view also results in the default view along with a warning displayed to the user that the specified view could not be found.
+
+            Names for all translations will be searched. If there is a view A where storedViewName matches the abbreviation and a view B where it matches a translated name, then view A will take precedence.'
+          example: GG alarms user X
+      description: Application specific parameters to display the match handling overview. If omitted, the default view is used.
+    ScreeningLogsParmsDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title to be displayed by the application to be opened.
+          example: Screening Logs
+        referenceIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific reference (internal).
+          example: CUSNO=4711*
+        clientSystemIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific partner system.
+          example: API-TEST
+        clientIdentCodePattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific client.
+          example: APITEST
+      description: Application specific parameters to display the screening logs application.
+    ScreeningProtocolEntryParmsDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title to be displayed by the application to be opened.
+          example: Screening Logs
+        referenceId:
+          type: string
+          description: Value for the search criterion to find the specific log for the given reference (internal).
+          example: customer.4711.aeb.123
+        clientReferenceComment:
+          type: string
+          description: Value for the search criterion to find the specific log for the given reference comment.
+          example: 'Type: Customer, Id: 4711, Company name: AEB, Order number: 123'
+        clientSystemId:
+          type: string
+          description: Value for the search criterion to find the specific log for the given partner system.
+          example: API-TEST
+        clientIdentCode:
+          type: string
+          description: Value for the search criterion to find the specific log for the given client.
+          example: APICLIENT
+      description: Application specific parameters to display a screening log entry for an address match, Good Guy alarm or non match.
+    ManualLogEntryRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ManualProtocolEntryAFParmsDTO'
+      description: Request object to get the URL to display the manual log entry application.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+    StatisticalDataRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/StatisticalDataParmsDTO'
+      description: Request object to get the URL to display the statistical overview application.
+    MatchHandlingEntryRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/MatchHandlingEntryAFParmsDTO'
+      description: Request object to get the URL to display a match handling entry.
+    RestrictedPartyAddressParmsDTO:
+      type: object
+      properties:
+        internalAddressId:
+          maxLength: 50
+          type: string
+          description: The internalAddressId of the address to show. The internalAddressId can be taken from the results returned by <code>/ComplianceScreening/findMatchingAddresses</code> or <code>/ComplianceScreening/aliasAddresses</code>.
+          example: '123454678901234567890'
+      description: Application specific parameters to display a restricted party address.
+    ScreeningLogsRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ScreeningLogsParmsDTO'
+      description: Request object to get the URL to display the screening logs application.
+    StatisticalKeyFiguresRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/StatisticalKeyFiguresParmsDTO'
+      description: Request object to get the URL to display the statistical key figures.
+    ManualAddressScreeningRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ManualAddressScreeningParmsDTO'
+      description: Request object to get the URL to display the manual address screening application.
+    RestrictedPartyAddressRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/RestrictedPartyAddressParmsDTO'
+      description: Request object to get the URL to display a restricted party address.
+    ManualAddressScreeningParmsDTO:
+      type: object
+      properties:
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: The ident code of the Compliance profile used for screening. If given, must be a valid ident code of a profile valid for the client used in the general parameters. If omitted, the clients default profile is used.
+          example: DEFAULT
+      description: Application specific parameters to display the manual address screening application.
+    RestrictedPartyListParmsDTO:
+      type: object
+      properties:
+        groupName:
+          maxLength: 10
+          type: string
+          description: ID of the restricted party list to view.
+          example: BOE
+      description: Application specific parameters to display a restricted party list.
+    MatchHandlingOverviewRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/MatchHandlingOverviewParmsDTO'
+      description: Request object to get the URL to display the match handling overview.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

@@ -1,0 +1,335 @@
+openapi: 3.2.0
+info:
+  title: Aeb Workstation Service Agent API
+  version: '1.0'
+  description: 'Operations tagged WorkstationServiceAgent across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+- url: https://rz3.aeb.de/demo1cai/rest
+- url: https://xnsg.dc.aeb.com/demo1ces/rest
+- url: https://rz3.aeb.de/demo1routing/rest
+- url: https://rz3.aeb.de/test2broker/rest
+- url: https://rz3.aeb.de/test2cim/rest
+- url: https://rz3.aeb.de/test2ici/rest
+- url: https://rz3.aeb.de/demo1docs/rest
+- url: https://rz3.aeb.de/demo1billing/rest
+- url: https://rz3.aeb.de/test2cl/rest
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: WorkstationServiceAgent
+  description: Connection handler for the Workstation Service Agent
+paths:
+  /wssagent/connect:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - WorkstationServiceAgent
+      description: Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object.
+      operationId: connect
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkstationSessionInfoDTO'
+        '401':
+          description: Authentication is missing.
+      deprecated: true
+    delete:
+      tags:
+      - WorkstationServiceAgent
+      description: Ends existing workstation agent. Noop if there is no agent for the id.
+      operationId: disconnect0
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Authentication is missing.
+      deprecated: true
+  /wssagent/connection/{id}:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - WorkstationServiceAgent
+      description: Returns response object with information about given workstation service agent.
+      operationId: status0
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: details
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkstationSessionInfoDTO'
+        '404':
+          description: Unknown connection id.
+        '401':
+          description: Authentication is missing.
+    post:
+      tags:
+      - WorkstationServiceAgent
+      description: Checks if workstation agent exists for given id, creates one if not exists and returns corresponding launch request. Returns response object.
+      operationId: connect0
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userActivityTimeoutMS
+        in: query
+        description: User activity timeout (in ms). The time is counted from the last 'status' request. Not recommended to use values shorter than the typical print session duration.
+        schema:
+          type: integer
+          format: int64
+        examples:
+          empty:
+            description: empty
+          default:
+            description: default
+            value: 7200000
+      - name: registerTimeoutMS
+        in: query
+        description: Timeout (in ms) for the workstation agent launch request. The time is counted from the connection 'create' request that resulted with a launch request. Note that the agent launcher may require to download and install updates before making a connection.
+        schema:
+          type: integer
+          format: int32
+        examples:
+          empty:
+            description: empty
+          default:
+            description: default
+            value: 1800000
+      - name: processingTimeoutMS
+        in: query
+        description: Timeout (in ms) for the agent request server side processing. Should not be less than the client long polling interval (30s).
+        schema:
+          type: integer
+          format: int32
+        examples:
+          empty:
+            description: empty
+          default:
+            description: default
+            value: 300000
+      - name: nextPollingRequestTimeoutMS
+        in: query
+        description: Timeout (in ms) for the agent to send the next long polling request. Values smaller than 30-60 seconds may result in premature disconnection of sessions under unstable network conditions.
+        schema:
+          type: integer
+          format: int32
+        examples:
+          empty:
+            description: empty
+          default:
+            description: default
+            value: 60000
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkstationSessionInfoDTO'
+        '401':
+          description: Authentication is missing.
+    delete:
+      tags:
+      - WorkstationServiceAgent
+      description: Ends existing workstation agent. Noop if there is no agent for the id.
+      operationId: disconnect1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Authentication is missing.
+  /wssagent/status:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - WorkstationServiceAgent
+      description: Returns response object with information about given workstation service agent.
+      operationId: status
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+      - name: details
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkstationSessionInfoDTO'
+        '401':
+          description: Authentication is missing.
+      deprecated: true
+components:
+  schemas:
+    WorkstationSessionInfoDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - UNKNOWN
+          - LAUNCH_REQUEST
+          - LAUNCHING
+          - CONNECTED
+        info:
+          $ref: '#/components/schemas/DesktopAgentInfo'
+    DesktopAgentInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        registeredTime:
+          type: string
+          format: date-time
+        cloudServiceAgent:
+          type: boolean
+        cloudAgent:
+          type: boolean
+        diagnosticAgent:
+          type: boolean
+        mainWorkstationAgent:
+          type: boolean
+        childWorkstationAgent:
+          type: boolean
+        clientId:
+          type: string
+        locationLabel:
+          type: string
+        workstationSessionId:
+          type: string
+        processInfo:
+          $ref: '#/components/schemas/ProcessInfo'
+        launcherInfo:
+          $ref: '#/components/schemas/LauncherInfo'
+        sessionInfo:
+          $ref: '#/components/schemas/SessionInfo'
+        tracingInfo:
+          $ref: '#/components/schemas/TracingInfo'
+        perfMonitoringInfo:
+          $ref: '#/components/schemas/PerfMonitoringInfo'
+        lastNetworkActivityTime:
+          type: string
+          format: date-time
+    LauncherInfo:
+      type: object
+      properties:
+        version:
+          type: string
+        zoneName:
+          type: string
+    ProcessInfo:
+      type: object
+      properties:
+        host:
+          type: string
+        os:
+          type: string
+        pid:
+          type: string
+        name:
+          type: string
+        user:
+          type: string
+        initError:
+          type: string
+    SessionInfo:
+      type: object
+      properties:
+        userName:
+          type: string
+    PerfMonitoringInfo:
+      type: object
+      properties:
+        createdToRegisteredDurationMs:
+          type: integer
+          format: int64
+        createdToFirstNetworkActivityDurationMs:
+          type: integer
+          format: int64
+        createdToLaunchRequestedDurationMs:
+          type: integer
+          format: int64
+    TracingInfo:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        debugEnabled:
+          type: boolean
+        count:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        oldestTime:
+          type: string
+          format: date-time
+        newestTime:
+          type: string
+          format: date-time
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-refined-from:
+- aeb-bsm-openapi.json
+- aeb-carrier-connect-openapi.json
+- aeb-carrier-event-service-openapi.json
+- aeb-carrier-select-openapi.json
+- aeb-customs-broker-portal-openapi.json
+- aeb-customs-inventory-management-openapi.json
+- aeb-customs-management-openapi.json
+- aeb-document-service-openapi.json
+- aeb-logistics-cost-management-openapi.json
+- aeb-product-classification-openapi.json
+- aeb-trade-compliance-management-openapi.json
+x-proxy-enabled: false

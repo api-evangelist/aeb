@@ -1,0 +1,112 @@
+openapi: 3.2.0
+info:
+  title: Carrier Connect HTTP Carrier Description API
+  description: Thank you for using our HTTP API documentation.
+  version: '3.0'
+servers:
+- url: https://rz3.aeb.de/demo1cai/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: CarrierDescription
+  description: Rest API for carrier descriptions
+paths:
+  /carrier-descriptions:
+    get:
+      tags:
+      - CarrierDescription
+      description: Returns all carrier descriptions.
+      operationId: searchCarrierDescriptions
+      parameters:
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierDescriptionPage'
+              examples:
+                Carrier description list:
+                  description: Carrier description list
+                  value:
+                    totalElements: 1
+                    content:
+                    - identCode: DHLEUROPAKET
+                      name: DHL Europaket
+                      markdownDe: "# DHL Europaket\n\n  \n## Carrier Typ\n\nStandard-Carrier\n\n## Versandländer\n\nDeutschland\n\n## Geschäftszweige\n\nPaketdienst\n\n## Services\n\n### Internationaler Versand\n\nDHL Europaket\n\n## Zusatzleistungen\n\nTransportversicherung B (25000€)\n\nTransportversicherung A (2500€)\n\n## Versanddaten\n\nDatenübertragung: EDI, SFTP-Upload je Abholung\n\nDatenformat: DHL EuroPaket IFTMIN01B\n\nImplementierte Spezifikation: Keine\n\n## Label\n\nLabel gemäß DHL Europaket Vorgaben.\n\n## Einlieferungsliste\n\nEinlieferungsliste gemäß DHL Europaket Vorgaben.\n\n## Gefahrgut\n\nGefahrgutabwicklung nicht möglich\n\n## Besonderheiten\n\nDer Dienstleister erlaubt packstückweise Abwicklung. Die endgültige Anzahl der Packstücke für einen Versandauftrag muss nicht vor dem Druck des ersten Dokuments feststehen.\n"
+                      markdownEn: "# DHL Europaket\n\n  \n## Carrier type\n\nStandard carrier\n\n## Countries of dispatch\n\nFederal Rep. of Germany\n\n## Business divisions\n\nParcel service\n\n## Services\n\n### International shipping\n\nDHL Europaket\n\n## Value-added services\n\nTransport Insurance B (EUR 25,000)\n\nTransport Insurance A (EUR 2,500)\n\n## Shipping data\n\nData transmission: EDI, SFTP upload per pickup\n\nData format: DHL EuroPaket IFTMIN01B\n\nImplemented specification: None\n\n## Label\n\nLabel according to DHL Europaket specifications.\n\n## Loading list\n\nLoading list according to DHL Europaket specifications.\n\n## Hazardous goods\n\nHazardous goods processing not possible\n\n## Special characteristics\n\nPackage-by-package processing possible. It is not necessary to know the final number of packages in a shipping order before the first document is printed.\n"
+components:
+  schemas:
+    CarrierDescription:
+      required:
+      - identCode
+      - name
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: The name of the carrier.
+        descriptionDe:
+          type: string
+          description: The description of the carrier in German locale.
+        descriptionEn:
+          type: string
+          description: The description of the carrier in English locale.
+        markdownDe:
+          type: string
+          description: Description text in format markdown and German locale.
+        markdownEn:
+          type: string
+          description: Description text in format markdown and English locale.
+      description: Textual description of the functional scope of a carrier.
+    CarrierDescriptionPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of carrier descriptions.
+          items:
+            $ref: '#/components/schemas/CarrierDescription'
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

@@ -1,0 +1,1809 @@
+openapi: 3.2.0
+info:
+  title: Logistics Cost Management HTTP Billing API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/demo1billing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Billing
+  description: API for the billing of services
+paths:
+  /BillingBFBean/acknowledgeChangedSettlements:
+    post:
+      tags:
+      - Billing
+      summary: acknowledgeChangedSettlements
+      description: Acknowledge that changed settlements were processed and should no longer be returned by getChangedSettlements.
+      operationId: acknowledgeChangedSettlements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BAcknowledgeChangedSettlementsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BAcknowledgeChangedSettlementsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BAcknowledgeChangedSettlementsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BAcknowledgeChangedSettlementsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/cancelServiceItems:
+    post:
+      tags:
+      - Billing
+      summary: cancelServiceItems
+      description: Cancel the service items in the Billing engine.<br> Cancel a service item will try to logically remove the service item with all of its settelement items, if this is possible.<br> In some cases the cancellation of service items is not (or no longer) possible and will lead to errors.<br> E.g. the service item can not be found, or some of the settlement items of the service item can not or no longer be logically removed.<br> The processing of all items will be done in one transaction, so in case of any error, nothing will be persisted. Therefore check the errorFlag and message arrays in the response for any error to detect this case.<br>
+      operationId: cancelServiceItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BReverseServiceItemsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BReverseServiceItemsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BReverseServiceItemsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BReverseServiceItemsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/createServiceItems:
+    post:
+      tags:
+      - Billing
+      summary: createServiceItems
+      description: Creates one or more service items. For each BServiceItemDTO included in the BCreateServiceItemsRequestDTO one service item is created. Starts pricing if boolean calculatePriceImmediately in BCreateServiceItemParmsDTO is true and returns the calculated prices. Use this method if you want to invoice and or audit the service items.
+      operationId: createServiceItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BCreateServiceItemsRequestDTO'
+            examples:
+              Complete data:
+                description: Complete data
+                value:
+                  clientSystemId: APITEST
+                  clientIdentCode: APITEST
+                  userName: user
+                  resultLanguageIsoCodes:
+                  - de
+                  - en
+                  parms:
+                    calculatePriceImmediately: false
+                    createSettlementsImmediately: false
+                    returnTraceInfo: true
+                    rollbackOnErrorMessage: true
+                  items:
+                  - itemId: 25-11-2022
+                    scenarioIdentCode: A01
+                    serviceIdentCode: TNTDE_EXP12
+                    referenceNumber: 25-11-2022
+                    orderNumber: 25-11-2022
+                    serviceProvider:
+                      companyNumber: TNT
+                      name: TNT Express Worldwide
+                      street: Heilbronner Staße 110
+                      postcode: '70334'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    orderer:
+                      companyNumber: '001'
+                      name: AEB SE
+                      street: Sigmaringer Straße 109
+                      postcode: '70567'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    payer:
+                      companyNumber: '001'
+                      name: AEB SE
+                      street: Sigmaringer Straße 109
+                      postcode: '70567'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    beneficiary:
+                      companyNumber: '001'
+                      name: AEB SE
+                      street: Sigmaringer Straße 109
+                      postcode: '70567'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    referenceDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    pricingDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    chargeDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    serviceDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    orderDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    quantity:
+                      value: '1'
+                      unit: St
+                    description: Shipment
+                    extendedData:
+                      fields:
+                      - name: carrierDefinitionIdentCode
+                        type: string
+                        value: TNT
+                      - name: numberOfInvoices
+                        type: decimal
+                        value: '1'
+                      - name: isDangerousGoods
+                        type: boolean
+                        value: 'false'
+                      - name: referenceNumber
+                        type: string
+                        value: referenceNumber
+                      - name: incotermIdentCode
+                        type: string
+                        value: incoterm
+                      - name: numberOfItems
+                        type: decimal
+                        value: '2'
+                      - name: palletPlaces
+                        type: decimal
+                        value: '1.000'
+                      - name: numberOfPackages
+                        type: decimal
+                        value: '2'
+                      - name: isDocumentShipment
+                        type: boolean
+                        value: 'false'
+                      - name: numberOfDeliveryNotes
+                        type: decimal
+                        value: '1'
+                      subrecords:
+                      - name: volume
+                        record:
+                          fields:
+                          - name: unit
+                            type: string
+                            value: ccm
+                          - name: value
+                            type: decimal
+                            value: '4500.000'
+                      - name: grossWeight
+                        record:
+                          fields:
+                          - name: unit
+                            type: string
+                            value: kg
+                          - name: value
+                            type: decimal
+                            value: '1.900'
+                      - name: transportStart
+                        record:
+                          subrecords:
+                          - name: postalAddress
+                            record:
+                              fields:
+                              - name: countryIsoCode
+                                type: string
+                                value: DE
+                              - name: postcode
+                                type: string
+                                value: '70597'
+                      - name: transportEnd
+                        record:
+                          subrecords:
+                          - name: postalAddress
+                            record:
+                              fields:
+                              - name: countryIsoCode
+                                type: string
+                                value: DE
+                              - name: postcode
+                                type: string
+                                value: '94405'
+                      - name: packages
+                        record:
+                          fields:
+                          - name: dangerousGoodsHandlingCode
+                            type: string
+                            value: NONE
+                          - name: packageReferenceNumber
+                            type: string
+                            value: package1
+                          - name: numberOfPackages
+                            type: decimal
+                            value: '1'
+                          subrecords:
+                          - name: volume
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: ccm
+                              - name: value
+                                type: decimal
+                                value: '1500.000'
+                          - name: grossWeight
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: kg
+                              - name: value
+                                type: decimal
+                                value: '0.600'
+                          - name: dimensions
+                            record:
+                              fields:
+                              - name: length
+                                type: decimal
+                                value: '30.000'
+                              - name: width
+                                type: decimal
+                                value: '10.000'
+                              - name: quantityUnit
+                                type: string
+                                value: cm
+                              - name: height
+                                type: decimal
+                                value: '5.000'
+                      - name: packages
+                        record:
+                          fields:
+                          - name: dangerousGoodsHandlingCode
+                            type: string
+                            value: NONE
+                          - name: packageTypeIdentCode
+                            type: string
+                            value: packageType
+                          - name: packageReferenceNumber
+                            type: string
+                            value: package2
+                          - name: numberOfPackages
+                            type: decimal
+                            value: '1'
+                          subrecords:
+                          - name: volume
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: ccm
+                              - name: value
+                                type: decimal
+                                value: '3000.000'
+                          - name: grossWeight
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: kg
+                              - name: value
+                                type: decimal
+                                value: '1.300'
+                          - name: dimensions
+                            record:
+                              fields:
+                              - name: length
+                                type: decimal
+                                value: '30.000'
+                              - name: width
+                                type: decimal
+                                value: '20.000'
+                              - name: quantityUnit
+                                type: string
+                                value: cm
+                              - name: height
+                                type: decimal
+                                value: '5.000'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BCreateServiceItemsRequestDTO'
+            examples:
+              Complete data:
+                description: Complete data
+                value:
+                  clientSystemId: APITEST
+                  clientIdentCode: APITEST
+                  userName: user
+                  resultLanguageIsoCodes:
+                  - de
+                  - en
+                  parms:
+                    calculatePriceImmediately: false
+                    createSettlementsImmediately: false
+                    returnTraceInfo: true
+                    rollbackOnErrorMessage: true
+                  items:
+                  - itemId: 25-11-2022
+                    scenarioIdentCode: A01
+                    serviceIdentCode: TNTDE_EXP12
+                    referenceNumber: 25-11-2022
+                    orderNumber: 25-11-2022
+                    serviceProvider:
+                      companyNumber: TNT
+                      name: TNT Express Worldwide
+                      street: Heilbronner Staße 110
+                      postcode: '70334'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    orderer:
+                      companyNumber: '001'
+                      name: AEB SE
+                      street: Sigmaringer Straße 109
+                      postcode: '70567'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    payer:
+                      companyNumber: '001'
+                      name: AEB SE
+                      street: Sigmaringer Straße 109
+                      postcode: '70567'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    beneficiary:
+                      companyNumber: '001'
+                      name: AEB SE
+                      street: Sigmaringer Straße 109
+                      postcode: '70567'
+                      city: Stuttgart
+                      countryISOCode: DE
+                    referenceDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    pricingDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    chargeDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    serviceDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    orderDate:
+                      dateInTimezone: '2022-11-25 12:00:00'
+                      timezone: Europe/Berlin
+                    quantity:
+                      value: '1'
+                      unit: St
+                    description: Shipment
+                    extendedData:
+                      fields:
+                      - name: carrierDefinitionIdentCode
+                        type: string
+                        value: TNT
+                      - name: numberOfInvoices
+                        type: decimal
+                        value: '1'
+                      - name: isDangerousGoods
+                        type: boolean
+                        value: 'false'
+                      - name: referenceNumber
+                        type: string
+                        value: referenceNumber
+                      - name: incotermIdentCode
+                        type: string
+                        value: incoterm
+                      - name: numberOfItems
+                        type: decimal
+                        value: '2'
+                      - name: palletPlaces
+                        type: decimal
+                        value: '1.000'
+                      - name: numberOfPackages
+                        type: decimal
+                        value: '2'
+                      - name: isDocumentShipment
+                        type: boolean
+                        value: 'false'
+                      - name: numberOfDeliveryNotes
+                        type: decimal
+                        value: '1'
+                      subrecords:
+                      - name: volume
+                        record:
+                          fields:
+                          - name: unit
+                            type: string
+                            value: ccm
+                          - name: value
+                            type: decimal
+                            value: '4500.000'
+                      - name: grossWeight
+                        record:
+                          fields:
+                          - name: unit
+                            type: string
+                            value: kg
+                          - name: value
+                            type: decimal
+                            value: '1.900'
+                      - name: transportStart
+                        record:
+                          subrecords:
+                          - name: postalAddress
+                            record:
+                              fields:
+                              - name: countryIsoCode
+                                type: string
+                                value: DE
+                              - name: postcode
+                                type: string
+                                value: '70597'
+                      - name: transportEnd
+                        record:
+                          subrecords:
+                          - name: postalAddress
+                            record:
+                              fields:
+                              - name: countryIsoCode
+                                type: string
+                                value: DE
+                              - name: postcode
+                                type: string
+                                value: '94405'
+                      - name: packages
+                        record:
+                          fields:
+                          - name: dangerousGoodsHandlingCode
+                            type: string
+                            value: NONE
+                          - name: packageReferenceNumber
+                            type: string
+                            value: package1
+                          - name: numberOfPackages
+                            type: decimal
+                            value: '1'
+                          subrecords:
+                          - name: volume
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: ccm
+                              - name: value
+                                type: decimal
+                                value: '1500.000'
+                          - name: grossWeight
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: kg
+                              - name: value
+                                type: decimal
+                                value: '0.600'
+                          - name: dimensions
+                            record:
+                              fields:
+                              - name: length
+                                type: decimal
+                                value: '30.000'
+                              - name: width
+                                type: decimal
+                                value: '10.000'
+                              - name: quantityUnit
+                                type: string
+                                value: cm
+                              - name: height
+                                type: decimal
+                                value: '5.000'
+                      - name: packages
+                        record:
+                          fields:
+                          - name: dangerousGoodsHandlingCode
+                            type: string
+                            value: NONE
+                          - name: packageTypeIdentCode
+                            type: string
+                            value: packageType
+                          - name: packageReferenceNumber
+                            type: string
+                            value: package2
+                          - name: numberOfPackages
+                            type: decimal
+                            value: '1'
+                          subrecords:
+                          - name: volume
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: ccm
+                              - name: value
+                                type: decimal
+                                value: '3000.000'
+                          - name: grossWeight
+                            record:
+                              fields:
+                              - name: unit
+                                type: string
+                                value: kg
+                              - name: value
+                                type: decimal
+                                value: '1.300'
+                          - name: dimensions
+                            record:
+                              fields:
+                              - name: length
+                                type: decimal
+                                value: '30.000'
+                              - name: width
+                                type: decimal
+                                value: '20.000'
+                              - name: quantityUnit
+                                type: string
+                                value: cm
+                              - name: height
+                                type: decimal
+                                value: '5.000'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BCreateServiceItemsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BCreateServiceItemsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/getBillingScenarios:
+    post:
+      tags:
+      - Billing
+      summary: getBillingScenarios
+      description: Returns all billing scenarios for the given client
+      operationId: getBillingScenarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BGetBillingScenariosRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BGetBillingScenariosRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BGetBillingScenariosResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BGetBillingScenariosResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/getBillingServices:
+    post:
+      tags:
+      - Billing
+      summary: getBillingServices
+      description: Returns all billing services for the given client and billing scenario as optional parameter.
+      operationId: getBillingServices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BGetBillingServicesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BGetBillingServicesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BGetBillingServicesResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BGetBillingServicesResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/getChangedSettlements:
+    post:
+      tags:
+      - Billing
+      summary: getChangedSettlements
+      description: <p>Returns all changed settlements.</p> <p> This method should be used together with acknowledgeChangedSettlements. </p> See also BGetChangedSettlementsResponseDTO#syncId
+      operationId: getChangedSettlements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BGetChangedSettlementsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BGetChangedSettlementsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BGetChangedSettlementsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BGetChangedSettlementsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/getServiceItems:
+    post:
+      tags:
+      - Billing
+      summary: getServiceItems
+      description: Returns all service items for the given client.
+      operationId: getServiceItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BGetServiceItemsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BGetServiceItemsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BGetServiceItemsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BGetServiceItemsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/offsetServiceItems:
+    post:
+      tags:
+      - Billing
+      summary: offsetServiceItems
+      description: Offset the service items in the Billing engine.<br> Offsetting a service item will offset all relevant settlement items of this service item, by creating exact copies of the relevant settlement items with reversed sign.<br> Depending on customizing, some settlement items will not take part in offsetting the service item and some settlement items will prevent any offsetting at all, which leads to an error.<br> The processing of all items will be done in one transaction, so in case of any error, nothing will be persisted. Therefore check the errorFlag and error message arrays in the response for any error to detect this case.<br>
+      operationId: offsetServiceItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BReverseServiceItemsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BReverseServiceItemsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BReverseServiceItemsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BReverseServiceItemsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/setServiceMasterFileData:
+    post:
+      tags:
+      - Billing
+      summary: setServiceMasterFileData
+      description: Create or update multiple Services in the Billing engine.<br> Create or update multiple services in the master file data of the engine. Because of performance and transactional issues it is recommended to transfer about 100 services within one synchronous call. All transfered services will be either created or updated. The identCode and scenarioIdentCode (these are key values) of the service will be checked before processing. In case of any unfilled key value, nothing will be done. In case of other problems for a single service e.g locking or invalid identCode values the processing is usually continued with the next service, skipping, the problematic service. This means the record will be skipped completely and processing will continue with the next service. Anyway such errors will set the hasErrors or hasWarnings to true. To analyse situations check the response for details. Possible messageIdentCodes are documented in AbstractResponseDTO, BSetServiceMasterFileDataResponseDTO, BServiceMFResultDTO, AbstractResponseItemDTO and BServiceMFResultDTO
+      operationId: setServiceMasterFileData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BSetServiceMasterFileDataRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BSetServiceMasterFileDataRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BSetServiceMasterFileDataResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BSetServiceMasterFileDataResponseDTO'
+      security:
+      - BASIC_AUTH: []
+  /BillingBFBean/simulateCreateServiceItems:
+    post:
+      tags:
+      - Billing
+      summary: simulateCreateServiceItems
+      description: This method does the same as createServiceItems, but does not store the results in the database.<br> So this method can e.g. be used to precalculate prices for potential service items or just for testing purposes.
+      operationId: simulateCreateServiceItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BCreateServiceItemsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BCreateServiceItemsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BCreateServiceItemsResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BCreateServiceItemsResponseDTO'
+      security:
+      - BASIC_AUTH: []
+components:
+  schemas:
+    BAccountingItemResultDTO:
+      type: object
+      properties:
+        costCenter:
+          type: string
+          description: Cost center of this item. <br> <p>length=50</p>
+        vatInfo:
+          $ref: '#/components/schemas/BVatInfoResultDTO'
+        settlementNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+      description: <p>Accounting item of a settlement.</p> <p>Accumulation of settlement items grouped by cost center and VAT.</p>
+    BCreateServiceItemsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        itemResults:
+          type: array
+          description: For every item in the request there will be one  BServiceItemResultDTO in this array, in the same order as in the request.
+          items:
+            $ref: '#/components/schemas/BServiceItemResultDTO'
+      description: Return value for the the method IBillingBF.createServiceItems().
+    BVatInfoResultDTO:
+      type: object
+      properties:
+        typeIdentCode:
+          type: string
+          description: <p>length=50</p>
+        percent:
+          type: number
+          description: Value between <code>0</code> and <code>100</code>.
+      description: Information about a VAT that was applied to prices.
+    BReverseServiceItemsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        reasonOfReversal:
+          type: string
+          description: <p>A qualified reason for reversal.</p> <p>length=250</p>
+        items:
+          type: array
+          description: An array of items that should be be processed.
+          items:
+            $ref: '#/components/schemas/BServiceItemReferenceDTO'
+      description: Request parameter for the the method IBillingBF.cancelServiceItems or IBillingBF.offsetServiceItems
+    NamedGenericDataRecordDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this record, i.e. the role the record plays in the enclosing record.<br> When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.
+        record:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+      description: A generic data record with a name.<br> Wrapper class to encapsulate subrecords with their name and with the ability to have explicit null records.
+      example:
+      - name: child
+        record:
+          fields: []
+          subrecords: []
+    BPriceTypeResultDTO:
+      type: object
+      properties:
+        priceTypeIdentCode:
+          type: string
+          description: The identCode of the price type. <p>length=50</p>
+        priceTypeLabels:
+          type: array
+          description: Human readable label for the price type in the languages requested.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: Information about a price type in a response.
+    BDateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and zone for Logistics Cost Management.
+    BGetBillingServicesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        scenarioIdentCode:
+          type: string
+          description: The identCode of the billing scenario optional parameter
+      description: Request parameter for IBillingBF#getBillingServices.
+    BQuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: Quantities for Billing.
+    BGetBillingScenariosRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+      description: Request parameter for IBillingBF#getBillingsScenarios.
+    GenericDataFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
+        value:
+          type: string
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
+    BSetServiceMasterFileDataResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        countCreated:
+          type: integer
+          description: Number of created services. This counter is null, if the processing of the request was cancelled because of missing key fields.
+          format: int32
+        countUpdated:
+          type: integer
+          description: Number of updated services. This counter is null, if the processing of the request was cancelled because of missing key fields.
+          format: int32
+        countError:
+          type: integer
+          description: Number of services with errors (not created or updated nor locked)
+          format: int32
+        countLocked:
+          type: integer
+          description: Number of locked services (not updated). This counter is null, if the processing of the request was cancelled because of missing key fields.
+          format: int32
+        results:
+          type: array
+          description: Results for every service passed.<br> Unless some basic required fields are missing (e.g. clientIdentCode or similar), this array contains for every passed BServiceMFDTO information about its processing status. The result is null, if the processing of the request was cancelled because of missing key fields.
+          items:
+            $ref: '#/components/schemas/BServiceMFResultDTO'
+      description: Reponse of the setServiceData method.
+    BCreateServiceItemParmsDTO:
+      type: object
+      properties:
+        calculatePriceImmediately:
+          type: boolean
+          description: Calculate the price immediately, and create immediately the settlement items.<br> If <code>false</code> the response does not include any prices.
+        createSettlementsImmediately:
+          type: boolean
+          description: Create Settlements for all items immediately.<br> Applies only mandatory split criteria (currency, invoice recipient, service provider) and then creates settlements which will contain exactly all settlement items created for the service item send.<br> calculatePriceImmediately must be to true for this.<br>
+        settlementNumber:
+          type: string
+          description: 'Settlement number<br> If this number is filled the (settlement items of the) service items of the request are assigned to the existing settlement - but only if: <br>-settlement exists with this number <br>-settlement status is "Data ready" <br>-settlement items matches to settlement <br> Otherwise a new settlement is created and the items are assigned to this newly created settlement.<br> The field:  #createSettlementsImmediately is ignored if settlementNumber is filled.<br>In case of locking exception - data import is aborted.'
+        returnTraceInfo:
+          type: boolean
+          description: If true, the response will contain trace information about contract search, VAT calculation  and price calculation in the messages variables.
+        rollbackOnErrorMessage:
+          type: boolean
+          description: This field defines the behavior in case of an error during the creation of a service item. If true or null, an error makes the complete request to be aborted. No service item is stored. If false, the erroneous service item is not stored. The process continues with the next service item.
+      description: Detailed settings for service item creation.
+    BGetServiceItemsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        getSettlementItems:
+          type: boolean
+          description: Also retrieve the settlement items of the service item. If this value is empty, it will be interpreted as false.
+        items:
+          type: array
+          description: An array of items that should be retrieved.
+          items:
+            $ref: '#/components/schemas/BServiceItemReferenceDTO'
+      description: Request dto for the the method IBillingBF.getServiceItems.
+    BServiceItemDTO:
+      type: object
+      properties:
+        itemId:
+          type: string
+          description: <p>ID of the service item which has to be unique within the client system.</p> Sending of an item with the same itemId and clientSystemId will be rejected with an error (unless the item was cancelled before). <p>length=50</p>
+        clientOrgaId:
+          type: string
+          description: <p>Human readable id which identifies a client organization</p> <p>The organization ID can be used for splitting and assigning settlement items to build up settlements. Therefore, if the import data doesn't provide for an organization ID, the import process will set a default organization ID into the service item.</p> <p>length=20</p>
+        clientSystemUser:
+          $ref: '#/components/schemas/BContactDTO'
+        clientSystemCostCenter:
+          type: string
+          description: preset client system cost center for the item <p>length=50</p>
+        clientSystemUri:
+          type: string
+          description: client system resource locator to execute a shell with a viewer on the item in the host system.   <br> <p>length=250</p>
+        scenarioIdentCode:
+          type: string
+          description: IdentCode of the scenario of the item.  Service depend on the scenario. <p>length=50</p>
+        serviceIdentCode:
+          type: string
+          description: IdentCode for the Service<br>  <p>length=50</p>
+        referenceNumber:
+          type: string
+          description: Main reference number for the service item<br>  <p>length=50</p>
+        orderNumber:
+          type: string
+          description: Main order number for the service item<br>  <p>length=50</p>
+        serviceProvider:
+          $ref: '#/components/schemas/BCompanyDTO'
+        serviceProviderContact:
+          $ref: '#/components/schemas/BContactDTO'
+        orderer:
+          $ref: '#/components/schemas/BCompanyDTO'
+        ordererContact:
+          $ref: '#/components/schemas/BContactDTO'
+        payer:
+          $ref: '#/components/schemas/BCompanyDTO'
+        payerContact:
+          $ref: '#/components/schemas/BContactDTO'
+        beneficiary:
+          $ref: '#/components/schemas/BCompanyDTO'
+        referenceDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        pricingDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        chargeDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        serviceDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        orderDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        quantity:
+          $ref: '#/components/schemas/BQuantityDTO'
+        precalculatedNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        extendedData:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+        description:
+          type: string
+          description: A human readable description text for the service item, possibly to be printed on some documents. <p>length=250</p>
+      description: A serviceItem that contains all information for pricing and invoicing.<br>
+    BServiceItemResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        itemId:
+          type: string
+          description: <p>ID of the item.</p> <p>length=50</p>
+        statusIdentCode:
+          type: string
+          description: <p>Status of the item after save and optional operations</p> <p>length=10</p>
+        contractNumber:
+          type: string
+          description: Number of the contract that will be used to calculate the service item. If this field is filled a valid contract was found for the service item. The price calculation might still fail because of other errors.
+        clientPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        vatRatePercent:
+          type: number
+          description: The VAT rate in percent of the client price of the service item
+        settlementItems:
+          type: array
+          description: --IBillingBF#createServiceItems--<br> This variable is only filled, if pricing is done.<br> For every settlement item created (or simulated) for a service item there will be one element in this array. <br><br> --IBillingBF#getServiceItems--<br> This variable is filled if the service item was found and the settlement items should be retrieved. Otherwise, the variable is filled. The array is empty if the service item has no settlement items.
+          items:
+            $ref: '#/components/schemas/BSettlementItemResultDTO'
+        referenceDate:
+          type: string
+          description: Reference date used as the main search criterion in the service item search. The interface generally assigns an "appropriate" reference date. Which date from the business environment is used as the reference date in Logistics Cost Management (order date, service date, document date, etc.) depends on the business processes and the primary application.
+          format: date-time
+        referenceNumber:
+          type: string
+          description: Reference number used as the main search criterion in the service item search. The interface generally assigns an 'appropriate' reference number. Which number from the business environment is used as the reference number in Logistics Cost Management (order number, customer order number, document number, etc.) depends on the business processes and the primary application.
+        orderNumber:
+          type: string
+          description: Order number of service item.
+        billingScenarioIdentCode:
+          type: string
+          description: Ident code of the billing scenario of the service item.
+        serviceIdentCode:
+          type: string
+          description: Ident code of the service type of the service item.
+        description:
+          type: string
+          description: Description of service item.
+        orderer:
+          $ref: '#/components/schemas/BCompanyDTO'
+        serviceProvider:
+          $ref: '#/components/schemas/BCompanyDTO'
+        payer:
+          $ref: '#/components/schemas/BCompanyDTO'
+      description: 'Result for one service item, used both by IBillingBF#createServiceItems and IBillingBF#getServiceItems. <br><br> --IBillingBF#createServiceItems--<br> The following messageIdentCodes are used:<br> "ITEM_RETRANSMISSION_ERROR": Retransmission of one of the items was detected.<br> "INVALID_DATA_ERROR": One of the ident codes send was not recognized by the engine, e.g. an service type was used which was not customized.<br> "PRICING_ERROR": An error occured during pricing because of customizing problems. E.g. no price schema was found for an item. <br> "PRICING_TRACE": Detailed information about the pricing process (this is no error).<br> "LOCK_ERROR": Service item or dependent objects are locked. <br><br> --IBillingBF.getServiceItems--<br> The following messageIdentCodes are used:<br> "ITEM_NOT_FOUND_ERROR": A service item was not found.'
+    BServiceMFResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        identCode:
+          type: string
+          description: The identCode of the service. <p>length=50</p>
+        scenarioIdentCode:
+          type: string
+          description: The identCode of the scenario, this service belongs to. <p>length=50</p>
+      description: 'Result for one item. Messages for this particular item, e.g. for errors or warnings.<br> The following messageIdentCodes are used:<br> "INVALID_DATA_ERROR": One of the ident codes send was not recognized by the engine, e.g. an service type was used which was not customized.<br> "EMPTY_MANDATORY_FIELD" One of the mandatory Fields is empty "LOCK_WARNING" the service or an updated text can not be locked'
+    BAccountingScenarioResultDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: <p>length=50<p>
+        systemKey:
+          type: string
+          description: <p>length=75<p>
+        externalSystemLoginName:
+          type: string
+          description: <p>length=254<p>
+        controllingArea:
+          type: string
+          description: <p>length=4<p>
+      description: Accounting scenario of a settlement.
+    BServiceTranslationDTO:
+      required:
+      - languageISOCode
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the description. <p>length=2</p>
+          example: de
+        description:
+          type: string
+          description: The description of the service <p>length=250</p>
+      description: Text translation DTO for service.
+    BServiceItemReferenceDTO:
+      type: object
+      properties:
+        itemId:
+          type: string
+          description: <p> ID of the service item which, together with the clientSystemId, uniquely identifies the service item. </p> <p>length=50</p>
+      description: A reference identifying a serviceItem.<br>
+    BAmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    BGetServiceItemsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        itemResults:
+          type: array
+          description: For every item in the request there will be one  BServiceItemResultDTO in this array,in the same order as in the request.
+          items:
+            $ref: '#/components/schemas/BServiceItemResultDTO'
+      description: Return value for the the method IBillingBF.getServiceItems.
+    GenericDataRecordDTO:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: The fields of the record.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        subrecords:
+          type: array
+          description: Subrecords of the record.
+          example:
+          - name: child
+            record:
+              fields: []
+              subrecords: []
+          items:
+            $ref: '#/components/schemas/NamedGenericDataRecordDTO'
+      description: A generic record of data.<br>Each field is qualified by name and type and has a value.
+    BSettlementSyncDTO:
+      type: object
+      properties:
+        isDeleted:
+          type: boolean
+          description: <p>Indicates whether the settlement was deleted.</p> <p>If true, only  BSettlementSyncDTO#settlementNumber and BSettlementSyncDTO#provider will be filled.</p>
+        settlementNumber:
+          type: string
+          description: Settlement number of settlement. <br> <p>length=50</p>
+        referenceNumber:
+          type: string
+          description: Main reference number for the settlement. <br> <p>length=50</p>
+        settlementType:
+          $ref: '#/components/schemas/BSettlementTypeResultDTO'
+        settlementDate:
+          $ref: '#/components/schemas/BDateAndZoneDTO'
+        provider:
+          $ref: '#/components/schemas/BCompanyDTO'
+        orderer:
+          $ref: '#/components/schemas/BCompanyDTO'
+        payer:
+          $ref: '#/components/schemas/BCompanyDTO'
+        settlementGrossPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementNetPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        accountingScenario:
+          $ref: '#/components/schemas/BAccountingScenarioResultDTO'
+        accountingItems:
+          type: array
+          description: <p>Accounting items of the settlement.</p> <p>Only filled if  BGetChangedSettlementsRequestDTO#includeAccountingItems is set.</p>
+          items:
+            $ref: '#/components/schemas/BAccountingItemResultDTO'
+      description: Synchronization data of a settlement.
+    ComboboxEntryDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The identCode of the entry. <p>length=50</p>
+        descriptions:
+          type: array
+          description: The description of the entry in the requested result languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: For common use in BF methods which return combobox entries, e.g. for a list of master file data.
+    BReverseServiceItemsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        itemResponses:
+          type: array
+          description: For every itemId in the request there will be one response with information about the reversal of the item. In case of errors the reverse operation was not possible.
+          items:
+            $ref: '#/components/schemas/BReverseServiceItemResultDTO'
+      description: Return value for the the method IBillingBF.cancelServiceItems or IBillingBF.offsetServiceItems
+    BServiceMFDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The identCode of the service. <p>length=50</p>
+        scenarioIdentCode:
+          type: string
+          description: The identCode of the scenario, this service belongs to. <p>length=50</p>
+        unitType:
+          type: string
+          description: Identifier of the quantity unit type. e.g. "WEIGHT", "VOLUME" or client specific (customized) quantity unit types. <p>length=10</p>
+        extendedDataType:
+          type: string
+          description: The identCode of the extended data type. <p>length=50</p>
+        attribute:
+          type: string
+          description: The attribute of the service. <p>length=50</p>
+        translations:
+          type: array
+          description: Translations of the the service for different languages.
+          items:
+            $ref: '#/components/schemas/BServiceTranslationDTO'
+      description: Masterfile Transfer data object for a service.
+    BReverseServiceItemResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        itemId:
+          type: string
+          description: <p>ID of the item.</p> <p>length=250</p>
+      description: 'Result for one item. Messages for this particular item, e.g. for errors or warnings.<br> The following messageIdentCodes are used:<br> "ITEM_RETRANSMISSION_ERROR": Retransmission of one of the items was detected.<br> "INVALID_DATA_ERROR": One of the ident codes send was not recognized by the engine, e.g. an service type was used which was not customized.<br> "PRICING_ERROR": An error occured during pricing because of customizing problems. E.g. no price schema was found for an item. <br> "PRICING_TRACE": Detailed information about the pricing process (this is no error).<br>'
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    BGetBillingServicesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        services:
+          type: array
+          description: The requested array of services
+          items:
+            $ref: '#/components/schemas/ComboboxEntryDTO'
+      description: Response for IBillingBF#getBillingServices.
+    BGetChangedSettlementsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        settlements:
+          type: array
+          description: Changed settlements.
+          items:
+            $ref: '#/components/schemas/BSettlementSyncDTO'
+        syncId:
+          maxLength: 20
+          type: string
+          description: Synchronization ID for for acknowledging. <br> Use this syncId in the subsequent call to IBillingBF#acknowledgeChangedSettlements to acknowledge the processing of the changed settlements. This syncId may be null if no settlements were found to synchronize. In this case no call to IBillingBF#acknowledgeChangedSettlements is necessary.
+        isComplete:
+          type: boolean
+          description: <p> <code>true</code>, if the synchronization is complete and currently no further changed settlements are available. <p> <code>false</code> if not. In this case, after acknowledging with  IBillingBF#acknowledgeChangedSettlements, an immediate second call to  IBillingBF#getChangedSettlements is advised.</p>
+      description: Response of IBillingBF#getChangedSettlements.
+    BAcknowledgeChangedSettlementsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response for IBillingBF#acknowledgeChangedSettlements.
+    BGetChangedSettlementsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        includeAccountingItems:
+          type: boolean
+          description: '<p> If set to <code>true</code> the field  BSettlementSyncDTO#accountingItems will be filled.Otherwise the field will be <code>null</code>. </p> <p>Default: <code>false</code></p>'
+      description: Request parameter for IBillingBF#getChangedSettlements.
+    BCompanyDTO:
+      type: object
+      properties:
+        companyNumber:
+          type: string
+          description: Company Number <p>length=20</p>
+        name:
+          type: string
+          description: Name of the company (first address line) <p>length=40</p>
+        name2:
+          type: string
+          description: Address name line 2 <p>length=40</p>
+        name3:
+          type: string
+          description: Address name line 3 <p>length=40</p>
+        name4:
+          type: string
+          description: Address name line 4 <p>length=40</p>
+        street:
+          type: string
+          description: Street (line 1) of the address. <p>length=40</p>
+        street2:
+          type: string
+          description: Street (line 2) of the address. <p>length=40</p>
+        postcode:
+          type: string
+          description: Postcode of the street address. <p>length=10</p>
+        city:
+          type: string
+          description: City of the address. <p>length=40</p>
+        district:
+          type: string
+          description: District (city line 2) of the address. <p>length=40</p>
+        countryISOCode:
+          type: string
+          description: Country of address <p>length=2</p>
+        county:
+          type: string
+          description: County of the address <p>length=40</p>
+        poBox:
+          type: string
+          description: PO-Box. <p>length=10</p>
+        postcodePOBox:
+          type: string
+          description: Postcode of the poBox address. <p>length=10</p>
+        cityPOBox:
+          type: string
+          description: City of the po-box address. <p>length=40</p>
+        emailAddress:
+          type: string
+          description: Email address of the address. <p>length=256</p>
+        phone:
+          type: string
+          description: Phone number of reception <p>length=20</p>
+        fax:
+          type: string
+          description: Fax number of reception <p>length=20</p>
+      description: A complete address of a company for Logistics Cost Management.
+    BSettlementItemResultDTO:
+      type: object
+      properties:
+        settlementItemId:
+          type: string
+          description: The unique id of the settlement item. This id can be used in an application facade to open the settlement item.<br> <p>length=50</p>
+        settlementNumber:
+          type: string
+          description: The number of the settlement, this settlement item was disposed to.<br> (Only filled, if settlements were created, see  BCreateServiceItemParmsDTO#createSettlementsImmediately). <p>length=50</p>
+        settlementId:
+          type: string
+          description: The unique id of the settlement, this settlement item was disposed to. This id can be used in an application facade to open the settlement.<br> (Only filled, if settlements were created, see  BCreateServiceItemParmsDTO#createSettlementsImmediately).
+        descriptions:
+          type: array
+          description: The descriptions of the settlement item in requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        priceType:
+          $ref: '#/components/schemas/BPriceTypeResultDTO'
+        price:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        clientPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        numberInServiceItem:
+          type: integer
+          description: Settlement item number<br> Sequential settlement item number within a service item usually starting with 1 for the first settlement item of  a service item.
+          format: int32
+        chargeableQuantity:
+          $ref: '#/components/schemas/BQuantityDTO'
+        calcGenericIdentCode:
+          type: string
+          description: Ident code of the calculation type used for price calculation of the item.
+      description: A result object for a created or retrieved settlement item.
+    BAcknowledgeChangedSettlementsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          maxLength: 20
+          type: string
+          description: Synchronization ID for acknowledging. <br> Use the value received in BGetChangedSettlementsResponseDTO#syncId from the previous call to BillingBF#getChangedSettlements.
+      description: Request parameter for IBillingBF#acknowledgeChangedSettlements.
+    BSettlementTypeResultDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: <p>length=50</p>
+      description: Type of settlement.
+    BCreateServiceItemsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        parms:
+          $ref: '#/components/schemas/BCreateServiceItemParmsDTO'
+        items:
+          type: array
+          description: The items to be created.
+          items:
+            $ref: '#/components/schemas/BServiceItemDTO'
+      description: Request parameter for the the method IBillingBF.createServiceItems()
+    BGetBillingScenariosResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        scenarios:
+          type: array
+          description: The requested array of scenarios
+          items:
+            $ref: '#/components/schemas/ComboboxEntryDTO'
+      description: Return value for the the method IBillingBF.getBillingScenarios.
+    BContactDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of contact.
+
+            > `length=80`'
+        phone:
+          type: string
+          description: 'Phone number.
+
+            > `length=20`'
+        fax:
+          type: string
+          description: 'Fax number.
+
+            > `length=20`'
+        email:
+          type: string
+          description: 'Email address.
+
+            > `length=256`'
+      description: Contains data for contacting a person for Logistics Cost Management.
+    BSetServiceMasterFileDataRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        services:
+          type: array
+          description: The data of the services to set.
+          items:
+            $ref: '#/components/schemas/BServiceMFDTO'
+      description: Request DTO for the setServiceMasterFileData method.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

@@ -1,0 +1,379 @@
+openapi: 3.2.0
+info:
+  title: Aeb Customs Content Service BF API
+  version: '1.0'
+  description: 'Operations tagged CustomsContentServiceBF across 3 of this provider''s published API definitions: aeb-customs-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://rz3.aeb.de/test2ici/rest
+- url: https://rz3.aeb.de/test2cl/rest
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: CustomsContentServiceBF
+  description: API providing services around customs content (nomenclatures, export control lists).
+paths:
+  /CustomsContentServiceBF/content/{contentIdentCode}/finalCode/{code}:
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
+    get:
+      tags:
+      - CustomsContentServiceBF
+      summary: Requests one final code from a catalog.
+      operationId: getFinalCode
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identifier of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      - name: contentIdentCode
+        in: path
+        description: The unique identifier of the catalog the code shall belong to.
+        required: true
+        schema:
+          maxLength: 50
+          type: string
+        example: AEB.EU.NCL.EXP
+      - name: code
+        in: path
+        description: Code that is requested.
+        required: true
+        schema:
+          maxLength: 50
+          type: string
+        example: '01013000'
+      - name: languageISOCodes
+        in: query
+        description: Comma-separated 2-digit ISO codes of the languages which the returned code descriptions shall have. Default are all available languages of the catalog.
+        schema:
+          type: string
+          format: XX,YY
+      - name: decisiveDate
+        in: query
+        description: Optional decisive date at which the returned code shall be valid. Default is today.
+        schema:
+          maxLength: 10
+          type: string
+          format: YYYY-MM-DD
+      - name: includeSupplementaryInfos
+        in: query
+        description: Specifies whether the returned code shall contain supplementary information (like special units in case of a commodity code).
+        schema:
+          type: boolean
+          default: false
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCodeResultDTO'
+  /CustomsContentServiceBF/content/{contentIdentCode}/finalCodes:
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
+    get:
+      tags:
+      - CustomsContentServiceBF
+      summary: Requests final codes from a catalog. Result may be resticted with a prefix.
+      operationId: getFinalCodes
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identifier of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      - name: contentIdentCode
+        in: path
+        description: The unique identifier of the catalog the final codes shall belong to.
+        required: true
+        schema:
+          maxLength: 50
+          type: string
+        example: AEB.EU.NCL.EXP
+      - name: prefix
+        in: query
+        description: Restricts the returned codes to codes that start with this prefix (e.g. some chapter of a nomenclature).
+        schema:
+          maxLength: 10
+          type: string
+        example: '01'
+      - name: languageISOCodes
+        in: query
+        description: Comma-separated 2-digit ISO codes of the languages which the returned code descriptions shall have. Default are all imported languages of the catalog.
+        schema:
+          type: string
+          format: XX,YY
+      - name: decisiveDate
+        in: query
+        description: Optional decisive date at which the returned codes shall be valid. Default is today.
+        schema:
+          maxLength: 10
+          type: string
+          format: YYYY-MM-DD
+      - name: includeSupplementaryInfos
+        in: query
+        description: Specifies whether the returned codes shall contain supplementary information (like special units in case of commodity codes).
+        schema:
+          type: boolean
+          default: false
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFinalCodesResultDTO'
+  /CustomsContentServiceBF/content/{contentIdentCode}/search/{searchTerm}:
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
+    get:
+      tags:
+      - CustomsContentServiceBF
+      summary: Searches for codes matching the given criteria.
+      operationId: searchCodes
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identifier of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      - name: contentIdentCode
+        in: path
+        description: The unique identifier of the catalog the matching codes shall belong to.
+        required: true
+        schema:
+          maxLength: 50
+          type: string
+        example: AEB.EU.NCL.EXP
+      - name: searchTerm
+        in: path
+        description: Search term that either the code itself shall start with or that shall be contained in its text. Enclose with quotes to search for an exact term or group of words.
+        required: true
+        schema:
+          type: string
+      - name: languageISOCode
+        in: query
+        description: 2-digit ISO code of the language which the returned code descriptions shall have. Also the language in which the textual search will be executed. Default language of the catalog.
+        schema:
+          maxLength: 2
+          minLength: 2
+          type: string
+          format: XX
+      - name: decisiveDate
+        in: query
+        description: Optional decisive date at which the returned codes shall be valid. Default is today.
+        schema:
+          maxLength: 10
+          type: string
+          format: YYYY-MM-DD
+      - name: maxNumberResults
+        in: query
+        description: Maximum number of matching code elements that shall be returned. Default is 10.
+        schema:
+          type: integer
+          format: int32
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCodesResultDTO'
+components:
+  schemas:
+    SearchCodesResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        matchingCodeElements:
+          type: array
+          description: An array of the matching code elements.
+          items:
+            $ref: '#/components/schemas/CodeElementDTO'
+      description: DTO to hold a search result containing all matching code elements of the nomenclature resp. the export control list.
+    GetFinalCodesResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        finalCodeElements:
+          type: array
+          description: An array of the final code elements.
+          items:
+            $ref: '#/components/schemas/CodeElementDTO'
+      description: DTO to hold a request result containing all final code elements of the nomenclature resp. the export control list.
+    SupplementaryCodeElementInfoDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          maxLength: 20
+          type: string
+          description: Type to identify the sort of information given.
+          enum:
+          - SPECIAL_UNIT
+          - SPECIAL_UNIT_2
+        text:
+          maxLength: 255
+          type: string
+          description: The information in textual form. In most cases to be expected only some code or single term.
+          example: KGM
+      description: DTO to hold one type-casted supplementary information about a code element.
+    GetCodeResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        codeElement:
+          $ref: '#/components/schemas/CodeElementDTO'
+      description: DTO to hold a request result containing one code element of the nomenclature resp. the export control list.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    CodeElementDTO:
+      type: object
+      properties:
+        code:
+          maxLength: 50
+          type: string
+          description: Code e.g. the commodity code or export control number.
+        description:
+          type: array
+          description: Descriptions of this code element.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        validFrom:
+          maxLength: 10
+          type: string
+          description: The first day, this code element is valid.
+          format: date
+        validTo:
+          maxLength: 10
+          type: string
+          description: The last day, this code element is valid.
+          format: date
+        supplementaryInfos:
+          type:
+          - array
+          - 'null'
+          description: Supplementary informations like a special unit of measurement in case of a commodity code.
+          items:
+            $ref: '#/components/schemas/SupplementaryCodeElementInfoDTO'
+      description: DTO to hold data of one code element of a nomenclature resp. an export control list.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-refined-from:
+- aeb-customs-management-openapi.json
+- aeb-product-classification-openapi.json
+- aeb-trade-compliance-management-openapi.json
+x-proxy-enabled: false

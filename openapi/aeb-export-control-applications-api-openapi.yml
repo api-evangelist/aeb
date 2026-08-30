@@ -1,0 +1,791 @@
+openapi: 3.2.0
+info:
+  title: Trade Compliance Management HTTP Export Control Applications API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Export Control Applications
+  description: Get URLs to various parts of the Export Controls application.
+paths:
+  /ExportControlApplications/commerceControlList:
+    post:
+      tags:
+      - Export Control Applications
+      summary: Get application for the Commerce Control List.
+      description: Returns an URL for an application, which displays the Commerce Control List appliaction.
+      operationId: getCommerceControlList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommerceControlListRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CommerceControlListRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to the Commerce Control List.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ExportControlApplications/ecTransaction:
+    post:
+      tags:
+      - Export Control Applications
+      summary: Get application for displaying an export control transaction.
+      description: Returns an URL for an application, which displays an export control transaction. Since 2022/11.
+      operationId: getECTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ECTransactionRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ECTransactionRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to displaying a transaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ExportControlApplications/euExportControlList:
+    post:
+      tags:
+      - Export Control Applications
+      summary: Get application for the EU export control list.
+      description: Returns an URL for an application, which displays the EU export control list.
+      operationId: getEUExportControlList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EUExportControlListRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/EUExportControlListRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to the EU export control list application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ExportControlApplications/expCtrlLogs:
+    post:
+      tags:
+      - Export Control Applications
+      summary: Get application for the overview of Export Controls log entries.
+      description: Returns an URL for an application, which displays the overview of Export Controls log entries.
+      operationId: getExpCtrlLogs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpCtrlLogsRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ExpCtrlLogsRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to an overview of Export Controls log entries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ExportControlApplications/goodsAttributeValuesList:
+    post:
+      tags:
+      - Export Control Applications
+      summary: Get application for the list of all known values of the specified goods attribute.
+      description: Returns an URL for an application, which displays the list of all known values of the specified goods attribute.
+      operationId: getGoodsAttributeValuesList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoodsAttributeValuesListRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GoodsAttributeValuesListRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to a list of all known values of the specified goods attribute.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ExportControlApplications/quickCheck:
+    post:
+      tags:
+      - Export Control Applications
+      summary: Get application for a Quick check.
+      description: Returns an URL for an application, which displays the Quick check.
+      operationId: getQuickCheck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuickCheckRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/QuickCheckRequestDTO'
+      responses:
+        '200':
+          description: OK. URL to the Quick check application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+components:
+  schemas:
+    GoodsAttributeValuesParmsDTO:
+      type: object
+      properties:
+        goodsAttributeIdentCode:
+          type: string
+          description: The ident code of the goods attribute which should be displayed.
+          example: ClassificationMaterialNumbers
+      description: Parameters for the goods attribute application.
+    ExpCtrlLogsRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        filterParms:
+          $ref: '#/components/schemas/ExpCtrlLogsAFParmsDTO'
+      description: Request object for the export control logs application.
+    QuickCheckParmsDTO:
+      type: object
+      properties:
+        sellerCountryISO:
+          type: string
+          description: This value will be prefilled into the seller country field. Value is the ISO country code.
+          example: DE
+        destinationCountryISO:
+          type: string
+          description: This value will be prefilled into the destination country field. Value is the ISO country code.
+          example: DE
+        buyerCountryISO:
+          type: string
+          description: This value will be prefilled into the buyer country field. Value is the ISO country code.
+          example: DE
+        sourceCountryISO:
+          type: string
+          description: This value will be prefilled into the source country field. Value is the ISO country code.
+          example: DE
+        recipientCountryISO:
+          type: string
+          description: This value will be prefilled into the recipient country field. Value is the ISO country code.
+          example: DE
+        eccns:
+          maxLength: 50
+          type: array
+          description: 'This value will be prefilled into the ECCN field.
+
+            Maximum length of each String: 50'
+          items:
+            maxLength: 50
+            type: string
+            description: 'This value will be prefilled into the ECCN field.
+
+              Maximum length of each String: 50'
+        alNumbers:
+          maxLength: 50
+          type: array
+          description: 'This value will be prefilled into the al-number field.\nMaximum length of each String: 50'
+          items:
+            maxLength: 50
+            type: string
+            description: 'This value will be prefilled into the al-number field.\nMaximum length of each String: 50'
+        ear99:
+          type: boolean
+          description: This value will be prefilled into the EAR99 field.
+        productClassifications:
+          type: array
+          description: This attributes will be prefilled into list of classifications in application, e.g. export control numbers, material number, EAR99 flag and other relevant numbers for export control checks.
+          items:
+            $ref: '#/components/schemas/ECClassificationDTO'
+        finalUsage:
+          type: string
+          description: This value will be prefilled into the final use field.
+          example: FINAL_USAGE_ALL
+      description: Parameters for the Quick check application.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    ECTransactionRequestDTO:
+      required:
+      - generalParms
+      - parms
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/ECTransactionParmsDTO'
+      description: Request object for opening the export control transaction application.
+    ECTransactionParmsDTO:
+      required:
+      - clientSystemId
+      - transactionIdHost
+      type: object
+      properties:
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: Required Id of the client system, which created the export control transaction.
+          example: TEST_ID
+        transactionIdHost:
+          type: string
+          description: Required unique ID of the export control transaction to open.
+          example: MANDANT=001/BELNO=80004989
+      description: Parameters for the export control transaction application.
+    EUExpCtrlListParmsDTO:
+      type: object
+      properties:
+        euExpCtrlListPattern:
+          type: string
+          description: 'Value for the search criterion to find export control numbers with a specific number or description. You can also search for multiple export control numbers by specifying one number after another separated by semicolons.<br><br>Example value: <code>2A005;3B006;5C003</code>'
+          example: '0005'
+      description: Parameters for the EU export control list application
+    QuickCheckRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/QuickCheckParmsDTO'
+      description: Request object for the Quick check application.
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
+          type: string
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
+    EccnListParmsDTO:
+      type: object
+      properties:
+        eccnPattern:
+          type: string
+          description: Value for the search criterion to find ECCNs with a specific number or description. You can also search for multiple ECCNs by specifying one number after another separated by semicolons.
+          example: 2A005;3B006;5C003
+      description: Parameters for the Commerce Control List application.
+    CommerceControlListRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/EccnListParmsDTO'
+      description: Request object for Commerce Control List application.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+    ApplicationFacadeParmsDTO:
+      type: object
+      properties:
+        client:
+          type: string
+          description: The client of the new session. This should be a legal identCode of a client in the system.<br> If it is NOT a legal identCode of a client in the system, the user will see a login prompt before he is able to see the UI API. (See IFoundationBF.getAllClients()). <br>When the UI API web service call is authenticated, this value will be checked against the authentication data and the call is rejected if it does not match.
+          example: APITEST
+        user:
+          type: string
+          description: 'The user of the new session.<br> It is not required, that this user is a valid user name of the client. However: Such a user may get granted only have the role "I_EVERYONE" unless XNSG is configured to use e.g. an LDAP server and the user can be found in the LDAP server with some roles granted to the user. <br> No password is required because other servers which contact over the API will be trusted to have checked the users access rights. This enables a kind of "single sign on" between different e.g. XNSG servers.'
+          example: API_TEST
+        workstationId:
+          type: string
+          description: The unique workstation identifier of the new session.<br><br>The identifier of the workstation must be configured and unique within the same client.
+        workstationSessionId:
+          type: string
+          description: The unique workstation agent session identifier of the new session.<br>It defines a concrete and already established session agent bound to the local workstation e.g. locally started service agent.<br>The workstation agent is used for accessing local peripheries (e.g. local printers).<p><b>The caller must ensure that the corresponding session has been established</b></p>
+        language:
+          type: string
+          description: The two letter ISO code of the language of the new session.
+          example: en
+        displayFullWorkplace:
+          type: boolean
+          description: <code>true</code> to display the complete workspace (central, user and info panel). Use false or null to display only the single ac.
+          example: true
+        isACEmbedded:
+          type: boolean
+          description: <code>true</code> to display header and statusbar, false if ac should be embedded in another
+          example: true
+        displayStatusbar:
+          type: boolean
+          description: <code>true</code> to display statusbar, <code>false</code>
+          example: true
+        displayTitlebar:
+          type: boolean
+          description: <code>true</code> to display header, <code>false</code> if ac should not show header
+          example: true
+        stylevariant:
+          type: string
+          description: Deprecated.
+          example: NEUTRAL
+        acceptTechnology:
+          type: string
+          description: 'Specify which technology the clients wants to access the application; one token (or several, separated by semicolon) - the server may chose to ignore this possible tokens are specific for each server technology, XNSG-Servers currently honor strings from the GUIInvocationTechnology enum (e.g.: VAADIN) if <code>null</code> a default technology is chosen.'
+          example: VAADIN
+        productname:
+          type: string
+          description: Optional field, which may be set if productname differs from standard product name
+        productShortName:
+          type: string
+          description: Optional field, which may be set if productShortName differs from standard product name
+        preferredWidth:
+          type: integer
+          description: Optional field, which may be set if preferred width of AF should be different from default. Preferred height may not be always applyable but wins against workstation settings. - not available for vaadin, invoker must open browser in correct way
+          format: int32
+        preferredHeight:
+          type: integer
+          description: Optional field, which may be set if preferred height of AF should be different from default. Preferred height may not be always applyable but wins against workstation settings. - not available for vaadin, invoker must open browser in correct way
+          format: int32
+        openToTray:
+          type: boolean
+          description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
+      description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
+    EUExportControlListRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/EUExpCtrlListParmsDTO'
+      description: Request object for the EU export control list application.
+    GoodsAttributeValuesListRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/GoodsAttributeValuesParmsDTO'
+      description: Request object for the list of goods attribute values application.
+    ECClassificationDTO:
+      type: object
+      properties:
+        classificationIdentCode:
+          type: string
+          description: Identcode of the classification the <code>classificationNumber</code> belongs to.<br>There are some predefined attributes and others may be configured.<br>The following predefined attributes are supported:<ul><li><code>ClassificationMaterialNumbers</code> for material numbers</li><li><code>ClassificationAusfuhrliste</code> for EU export control numbers</li><li><code>CLASSIFICATION_US_EAR_CCL</code> for US export control numbers, i.e., a specific ECCN or <code>EAR99</code></li><li><code>CLASSIFICATION_US_EAR_ACTRELEVANT</code> for the EAR99 property (only supported for clients using version 1 for goods attribute handling)</li><li><code>ClassificationStatisticalNumbers</code> for commodity codes</li><li><code>ClassificationSelfDefined</code> for self defined numbers</li></ul>
+          example: CLASSIFICATION_US_EAR_CCL
+        classificationNumber:
+          type: string
+          description: 'The value of the attribute, e.g. a export control number, material number, commodity code and other relevant numbers for export control checks and license matching.<br>There are some attributes that only allow some fixed, predefined values.The following predefined values are supported:<ul><li>For all attributes: <code>NOT_LISTED</code> indicating that an item is not listed on the goods list describing the classification</li><li>For ECCNs: <code>EAR99</code> indicating that the item is an EAR99 product.</li></ul>'
+          example: 0A002
+      description: An attribute with a value for a transaction item.
+    ExpCtrlLogsAFParmsDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title to be displayed by the application.
+          example: Export Control logs
+        referenceIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific reference (internal).
+          example: refid-12
+        clientSystemIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific partner system.
+          example: API-TEST
+        clientIdentCodePattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific client.
+          example: APITEST
+      description: Data transfer object with filter options for the export control logs application.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

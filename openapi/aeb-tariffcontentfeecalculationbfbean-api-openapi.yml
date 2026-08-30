@@ -1,0 +1,321 @@
+openapi: 3.2.0
+info:
+  title: Customs Management HTTP Tariff Content Fee Calculation BF Bean API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2ici/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: TariffContentFeeCalculationBFBean
+  description: API for fee calculation using the tariff content solution
+paths:
+  /TariffContentFeeCalculationBFBean/calculateCustomsDuty:
+    post:
+      tags:
+      - TariffContentFeeCalculationBFBean
+      summary: Result including the calculated custom duties packed into a DTO
+      description: Calculates customs duties based on the values in the request.
+      operationId: calculateCustomsDuty
+      requestBody:
+        description: requestDTO request data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TCCalculateDutyRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TCCalculateDutyResponseDTO'
+  /TariffContentFeeCalculationBFBean/calculateTax:
+    post:
+      tags:
+      - TariffContentFeeCalculationBFBean
+      summary: Result including the calculated packed taxes into a DTO
+      description: Calculates tax based on the values in the request.
+      operationId: calculateTax
+      requestBody:
+        description: requestDTO request data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TCCalculateTaxRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TCCalculateTaxResponseDTO'
+components:
+  schemas:
+    TCCalculateDutyResponseDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        calculationSteps:
+          type: array
+          description: List of describing calculation steps to explain how the calculation was done.
+          items:
+            $ref: '#/components/schemas/TCCalculationStepDTO'
+        calculationLines:
+          type: array
+          description: List of calculated customs duty lines. The sum of these lines results the complete customs duty for the requested data.
+          items:
+            $ref: '#/components/schemas/TCCalculationLineDTO'
+      description: DTO to hold result data of custom duty calculation additional to common data see <code>TCCalculateDutyOrTaxesResponseDTO</code>.
+    AmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    TCCustomsQuantity:
+      type: object
+      properties:
+        typeCode:
+          type: string
+          description: Type code may be used to store additional information about the quantity.
+        quantity:
+          $ref: '#/components/schemas/QuantityWithTypeDTO'
+      description: DTO to represent customs quantities.
+    TCCalculateDutyRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content to be used for calculation (e.g. BANZ.DE.NCL.IMP for the German import catalog)
+        decisiveDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        countryIsoCode:
+          type: string
+          description: ISO code of the country of origin or despatch. <p> length=2 </p>
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the descriptions. <p> length=2 </p>
+        commodityCode:
+          type: string
+          description: Commodity code for which the calculation should be done.
+        quantities:
+          type: array
+          description: Array which holds quantities that are neccessary for the calculation.
+          items:
+            $ref: '#/components/schemas/TCCustomsQuantity'
+        parms:
+          type: array
+          description: Array which holds parameters of the calculation, e.g., documents, preferential code, additional codes, etc.
+          items:
+            $ref: '#/components/schemas/TCCalculationParameter'
+        customsValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        netWeight:
+          type: number
+          description: The net weight in kg.
+        grossWeight:
+          type: number
+          description: The gross weight in kg. This is optional but highly recommended since some duties may be defined on the gross weight rather than the net weight.
+        currencyRates:
+          type: array
+          description: List of currency conversion rates to be applied in case of mismatching currencies in duty calculation rules.
+          items:
+            $ref: '#/components/schemas/TCCalculateDutyCurrencyRateDTO'
+      description: DTO to hold request data for calculating custom duties additional to the common fields. <p>See TCCalculateDutyOrTaxesRequestDTO.
+    DateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
+    TCCalculateDutyCurrencyRateDTO:
+      type: object
+      properties:
+        currencyIsoFrom:
+          type: string
+          description: The three-character ISO-code of the currency to be converted from.
+        currencyIsoTo:
+          type: string
+          description: The three-character ISO-code of the currency to be converted to. This currency will be preferred as the target currency of conversions, if applicable.
+        factor:
+          type: number
+          description: The value, in 'to'-currency, of one unit of 'from'-currency.
+      description: Represents a one-way currency conversion rate, enabling monetary comparisons involving differing currencies in a single duty measure.
+    TCCalculateTaxRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content to be used for calculation (e.g. BANZ.DE.NCL.IMP for the German import catalog)
+        decisiveDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        countryIsoCode:
+          type: string
+          description: ISO code of the country of origin or despatch. <p> length=2 </p>
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the descriptions. <p> length=2 </p>
+        commodityCode:
+          type: string
+          description: Commodity code for which the calculation should be done.
+        quantities:
+          type: array
+          description: Array which holds quantities that are neccessary for the calculation.
+          items:
+            $ref: '#/components/schemas/TCCustomsQuantity'
+        parms:
+          type: array
+          description: Array which holds parameters of the calculation, e.g., documents, preferential code, additional codes, etc.
+          items:
+            $ref: '#/components/schemas/TCCalculationParameter'
+        vATValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+      description: DTO to hold request data for calculating taxes additional to the common fields. <p>See TCCalculateDutyOrTaxesRequestDTO.
+    TCCalculationParameter:
+      type: object
+      properties:
+        typeCode:
+          type: string
+          description: Defines the type of the parameter.
+          enum:
+          - DOCCODE, QUOTANUMBER, ADDCODE, PREFERENTIALCODE
+        value:
+          type: string
+          description: Defines the value of the calculation parameter, e.g., document number.
+      description: Parameters that fee calculation might use when calculating fees.
+    TCCalculateTaxResponseDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        calculationSteps:
+          type: array
+          description: List of describing calculation steps to explain how the calculation was done.
+          items:
+            $ref: '#/components/schemas/TCCalculationStepDTO'
+        calculationLines:
+          type: array
+          description: List of calculated customs duty lines. The sum of these lines results the complete customs duty for the requested data.
+          items:
+            $ref: '#/components/schemas/TCCalculationLineDTO'
+      description: DTO to hold result data of tax calculation additional to common data see <code>TCCalculateDutyOrTaxesResponseDTO</code>.
+    TCCalculationLineDTO:
+      type: object
+      properties:
+        typeCode:
+          type: string
+          description: Defines where the calculation line belongs to.
+          enum:
+          - CUSTOMSDUTY, ANTIDUMPING, EXCISEDUTY, TAX
+        value:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        baseValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        rate:
+          type: number
+          description: Numerator of e.g. 6.5% or 120 EUR/ton.
+        baseUnit:
+          type: string
+          description: Denominator of e.g. 6.5% or 120 EUR/ton.
+        baseQuantity:
+          type: number
+          description: Quantity taken into account.
+        taxCode:
+          type: string
+          description: Code describing the kind of duty/tax.
+      description: DTO to hold result data describing a line in fee calculation.
+    TCUserMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: Message type. Indicates the type of message. Possible values:<br><b>INFORMATION:</b> Constant for the message type 'Information'.<br><b>WARNING:</b> Constant for the message type 'Warning'.<br><b>ERROR:</b> Constant for the message type 'Error'.<p> length=35 </p>
+        messageText:
+          type: string
+          description: Detailed message content.<p> length=255 </p>
+      description: DTO encapsulates problem and information messages.
+    QuantityWithTypeDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+        unitType:
+          type: string
+          description: Identifier of the quantity unit type, e.g. "WEIGHT", "VOLUME" or client specific (customized) quantity unit types. <p>length=10</p>
+      description: A quantity with a value, a quantity unit and a quantity unit type.
+    TCCalculationStepDTO:
+      type: object
+      properties:
+        step:
+          type: integer
+          description: Step count.
+          format: int32
+        typeCode:
+          type: string
+          description: Defines where the calculation step belongs to.
+          enum:
+          - CUSTOMSDUTY, ANTIDUMPING, EXCISEDUTY, TAX, CALCULATION_UNKNOWN
+        statusCode:
+          type: string
+          description: Defines if the step has been used or not for the current calculation.
+          enum:
+          - APPLICABLE, NONCOMPUTABLE, SKIPPED
+        description:
+          type: array
+          description: List of descriptions of the calculation step (i.e., measure).
+          items:
+            type: string
+            description: List of descriptions of the calculation step (i.e., measure).
+        reasons:
+          type: array
+          description: List of reasons why the step is not applied.
+          items:
+            type: string
+            description: List of reasons why the step is not applied.
+      description: DTO to hold result data describing a step in fee calculation.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

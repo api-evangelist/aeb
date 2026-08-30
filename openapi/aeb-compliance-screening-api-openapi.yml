@@ -1,0 +1,2395 @@
+openapi: 3.2.0
+info:
+  title: Trade Compliance Management HTTP Compliance Screening API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Compliance Screening
+  description: API for restricted party list screening
+paths:
+  /ComplianceScreening/acknowledgeMatchHandlingChanges:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Acknowledge changed match handling results.
+      description: A call to this endpoint acknowledges that your partner system has processed the changed match handling results retrieved by *matchHandlingChanges*. Acknowledged events will not be available for retrieval againAcknowledge changed match handling results. If calling *matchHandlingChanges* returns false in *GetMatchHandlingChangesResponseDTO.isComplete*, there are more changed results available. To get those results, the already retrieved results need to be acknoledged with the *GetMatchHandlingChangesResponseDTO.syncId* from the *matchHandlingChanges* call.
+      operationId: acknowledgeMatchHandlingChanges
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeGetMatchHandlingChangesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeGetMatchHandlingChangesRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeGetMatchHandlingChangesResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeGetMatchHandlingChangesResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/aliasAddresses:
+    get:
+      tags:
+      - Compliance Screening
+      summary: Get aliases of an address
+      description: Returns all alias addresses of a restricted party list address.
+      operationId: aliasAddresses
+      parameters:
+      - name: listGroupName
+        in: query
+        schema:
+          type: string
+      - name: aliasGroupNo
+        in: query
+        schema:
+          type: string
+      - name: internalAddressId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK. All alias addresses of a restricted party list address.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RestrictedPartyAddressDTO'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RestrictedPartyAddressDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use GET.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/countMatchHandlingMatches:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Match count
+      description: Returns the number of matches for the requested match handling view. The default view is used if no match handling view is requested.
+      operationId: countMatchHandlingMatches
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchHandlingCountRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/MatchHandlingCountRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchHandlingCountResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MatchHandlingCountResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/findMatchingAddresses:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Find matching addresses
+      description: Finds all restricted party addresses matching a given address. Can be used to get more details about matches found via 'screenAddresses'.
+      operationId: findMatchingAddresses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindMatchingAddressesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/FindMatchingAddressesRequestDTO'
+      responses:
+        '200':
+          description: OK. The restricted party addresses matching the given address.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RestrictedPartyAddressDTO'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RestrictedPartyAddressDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/goodGuy:
+    post:
+      tags:
+      - Compliance Screening
+      summary: A Good Guy
+      description: Create a Good Guy if it does not already exist. A Good Guy with exactly the same address fields will not be created twice.
+      operationId: goodGuy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoodGuyAddressDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GoodGuyAddressDTO'
+      responses:
+        '200':
+          description: OK. Result of the Good Guy definition request. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoodGuyDefinitionResultDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GoodGuyDefinitionResultDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/lastRestrictedPartyListUpdate:
+    get:
+      tags:
+      - Compliance Screening
+      summary: Get last update date of a restricted party list
+      description: Get the date, a restricted party list has last been updated at.
+      operationId: lastRestrictedPartyListUpdate
+      parameters:
+      - name: clientIdentCode
+        in: query
+        schema:
+          type: string
+      - name: profileIdentCode
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK. The date a restricted party list has last been updated at.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LastRestrictedPartyListUpdateResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LastRestrictedPartyListUpdateResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use GET.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/logEntry:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Create a log entry
+      description: Create a new log entry.
+      operationId: logEntry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientSystemComplianceEventDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ClientSystemComplianceEventDTO'
+      responses:
+        '204':
+          description: No Content. The log entry was created.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/matchHandlingChanges:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Returns all match handling updates since the last synchronization.
+      description: Returns all match handling updates since the last synchronization. The result of a match handling might change if e.g. a match is set to 'processed' or a good guy was created within Trade Compliance Management.
+      operationId: matchHandlingChanges
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMatchHandlingChangesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GetMatchHandlingChangesRequestDTO'
+      responses:
+        '200':
+          description: OK. The changed results of handled matches.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMatchHandlingChangesResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetMatchHandlingChangesResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/profiles:
+    get:
+      tags:
+      - Compliance Screening
+      summary: Get the Compliance profiles of a client
+      description: Get the Compliance profiles of a client.
+      operationId: profiles
+      parameters:
+      - name: clientIdentCode
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK. The Compliance profiles of the client.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDTO'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use GET.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/screenAddresses:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Address screening
+      description: Screens addresses against restricted party lists.
+      operationId: screenAddresses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenAddressesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ScreenAddressesRequestDTO'
+      responses:
+        '200':
+          description: OK. The screening results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AddressScreeningResultDTO'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AddressScreeningResultDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AebProblem'
+                - $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /ComplianceScreening/screeningStatisticData:
+    post:
+      tags:
+      - Compliance Screening
+      summary: Find statistic data
+      description: Finds the statistic data such as number of address checks, matches, good-guy definitions etc. in Compliance Screening.
+      operationId: screeningStatisticData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetScreeningStatisticDataRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/GetScreeningStatisticDataRequestDTO'
+      responses:
+        '200':
+          description: OK. The statistic data of the given client or client group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetScreeningStatisticDataResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetScreeningStatisticDataResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+components:
+  schemas:
+    LastRestrictedPartyListUpdateResponseDTO:
+      type: object
+      properties:
+        lastUpdate:
+          type: string
+          description: 'Last update date of restricted party lists. Format: <code>yyyy-MM-dd HH:mm:ss</code>'
+          format: date-time
+      description: DTO for wrapping the a "simple" Date result of a function to something, which is JSON-able.
+    AddressScreeningResultDTO:
+      type: object
+      properties:
+        matchFound:
+          type: boolean
+          description: The result of the screening. <code>true</code> if one or more matching restricted party addresses were found, <code>false</code> if not.
+          example: true
+        wasGoodGuy:
+          type: boolean
+          description: <code>true</code>, if a Good Guy was defined for this address. Otherwise <code>false</code> is returned.
+          example: false
+        referenceId:
+          maxLength: 255
+          type: string
+          description: Copied from the corresponding field in the request, allowing to correlate the results to the request.
+          example: CUSNO=4711;CLIENT=800;USER=BEN003;PC=PC-PHILIPP
+        referenceComment:
+          maxLength: 3000
+          type: string
+          description: Copied from the corresponding field in in the request, allowing to correlate the results to the request.
+          example: 'Customer no.: 4711, Client: 800, User: BEN003, Pc: PC-PHILIPP'
+      description: Data transfer object for the results of address screening.
+    MatchHandlingSyncDTO:
+      type: object
+      properties:
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: ID of the partner system the match was created by.
+          example: API-TEST
+        clientReferenceId:
+          maxLength: 20
+          type: string
+          description: Internal reference number that serves for internal identification.
+          example: CLIENT=800;USER=BEN003
+        typeOfProcessing:
+          type: string
+          description: 'Represents the accumulated result type of the match result changes.Possible values are: <ul><li><code>''processed''</code></li><li><code>''definedAsGoodGuy''</code></li><li><code>''unprocessed''</code></li></ul>'
+          example: processed
+        isDeleted:
+          type: boolean
+          description: Indicates whether the match has already been deleted.<br>This is only relevant for the <code>/ComplianceScreening/matchHandlingChanges</code> call.
+          default: false
+      description: The sync results of one handled match.
+    ProfileDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          type: string
+          description: The internal ident code of the profile.
+          example: DEFAULT
+        name:
+          maxLength: 60
+          type: string
+          description: The human-readable name of the profile.
+          example: Default
+      description: Data transfer object for a Compliance profile.
+    ScreenAddressesRequestDTO:
+      type: object
+      properties:
+        addresses:
+          type: array
+          description: The addresses to be screened.
+          items:
+            $ref: '#/components/schemas/AddressToCheckDTO'
+        screeningParameters:
+          $ref: '#/components/schemas/AddressScreeningParametersDTO'
+      description: Request object for screening addresses against restricted party lists.
+    AddressToCheckDTO:
+      type: object
+      properties:
+        addressType:
+          type: string
+          description: The <code>addressTypeVersion</code> of <code>MatchParametersDTO</code> defines the result behavior of this field when calling <code>/ComplianceScreening/findMatchingAddresses</code>.<br> If addressTypeVersion <code>0</code> is used, the possible return values are:<ul><li><code>company</code></li><li><code>individual</code></li><li><code>bank</code></li><li><code>vessel</code></li></ul> If addressTypeVersion <code>1</code> is used, the possible return values are:<ul><li><code>entity</code></li><li><code>individual</code></li><li><code>meansOfTransport</code></li><li><code>unknown</code></li></ul><br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: entity
+          enum:
+          - company
+          - individual
+          - bank
+          - vessel
+          - entity
+          - meansOfTransport
+          - unknown
+        name:
+          maxLength: 200
+          type: string
+          description: Full name of the address, e.g. name of the company (address line 1 - 4) or prename and surname of an individual.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: Abu Ahmed Group Inc.
+        street:
+          maxLength: 100
+          type: string
+          description: Street of the address, including house number.<br><em>This field is relevant for the address check.</em>
+          example: Fuller street 5
+        pc:
+          maxLength: 40
+          type: string
+          description: Postal code of the city.<br><em>This field is relevant for the address check.</em>
+          example: MK7 6AJ
+        city:
+          maxLength: 100
+          type: string
+          description: City of the address.<br><em>This field is relevant for the address check.</em>
+          example: Manchester
+        district:
+          maxLength: 50
+          type: string
+          description: 'District of the address, resp. line 2 of the city (in German: Ortsteil).'
+          example: North
+        countryISO:
+          maxLength: 2
+          type: string
+          description: Two character ISO code of the country.<br><em>This field is relevant for the address check.</em>
+          example: DE
+        telNo:
+          maxLength: 40
+          type: string
+          description: Telephone number.
+          example: +4413859-489548
+        postbox:
+          maxLength: 20
+          type: string
+          description: The P.O. box of the address.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: '12345'
+        pcPostbox:
+          maxLength: 40
+          type: string
+          description: The postal code of the P.O. box, if the postal code of the P.O. box differs from the postal code of the street address.
+          example: MK7 6AJ
+        cityPostbox:
+          maxLength: 100
+          type: string
+          description: The city of the P.O. box, if the city of the P.O. box differs from the city of the street address.
+          example: Manchester
+        email:
+          maxLength: 256
+          type: string
+          description: Email address.
+          example: abu.ahmed@example.com
+        fax:
+          maxLength: 40
+          type: string
+          description: Fax number.
+          example: +4413859-4895497
+        name1:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The first line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Abu Ahmed
+        name2:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The second line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Group Inc.
+        name3:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The third line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Factory for sweets of all kind
+        name4:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The fourth line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Manchester
+        title:
+          maxLength: 20
+          type: string
+          description: 'Additional information only for individuals: The title of a person.'
+          example: Haji
+        surname:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: The surname of a person.'
+          example: Ahmed
+        prenames:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: The prenames of a person.'
+          example: Abu
+        dateOfBirth:
+          maxLength: 20
+          type: string
+          description: The date of birth in textual representation, e.g. <code>1962-08-20</code> or just <code>1962</code> or other date formats. (Only human-readable.)
+          example: '1962'
+        passportData:
+          maxLength: 200
+          type: string
+          description: 'Additional information only for individuals: Textual information about the passport, e.g. passport no. and date of issue.'
+          example: ID 385948495849
+        cityOfBirth:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: City of birth.'
+          example: Dublin
+        countryOfBirthISO:
+          maxLength: 2
+          type: string
+          description: 'Additional information only for individuals: Two-letter ISO code for the country of birth.'
+          example: IR
+        nationalityISO:
+          type: string
+          description: 'Additional information only for individuals: Two-letter ISO code for the nationality. <br>(max. length: 2)'
+          example: IR
+        position:
+          maxLength: 200
+          type: string
+          description: 'Additional information only for individuals: Textual information about the position of the individual.'
+          example: Senior official of the Islamic State in Iraq and the Levant (ISIL)
+        niNumber:
+          maxLength: 50
+          type: string
+          description: Additional identification tokens or numbers of individuals.
+          example: Italian fiscal code SSYBLK62T26Z336L
+        info:
+          maxLength: 1000
+          type: string
+          description: Summary additional information, e.g. alias names or information composed of other field like position, passportData, dateOfBirth.
+          example: UN Ref QDi.401
+        aliasGroupNo:
+          maxLength: 20
+          type: string
+          description: Number or name of the group under which all addresses are summarized describing the same person or organization.
+          example: '12345'
+        free1:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free1
+        free2:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free2
+        free3:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free3
+        free4:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free4
+        free5:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free5
+        free6:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free6
+        free7:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free7
+        ids:
+          type: array
+          description: Optional IDs of the address, e.g. like DUNS number or passport number.
+          items:
+            $ref: '#/components/schemas/AddressIdDTO'
+        referenceId:
+          maxLength: 255
+          type: string
+          description: Reference key for match results and logs, e.g. current user, client, pc, delivery note number or debitor number.<br> This field is for internal technical use to build references between the compliance logs and the client system.
+          example: customer.4711.aeb.123
+        referenceComment:
+          maxLength: 3000
+          type: string
+          description: User readable reference comment for logs, e.g. current user, current pc, delivery note number or or debitor number.
+          example: 'Type: Customer, Id: 4711, Company name: AEB, Order number: 123'
+        organisationUnitHost:
+          maxLength: 255
+          type: string
+          description: Address specific ident code of the organizational unit. If not specified, the organizational unit from <code>MatchParametersDTO</code> is used.
+          example: Sales Unit 0711
+        condition:
+          $ref: '#/components/schemas/AddressScreeningConditionDTO'
+      description: Data transfer object for an address to be screened against restricted party lists.
+    ClientSystemComplianceEventDTO:
+      required:
+      - clientIdentCode
+      - module
+      type: object
+      properties:
+        level:
+          type: string
+          description: The severity level of the event to log. Client systems may classify the severity of their events accordingly.
+          example: INFO
+          enum:
+          - INFO
+          - WARNING
+          - RESTRICTION
+          - ERROR
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: Ident code of the client to create the log entry for. Must be a valid ident code of an existing client.<br>
+          example: APITEST
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: Ident code of the Compliance profile to create the log entry for. If given, must be a valid ident code of a profile valid for the given client. If omitted, the log entry is not linked to a profile.
+          example: DEFAULT
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: The unique ID of the host system that creates the log entry. Used to filter log entries by the host system they originate from.
+          example: SAP_[sys]_[client]
+        organisationUnitHost:
+          maxLength: 255
+          type: string
+          description: Ident code of the organizational unit.
+          example: Sales Unit 0711
+        referenceId:
+          maxLength: 255
+          type: string
+          description: Reference ID for a host system object or transaction the log entry is linked to. Used to correlate log entries to their source.
+          example: CUSNO=4711;CLIENT=800;USER=BEN003;PC=PC-PHILIPP
+        referenceComment:
+          maxLength: 3000
+          type: string
+          description: User readable reference comment for a host system object or transaction the log entry is linked to. The user readable version of the reference ID.
+          example: 'Customer no.: 4711, Client: 800, User: BEN003, Pc: PC-PHILIPP'
+        info:
+          maxLength: 60000
+          type: string
+          description: A textual description of the event.
+          example: The compliance lock for order 4711 was removed.
+        userIdentification:
+          maxLength: 100
+          type: string
+          description: A description of the user who made the event. Purely informational and does not have to be an existing user in Trade Compliance.
+          example: MUELLER
+        module:
+          type: string
+          description: The module the log entry should be created for.
+          example: ComplianceScreening
+          enum:
+          - ComplianceScreening
+          - ExportControl
+          - LicenseManagement
+          - RiskAssessment
+        happendAtDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+      description: Data transfer object describing a log event of the client system.
+    GetMatchHandlingChangesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        isComplete:
+          type: boolean
+          description: <code>true</code>, if the synchronization is complete and currently no further changed match handling results are available. <code>false</code> if not.<br> In this case, after acknowledging with <code>/ComplianceScreening/acknowledgeMatchHandlingChanges</code>, an additional call to <code>/ComplianceScreening/matchHandlingChanges</code> would be needed to get more changes.
+          example: true
+        syncId:
+          type: string
+          description: Synchronization ID for acknowledging.<br>Use this syncId in subsequent calls to <code>/ComplianceScreening/acknowledgeMatchHandlingResults</code> to acknowledge the processing of the changed match handling results.<br>This syncId may be <code>null</code> if no changed match handling results were found to synchronize.
+          example: '1234'
+        matchHandlingChanges:
+          type: array
+          description: The next changed match handling results.
+          items:
+            $ref: '#/components/schemas/MatchHandlingSyncDTO'
+      description: Response when getting changed match handling results.
+    MatchHandlingCountRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        filterParms:
+          $ref: '#/components/schemas/MatchHandlingCountFilterParmsDTO'
+      description: Represents the request for counting matches in the match handling overview.
+    GoodGuyAddressDTO:
+      required:
+      - clientIdentCode
+      - profileIdentCode
+      type: object
+      properties:
+        addressType:
+          type: string
+          description: The <code>addressTypeVersion</code> of <code>MatchParametersDTO</code> defines the result behavior of this field when calling <code>/ComplianceScreening/findMatchingAddresses</code>.<br> If addressTypeVersion <code>0</code> is used, the possible return values are:<ul><li><code>company</code></li><li><code>individual</code></li><li><code>bank</code></li><li><code>vessel</code></li></ul> If addressTypeVersion <code>1</code> is used, the possible return values are:<ul><li><code>entity</code></li><li><code>individual</code></li><li><code>meansOfTransport</code></li><li><code>unknown</code></li></ul><br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: entity
+          enum:
+          - company
+          - individual
+          - bank
+          - vessel
+          - entity
+          - meansOfTransport
+          - unknown
+        name:
+          maxLength: 200
+          type: string
+          description: Full name of the address, e.g. name of the company (address line 1 - 4) or prename and surname of an individual.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: Abu Ahmed Group Inc.
+        street:
+          maxLength: 100
+          type: string
+          description: Street of the address, including house number.<br><em>This field is relevant for the address check.</em>
+          example: Fuller street 5
+        pc:
+          maxLength: 40
+          type: string
+          description: Postal code of the city.<br><em>This field is relevant for the address check.</em>
+          example: MK7 6AJ
+        city:
+          maxLength: 100
+          type: string
+          description: City of the address.<br><em>This field is relevant for the address check.</em>
+          example: Manchester
+        district:
+          maxLength: 50
+          type: string
+          description: 'District of the address, resp. line 2 of the city (in German: Ortsteil).'
+          example: North
+        countryISO:
+          maxLength: 2
+          type: string
+          description: Two character ISO code of the country.<br><em>This field is relevant for the address check.</em>
+          example: DE
+        telNo:
+          maxLength: 40
+          type: string
+          description: Telephone number.
+          example: +4413859-489548
+        postbox:
+          maxLength: 20
+          type: string
+          description: The P.O. box of the address.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: '12345'
+        pcPostbox:
+          maxLength: 40
+          type: string
+          description: The postal code of the P.O. box, if the postal code of the P.O. box differs from the postal code of the street address.
+          example: MK7 6AJ
+        cityPostbox:
+          maxLength: 100
+          type: string
+          description: The city of the P.O. box, if the city of the P.O. box differs from the city of the street address.
+          example: Manchester
+        email:
+          maxLength: 256
+          type: string
+          description: Email address.
+          example: abu.ahmed@example.com
+        fax:
+          maxLength: 40
+          type: string
+          description: Fax number.
+          example: +4413859-4895497
+        name1:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The first line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Abu Ahmed
+        name2:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The second line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Group Inc.
+        name3:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The third line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Factory for sweets of all kind
+        name4:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The fourth line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Manchester
+        title:
+          maxLength: 20
+          type: string
+          description: 'Additional information only for individuals: The title of a person.'
+          example: Haji
+        surname:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: The surname of a person.'
+          example: Ahmed
+        prenames:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: The prenames of a person.'
+          example: Abu
+        dateOfBirth:
+          maxLength: 20
+          type: string
+          description: The date of birth in textual representation, e.g. <code>1962-08-20</code> or just <code>1962</code> or other date formats. (Only human-readable.)
+          example: '1962'
+        passportData:
+          maxLength: 200
+          type: string
+          description: 'Additional information only for individuals: Textual information about the passport, e.g. passport no. and date of issue.'
+          example: ID 385948495849
+        cityOfBirth:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: City of birth.'
+          example: Dublin
+        countryOfBirthISO:
+          maxLength: 2
+          type: string
+          description: 'Additional information only for individuals: Two-letter ISO code for the country of birth.'
+          example: IR
+        nationalityISO:
+          type: string
+          description: 'Additional information only for individuals: Two-letter ISO code for the nationality. <br>(max. length: 2)'
+          example: IR
+        position:
+          maxLength: 200
+          type: string
+          description: 'Additional information only for individuals: Textual information about the position of the individual.'
+          example: Senior official of the Islamic State in Iraq and the Levant (ISIL)
+        niNumber:
+          maxLength: 50
+          type: string
+          description: Additional identification tokens or numbers of individuals.
+          example: Italian fiscal code SSYBLK62T26Z336L
+        info:
+          maxLength: 1000
+          type: string
+          description: Summary additional information, e.g. alias names or information composed of other field like position, passportData, dateOfBirth.
+          example: UN Ref QDi.401
+        aliasGroupNo:
+          maxLength: 20
+          type: string
+          description: Number or name of the group under which all addresses are summarized describing the same person or organization.
+          example: '12345'
+        free1:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free1
+        free2:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free2
+        free3:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free3
+        free4:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free4
+        free5:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free5
+        free6:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free6
+        free7:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free7
+        ids:
+          type: array
+          description: Optional IDs of the address, e.g. like DUNS number or passport number.
+          items:
+            $ref: '#/components/schemas/AddressIdDTO'
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: Ident code of the client the Good Guy belongs to. The value must be a valid ident code of an existing client.
+          example: APITEST
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: Ident code of a Compliance profile. The value must be a valid ident code of a profile valid for the specified client.
+          example: DEFAULT
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: The unique ID of the host system calling this API. Used in log entries on any actions performed on the Good Guy.
+          example: SAP_[sys]_[client]
+        organisationUnitHost:
+          maxLength: 255
+          type: string
+          description: Ident code of the organizational unit. Currently not used. Functionality will be added at a later date.
+          example: Sales Unit 0711
+        referenceId:
+          maxLength: 255
+          type: string
+          description: Reference ID for logging.
+          example: CLIENT=800;USER=BEN003;PC=PC-PHILIPP
+        referenceComment:
+          maxLength: 3000
+          type: string
+          description: Reference comment for logging.
+          example: 'Client: 800, User: BEN003, Pc: PC-PHILIPP'
+        isActive:
+          type: boolean
+          description: Defines whether the Good Guy is active or not. Inactive Good Guys are not considered during address screening. If omitted, the Good Guy is active by default.<br> Only used when a new Good Guy is created.
+          example: true
+          default: true
+        userIdentification:
+          maxLength: 100
+          type: string
+          description: The users name to be used for logging.
+          example: BEN003
+        condition:
+          $ref: '#/components/schemas/GoodGuyConditionDTO'
+      description: Data transfer object for a Good Guy address.
+    RestrictedPartyAddressDTO:
+      type: object
+      properties:
+        addressType:
+          type: string
+          description: The <code>addressTypeVersion</code> of <code>MatchParametersDTO</code> defines the result behavior of this field when calling <code>/ComplianceScreening/findMatchingAddresses</code>.<br> If addressTypeVersion <code>0</code> is used, the possible return values are:<ul><li><code>company</code></li><li><code>individual</code></li><li><code>bank</code></li><li><code>vessel</code></li></ul> If addressTypeVersion <code>1</code> is used, the possible return values are:<ul><li><code>entity</code></li><li><code>individual</code></li><li><code>meansOfTransport</code></li><li><code>unknown</code></li></ul><br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: entity
+          enum:
+          - company
+          - individual
+          - bank
+          - vessel
+          - entity
+          - meansOfTransport
+          - unknown
+        name:
+          maxLength: 200
+          type: string
+          description: Full name of the address, e.g. name of the company (address line 1 - 4) or prename and surname of an individual.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: Abu Ahmed Group Inc.
+        street:
+          maxLength: 100
+          type: string
+          description: Street of the address, including house number.<br><em>This field is relevant for the address check.</em>
+          example: Fuller street 5
+        pc:
+          maxLength: 40
+          type: string
+          description: Postal code of the city.<br><em>This field is relevant for the address check.</em>
+          example: MK7 6AJ
+        city:
+          maxLength: 100
+          type: string
+          description: City of the address.<br><em>This field is relevant for the address check.</em>
+          example: Manchester
+        district:
+          maxLength: 50
+          type: string
+          description: 'District of the address, resp. line 2 of the city (in German: Ortsteil).'
+          example: North
+        countryISO:
+          maxLength: 2
+          type: string
+          description: Two character ISO code of the country.<br><em>This field is relevant for the address check.</em>
+          example: DE
+        telNo:
+          maxLength: 40
+          type: string
+          description: Telephone number.
+          example: +4413859-489548
+        postbox:
+          maxLength: 20
+          type: string
+          description: The P.O. box of the address.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>
+          example: '12345'
+        pcPostbox:
+          maxLength: 40
+          type: string
+          description: The postal code of the P.O. box, if the postal code of the P.O. box differs from the postal code of the street address.
+          example: MK7 6AJ
+        cityPostbox:
+          maxLength: 100
+          type: string
+          description: The city of the P.O. box, if the city of the P.O. box differs from the city of the street address.
+          example: Manchester
+        email:
+          maxLength: 256
+          type: string
+          description: Email address.
+          example: abu.ahmed@example.com
+        fax:
+          maxLength: 40
+          type: string
+          description: Fax number.
+          example: +4413859-4895497
+        name1:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The first line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Abu Ahmed
+        name2:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The second line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Group Inc.
+        name3:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The third line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Factory for sweets of all kind
+        name4:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for companies: The fourth line of the addresses name.<br><em>Depending on the profile settings, this field might be relevant for the address check.</em>'
+          example: Manchester
+        title:
+          maxLength: 20
+          type: string
+          description: 'Additional information only for individuals: The title of a person.'
+          example: Haji
+        surname:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: The surname of a person.'
+          example: Ahmed
+        prenames:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: The prenames of a person.'
+          example: Abu
+        dateOfBirth:
+          maxLength: 20
+          type: string
+          description: The date of birth in textual representation, e.g. <code>1962-08-20</code> or just <code>1962</code> or other date formats. (Only human-readable.)
+          example: '1962'
+        passportData:
+          maxLength: 200
+          type: string
+          description: 'Additional information only for individuals: Textual information about the passport, e.g. passport no. and date of issue.'
+          example: ID 385948495849
+        cityOfBirth:
+          maxLength: 50
+          type: string
+          description: 'Additional information only for individuals: City of birth.'
+          example: Dublin
+        countryOfBirthISO:
+          maxLength: 2
+          type: string
+          description: 'Additional information only for individuals: Two-letter ISO code for the country of birth.'
+          example: IR
+        nationalityISO:
+          type: string
+          description: 'Additional information only for individuals: Two-letter ISO code for the nationality. <br>(max. length: 2)'
+          example: IR
+        position:
+          maxLength: 200
+          type: string
+          description: 'Additional information only for individuals: Textual information about the position of the individual.'
+          example: Senior official of the Islamic State in Iraq and the Levant (ISIL)
+        niNumber:
+          maxLength: 50
+          type: string
+          description: Additional identification tokens or numbers of individuals.
+          example: Italian fiscal code SSYBLK62T26Z336L
+        info:
+          maxLength: 1000
+          type: string
+          description: Summary additional information, e.g. alias names or information composed of other field like position, passportData, dateOfBirth.
+          example: UN Ref QDi.401
+        aliasGroupNo:
+          maxLength: 20
+          type: string
+          description: Number or name of the group under which all addresses are summarized describing the same person or organization.
+          example: '12345'
+        free1:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free1
+        free2:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free2
+        free3:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free3
+        free4:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free4
+        free5:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free5
+        free6:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free6
+        free7:
+          maxLength: 50
+          type: string
+          description: Additional field for future use.
+          example: free7
+        ids:
+          type: array
+          description: Optional IDs of the address, e.g. like DUNS number or passport number.
+          items:
+            $ref: '#/components/schemas/AddressIdDTO'
+        similarity:
+          maximum: 100
+          minimum: 60
+          type: integer
+          description: Measure of similarity of the address between 60 and 100.
+          format: int32
+          example: 85
+        listAbbreviation:
+          maxLength: 20
+          type: string
+          description: The abbreviation of the restricted party list, the address was found on.<br>For compatibility with clients not aware of the later introduced field <code>matchType</code>, this is <code>-</code>, if the match is not based on a restricted party address (e.g. an embargo area match).
+          example: FRNL
+        listName:
+          maxLength: 255
+          type: string
+          description: Description of the restricted party list, the address was found on.<br>For compatibility with clients not aware of the later introduced field <code>matchType</code>, this is <code>-</code>, if the match is not based on a restricted party address (e.g. an embargo area match).
+          example: UK - Consolidated List of Financial Sanctions Targets in the UK
+        listGroupName:
+          maxLength: 10
+          type: string
+          description: Technical ID of the restricted party list.<br>For compatibility with clients not aware of the later introduced field <code>matchType</code>, this is <code>-</code>, if the match is not based on a restricted party address (e.g. an embargo area match).
+          example: BOE
+        internalAddressId:
+          maxLength: 50
+          type: string
+          description: Internal id of the found address.<br>For compatibility with clients not aware of the later introduced field <code>matchType</code>, this is <code>-</code>, if the match is not based on a restricted party address (e.g. an embargo area match).
+          example: '12345678901234567890'
+        restrictionType:
+          maxLength: 40
+          type: string
+          description: Original list name of the restricted party list.
+          example: EU-CR
+        restrictionSource:
+          maxLength: 100
+          type: string
+          description: Restriction source of the found address.
+          example: Terrorism and Terrorist Financing
+        restrictionDate:
+          type: string
+          description: Publication date of the restricted party address.
+          format: date-time
+        sourceWebLink:
+          maxLength: 1000
+          type: string
+          description: Link pointing to the source of the restriction.
+          example: www.youm7.com/story/2017/6/9/
+        updateId:
+          maxLength: 100
+          type: string
+          description: Address number of the restricted party address. Note that this number is not necessarily stable over time.
+          example: BOE_490984a6b705f886d56f8f4ba5b526be
+        updateDate:
+          type: string
+          description: Last changed date of the restricted party address.
+          format: date-time
+        hasMoreDetails:
+          type: boolean
+          description: If <code>true</code>, the matching address has more detail information, not returned with this DTO.<br>You can use <code>POST /ComplianceScreeningApplications/restrictedPartyAddress</code> with the <code>internalAddressId</code> to get an URL for displaying the restricted party address details.
+          example: true
+        matchType:
+          maxLength: 40
+          type: string
+          description: Type of the found match.
+          example: ADDRESS_AND_NAME
+          enum:
+          - ADDRESS_AND_NAME
+          - ADDRESS_ONLY
+          - EMBARGO_AREA
+          - IDS_ONLY
+        embargoArea:
+          maxLength: 20
+          type: string
+          description: The ident code of the embargo area the match has been found for. Only filled in case of an embargo match (see <code>matchType</code>)
+          example: EmbargoArea
+      description: Data transfer object for addresses found in a restricted party list which match a given address.
+    GetScreeningStatisticDataResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        statisticDataRecords:
+          type: array
+          description: Entries of statistic data.
+          items:
+            $ref: '#/components/schemas/ScreeningStatisticDataDTO'
+      description: Data transfer object for statistic data in Compliance Screening.
+    AddressIdDTO:
+      required:
+      - idValue
+      type: object
+      properties:
+        idType:
+          type: string
+          description: Type of an address ID.<br><br>Depending on settings in the profile, is may also be allowed to let this field empty, in which case the <code>idValue</code> is matched against any id type.
+          example: DUNS_NO
+          enum:
+          - DUNS_NO
+          - TAX_NO
+          - BIC
+          - IMO_NO
+          - PASSPORT_NO
+          - DOMAIN_NAME
+        idValue:
+          type: string
+          description: Value of an ID, e.g. a concrete DUNS number or tax number.
+          example: 15-048-3782
+      description: Data transfer object for encoding of IDs of addresses, e.g. like DUNS number or passport number.
+    GoodGuyConditionDTO:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          maxLength: 1000
+          type: string
+          description: The mandatory value of this condition.
+          example: ORDER_4711
+        description:
+          maxLength: 255
+          type: string
+          description: A short, human-readable description of the condition.
+          example: Order no. 4711
+      description: Condition of a Good Guy. Allows to define that a Good Guy is only valid in a certain context like a specific order or transaction.
+    GetMatchHandlingChangesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+      description: Request to get changed match handling results.
+    MatchHandlingCountResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        countOfMatches:
+          type: integer
+          description: Number of matches in the match handling overview.
+          format: int64
+          example: 10
+      description: Represents the response of counting matches.
+    GetScreeningStatisticDataRequestDTO:
+      required:
+      - dateFrom
+      - dateTo
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        clientIdentCodeToGet:
+          maxLength: 10
+          type: string
+          description: Client identification code of the client to get the statistic data from. When no client to get is given, we either consider the whole client group or only the client. When both client and client to get are given, they either need to be in the same client group or be the same clients.
+          example: APITEST
+        dateFrom:
+          type: string
+          description: The date of the first day to get statistic data from.
+          format: yyyy-MM-dd
+          example: '2016-09-21'
+        dateTo:
+          type: string
+          description: The date of the last day to get statistic data from.
+          format: yyyy-MM-dd
+          example: '2016-09-21'
+        getDataOfAllClientSystems:
+          type: boolean
+          description: If <code>true</code>, statistic data will be returned for each client system.
+          example: true
+          default: false
+      description: Data transfer object for requesting statistic data in Compliance Screening.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    AebProblemError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
+          type: string
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+    ScreeningStatisticDataDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: Client identification code.
+          example: APITEST
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: Id of the sending client system, e.g. Installation ID of the sending host or ERP system.
+          example: TEST_ID
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: "Ident code of the Compliance profile of Trade Compliance Management. The value must be a valid ident code of a profile customized in Trade Compliance\tManagement for the client identified by <code>clientIdentCode</code>."
+          example: DEFAULT
+        date:
+          type: string
+          description: The date of the day the statistic data is from.
+          format: yyyy-MM-dd
+          example: '2016-09-21'
+        numAddressesChecked:
+          type: number
+          description: Number of addresses checked in the selected period. Includes manual address checks, file checks, and checks from a partner system.
+        numAddressesCheckedFile:
+          type: number
+          description: Number of checked addresses from file checks.
+        numAddressesCheckedBF:
+          type: number
+          description: Number of checked addresses from partner systems.
+        numMatchesFound:
+          type: number
+          description: Number of addresses for which a match was found.
+        numMaxSimilarity95to100:
+          type: number
+          description: Number of address matches with a max. similarity of 95% to 100% to a restricted party address. If multiple restricted party addresses have been found, only the match with the highest similarity will be included in the statistics.
+        numMaxSimilarity90to94:
+          type: number
+          description: Number of address matches with a max. similarity of 90% to 94% to a restricted party address. If multiple restricted party addresses have been found, only the match with the highest similarity will be included in the statistics.
+        numMaxSimilarity85to89:
+          type: number
+          description: Number of address matches with a max. similarity of 85% to 89% to a restricted party address. If multiple restricted party addresses have been found, only the match with the highest similarity will be included in the statistics.
+        numMaxSimilarity80to84:
+          type: number
+          description: Number of address matches with a max. similarity of 80% to 84% to a restricted party address. If multiple restricted party addresses have been found, only the match with the highest similarity will be included in the statistics.
+        numMaxSimilarity75to79:
+          type: number
+          description: Number of address matches with a max. similarity of 75% to 79% to a restricted party address. If multiple restricted party addresses have been found, only the match with the highest similarity will be included in the statistics.
+        numMatchesCreated:
+          type: number
+          description: Number of address matches for which a log entry was created during the selected period.
+        numProcessed:
+          type: number
+          description: Number of newly created address matches that have already been processed. This figure only includes address matches for which a log entry was created during the selected period. If you filter for the previous week, for example, you will find information how many of the matches created in that week have already been processed. This is independent of when the matches have been processed.
+        numDefinedAsGoodGuy:
+          type: number
+          description: Number of address matches for which a Good Guy was created. This figure only includes address matches for which a log entry was created during the selected period.
+        numGoodGuysChecked:
+          type: number
+          description: Number of Good Guys checked in the selected period.
+        numGoodGuyAlarmsFound:
+          type: number
+          description: Number of Good Guys checked in the selected period that lead to a Good Guy alarm.
+        numGoodGuyAlarmsCreated:
+          type: number
+          description: Number of Good Guy alarms created in the selected period.
+        numGoodGuyAlarmsProcessed:
+          type: number
+          description: Number of newly created Good Guy alarms that have already been processed. This figure only includes Good Guy alarms created in the selected period. If you filter for the previous week, for example, you will find information how many of the Good Guy alarms created in that week have already been processed. Good Guy alarms processed in the current week are also considered.
+        numClientSystemErrors:
+          type: number
+          description: Number of errors reported from partner system (log entries with log type 'Partner system notification' and event 'Error').
+        numFileChecksChecked:
+          type: number
+          description: Number of completed address file checks.
+        numFileChecksWithErrors:
+          type: number
+          description: Number of address file checks with errors. This number does not take into account if the errors from the file checks have already been corrected.
+      description: Data transfer object for statistic data in Compliance Screening.
+    AebProblem:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'A URI reference that uniquely identifies the problem type in the
+
+            context of the provided API. Opposed to the specification in RFC-7807,
+
+            it neither points to a human-readable documentation nor globally
+
+            unique for the problem type.'
+          format: uri
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 404
+        title:
+          type: string
+          description: Title
+          example: Not found
+        detail:
+          type: string
+          description: Detail info
+          example: Item not found
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          format: uri
+          example: item/12345
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          format: date-time
+          example: '2024-03-28T12:45:31.7857371Z'
+        xRequestId:
+          type: string
+          description: ID of the request that is associated with the problem.
+        errors:
+          type: array
+          description: Array of related errors
+          items:
+            $ref: '#/components/schemas/AebProblemError'
+    FindMatchingAddressesRequestDTO:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/AddressToCheckDTO'
+        screeningParameters:
+          $ref: '#/components/schemas/AddressScreeningParametersDTO'
+      description: Request object to find restricted party addresses matching a given address.
+    AddressScreeningParametersDTO:
+      required:
+      - clientIdentCode
+      - profileIdentCode
+      type: object
+      properties:
+        clientIdentCode:
+          maxLength: 10
+          type: string
+          description: Ident code of the client to use for screening. The value must be a valid ident code of a client the authorized user has access to (usually the same client used for authentication).
+          example: APICLIENT
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: Ident code of a Compliance profile. The value must be a valid ident code for the client specified by the clientIdentCode.
+          example: DEFAULT
+        threshold:
+          maximum: 100
+          minimum: 1
+          maxLength: 3
+          type: integer
+          description: 'Define the similarity threshold in percentage which should be used for screening checks.<br>Optionally overrides the value from the Compliance profile used. <br>In most cases, this value should be left empty.<br>When no value is submitted or the submitted value equals zero, the value from the Compliance profile will be used.<br>Valid values are: <code>1</code> to <code>100</code>.<br>It is recommended to choose a value between <code>75</code> and <code>85</code>.<br>Values below this range can have negative effects on performance and on the result quality.'
+          format: int32
+          example: 84
+        addressTranslateThreshold:
+          maximum: 100
+          minimum: 1
+          maxLength: 3
+          type: integer
+          description: 'Defines an optional similarity threshold in percentage which should be used for screening checks that were translated.<br>This value is only used if the translation feature is enabled for the profile.<br>This overrides the value from the Compliance profile used.<br>When no value is submitted or the submitted value equals zero, the value from the Compliance profile will be used.<br>Valid values are: <code>1</code> to <code>100</code>.<br>It is recommended to choose a value between <code>75</code> and <code>85</code>.<br>Values below this range can have negative effects on performance and on the result quality.<br>Since: 2020/10'
+          format: int32
+          example: 78
+        addrMatchWithoutNameThreshold:
+          maximum: 100
+          minimum: 1
+          maxLength: 3
+          type: integer
+          description: 'Defines an optional similarity threshold in percentage which should be used for address screening without name.<br>This overrides the value from the Compliance profile used.<br>When no value is submitted or the submitted value equals zero, the value from the Compliance profile will be used.<br>Valid values are: <code>1</code> to <code>100</code>.<br>It is recommended to choose a value between <code>75</code> and <code>85</code>.<br>Values below this range can have negative effects on performance and on the result quality.<br>Since: 2020/10'
+          format: int32
+          example: 84
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: The unique ID of the host system calling this API. Used when logging the address screening results.
+          example: API-TEST
+        organisationUnitHost:
+          maxLength: 255
+          type: string
+          description: Ident code of the organizational unit. May be <code>null</code>. An address specific organizational unit can be specified via <code>AddressPatternDTO</code>. If an organizational unit is specified there, it is used instead of the organizational unit specified here.
+          example: Sales Unit 0711
+        suppressLogging:
+          type: boolean
+          description: If <code>true</code>, the address screening operation will not be logged, thus match handling in Trade Compliance Management will not be possible.<br>If omitted or <code>false</code>, the address screening operation will be logged.
+          example: false
+          default: false
+        considerGoodGuys:
+          type: boolean
+          description: If <code>false</code> Good Guys will be ignored. If omitted or <code>true</code>, Good Guys will be considered. Should only be used if Good Guys should be ignored specifically, i.e. to specifically check a Good Guy similar to the Good Guy screening batch.
+          example: true
+          default: true
+        userIdentification:
+          maxLength: 100
+          type: string
+          description: The user name to be used for logging. Purely informational.
+          example: API_TEST
+        addressTypeVersion:
+          type: string
+          description: The <code>addressTypeVersion</code> defines the result behavior of <code>addressType</code> in <code>AddressDTO</code> when calling <code>/ComplianceScreening/findMatchingAddresses</code>.<br> Possible values:<ul><li><code>0</code></li><li><code>1</code></li></ul><p>If addressTypeVersion 0 is used, the possible return values of <code>addressType</code> are:</p><ul><li><code>company</code></li><li><code>individual</code></li><li><code>bank</code></li><li><code>vessel</code></li></ul><p>If addressTypeVersion 1 is used, the possible return values of <code>addressType</code> are:</p><ul><li><code>entity</code></li><li><code>individual</code></li><li><code>meansOfTransport</code></li><li><code>unknown</code></li></ul>
+          example: '1'
+          default: '0'
+          enum:
+          - '0'
+          - '1'
+      description: Data transfer object for parameters of the address screening.
+    AcknowledgeGetMatchHandlingChangesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response for <code>/ComplianceScreening/matchHandlingChanges</code>.
+    DateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
+    GoodGuyDefinitionResultDTO:
+      type: object
+      properties:
+        definitionResult:
+          type: integer
+          description: The result of the good guy definition. Possible values:<ul><li><code>0</code> - No Good Guy was defined, because there was no Good Guy list referenced by the profile.</li><li><code>1</code> - No Good Guy was defined, because the Good Guy did already exist in at least on of the Good Guy lists referenced by the profile.</li><li><code>2</code> - The Good Guy was succesfully created and added to all Good Guy lists referenced by the profile.</li></ul>
+          format: int32
+          example: 2
+          enum:
+          - 0
+          - 1
+          - 2
+      description: The result of a Good Guy definition request.
+    MatchHandlingCountFilterParmsDTO:
+      type: object
+      properties:
+        storedViewName:
+          type: string
+          description: 'The abbreviation or a (translated) name of a view. The respective view must be created beforehand using the GUI.
+
+            If omitted, the default view is used. A call for a nonexistent view returns an error.
+
+            Names for all translations will be searched. If there is a view A where storedViewName matches the abbreviation and a view B where it matches a translated name, then view A will take precedence.'
+          example: GG alarms user X
+      description: Parameters to configure the match handling view when counting the matches.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    AcknowledgeGetMatchHandlingChangesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          type: string
+          description: Synchronization ID for acknowledging.<br>Use the <code>GetMatchHandlingChangesResponseDTO.syncId</code> value received with the last call to <code>/ComplianceScreening/matchHandlingChanges</code> to acknowledge the processing of the changed match handling results.
+          example: '1234'
+      description: Request to acknoledge changed match handling results.
+    AddressScreeningConditionDTO:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          maxLength: 1000
+          type: string
+          description: The condition value to be unique per unique condition. Only Good Guys with exactly the same condition are considered during the address checks.<br> The <code>description</code> can be used to described the value in a human-readable manner.<br><br> Examples:<ul><li>To get a temporary Good Guy only valid for a single order, this could be the unique order number, e.g.<code>1234</code> for order 1234 (with<code>order number</code> as description).</li><li>If different types of objects are possible, and the number of a single object alone would not be unique, you might combine the numbers of the objects to get a unique value, e.g.<code>1234_1234</code> (with<code>&lt;order number&gt;_&lt;delivery number&gt;</code> as description).</li><li>Alternatively, you might only specify one value and extend it by an identifier, e.g.<code>ORDER_1234</code> or<code>DELIVERY_1234</code> (with<code>order number</code> or<code>delivery number</code> as description).</li></ul><br>
+          example: ORDER_12345
+        description:
+          maxLength: 255
+          type: string
+          description: A short, human-readable description of the condition specified by the <code>value</code>.
+          example: Order no. 12345
+      description: Data transfer object for a condition for an address check.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

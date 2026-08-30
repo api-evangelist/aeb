@@ -1,0 +1,363 @@
+openapi: 3.2.0
+info:
+  title: Customs Management HTTP Consignment profiles API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2ici/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Consignment profiles
+  description: Consignment profiles API
+paths:
+  /v1/consignment-profiles/{code}:
+    get:
+      tags:
+      - Consignment profiles
+      summary: Returns a consignment profile of the given client
+      operationId: getConsignmentProfile
+      parameters:
+      - name: client_ident_code
+        in: query
+        schema:
+          type: string
+      - name: result_language_iso_code
+        in: query
+        schema:
+          type: string
+      - name: code
+        in: path
+        description: Consignment profile code
+        required: true
+        schema:
+          type: string
+        example: DEFAULT_PROFILE
+      responses:
+        '200':
+          description: Call was successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ICGetConsignmentProfilesResponseDTO'
+        '400':
+          description: Request contained invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '404':
+          description: Consignment profile not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '500':
+          description: Internal server error occurred
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+  /v1/consignment-profiles:
+    get:
+      tags:
+      - Consignment profiles
+      summary: Returns a list of consignment profiles of the given client
+      operationId: getConsignmentProfiles
+      parameters:
+      - name: client_ident_code
+        in: query
+        schema:
+          type: string
+      - name: result_language_iso_code
+        in: query
+        schema:
+          type: string
+      - name: profile_code
+        in: query
+        description: Filter consignment profiles by code
+        schema:
+          type: string
+        example: DEFAULT_PROFILE
+      responses:
+        '200':
+          description: Call was successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ICGetConsignmentProfilesResponseDTO'
+        '400':
+          description: Request contained invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '500':
+          description: Internal server error occurred
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+  /v1/consignment-profiles/transitions:
+    get:
+      tags:
+      - Consignment profiles
+      summary: Returns a list of consignment profile transitions of the given client
+      operationId: getConsignmentProfilesTransitions
+      parameters:
+      - name: client_ident_code
+        in: query
+        schema:
+          type: string
+      - name: result_language_iso_code
+        in: query
+        schema:
+          type: string
+      - name: valid_at
+        in: query
+        description: Filter transitions by the validity
+        schema:
+          type: string
+        example: '2024-03-15'
+      - name: dispatch_country_code
+        in: query
+        description: Filter transitions by dispatch country ISO code
+        schema:
+          type: string
+        example: DE
+      - name: destination_country_code
+        in: query
+        description: Filter transitions by destination country ISO code
+        schema:
+          type: string
+        example: GB
+      responses:
+        '200':
+          description: Call was successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ICGetTransitionsResponseDTO'
+        '400':
+          description: Request contained invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '500':
+          description: Internal server error occurred
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+components:
+  schemas:
+    ICConsignmentProfileTransitionDTO:
+      required:
+      - customsProcess
+      - profileCode
+      type: object
+      properties:
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Unqiue code of the consignment profile.
+          example: DEFAULT_PROFILE
+        customsProcess:
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        validFrom:
+          type: string
+          description: Date from which the transition settings are valid.
+          format: date
+          example: '2024-03-15'
+        validTo:
+          type: string
+          description: Date to which the transition settings are valid.
+          format: date
+          example: '2025-03-15'
+      description: Data of a transition within a consignment profile
+    ICGetTransitionsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        transitions:
+          type: array
+          description: List of transitions of consignment profiles.
+          items:
+            $ref: '#/components/schemas/ICConsignmentProfileTransitionDTO'
+      description: Response data for transitions of consignment profiles
+    ErrorResponseMessageDTO:
+      type: object
+      properties:
+        messageIdentCode:
+          type: string
+          description: Code identifying the type of the error.
+          example: EMPTY_MANDATORY_FIELD
+        messageTexts:
+          type: array
+          description: Description of the error in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        field:
+          type: string
+          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
+          example: item[2].itemNumber
+        invalidValue:
+          type: string
+          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
+          example: 'null'
+      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+    ProblemDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A URI reference that uniquely identifies the problem type in the context of the provided API. Opposed to the specification in RFC-7807, it neither points to a human-readable documentation nor globally unique for the problem type.
+          default: about:blank
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 400
+        title:
+          type: string
+          description: A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
+          example: Bad request
+        detail:
+          type: string
+          description: A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
+          example: Some description for the error situation
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          example: example-resouce/id1
+        errors:
+          type: array
+          description: Error messages.
+          items:
+            $ref: '#/components/schemas/ErrorResponseMessageDTO'
+      description: The response DTO which indicates that a problem occurred when processing the request. See RFC 7807 for further specification details.
+      externalDocs:
+        url: https://tools.ietf.org/html/rfc7807
+    ICCustomsProcessTypeDTO:
+      type: object
+      properties:
+        customsProcess:
+          maxLength: 35
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
+          example: EXPORT_BROKER
+        countrySetupIdentCode:
+          maxLength: 2
+          type: string
+          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
+          example: CN
+      description: DTO to hold the customs process type.
+    ICGetConsignmentProfilesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        profiles:
+          type: array
+          description: List of consignment profiles.
+          items:
+            $ref: '#/components/schemas/ICConsignmentProfileDTO'
+      description: Response data for consignment profiles
+    ICConsignmentProfileDTO:
+      required:
+      - descriptions
+      - profileCode
+      type: object
+      properties:
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Unique code of the consignment profile
+          example: DEFAULT_PROFILE
+        descriptions:
+          type: array
+          description: List of textual descriptions in different languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        transitions:
+          type: array
+          description: List of transitions.
+          items:
+            $ref: '#/components/schemas/ICConsignmentProfileTransitionDTO'
+      description: Data of a certain consignment profile
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

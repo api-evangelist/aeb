@@ -1,0 +1,305 @@
+openapi: 3.2.0
+info:
+  title: Aeb Generic AF Bean API
+  version: '1.0'
+  description: 'Operations tagged GenericAFBean across 3 of this provider''s published API definitions: aeb-customs-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://rz3.aeb.de/test2ici/rest
+- url: https://rz3.aeb.de/test2cl/rest
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: GenericAFBean
+  description: API to open views that support this generic interface.
+paths:
+  /GenericAFBean/getGenericApplicationFacadeInfo:
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
+    get:
+      tags:
+      - GenericAFBean
+      operationId: getGenericApplicationFacadeInfo
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericApplicationFacadeInfoDTO'
+  /GenericAFBean/applications/{applicationName}:
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
+    post:
+      tags:
+      - GenericAFBean
+      operationId: open
+      parameters:
+      - name: applicationName
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericApplicationFacadeParmsDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFacadeDTO'
+components:
+  schemas:
+    ApplicationInfoDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the application.
+        parameters:
+          type: array
+          description: List of parameters, that the application accepts.
+          items:
+            $ref: '#/components/schemas/GenericParameterInfoDTO'
+      description: Contains information about an application, that can be accessed via GenericAF#open
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    GenericApplicationFacadeParmsDTO:
+      type: object
+      properties:
+        client:
+          type: string
+          description: The client of the new session. This should be a legal identCode of a client in the system.<br> If it is NOT a legal identCode of a client in the system, the user will see a login prompt before he is able to see the UI API. (See IFoundationBF.getAllClients()). <br>When the UI API web service call is authenticated, this value will be checked against the authentication data and the call is rejected if it does not match.
+          example: APITEST
+        user:
+          type: string
+          description: 'The user of the new session.<br> It is not required, that this user is a valid user name of the client. However: Such a user may get granted only have the role "I_EVERYONE" unless XNSG is configured to use e.g. an LDAP server and the user can be found in the LDAP server with some roles granted to the user. <br> No password is required because other servers which contact over the API will be trusted to have checked the users access rights. This enables a kind of "single sign on" between different e.g. XNSG servers.'
+          example: API_TEST
+        workstationId:
+          type: string
+          description: The unique workstation identifier of the new session.<br><br>The identifier of the workstation must be configured and unique within the same client.
+        workstationSessionId:
+          type: string
+          description: The unique workstation agent session identifier of the new session.<br>It defines a concrete and already established session agent bound to the local workstation e.g. locally started service agent.<br>The workstation agent is used for accessing local peripheries (e.g. local printers).<p><b>The caller must ensure that the corresponding session has been established</b></p>
+        language:
+          type: string
+          description: The two letter ISO code of the language of the new session.
+          example: en
+        displayFullWorkplace:
+          type: boolean
+          description: <code>true</code> to display the complete workspace (central, user and info panel). Use false or null to display only the single ac.
+          example: true
+        isACEmbedded:
+          type: boolean
+          description: <code>true</code> to display header and statusbar, false if ac should be embedded in another
+          example: true
+        displayStatusbar:
+          type: boolean
+          description: <code>true</code> to display statusbar, <code>false</code>
+          example: true
+        displayTitlebar:
+          type: boolean
+          description: <code>true</code> to display header, <code>false</code> if ac should not show header
+          example: true
+        stylevariant:
+          type: string
+          description: Deprecated.
+          example: NEUTRAL
+        acceptTechnology:
+          type: string
+          description: 'Specify which technology the clients wants to access the application; one token (or several, separated by semicolon) - the server may chose to ignore this possible tokens are specific for each server technology, XNSG-Servers currently honor strings from the GUIInvocationTechnology enum (e.g.: VAADIN) if <code>null</code> a default technology is chosen.'
+          example: VAADIN
+        productname:
+          type: string
+          description: Optional field, which may be set if productname differs from standard product name
+        productShortName:
+          type: string
+          description: Optional field, which may be set if productShortName differs from standard product name
+        preferredWidth:
+          type: integer
+          description: Optional field, which may be set if preferred width of AF should be different from default. Preferred height may not be always applyable but wins against workstation settings. - not available for vaadin, invoker must open browser in correct way
+          format: int32
+        preferredHeight:
+          type: integer
+          description: Optional field, which may be set if preferred height of AF should be different from default. Preferred height may not be always applyable but wins against workstation settings. - not available for vaadin, invoker must open browser in correct way
+          format: int32
+        openToTray:
+          type: boolean
+          description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
+        readOnly:
+          type: boolean
+          description: Defines whether or not the application shall be opened in read-only mode.
+          default: false
+        parameters:
+          type: array
+          description: A set of generic parameters for the application, that shall be opened.
+          items:
+            $ref: '#/components/schemas/GenericParameterDTO'
+      description: A generic request for an application facade.
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    GenericParameterDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the parameter.
+        value:
+          type:
+          - string
+          - 'null'
+          description: The value of the parameter.
+      description: A name-value pair representing a single parameter.
+    GenericApplicationFacadeInfoDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        applicationInfoDTOs:
+          type: array
+          description: A set of application info DTOs, each representing an available application with the allowed parameters.
+          items:
+            $ref: '#/components/schemas/ApplicationInfoDTO'
+      description: 'The result DTO for #getGenericApplicationFacadeInfo().'
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
+          type: string
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    GenericParameterInfoDTO:
+      type: object
+      properties:
+        parameterName:
+          type: string
+          description: The name of the parameter in the application.
+        parameterDescription:
+          type: string
+          description: A description of the parameter in the application.
+        parameterType:
+          type: string
+          description: The type that the transmitted value will be casted to. The values are always transmitted as string.
+          enum:
+          - STRING
+          - BOOLEAN
+          - NUMBER
+          - DECIMAL
+          - DATE
+          - DATE_SPECIFICATION
+        parameterTypeDescription:
+          type: string
+          description: A description of the parameter type.
+        mandatory:
+          type: boolean
+          description: Defines whether or not the parameter is mandatory for opening the application. Mandatory parameters must be transmitted and will lead to an exception page on a cast error. Optional parameters may be omitted, and will only lead to an in-application warning on a cast error.
+        minLength:
+          type: integer
+          description: The minimal length of the sent value.
+          format: int32
+        maxLength:
+          type:
+          - integer
+          - 'null'
+          description: The maximal length of the sent value.
+          format: int32
+      description: Information about a specific parameter for an application.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-refined-from:
+- aeb-customs-management-openapi.json
+- aeb-product-classification-openapi.json
+- aeb-trade-compliance-management-openapi.json
+x-proxy-enabled: false

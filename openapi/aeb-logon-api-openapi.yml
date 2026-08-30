@@ -1,0 +1,114 @@
+openapi: 3.2.0
+info:
+  title: Aeb Logon API
+  version: '1.0'
+  description: 'Operations tagged Logon across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+- url: https://rz3.aeb.de/demo1cai/rest
+- url: https://xnsg.dc.aeb.com/demo1ces/rest
+- url: https://rz3.aeb.de/demo1routing/rest
+- url: https://rz3.aeb.de/test2broker/rest
+- url: https://rz3.aeb.de/test2cim/rest
+- url: https://rz3.aeb.de/test2ici/rest
+- url: https://rz3.aeb.de/demo1docs/rest
+- url: https://rz3.aeb.de/demo1billing/rest
+- url: https://rz3.aeb.de/test2cl/rest
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Logon
+  description: Authentication handler for the XNSGFoundation
+paths:
+  /logon/authToken:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - Logon
+      description: Logon from the "Authorization" header (e.g. type "Basic"). The generated authentication token can be used in subsequent calls in the "Authorization" header, type "Bearer".
+      operationId: authToken
+      responses:
+        '200':
+          description: Returns the authentication token.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: Returns the cause why authentication has failed.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /logon/user:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    post:
+      tags:
+      - Logon
+      description: 'Logon with classical procedure: user, client and password.'
+      operationId: logonUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogonArgument'
+      responses:
+        '200':
+          description: Returns information on logon process, including roles that have been granted to the user and a login token, or an error message when auth data is not correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogonResponse'
+components:
+  schemas:
+    LogonArgument:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+        clientName:
+          type: string
+        localeName:
+          type: string
+    LogonResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        userName:
+          type: string
+        client:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-refined-from:
+- aeb-bsm-openapi.json
+- aeb-carrier-connect-openapi.json
+- aeb-carrier-event-service-openapi.json
+- aeb-carrier-select-openapi.json
+- aeb-customs-broker-portal-openapi.json
+- aeb-customs-inventory-management-openapi.json
+- aeb-customs-management-openapi.json
+- aeb-document-service-openapi.json
+- aeb-logistics-cost-management-openapi.json
+- aeb-product-classification-openapi.json
+- aeb-trade-compliance-management-openapi.json
+x-proxy-enabled: false

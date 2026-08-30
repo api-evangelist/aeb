@@ -1,0 +1,160 @@
+openapi: 3.2.0
+info:
+  title: Logistics Cost Management HTTP Billing Scenario API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/demo1billing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: BillingScenario
+  description: REST API for billing scenarios
+paths:
+  /billing-scenarios/{id}:
+    get:
+      tags:
+      - BillingScenario
+      description: Returns the billing scenario with the requested ID
+      operationId: getBillingScenario
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of the billing scenario.
+        required: true
+        schema:
+          type: string
+        example: '001'
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingScenario'
+              examples:
+                Billing scenario entry:
+                  description: Billing scenario entry
+                  value:
+                    identCode: '001'
+                    translations:
+                    - language: DE
+                      description: '001'
+                    - language: EN
+                      description: '001'
+        '404':
+          description: Requested billing scenario does not exist.
+          content:
+            application/json:
+              examples:
+                Billing scenario not found:
+                  description: Billing scenario not found
+                  value:
+                    errorMessage: Kein Billingszenario mit dem Kürzel '001' gefunden.
+  /billing-scenarios:
+    get:
+      tags:
+      - BillingScenario
+      description: Returns all billing scenarios matching the given filter criteria. In case no scenario matches the given filter criteria, an empty collection is returned. If the filter field supports place holders ('*' or '%'), all scenarios beginning with the value of the filter are returned. I.e. a place holder at the end of the filter value is added automatically.
+      operationId: searchScenarios
+      parameters:
+      - name: ident_code_like
+        in: query
+        description: Filters billing scenarios by ident code.<br>In the example, all scenarios which include '0' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique.
+        schema:
+          maxLength: 50
+          minLength: 0
+          type: string
+        example: '*0*'
+      - name: description_code_like
+        in: query
+        description: Filters billing scenarios by description.<br>In the example, all scenarios which include 'A' in the description are returned.<br>This filter field is case insensitive.<br>Place holders are supported.
+        schema:
+          maxLength: 250
+          minLength: 0
+          type: string
+        example: '*A*'
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingScenarioList'
+              examples:
+                Billing scenario list:
+                  description: Billing scenario list
+                  value:
+                    content:
+                    - identCode: '001'
+                      translations:
+                      - language: DE
+                        description: '001'
+                      - language: EN
+                        description: '001'
+                    - identCode: '002'
+                      translations:
+                      - language: DE
+                        description: '002'
+                      - language: EN
+                        description: '002'
+components:
+  schemas:
+    BillingScenario:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          minLength: 1
+          pattern: '[a-zA-Z0-9:._\-/]*'
+          type: string
+          description: The identCode of the MO.
+          readOnly: true
+        translations:
+          type: array
+          description: The description of the billing scenario in multiple languages.
+          items:
+            $ref: '#/components/schemas/BillingScenarioTextTranslation'
+      description: List of billing scenarios.
+      readOnly: true
+    BillingScenarioList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of billing scenarios.
+          items:
+            $ref: '#/components/schemas/BillingScenario'
+    BillingScenarioTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the model object.
+      description: Name of the billing scenario in a certain language.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

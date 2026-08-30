@@ -1,0 +1,622 @@
+openapi: 3.2.0
+info:
+  title: Trade Compliance Management HTTP Risk Assessment API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Risk Assessment
+  description: API for Risk Assessment
+paths:
+  /RiskAssessment/countQuestionnaires:
+    post:
+      tags:
+      - Risk Assessment
+      summary: Questionnaire count
+      description: Returns the count of filtered questionnaires. If data-driven access rights are defined for the client’s questionnaires, they will be taken into account by this call.
+      operationId: countQuestionnaires
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RAQuestionnairesCountRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/RAQuestionnairesCountRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RAQuestionnairesCountResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RAQuestionnairesCountResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /RiskAssessment/getQuestionnaireSummary:
+    post:
+      tags:
+      - Risk Assessment
+      summary: Questionnaire summary
+      description: Returns a summary of the most recent valid questionnaire(s) for the specified parameters. If data-driven access rights are defined for the client’s questionnaires, they will be ignored by this call. It is assumed that this Business Facade is called by some system process and not triggered by some user.
+      operationId: getQuestionnaireSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireSummaryRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireSummaryRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireSummaryResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireSummaryResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+  /RiskAssessment/invalidateQuestionnaires:
+    post:
+      tags:
+      - Risk Assessment
+      summary: Invalidate questionnaires
+      description: Invalidates all questionnaires for the specified parameters. If data-driven access rights are defined for the client’s questionnaires, they will be ignored by this call. It is assumed that this Business Facade is called by some system process and not triggered by some user.
+      operationId: invalidateQuestionnaires
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidateQuestionnairesRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/InvalidateQuestionnairesRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidateQuestionnairesResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/InvalidateQuestionnairesResponseDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+components:
+  schemas:
+    QuestionnaireSummaryRequestDTO:
+      required:
+      - referenceIdHost
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        questTemplId:
+          maxLength: 20
+          type: string
+          description: ID of the questionnaire template used for the questionnaire.<br>If this field is left blank, questionnaires of all templates are considered.
+          example: '0000005'
+        referenceIdHost:
+          maxLength: 255
+          type: string
+          description: Unique reference key of the object in the partner system for which a questionnaire should be found.
+          example: ref-123
+      description: Represents a request for a summary of the most recent valid questionnaire(s). The fields <code>clientIdentCode</code>, <code>referenceIdHost</code>, and <code>transactionIdHost</code> are mandatory.
+    AbsoluteIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
+        to:
+          type: string
+          description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
+      description: Initializes the filter with a fix interval between two dates.
+    InvalidateQuestionnairesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Represents the response of invalidating questionnaires. The response is empty, unless an error occurs.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+    IntervalFromNowFilterDTO:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
+        duration:
+          type: integer
+          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
+          format: int32
+      description: Initializes the filter with a time interval relative to 'today'.
+    QuestionnaireCriticalResultDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: Ident code of the critical result.
+          example: ERROR
+      description: Data about a critical result of a questionnaire.
+    QuestionnairesFilterParmsDTO:
+      type: object
+      properties:
+        partnerName:
+          maxLength: 20
+          type: string
+          description: Filter to find questionnaires with companies/persons of a specific name.
+          example: Company XY
+        partnerCountryIsoCode:
+          maxLength: 2
+          type: string
+          description: Filter to find questionnaires with companies/persons in a specific country. Country is given as two-letter ISO code.
+          example: DE
+        companyName:
+          maxLength: 20
+          type: string
+          description: Filter to find questionnaires of a specific company.
+          example: AEB SE
+        isCompleted:
+          type: boolean
+          description: Filter to find only completed or only incomplete questionnaires.
+          example: true
+        questionnaireId:
+          type: string
+          description: Filter to find questionnaires with a specific questionnaire ID.
+          example: 00000048
+        reference:
+          maxLength: 250
+          type: string
+          description: Filter to find questionnaires with a specific reference. The reference is searched for in these fields:<ul><li>Reference</li><li>Order/document number</li><li>Project name/number</li><li>internal reference key from the partner system</li></ul>
+          example: ref
+        organisationUnitHost:
+          type: string
+          description: Filter to find questionnaires of a specific organizational unit. Valid inputs are free text or an ident code of an organizational unit from master data.
+          example: OrgaUnit
+        userName:
+          maxLength: 254
+          type: string
+          description: Filter to find questionnaires from a specific user.
+          example: user1
+        questTypeIdentCode:
+          maxLength: 50
+          type: string
+          description: Filter to find questionnaires of a specific type.
+          example: CUSTOMER
+        resultStatusIdentCode:
+          maxLength: 50
+          type: string
+          description: Filter to find questionnaires with partial results of a specific result status (customer individual).
+          example: MILITARY
+        totalResultTypeIdentCode:
+          type: string
+          description: Filter to find questionnaires with a specific total result type.<br>The following result types are supported:<ul><li><code>OK</code></li><li><code>WARNING</code></li><li><code>STOP</code></li></ul>
+          example: OK
+        partnerRoleIdentCode:
+          maxLength: 50
+          type: string
+          description: Filter to find questionnaires with companies/persons of a specific role.
+          example: CONSIGNEE_STD
+        creationDate:
+          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
+      description: Passing the filters of the questionaires.
+    DateTimeIntervalRangeFilterDTO:
+      type: object
+      properties:
+        relativeInterval:
+          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
+        absoluteInterval:
+          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
+      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
+    QuestionnaireSummaryResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        questionnaires:
+          type: array
+          description: These are summaries of the most recent valid questionnaires for the given parameters.
+          items:
+            $ref: '#/components/schemas/QuestionnaireSummaryDTO'
+      description: Represents the response of questionnaire summary.
+    RAQuestionnairesCountResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        countOfFilteredQuestionnaires:
+          type: integer
+          description: Count of the filtered objects.
+          format: int64
+          example: 10
+      description: Represents the response of counting questionnaires.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    InvalidateQuestionnairesRequestDTO:
+      required:
+      - referenceIdHost
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        questTemplId:
+          maxLength: 20
+          type: string
+          description: ID of the questionnaire template used for the questionnaire.<br>If this field is left blank, questionnaires of all templates are considered.
+          example: '000005'
+        referenceIdHost:
+          maxLength: 255
+          type: string
+          description: Unique reference key of the object in the partner system for which a questionnaire should be found.
+          example: ref-123
+      description: Represents a request for invalidating questionnaires.<br>The fields <code>clientIdentCode</code>, <code>clientSystemId</code>, and <code>referenceIdHost</code> are mandatory.
+    QuestionnaireSummaryDTO:
+      type: object
+      properties:
+        questTemplId:
+          type: string
+          description: ID of the questionnaire template used for the questionnaire.
+          example: '000005'
+        createdAt:
+          type: string
+          description: Date when the questionnaire was created.<br>The date is considered to be in <strong>UTC</strong> time zone.
+          format: yyyy-MM-dd HH:mm:ss
+          example: '2020-10-20 12:00:01'
+        isCompleted:
+          type: boolean
+          description: If <code>true</code> the questionnaire is completed.
+          example: true
+        completedAt:
+          type: string
+          description: Date when the questionnaire was completed.<br>Only filled in case the questionnaire is completed.<br>The date is considered to be in <strong>UTC</strong> time zone.
+          format: yyyy-MM-dd HH:mm:ss
+          example: '2020-10-22 13:05:01'
+        totalResultType:
+          type: string
+          description: The field "Total result type" of the questionnaire. Only filled in case the questionnaire is completed.
+          example: OK
+          enum:
+          - OK
+          - WARNING
+          - STOP
+        criticalResults:
+          type: array
+          description: All critical results (i.e., questions answered with yes, embargo found or restricted party found).<br>Only filled in case the questionnaire is completed.
+          items:
+            $ref: '#/components/schemas/QuestionnaireCriticalResultDTO'
+      description: Summary data of a single questionnaire.
+    RAQuestionnairesCountRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        filterParms:
+          $ref: '#/components/schemas/QuestionnairesFilterParmsDTO'
+      description: Represents the request for a count of questionnaires.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    RelativeIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+        to:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

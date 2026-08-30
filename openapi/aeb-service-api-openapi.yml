@@ -1,0 +1,413 @@
+openapi: 3.2.0
+info:
+  title: Logistics Cost Management HTTP Service API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/demo1billing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Service
+  description: REST API for services
+paths:
+  /billing-scenarios/{id}/services/{service-id}:
+    get:
+      tags:
+      - Service
+      description: Returns the service of the billing scenario with the requested ID
+      operationId: getService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of the billing scenario.
+        required: true
+        schema:
+          type: string
+        example: '001'
+      - name: service-id
+        in: path
+        description: The requested ID of the service.
+        required: true
+        schema:
+          type: string
+        example: UPS_EXPR
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+              examples:
+                Service entry:
+                  description: Service entry
+                  value:
+                    identCode: DHL_EXPR_INT1030
+                    translations:
+                    - language: DE
+                      description: DHL Express International 10:30 Uhr (USA)
+                    - language: EN
+                      description: DHL Express International 10:30 (USA)
+                    attribute: DHL
+                    quantityUnitType: QUANTITY
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Service not found:
+                  description: Service not found
+                  value:
+                    errorMessage: Kein Leistungstyp mit dem Kürzel 'UPS_EXPR' für das Billingszenario '001' gefunden.
+    put:
+      tags:
+      - Service
+      description: Create or update a service in a billing scenario with the requested ID. If the service with the given ID does not exist, a new service is created. If the service exists, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use GET/billing-scenarios/{id}/services to check whether a service with an ID already exists BEFORE you use PUT/billing-scenarios/{id}/services/{service-id}
+      operationId: createOrUpdateService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of the billing scenario.
+        required: true
+        schema:
+          type: string
+        example: '001'
+      - name: service-id
+        in: path
+        description: The requested ID of the service.
+        required: true
+        schema:
+          type: string
+        example: UPS_EXPR
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+            examples:
+              Service request:
+                description: Service request
+                value:
+                  identCode: DHL_EXPR_INT1030
+                  translations:
+                  - language: DE
+                    description: DHL Express International 10:30 Uhr (USA)
+                  - language: EN
+                    description: DHL Express International 10:30 (USA)
+                  attribute: DHL
+                  quantityUnitType: QUANTITY
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+              examples:
+                Service entry:
+                  description: Service entry
+                  value:
+                    identCode: DHL_EXPR_INT1030
+                    translations:
+                    - language: DE
+                      description: DHL Express International 10:30 Uhr (USA)
+                    - language: EN
+                      description: DHL Express International 10:30 (USA)
+                    attribute: DHL
+                    quantityUnitType: QUANTITY
+        '400':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+        '404':
+          description: Requested billing scenario does not exist.
+          content:
+            application/json:
+              examples:
+                Service not found:
+                  description: Service not found
+                  value:
+                    errorMessage: Kein Leistungstyp mit dem Kürzel 'UPS_EXPR' für das Billingszenario '001' gefunden.
+    delete:
+      tags:
+      - Service
+      description: Deletes a service in a billing scenario with the requested ID.
+      operationId: deleteService
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of the billing scenario.
+        required: true
+        schema:
+          type: string
+        example: '001'
+      - name: service-id
+        in: path
+        description: The requested ID of the service.
+        required: true
+        schema:
+          type: string
+        example: UPS_EXPR
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+              examples:
+                Service entry:
+                  description: Service entry
+                  value:
+                    identCode: DHL_EXPR_INT1030
+                    translations:
+                    - language: DE
+                      description: DHL Express International 10:30 Uhr (USA)
+                    - language: EN
+                      description: DHL Express International 10:30 (USA)
+                    attribute: DHL
+                    quantityUnitType: QUANTITY
+        '400':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+        '404':
+          description: Requested billing scenario does not exist.
+          content:
+            application/json:
+              examples:
+                Billing scenario not found:
+                  description: Billing scenario not found
+                  value:
+                    errorMessage: Kein Billingszenario mit dem Kürzel '001' gefunden.
+  /billing-scenarios/{id}/services:
+    get:
+      tags:
+      - Service
+      description: Returns all services of a billing scenario matching the given filter criteria. In case no service matches the given filter criteria, an empty collection is returned. If the filter field supports place holders ('*' or '%'), all scenarios beginning with the value of the filter are returned. I.e. a place holder at the end of the filter value is added automatically.
+      operationId: searchServices
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of the billing scenario.
+        required: true
+        schema:
+          type: string
+        example: '001'
+      - name: ident_code_like
+        in: query
+        description: Filter services by ident code.<br>In the example, all services which include 'UPS' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique for one billing scenario.
+        schema:
+          maxLength: 50
+          minLength: 0
+          type: string
+        example: '*UPS*'
+      - name: description_like
+        in: query
+        description: Filter services by description.<br>In the example, all services which include 'UPS' in the description are returned.<br>This filter field is case insensitive.<br>Place holders are supported.
+        schema:
+          maxLength: 250
+          minLength: 0
+          type: string
+        example: '*UPS*'
+      - name: attribute_like
+        in: query
+        description: Filter services by attribute.<br>In the example, all services which include 'A' in the attribute are returned.<br>This filter field is case insensitive.<br>Place holders are supported.
+        schema:
+          maxLength: 75
+          minLength: 0
+          type: string
+        example: '*A*'
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServicePage'
+              examples:
+                Service list:
+                  description: Service list
+                  value:
+                    totalElements: 2
+                    content:
+                    - identCode: DHL_EXPR_INT1030
+                      translations:
+                      - language: DE
+                        description: DHL Express International 10:30 Uhr (USA)
+                      - language: EN
+                        description: DHL Express International 10:30 (USA)
+                      attribute: DHL
+                      quantityUnitType: QUANTITY
+                    - identCode: DHL_EXPR_WORLD
+                      translations:
+                      - language: DE
+                        description: DHL Express Worldwide
+                      - language: EN
+                        description: DHL Express Worldwide
+                      attribute: DHL
+                      quantityUnitType: QUANTITY
+components:
+  schemas:
+    AebProblemError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
+          type: string
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
+    Service:
+      required:
+      - identCode
+      - quantityUnitType
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          minLength: 1
+          pattern: '[a-zA-Z0-9:._\-/]*'
+          type: string
+          description: The identCode of the MO.
+          readOnly: true
+        translations:
+          type: array
+          description: The description of the service in multiple languages.
+          items:
+            $ref: '#/components/schemas/ServiceTextTranslation'
+        attribute:
+          maxLength: 75
+          minLength: 0
+          type: string
+          description: Free identifier of the service for searching and categorization.
+        quantityUnitType:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: '<p>The quantity unit type code of the service. Possible standard types are: <li>SPACE <li>DENSITY <li>ENERGY <li>DIMENSION <li>QUANTITY <li>TIME <li>NONE <li>VOLUME <li>WEIGHT</p>'
+      description: List of services.
+    ServiceTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the model object.
+      description: Name of the service in a certain language.
+    AebProblem:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'A URI reference that uniquely identifies the problem type in the
+
+            context of the provided API. Opposed to the specification in RFC-7807,
+
+            it neither points to a human-readable documentation nor globally
+
+            unique for the problem type.'
+          format: uri
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 404
+        title:
+          type: string
+          description: Title
+          example: Not found
+        detail:
+          type: string
+          description: Detail info
+          example: Item not found
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          format: uri
+          example: item/12345
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          format: date-time
+          example: '2024-03-28T12:45:31.7857371Z'
+        xRequestId:
+          type: string
+          description: ID of the request that is associated with the problem.
+        errors:
+          type: array
+          description: Array of related errors
+          items:
+            $ref: '#/components/schemas/AebProblemError'
+    ServicePage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of services.
+          items:
+            $ref: '#/components/schemas/Service'
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

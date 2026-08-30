@@ -1,0 +1,122 @@
+openapi: 3.2.0
+info:
+  title: Customs Management HTTP Finance Data CHBF Bean API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2ici/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: FinanceDataCHBFBean
+  description: Interface overview for Finance data API for Switzerland
+paths:
+  /FinanceDataCHBFBean/getSummary:
+    post:
+      tags:
+      - FinanceDataCHBFBean
+      summary: Gets the data of the specified summary.
+      description: Gets the data of the specified summary. The summary is identified by the business object id.
+      operationId: getSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetSummaryRequestDTO'
+      responses:
+        '200':
+          description: The requested summary data
+  /FinanceDataCHBFBean/listSummaries:
+    post:
+      tags:
+      - FinanceDataCHBFBean
+      summary: Queries for available summaries.
+      description: Queries for available summaries. The summaries can be filtered by additional criteria.
+      operationId: listSummaries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListSummariesRequestDTO'
+      responses:
+        '200':
+          description: A list of available summaries
+components:
+  schemas:
+    ListSummariesRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        documentNumberPattern:
+          type: string
+          description: Search filter pattern for document number. <p> length=30 </p>
+        registrationNumberPattern:
+          type: string
+          description: Search filter pattern for customsRegistration number. <p> length=20 </p>
+        creationDateFrom:
+          type: string
+          description: 'Start date for search period. <p> format: YYYY-MM-DD </p>'
+        creationDateTo:
+          type: string
+          description: 'End date for search period. <p> format: YYYY-MM-DD </p>'
+      description: Request for a list of summaries.
+    GetSummaryRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        businessObjectId:
+          type: string
+          description: ID of the summary. <p> length=20 </p>
+      description: Request for summary data.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

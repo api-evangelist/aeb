@@ -1,0 +1,407 @@
+openapi: 3.2.0
+info:
+  title: Aeb Core BF Bean API
+  version: '1.0'
+  description: 'Operations tagged CoreBFBean across 7 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-event-service-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+- url: https://xnsg.dc.aeb.com/demo1ces/rest
+- url: https://rz3.aeb.de/test2cim/rest
+- url: https://rz3.aeb.de/test2ici/rest
+- url: https://rz3.aeb.de/demo1docs/rest
+- url: https://rz3.aeb.de/test2cl/rest
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: CoreBFBean
+  description: API for the XNSGFoundation
+paths:
+  /CoreBFBean/checkBFFunctionExists:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    post:
+      tags:
+      - CoreBFBean
+      description: Can be called to know if a BF function exist.
+      operationId: checkBFFunctionExists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BFFunctionDTO'
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BFFunctionExistsDTO'
+  /CoreBFBean/echo:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    post:
+      tags:
+      - CoreBFBean
+      description: Returns the given echo parameter value.
+      operationId: echo
+      parameters:
+      - name: echo
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /CoreBFBean/echoUpperCase:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    post:
+      tags:
+      - CoreBFBean
+      description: Returns the given echo parameter value in uppercase.
+      operationId: echoUpperCase
+      parameters:
+      - name: echo
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /CoreBFBean/getAllMonitoringValues:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Returns all available monitoring values of the server.
+      operationId: getAllMonitoringValues
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MonitoringDataProviderDTO'
+  /CoreBFBean/getBuildForSolution:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Return the build information of a solution that is deployed in the product on this server. The RFC name of this function is \"/AEB/XNSG_IF_BLDSOL\".
+      operationId: getBuildForSolution
+      parameters:
+      - name: solutionName
+        in: query
+        description: solutionName the name of the solution for which version information is to be obtained
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /CoreBFBean/getMonitoringValue:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Returns the current monitoring value for the given group and name.
+      operationId: getMonitoringValue
+      parameters:
+      - name: groupName
+        in: query
+        schema:
+          type: string
+      - name: valueName
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /CoreBFBean/getProductInfo:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Return information about the server that is answering this request. This includes the product name and various version informations. The RFC name of this function is \"/AEB/XNSG_IF_PRINFO\".
+      operationId: getProductInfo
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInfoDTO'
+  /CoreBFBean/getRuntimeInfo:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Return runtime information about the server that is answering this request. This includes the server name, ports and various other runtime informations. The RFC name of this function is \"/AEB/XNSG_IF_RTINFO\".
+      operationId: getRuntimeInfo
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeInfoDTO'
+  /CoreBFBean/getRuntimeState:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    post:
+      tags:
+      - CoreBFBean
+      description: Return runtime state information about the server that is answering this request. This includes if the server is doing fine or not. Also included are the supported operations (bfs) for the installation repository The RFC name of this function is \"/AEB/XNSG_IF_RTSTATE\".
+      operationId: getRuntimeState
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuntimeStateParmDTO'
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeStateResultDTO'
+  /CoreBFBean/getThreadDump:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Generate Thread-Dump.
+      operationId: getThreadDump
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /CoreBFBean/getVersionForSolution:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    get:
+      tags:
+      - CoreBFBean
+      description: Return the version information of a solution that is deployed in the product on this server. The RFC name of this function is \"/AEB/XNSG_IF_VERSOL\".
+      operationId: getVersionForSolution
+      parameters:
+      - name: solutionName
+        in: query
+        description: solutionName the name of the solution for which version information is to be obtained
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The operation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfoDTO'
+  /CoreBFBean/restartRFCServer:
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
+    post:
+      tags:
+      - CoreBFBean
+      description: This method is only usefull to be called from SAP via RFC. It will restart the RFCServer which receives this method call. This method is useful to be called from SAP, if within SAP some structure definitions had changed, e.g. after installing a transport. The RFC name of this function is \"/AEB/XNSG_IF_RSTRFCSRV\".
+      operationId: restartRFCServer
+      responses:
+        '200':
+          description: No result.
+          content:
+            application/json: {}
+components:
+  schemas:
+    RuntimeStateParmDTO:
+      type: object
+      description: This class contains parameter about asking the server about its runtime state.
+    RuntimeStateResultDTO:
+      type: object
+      properties:
+        isStateOK:
+          type: boolean
+          description: Is set to true, if the server is doing fine.
+        stateInfo:
+          type: string
+          description: Additional information describing the server state - e.g. why the server is not OK. Typically this lists all server checks that failed, in a multiline string. However the result should not be parsed against a specific format, it is mainly intended to be presented to and interpreted by humans.
+        clusterRemark:
+          type: string
+          description: The remark for the installation cluster.
+        clusterRole:
+          type: string
+          description: The role of the installation cluster. E.g. TEST for a test system.
+        supportedRemoteAdministrationOperations:
+          type: array
+          description: Returns the supported operations as string array.<br /> Each entry has the form <br /><code><em>BFName</em>.<em>methodName</em></code><br />  where <em>BFName</em> is the simple class name of the interface class without leading 'I', and <em>methodName</em> is the method name.<br /> This is derived from service name and operation name in corresponding WSDL. <br>E.g. "CoreBF.getRuntimeState"
+          items:
+            type: string
+            description: Returns the supported operations as string array.<br /> Each entry has the form <br /><code><em>BFName</em>.<em>methodName</em></code><br />  where <em>BFName</em> is the simple class name of the interface class without leading 'I', and <em>methodName</em> is the method name.<br /> This is derived from service name and operation name in corresponding WSDL. <br>E.g. "CoreBF.getRuntimeState"
+      description: This class holds various information items of the server which serves this request.
+    ProductInfoDTO:
+      type: object
+      properties:
+        productName:
+          type: string
+          description: This is the name of the product that is deployed to this server.
+        productVersion:
+          $ref: '#/components/schemas/VersionInfoDTO'
+        solutions:
+          type: array
+          description: This contains a list of names of all solutions, which are deployed to the server.
+          items:
+            type: string
+            description: This contains a list of names of all solutions, which are deployed to the server.
+        productNameInternal:
+          type: string
+          description: This is the name of the product that is deployed to this server in its original manner.
+      description: This class holds various information items of the server which serves this request.
+    BFFunctionDTO:
+      type: object
+      properties:
+        businessFacade:
+          type: string
+          description: The name of the API.
+        functionName:
+          type: string
+          description: The name of the function to call.  This is the function name defined by engine
+      description: Describe a API to be called.
+    VersionInfoDTO:
+      type: object
+      properties:
+        version:
+          type: string
+          description: The version string of the solution/product. This String is typically of the form "integer.integer.integer".
+        binaryVersion:
+          type: array
+          description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+          items:
+            type: integer
+            description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+            format: int32
+      description: This class holds version information about a solution or product in a server.
+    RuntimeInfoDTO:
+      type: object
+      properties:
+        hostName:
+          type: string
+          description: This is the name of the host, where the server is running which has answered the request
+        serviceName:
+          type: string
+          description: This is the service name, if the server is running as service or if not contains an empty String "".
+        productUri:
+          type: string
+          description: This is the URI used by the server at runtime.
+        serverUrl:
+          type: string
+          description: This is server URL used by the server at runtime.
+        httpPort:
+          type: string
+          description: This is the HTTP port used by the server at runtime.
+        ajpPort:
+          type: string
+          description: This is the AJP port used by the server at runtime.
+        productHomeAbsolutePath:
+          type: string
+          description: Absolute path in server view, where the server is installed.
+        productVersion:
+          type: string
+          description: Product version as "1.2-20070215".
+        installationDate:
+          type: string
+          description: Date of last installation/update
+          format: date-time
+        isDBReadyToUse:
+          type: boolean
+          description: True, if the DB is ready to use (connected, valid and not locked).
+        isPreparedForStop:
+          type: boolean
+          description: True, if an announcement for a job is active.
+        activeSessionsCount:
+          type: integer
+          description: Total count of active sessions (summarized over all GUI-frameworks).
+          format: int32
+        additionalInfo:
+          type: string
+          description: Additional runtime info.
+        productName:
+          type: string
+          description: Product name.
+        authenticationStrategy:
+          type: string
+          description: AuthenticationStrategy name.
+        runtimeProperties:
+          type: object
+          additionalProperties:
+            type: string
+            description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
+          description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
+      description: This class holds various runtime information items of the server which serves this request.
+    MonitoringDataProviderDTO:
+      type: object
+      properties:
+        groupName:
+          type: string
+          description: Name of the group.
+        name:
+          type: string
+          description: Name of the entry.
+        value:
+          type: string
+          description: Value of the entry - this is a string representation.
+      description: Data Transfer Object for monitoring provider
+    BFFunctionExistsDTO:
+      type: object
+      properties:
+        facadeExists:
+          type: boolean
+          description: Indicates whether the specified API exists.
+        functionExists:
+          type: boolean
+          description: Indicates whether the specified function in the API exists.
+      description: Result DTO for the checkBusinessFacadeFunctionExists function
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-refined-from:
+- aeb-bsm-openapi.json
+- aeb-carrier-event-service-openapi.json
+- aeb-customs-inventory-management-openapi.json
+- aeb-customs-management-openapi.json
+- aeb-document-service-openapi.json
+- aeb-product-classification-openapi.json
+- aeb-trade-compliance-management-openapi.json
+x-proxy-enabled: false

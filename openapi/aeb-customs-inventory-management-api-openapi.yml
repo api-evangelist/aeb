@@ -1,0 +1,1357 @@
+openapi: 3.2.0
+info:
+  title: HTTP Customs Inventory Management API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2cim/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Customs Inventory Management
+  description: REST endpoint for Customs Inventory Management
+paths:
+  /booking-requests/{id}/cancellation:
+    post:
+      tags:
+      - Customs Inventory Management
+      summary: Cancels a booking and the belonging booking request
+      description: Cancels a booking in the customs inventory management and marks the respective booking request as cancelled. If the booking request does not exist or is in a state in which no cancellation is allowed, an error message will be created and the cancellation will be stopped.
+      operationId: cancelBooking
+      parameters:
+      - name: client_ident_code
+        in: query
+        description: Client identification code.
+        required: true
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: id
+        in: path
+        description: Unique id to identify a booking request.
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+      - name: cancellation_reason
+        in: query
+        description: Free-form text that documents the reason for the cancellation.
+        required: true
+        schema:
+          maxLength: 1000
+          type: string
+        example: Delivery item 123 was incorrectly labeled as customs warehouse item.
+      responses:
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed.
+        '406':
+          description: Not Acceptable.
+        '415':
+          description: Unsupported Media Type. Use application/json
+        '500':
+          description: Other errors like an internal server error. See response for details.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '200':
+          description: OK. The cancelled booking request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIMBookingRequestsResponseDTO'
+        '400':
+          description: Bad request. Missing or invalid data in the request body.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '404':
+          description: Not found. Booking request does not exist.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '409':
+          description: Conflict. The booking request with the id is locked or does not allow the cancellation.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+  /booking-requests/{id}:
+    get:
+      tags:
+      - Customs Inventory Management
+      summary: Retrieves a booking request
+      description: Rretrieves a booking request with the requested business object id.
+      operationId: getBookingRequest
+      parameters:
+      - name: client_ident_code
+        in: query
+        description: Client identification code.
+        required: true
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: id
+        in: path
+        description: Unique id to identify a booking request.
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+      responses:
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed.
+        '406':
+          description: Not Acceptable.
+        '415':
+          description: Unsupported Media Type. Use application/json
+        '500':
+          description: Other errors like an internal server error. See response for details.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '200':
+          description: OK. The requested booking request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIMBookingRequestsResponseDTO'
+        '400':
+          description: Bad request. Missing or invalid data in the request body.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '404':
+          description: Not found. Booking request does not exist.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+    post:
+      tags:
+      - Customs Inventory Management
+      summary: Creates a booking request
+      description: Creates a booking request in order to request a booking from and/or to customs inventory management systems and to trigger the belonging customs declarations, if necessary. If any fields of the booking request are empty which are mandatory, an error message will be created and the creation stopped. Only if the mandatory fields are filled the booking request will be created.
+      operationId: createBookingRequestREST
+      parameters:
+      - name: id
+        in: path
+        description: Unique id to identify a booking request.
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+      requestBody:
+        description: The booking request data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIMCreateBookingRequestRequestDTO'
+            examples:
+              Minimal example:
+                description: Example with a minimum set of required fields.
+                value:
+                  clientIdentCode: APITEST
+                  bookingRequest:
+                    profileCode: STD
+                    type: CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+                    material:
+                      materialId: M-1000
+                    quantity:
+                      value: '10'
+                      uneceUnit: NAR
+                    decisiveDate:
+                      dateInTimezone: '1970-01-01 00:00:00'
+                      timezone: UTC
+              Full example:
+                description: Example with all fields filled (except additional declaration data).
+                value:
+                  clientIdentCode: APITEST
+                  userName: API_TEST
+                  resultLanguageIsoCodes:
+                  - en
+                  bookingRequest:
+                    referenceNumber: BR-1000
+                    referenceEntry:
+                      registrationNumber: 25DE-1000
+                      sequenceNumber: '11111'
+                    remark: Remark
+                    profileCode: STD
+                    personInCharge:
+                      forename: Jane
+                      surname: Doe
+                      initials: JD
+                    type: CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+                    identitiesRemoval:
+                    - REMOVAL-ID-1000
+                    identitiesEntry:
+                    - ENTRY-ID-1000
+                    decisiveDate:
+                      dateInTimezone: '1970-01-01 00:00:00'
+                      timezone: UTC
+                    material:
+                      materialId: M-1000
+                    quantity:
+                      value: '10'
+                      uneceUnit: NAR
+              Full example (with add. declaration data):
+                description: Example with all fields filled.
+                value:
+                  clientIdentCode: APITEST
+                  userName: API_TEST
+                  resultLanguageIsoCodes:
+                  - en
+                  bookingRequest:
+                    referenceNumber: BR-1000
+                    referenceEntry:
+                      registrationNumber: 25DE-1000
+                      sequenceNumber: '11111'
+                    remark: Remark
+                    profileCode: STD
+                    personInCharge:
+                      forename: Jane
+                      surname: Doe
+                      initials: JD
+                    type: CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+                    identitiesRemoval:
+                    - REMOVAL-ID-1000
+                    identitiesEntry:
+                    - ENTRY-ID-1000
+                    decisiveDate:
+                      dateInTimezone: '1970-01-01 00:00:00'
+                      timezone: UTC
+                    material:
+                      materialId: M-1000
+                    quantity:
+                      value: '10'
+                      uneceUnit: NAR
+                    additionalDeclarationData:
+                      transactionNature: '11'
+                      netPrice:
+                        value: '10'
+                        currencyIsoCode: EUR
+                      netMass:
+                        value: '10'
+                        uneceUnit: KGM
+                      grossMass:
+                        value: '15'
+                        uneceUnit: KGM
+                      additionalQuantities:
+                      - value: '1'
+                        unit: MTK
+                      packages:
+                      - numberOfPackages: '10'
+                        typeUneceCode: CS
+                        marksAndNumbers: Marks
+                      originCountryCode: CN
+                      preferentialOriginCountryCode: CN
+        required: true
+      responses:
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed.
+        '406':
+          description: Not Acceptable.
+        '415':
+          description: Unsupported Media Type. Use application/json
+        '500':
+          description: Other errors like an internal server error. See response for details.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '200':
+          description: OK. The created booking request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIMBookingRequestsResponseDTO'
+        '400':
+          description: Bad request. Missing or invalid data in the request body.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '409':
+          description: Conflict. A booking request with the id already exists.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+    delete:
+      tags:
+      - Customs Inventory Management
+      summary: Deletes a booking request
+      description: Deletes a booking request. If the booking request does not exist or is in a state in which no deletion is allowed, an error message will be created and the deletion will be stopped.
+      operationId: deleteBookingRequest
+      parameters:
+      - name: client_ident_code
+        in: query
+        description: Client identification code.
+        required: true
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: id
+        in: path
+        description: Unique id to identify a booking request.
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+      responses:
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed.
+        '406':
+          description: Not Acceptable.
+        '415':
+          description: Unsupported Media Type. Use application/json
+        '500':
+          description: Other errors like an internal server error. See response for details.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '200':
+          description: OK. The updated/created booking request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIMBookingRequestsResponseDTO'
+        '400':
+          description: Bad request. Missing or invalid data in the request body.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '404':
+          description: Not found. Booking request does not exist.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '409':
+          description: Conflict. The booking request with the ids is locked or does not allow deletion any longer.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+  /booking-request-types:
+    get:
+      tags:
+      - Customs Inventory Management
+      summary: Retrieves supported booking request types
+      description: Returns a list of supported codes and its descriptions which can be used as booking request type.
+      operationId: getBookingRequestTypes
+      parameters:
+      - name: client_ident_code
+        in: query
+        description: Client identification code.
+        required: true
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: result_language_iso_code
+        in: query
+        description: '2-letter ISO code of the language in which texts will be returned. '
+        schema:
+          maxLength: 2
+          type: string
+        example: en
+      responses:
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed.
+        '406':
+          description: Not Acceptable.
+        '415':
+          description: Unsupported Media Type. Use application/json
+        '500':
+          description: Other errors like an internal server error. See response for details.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '200':
+          description: OK. The supported booking request type codes and its descriptions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIMGetBookingRequestTypesResponseDTO'
+  /inventories/{inventory-key}/stock-accounts/balances:
+    get:
+      tags:
+      - Customs Inventory Management
+      summary: Retrieves stock account balances
+      description: Returns the stock account balances for the requested inventory.
+      operationId: getStockAccountBalances
+      parameters:
+      - name: inventory-key
+        in: path
+        description: Key of the target inventory.
+        required: true
+        schema:
+          type: string
+      - name: client_ident_code
+        in: query
+        description: Client identification code.
+        required: true
+        schema:
+          maxLength: 10
+          type: string
+        example: APITEST
+      - name: stock_account_keys
+        in: query
+        description: <p>List with keys of stock accounts for which stock account balances will be returned.</p><p>If the list is empty, stock balances with zero quantity are not returned, these are returned only for the requested stock accounts.</p><p>Maximum number of keys = 99. Empty and repeated keys are not allowed.</p>
+        schema:
+          maxItems: 99
+          uniqueItems: true
+          type: array
+          items:
+            minLength: 1
+            type: string
+      - name: group_by_identities
+        in: query
+        description: True if the result is to be grouped by identities - Default is false.
+        schema:
+          type: boolean
+      responses:
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed.
+        '406':
+          description: Not Acceptable.
+        '415':
+          description: Unsupported Media Type. Use application/json
+        '500':
+          description: Other errors like an internal server error. See response for details.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '200':
+          description: OK. Stock account balances inquiry result data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIMStockAccountBalancesResponseDTO'
+        '404':
+          description: Not found. Stock does not exist.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+components:
+  schemas:
+    ErrorResponseMessageDTO:
+      type: object
+      properties:
+        messageIdentCode:
+          type: string
+          description: Code identifying the type of the error.
+          example: EMPTY_MANDATORY_FIELD
+        messageTexts:
+          type: array
+          description: Description of the error in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        field:
+          type: string
+          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
+          example: item[2].itemNumber
+        invalidValue:
+          type: string
+          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
+          example: 'null'
+      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+    CIMCreateBookingRequestRequestDTO:
+      required:
+      - bookingRequest
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        bookingRequest:
+          $ref: '#/components/schemas/CIMBookingRequestDTO'
+      description: The request DTO for updating a booking request.
+    CIMDocumentReferenceDTO:
+      required:
+      - date
+      - referenceNumber
+      - type
+      type: object
+      properties:
+        type:
+          maxLength: 4
+          type: string
+          description: Type of the document reference.
+        referenceNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the document reference.
+        date:
+          $ref: '#/components/schemas/CIMDateAndZoneDTO'
+        documentAtHandFlag:
+          type: boolean
+          description: Flag to indicate whether the referenced document is at hand at the time of booking.
+        writeOffQuantity:
+          $ref: '#/components/schemas/CIMCustomsQuantityDTO'
+      description: DTO to hold data of a document references.
+    CIMQuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          minimum: 0.001
+          type: number
+          description: The value of the quantity
+          example: 10.0
+        unit:
+          maxLength: 10
+          type: string
+          description: 'Identifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.
+
+            For UNECE unit codes use the ''uneceUnit'' field.<br/>
+
+
+
+            Weight unit codes:
+
+            * `kg` - Kilogram
+
+            * `gr` - Gram
+
+            * `t`  - Metric ton
+
+            * `lb` - Pound
+
+            * `oz` - Ounce
+
+
+            Length unit codes:
+
+            * `m`  - Meter
+
+            * `mm` - Milimeter
+
+            * `cm` - Centimeter
+
+            * `dm` - Decimeter
+
+            * `km` - Kilometer
+
+            * `ft` - Foot
+
+            * `in` - Inch
+
+            * `mi` - Mile
+
+            * `nm` - Nanometer
+
+            * `µm` - Micrometer
+
+
+            Volume unit codes:
+
+            * `ccm`  - Cubic centimeter
+
+            * `cdm`  - Cubic decimeter
+
+            * `m3`   - Cubic meter
+
+            * `ml`   - Milliliter
+
+            * `cl`   - Centiliter
+
+            * `hl`   - Hectoliter
+
+            * `l`    - Liter
+
+            * `cuin` - Cubic inch
+
+            * `cuft` - Cubic foot
+
+
+            Quantity unit codes:
+
+            * `St`   - Piece
+
+            * `Paar` - Pair
+
+
+            Density unit codes:
+
+            * `g/ccm` - grams per cubic centimeter
+
+            * `kg/m3` - kilogram per cubic meter
+
+
+            Time unit codes:
+
+            * `h`   - Hour
+
+            * `stu` - Hour
+
+            * `std` - Hour
+
+            * `oph` - Operational hour
+
+            * `s`   - Second
+
+            * `min` - Minute
+
+            * `15m` - 15 mins
+
+            * `d`   - Day
+
+            * `tag` - Day
+
+            * `wch` - Week
+
+            * `mon` - Month
+
+            * `jhr` - Year
+
+            * `mis` - Millisecond
+
+            * `ms`  - Microsecond
+
+            * `ns`  - Nanosecond
+
+            * `ps`  - Picosecond
+
+
+            Area unit codes:
+
+            * `qm`  - Square meter
+
+            * `qmm` - Square millimeter
+
+            * `qcm` - Square centimeter
+
+            * `qdm` - Square decimeter
+
+            '
+          example: St
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: 'Identifier of the quantity unit based on ''Recommendation No. 20 - Units of Measure used in International Trade''.<br/>
+
+
+            Weight unit codes:
+
+            * `KGM` - Kilogram
+
+            * `GRM` - Gram (10⁻³ kg)
+
+            * `TNE` - Metric ton (10³ kg)
+
+            * `LBR` - Pound (0,453 592 37 kg)
+
+            * `ONZ` - Ounce (2,834 952 x 10⁻² kg)
+
+
+            Length unit codes:
+
+            * `MTR` - Meter
+
+            * `CMT` - Centimeter (10⁻² m)
+
+            * `MMT` - Millimeter (10⁻³ m)
+
+            * `KMT` - Kilometer (10³ m)
+
+            * `YRD` - Yard (0,914 4 m)
+
+            * `FOT` - Foot (0,304 8 m)
+
+            * `INH` - Inch (25,4 x 10⁻³ m)
+
+            * `SMI` - Mile (statute mile) (1609,344 m)
+
+
+            Volume unit codes:
+
+            * `MTQ` - Cubic meter
+
+            * `CMQ` - Cubic centimeter (10⁻⁶ m³)
+
+            * `HLT` - Hectoliter (10⁻¹ m³)
+
+            * `LTR` - Liter (10⁻³ m³)
+
+            * `MLT` - Milliliter (10⁻⁶ m³)
+
+            * `YDQ` - Cubic yard (0,764 555 m³)
+
+            * `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)
+
+            * `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)
+
+
+            Area unit codes:
+
+            * `MTK` - Square meter
+
+            * `CMK` - Square centimeter (10⁻⁴ m²)
+
+            * `MMK` - Square millimeter (10⁻⁶ m²)
+
+            * `YDK` - Square yard (8.361 274 x 10⁻¹ m² )
+
+            * `FTK` - Square foot (9,290 304 x 10⁻² m²)
+
+            * `INK` - Square inch (6,451 6 x 10⁻⁴ m²)
+
+
+            Quantity unit codes:
+
+            * `NAR` - Number of articles
+
+            * `NPR` - Number of pairs
+
+            * `CEN` - A unit of count defining the number of units in multiples of 100
+
+            * `MIL` - A unit of count defining the number of units in multiples of 1000
+
+            '
+          example: NAR
+          enum:
+          - KGM
+          - GRM
+          - TNE
+          - LBR
+          - ONZ
+          - MTR
+          - CMT
+          - MMT
+          - KMT
+          - YRD
+          - FOT
+          - INH
+          - SMI
+          - MTQ
+          - CMQ
+          - HLT
+          - LTR
+          - MLT
+          - YDQ
+          - FTQ
+          - INQ
+          - MTK
+          - CMK
+          - MMK
+          - YDK
+          - FTK
+          - INK
+          - NAR
+          - NPR
+          - CEN
+          - MIL
+      description: Value and unit of the remaining quantity.
+    CIMWeightDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          minimum: 0.001
+          type: number
+          description: The value of the weight
+          example: 10.0
+        unit:
+          maxLength: 10
+          type: string
+          description: 'Identifier of the weight unit known from your AEB application, but not the UNECE code.<br/>
+
+            For UNECE unit codes use the ''uneceUnit'' field.
+
+            * `kg` - Kilogram
+
+            * `gr` - Gram
+
+            * `t`  - Metric ton
+
+            * `lb` - Pound
+
+            * `oz` - Ounce
+
+            '
+          example: kg
+          enum:
+          - kg
+          - gr
+          - t
+          - lb
+          - oz
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: 'Identifier of the weight unit based on ''Recommendation No. 20 - Units of Measure used in International Trade''.
+
+            * `KGM` - Kilogram
+
+            * `GRM` - Gram (10⁻³ kg)
+
+            * `TNE` - Metric ton (10³ kg)
+
+            * `LBR` - Pound (0,453 592 37 kg)
+
+            * `ONZ` - Ounce (2,834 952 x 10⁻² kg)
+
+            '
+          example: KGM
+          enum:
+          - KGM
+          - GRM
+          - TNE
+          - LBR
+          - ONZ
+      description: The gross mass of the goods to book.
+    CIMBookingRequestStatusDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 15
+          type: string
+          description: IdentCode of the status.
+          example: BOOKED
+          enum:
+          - NEW
+          - BASIC_DATA
+          - BOOKED
+          - TRANSFER_INIT
+          - COMPLETE
+          - CANCELLED
+      description: DTO which contains information about the status of a booking request.
+      readOnly: true
+    CIMGetBookingRequestTypesResponseDTO:
+      type: object
+      properties:
+        types:
+          type:
+          - array
+          - 'null'
+          description: List of possible booking request types.
+          items:
+            $ref: '#/components/schemas/ICCodeDTO'
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: The response DTO to the request for the supported booking request types.
+    CIMBookingRequestsResponseDTO:
+      type: object
+      properties:
+        bookingRequests:
+          type:
+          - array
+          - 'null'
+          description: List of the booking requests.
+          items:
+            $ref: '#/components/schemas/CIMBookingRequestResultDTO'
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: The response DTO to the creation request for booking requests.
+    CIMStockAccountBalancesDTO:
+      type: object
+      properties:
+        stockAccountKey:
+          type: string
+          description: Key of the stock account for which the balances information will be returned.
+        stockAccountBalances:
+          type: array
+          description: Collection of stock account balances information.
+          items:
+            $ref: '#/components/schemas/CIMStockAccountBalanceDTO'
+      description: Result data of stock account balances information about remaining quantities, storage locations and identities.
+    CIMBookingRequestReferenceEntryDTO:
+      required:
+      - registrationNumber
+      - sequenceNumber
+      type: object
+      properties:
+        registrationNumber:
+          maxLength: 21
+          type: string
+          description: MRN or ATLAS registration number of the reference entry from which the quantity is reduced or increased.
+          example: 25DE9459DEM00016R5
+        sequenceNumber:
+          minimum: 1
+          maxLength: 5
+          type: integer
+          description: Sequence number of the reference entry from which the quantity is reduced or increased.
+          format: int32
+          example: 11111
+      description: DTO to hold data of a reference entry booking request.
+    CIMAmountOfMoneyDTO:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          multipleOf: 0.01
+          maximum: 9999999999999.99
+          minimum: 0.01
+          type: number
+          description: 'The value of the amount of money '
+          example: 25.0
+        currencyIsoCode:
+          maxLength: 3
+          type: string
+          description: The currency isoCode of the amount of money
+          example: EUR
+      description: An amount of money with a value and an currency ISO code.
+    ICCodeDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        code:
+          maxLength: 50
+          type: string
+          description: The ident code value.
+        descriptions:
+          maxLength: 50
+          type: array
+          description: List of Human readable description of the code in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: The DTO object containing information of a code and its descriptions in given languages.
+    CIMDateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          maxLength: 19
+          minLength: 19
+          pattern: yyyy-MM-dd HH:mm:ss
+          type: string
+          description: <p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p>
+          example: '2023-08-26 08:59:59'
+        timezone:
+          maxLength: 50
+          type: string
+          description: <p>Time zone of the timestamp.</p>
+          example: GMT+1
+      description: The date of the query.
+    ProblemDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A URI reference that uniquely identifies the problem type in the context of the provided API. Opposed to the specification in RFC-7807, it neither points to a human-readable documentation nor globally unique for the problem type.
+          default: about:blank
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 400
+        title:
+          type: string
+          description: A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
+          example: Bad request
+        detail:
+          type: string
+          description: A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
+          example: Some description for the error situation
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          example: example-resouce/id1
+        errors:
+          type: array
+          description: Error messages.
+          items:
+            $ref: '#/components/schemas/ErrorResponseMessageDTO'
+      description: The response DTO which indicates that a problem occurred when processing the request. See RFC 7807 for further specification details.
+      externalDocs:
+        url: https://tools.ietf.org/html/rfc7807
+    CIMBookingRequestResultDTO:
+      required:
+      - decisiveDate
+      - id
+      - material
+      - profileCode
+      - quantity
+      - type
+      type:
+      - object
+      - 'null'
+      properties:
+        id:
+          maxLength: 64
+          type: string
+          description: Unique id of the booking request
+          readOnly: true
+          example: BR-1000-ID
+        referenceNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the booking request.
+          example: BR-1000
+        referenceEntry:
+          $ref: '#/components/schemas/CIMBookingRequestReferenceEntryDTO'
+        remark:
+          maxLength: 1000
+          type: string
+          description: Textual remark
+          example: Remark
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Ident code of the profile which is configured in the customs engine. The profile manages mainly the termination of the previous procedure and/or the initiation of the target procedure.
+          example: STD
+        personInCharge:
+          $ref: '#/components/schemas/CIMPersonDTO'
+        type:
+          maxLength: 50
+          type: string
+          description: Type of the booking request. For a full list with descriptions see GET /booking-request-types
+          example: CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+          enum:
+          - CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+          - CUSTOMS_WAREHOUSE_TO_RE_EXPORT
+          - CUSTOMS_WAREHOUSE_TO_TRANSIT
+          - STOCK_ADJUSTMENT
+          - STOCK_TRANSFER
+        status:
+          $ref: '#/components/schemas/CIMBookingRequestStatusDTO'
+        identitiesRemoval:
+          type: array
+          description: 'List of identities (German: Nämlichkeiten) referring to a removal or transfer booking. The list must be empty in case of an entry booking request. Maximum number of identities = 5. Maximum length of an identity = 50.'
+          items:
+            type: string
+            description: 'List of identities (German: Nämlichkeiten) referring to a removal or transfer booking. The list must be empty in case of an entry booking request. Maximum number of identities = 5. Maximum length of an identity = 50.'
+        identitiesEntry:
+          type: array
+          description: 'List of identities (German: Nämlichkeiten) referring to an entry booking. The list must be empty in case of a removal or transfer booking. Maximum number of identities = 5. Maximum length of an identity = 50.'
+          items:
+            type: string
+            description: 'List of identities (German: Nämlichkeiten) referring to an entry booking. The list must be empty in case of a removal or transfer booking. Maximum number of identities = 5. Maximum length of an identity = 50.'
+        decisiveDate:
+          $ref: '#/components/schemas/CIMDateAndZoneDTO'
+        material:
+          $ref: '#/components/schemas/ICMaterialDTO'
+        quantity:
+          $ref: '#/components/schemas/CIMQuantityDTO'
+        additionalDeclarationData:
+          $ref: '#/components/schemas/CIMAdditionalDeclarationDataDTO'
+      description: The result DTO which contains information about a booking request.
+      xml:
+        name: bookingRequest
+    CIMBookingRequestDTO:
+      required:
+      - decisiveDate
+      - id
+      - material
+      - profileCode
+      - quantity
+      - type
+      type: object
+      properties:
+        id:
+          maxLength: 64
+          type: string
+          description: Unique id of the booking request
+          readOnly: true
+          example: BR-1000-ID
+        referenceNumber:
+          maxLength: 70
+          type: string
+          description: Reference number of the booking request.
+          example: BR-1000
+        referenceEntry:
+          $ref: '#/components/schemas/CIMBookingRequestReferenceEntryDTO'
+        remark:
+          maxLength: 1000
+          type: string
+          description: Textual remark
+          example: Remark
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Ident code of the profile which is configured in the customs engine. The profile manages mainly the termination of the previous procedure and/or the initiation of the target procedure.
+          example: STD
+        personInCharge:
+          $ref: '#/components/schemas/CIMPersonDTO'
+        type:
+          maxLength: 50
+          type: string
+          description: Type of the booking request. For a full list with descriptions see GET /booking-request-types
+          example: CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+          enum:
+          - CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION
+          - CUSTOMS_WAREHOUSE_TO_RE_EXPORT
+          - CUSTOMS_WAREHOUSE_TO_TRANSIT
+          - STOCK_ADJUSTMENT
+          - STOCK_TRANSFER
+        status:
+          $ref: '#/components/schemas/CIMBookingRequestStatusDTO'
+        identitiesRemoval:
+          type: array
+          description: 'List of identities (German: Nämlichkeiten) referring to a removal or transfer booking. The list must be empty in case of an entry booking request. Maximum number of identities = 5. Maximum length of an identity = 50.'
+          items:
+            type: string
+            description: 'List of identities (German: Nämlichkeiten) referring to a removal or transfer booking. The list must be empty in case of an entry booking request. Maximum number of identities = 5. Maximum length of an identity = 50.'
+        identitiesEntry:
+          type: array
+          description: 'List of identities (German: Nämlichkeiten) referring to an entry booking. The list must be empty in case of a removal or transfer booking. Maximum number of identities = 5. Maximum length of an identity = 50.'
+          items:
+            type: string
+            description: 'List of identities (German: Nämlichkeiten) referring to an entry booking. The list must be empty in case of a removal or transfer booking. Maximum number of identities = 5. Maximum length of an identity = 50.'
+        decisiveDate:
+          $ref: '#/components/schemas/CIMDateAndZoneDTO'
+        material:
+          $ref: '#/components/schemas/ICMaterialDTO'
+        quantity:
+          $ref: '#/components/schemas/CIMQuantityDTO'
+        additionalDeclarationData:
+          $ref: '#/components/schemas/CIMAdditionalDeclarationDataDTO'
+      description: DTO to hold data of a booking request.
+      xml:
+        name: bookingRequest
+    ICMaterialDTO:
+      required:
+      - materialId
+      type: object
+      properties:
+        materialId:
+          maxLength: 50
+          type: string
+          description: A persistent ID for identifying a material / good in the AEB Customs systems. If a link to the AEB Customs Inventory Management exists, the material ID also serves as a unique identifier for the goods to be booked into or out of the inventory.
+          example: M-1000
+      description: DTO to hold data of a material.
+    CIMCustomsQuantityDTO:
+      required:
+      - unit
+      - value
+      type: object
+      properties:
+        value:
+          multipleOf: 1.0e-09
+          maximum: 10000000000
+          minimum: 1.0e-09
+          type: number
+          description: <p>The value of the quantity.</p><p><b>EUCDM field no. 001 000</b></p>
+          example: 10.5
+        unit:
+          maxLength: 4
+          type: string
+          description: <p>The unit code of the quantity.</p><p>An additional qualifier can be appended at the end (e.g. KGMA).</p><p><i>No EUCDM equivalent</i></p>
+          example: KGM
+      description: The quantity related to the document reference.
+    CIMPersonDTO:
+      required:
+      - surname
+      type: object
+      properties:
+        forename:
+          maxLength: 20
+          type: string
+          description: Forename of the person.
+          example: Jane
+        surname:
+          maxLength: 30
+          type: string
+          description: Surname of the person.
+          example: Doe
+        initials:
+          maxLength: 20
+          type: string
+          description: Initials/login of the person.
+          example: JD
+      description: DTO to hold data of a person.
+    CIMStockAccountBalanceDTO:
+      type: object
+      properties:
+        remainingQuantity:
+          $ref: '#/components/schemas/CIMQuantityDTO'
+        identity:
+          type: string
+          description: Identity of the booked goods (e.g lot number, serial number, etc.).
+        storageLocation:
+          type: string
+          description: The location where the goods were stored.
+      description: Result data of stock account balance information about remaining quantity, storage location and identity.
+    CIMPackageDTO:
+      required:
+      - typeUneceCode
+      type: object
+      properties:
+        numberOfPackages:
+          minimum: 1
+          maxLength: 5
+          type: integer
+          description: Number of packages
+          format: int32
+          example: 10
+        typeCode:
+          maxLength: 40
+          type: string
+          description: Use typeUneceCode instead.
+          example: PK-TYPE-1000
+          deprecated: true
+        typeUneceCode:
+          maxLength: 3
+          minLength: 2
+          type: string
+          description: Common valid UN/ECE package type.
+          example: CS
+        marksAndNumbers:
+          maxLength: 70
+          type: string
+          description: Shipping marks.
+          example: Marks
+      description: DTO to hold data of a package.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    CIMStockAccountBalancesResponseDTO:
+      type: object
+      properties:
+        issueDate:
+          $ref: '#/components/schemas/CIMDateAndZoneDTO'
+        stockAccountsBalances:
+          type: array
+          description: Collection of stock accounts balances for the requested stock accounts.
+          items:
+            $ref: '#/components/schemas/CIMStockAccountBalancesDTO'
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Stock balance information inquiry result data
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    CIMAdditionalDeclarationDataDTO:
+      required:
+      - additionalQuantities
+      type: object
+      properties:
+        transactionNature:
+          maxLength: 2
+          type: string
+          description: Nature of the transaction.
+        netPrice:
+          $ref: '#/components/schemas/CIMAmountOfMoneyDTO'
+        netMass:
+          $ref: '#/components/schemas/CIMWeightDTO'
+        grossMass:
+          $ref: '#/components/schemas/CIMWeightDTO'
+        originCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the origin country of the goods to book.
+          example: CN
+        preferentialOriginCountryCode:
+          maxLength: 2
+          type: string
+          description: ISO code of the preferential origin country of the goods to book.
+          example: CN
+        additionalQuantities:
+          type: array
+          description: List of quantities of the goods to book in customs unit.
+          items:
+            $ref: '#/components/schemas/CIMCustomsQuantityDTO'
+        packages:
+          type: array
+          description: List of packages.
+          items:
+            $ref: '#/components/schemas/CIMPackageDTO'
+        documentReferences:
+          type: array
+          description: List of document references.
+          items:
+            $ref: '#/components/schemas/CIMDocumentReferenceDTO'
+      description: Data for the customs declaration which is created during the transition of a booking request of type 'CUSTOMS_WAREHOUSE_TO_FREE_CIRCULATION'. The given data will supplement or replace the data from Customs Inventory Management.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

@@ -1,0 +1,853 @@
+openapi: 3.2.0
+info:
+  title: Product Classification HTTP Classification Proposal BF Bean API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test2cl/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: ClassificationProposalBFBean
+  description: API for classification proposals.
+paths:
+  /ClassificationProposalBFBean/certTemplate:
+    put:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Creates a new document template.
+      operationId: createCertTemplate
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the update.
+        schema:
+          maxLength: 254
+          type: string
+      requestBody:
+        description: The parameters or the created document template.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCertTemplateRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCertTemplateResponseDTO'
+  /ClassificationProposalBFBean/codeTemplate:
+    put:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Creates a new classification code template.
+      operationId: createCodeTemplate
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the update.
+        schema:
+          maxLength: 254
+          type: string
+      requestBody:
+        description: The parameters or the created classification code template.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCodeTemplateRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCodeTemplateResponseDTO'
+  /ClassificationProposalBFBean/certTemplate/{id}:
+    get:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Gets the data of a document template.
+      operationId: getCertTemplate
+      parameters:
+      - name: id
+        in: path
+        description: The unique identification of a document template.
+        required: true
+        schema:
+          maxLength: 32
+          type: string
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCertTemplateResponseDTO'
+    delete:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Deletes an existing document template.
+      operationId: deleteCertTemplate
+      parameters:
+      - name: id
+        in: path
+        description: The unique identification of a document template.
+        required: true
+        schema:
+          maxLength: 32
+          type: string
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the update.
+        schema:
+          maxLength: 254
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCertTemplateResponseDTO'
+    patch:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Updates an existing document template.
+      operationId: updateCertTemplate
+      parameters:
+      - name: id
+        in: path
+        description: The unique identification of a document template.
+        required: true
+        schema:
+          maxLength: 32
+          type: string
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the update.
+        schema:
+          maxLength: 254
+          type: string
+      requestBody:
+        description: The update parameters for the document template.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCertTemplateRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCertTemplateResponseDTO'
+  /ClassificationProposalBFBean/codeTemplate/{id}:
+    get:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Gets the data of a classification code template.
+      operationId: getCodeTemplate
+      parameters:
+      - name: id
+        in: path
+        description: The unique identification of a classification code template.
+        required: true
+        schema:
+          maxLength: 32
+          type: string
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCodeTemplateResponseDTO'
+    delete:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Creates a new classification code template.
+      operationId: deleteCodeTemplate
+      parameters:
+      - name: id
+        in: path
+        description: The unique identification of a classification code template.
+        required: true
+        schema:
+          maxLength: 32
+          type: string
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the update.
+        schema:
+          maxLength: 254
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCodeTemplateResponseDTO'
+    patch:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Updates an existing classification code template.
+      operationId: updateCodeTemplate
+      parameters:
+      - name: id
+        in: path
+        description: The unique identification of a classification code template.
+        required: true
+        schema:
+          maxLength: 32
+          type: string
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used..
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the update.
+        schema:
+          maxLength: 254
+          type: string
+      requestBody:
+        description: The update parameters for the classification code template.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCodeTemplateRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCodeTemplateResponseDTO'
+  /ClassificationProposalBFBean/certTemplate/search:
+    post:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Searches for suitable document templates matching the criteria of the given search input.
+      operationId: searchCertTemplates
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      requestBody:
+        description: The parameters for the document template search.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCertTemplatesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCertTemplatesResponseDTO'
+  /ClassificationProposalBFBean/codeTemplate/search:
+    post:
+      tags:
+      - ClassificationProposalBFBean
+      summary: Searches for suitable classification code templates matching the criteria of the given search input.
+      operationId: searchCodeTemplates
+      parameters:
+      - name: clientIdentCode
+        in: query
+        description: The unique identification code of the client. If empty, the client of the authentication is used.
+        schema:
+          maxLength: 10
+          type: string
+      - name: userName
+        in: query
+        description: Names the user from the client system. Used to identify the origin of the call.
+        schema:
+          maxLength: 254
+          type: string
+      requestBody:
+        description: The parameters for the classification code template search.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCodeTemplatesRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCodeTemplatesResponseDTO'
+components:
+  schemas:
+    DeleteCodeTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a classification template deletion.
+    UpdateCertTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a classification document update.
+    CreateCodeTemplateResponseDTO:
+      required:
+      - id
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a classification code template.
+      description: Response of a classification template creation.
+    CodeTemplateDTO:
+      required:
+      - id
+      - targetTypeName
+      - value
+      type: object
+      properties:
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a classification template.
+        targetTypeName:
+          maxLength: 255
+          type: string
+          description: name of the source type of the template as defined in the system.
+        value:
+          maxLength: 800
+          type: string
+          description: The classification value of the template.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a classification template should be applied into a target value.
+          enum:
+          - MANUAL
+          - AUTOMATIC
+          - RULE_BASED
+      description: DTO holding the data of a classification template.
+    CertTemplateDTO:
+      required:
+      - certTemplateData
+      - id
+      type: object
+      properties:
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a document template.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a document template should be applied.
+          enum:
+          - MANUAL
+          - AUTOMATIC
+          - RULE_BASED
+        certTemplateData:
+          $ref: '#/components/schemas/CertDataDTO'
+      description: DTO holding the data of a document template.
+    SearchCodeTemplatesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        codeTemplates:
+          type: array
+          description: The data of all the classification templates fitting the search input.
+          items:
+            $ref: '#/components/schemas/CodeTemplateDTO'
+      description: 'Response DTO for #searchCodeTemplate'
+    UpdateCodeTemplateRequestDTO:
+      type: object
+      properties:
+        value:
+          maxLength: 800
+          type: string
+          description: The classification value of the template.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a classification template should be applied into a target value.
+          default: MANUAL
+          enum:
+          - MANUAL
+          - AUTOMATIC
+      description: DTO holding the parameters for the update of a template.
+    SearchCodeTemplatesRequestDTO:
+      required:
+      - sourceTypeName
+      - sourceValue
+      type: object
+      properties:
+        sourceValue:
+          maxLength: 800
+          type: string
+          description: The source value for which classification templates will be searched.
+        sourceTypeName:
+          maxLength: 255
+          type: string
+          description: The name of the source type of the template as defined in the system.
+        targetTypeName:
+          maxLength: 255
+          type: string
+          description: name of the source type of the template as defined in the system.
+      description: DTO holding the parameters for a code template search.
+    DeleteCertTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a document template deletion.
+    UpdateCodeTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a classification template update.
+    GetCertTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        certTemplate:
+          $ref: '#/components/schemas/CertTemplateDTO'
+      description: 'Response DTO for #getCertTemplate'
+    SearchCertTemplatesRequestDTO:
+      required:
+      - sourceTypeName
+      - sourceValue
+      type: object
+      properties:
+        sourceValue:
+          maxLength: 800
+          type: string
+          description: The source value for which document templates will be searched.
+        sourceTypeName:
+          maxLength: 255
+          type: string
+          description: The name of the source type of the template as defined in the system.
+        countryOfCertificate:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: Issuer country of the templates document.
+        areaOfDestination:
+          maxLength: 10
+          type: string
+          description: Country or area code of the destination for which the document is valid.
+        code:
+          maxLength: 5
+          type: string
+          description: Code of the templates document type.
+        qualifier:
+          maxLength: 3
+          type: string
+          description: Qualifier for further specification of the document type.
+        division:
+          maxLength: 1
+          type: string
+          description: The division of the document of the template.
+      description: DTO holding the parameters for a certificate template search.
+    UpdateCertTemplateRequestDTO:
+      required:
+      - certData
+      type: object
+      properties:
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a classification template should be applied into a target value.
+          enum:
+          - MANUAL
+          - AUTOMATIC
+        certData:
+          $ref: '#/components/schemas/CertDataDTO'
+      description: DTO holding the parameters for the update of a document template.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    CreateCodeTemplateRequestDTO:
+      required:
+      - sourceTypeName
+      - sourceValue
+      - targetTypeName
+      - targetValue
+      type: object
+      properties:
+        sourceTypeName:
+          maxLength: 255
+          type: string
+          description: The name of the source type of the template as defined in the system.
+        sourceValue:
+          maxLength: 800
+          type: string
+          description: The classification value of the template.
+        targetTypeName:
+          maxLength: 255
+          type: string
+          description: name of the source type of the template as defined in the system.
+        targetValue:
+          maxLength: 800
+          type: string
+          description: The classification value of the template.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a classification template should be applied into a target value.
+          default: MANUAL
+          enum:
+          - MANUAL
+          - AUTOMATIC
+      description: DTO holding the parameters for the creation of a code template.
+    CreateCertTemplateRequestDTO:
+      required:
+      - certData
+      - sourceTypeName
+      - sourceValue
+      type: object
+      properties:
+        sourceTypeName:
+          maxLength: 255
+          type: string
+          description: The name of the source type of the template as defined in the system.
+        sourceValue:
+          maxLength: 800
+          type: string
+          description: The source value for which a document templates will be created.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a document template should be applied into a target value.
+          default: MANUAL
+          enum:
+          - MANUAL
+          - AUTOMATIC
+        certData:
+          $ref: '#/components/schemas/CertDataDTO'
+      description: DTO holding the parameters for the creation of a document template.
+    CertDataDTO:
+      maxLength: 255
+      required:
+      - areaOfDestination
+      - code
+      - countryOfCertificate
+      type: object
+      properties:
+        countryOfCertificate:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: Country that issued this document.
+        areaOfDestination:
+          maxLength: 10
+          type: string
+          description: Country or area code of the destination for which the document is valid.
+        code:
+          maxLength: 5
+          type: string
+          description: Code of this document type.
+        qualifier:
+          maxLength: 3
+          type: string
+          description: Qualifier for further specification of the document type.
+        division:
+          maxLength: 1
+          type: string
+          description: The division of the document of the template.
+      description: DTO holding the data of a document.
+    GetCodeTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        codeTemplate:
+          $ref: '#/components/schemas/CodeTemplateDTO'
+      description: 'Response DTO for #getCodeTemplate'
+    CreateCertTemplateResponseDTO:
+      required:
+      - id
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a document template.
+      description: Response of a document template creation.
+    SearchCertTemplatesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        certTemplates:
+          type: array
+          description: The data of all the document templates fitting the search input.
+          items:
+            $ref: '#/components/schemas/CertTemplateDTO'
+      description: 'Response DTO for #searchCertTemplate'
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

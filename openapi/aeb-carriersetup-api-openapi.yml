@@ -1,0 +1,1891 @@
+openapi: 3.2.0
+info:
+  title: Carrier Connect HTTP Carrier Setup API
+  description: Thank you for using our HTTP API documentation.
+  version: '3.0'
+servers:
+- url: https://rz3.aeb.de/demo1cai/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: CarrierSetup
+  description: Rest API for carrier setups
+paths:
+  /carrier-setups/{id}:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns a carrier setup with the requested ID.
+      operationId: getCarrierSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierSetup'
+              examples:
+                Carrier setup entry:
+                  description: Carrier setup entry
+                  value:
+                    identCode: UPS
+                    isEnabled: true
+                    name: UPS EMEA
+                    type: STANDARD
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update a carrier setup with the requested ID. If the carrier setup with the given ID does not exist, a new carrier setup will be created. If the carrier setup exists, the existing carrier setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier setup. It is therefore recommended to use the GET/carrier-setups to check whether a carrier setup with an ID already exists BEFORE you use PUT/carrier-setup/{id}.
+      operationId: createOrUpdateCarrierSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierSetup'
+            examples:
+              Carrier setup request:
+                description: Carrier setup request
+                value:
+                  identCode: UPS
+                  isEnabled: true
+                  name: UPS EMEA
+                  type: STANDARD
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierSetup'
+              examples:
+                Carrier setup entry:
+                  description: Carrier setup entry
+                  value:
+                    identCode: UPS
+                    isEnabled: true
+                    name: UPS EMEA
+                    type: STANDARD
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested carrier definition does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier definition not found:
+                  description: Carrier definition not found
+                  value:
+                    errorMessage: Keine Dienstleister-Definition mit der ID 'BASS' gefunden.
+    delete:
+      tags:
+      - CarrierSetup
+      description: Delete a carrier setup with the requested ID.
+      operationId: deleteCarrierSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierSetup'
+              examples:
+                Carrier setup entry:
+                  description: Carrier setup entry
+                  value:
+                    identCode: UPS
+                    isEnabled: true
+                    name: UPS EMEA
+                    type: STANDARD
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+  /carrier-setups:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns all carrier setups matching the given filter criteria. In case no carrier setup matches the given filter criteria an empty collection is returned. If the filter field supports place holders ('*' or '%'), you get all carrier setups back beginning with the value of the filter which means a place holder at the end of the filter value is added automatically.
+      operationId: searchCarrierSetups
+      parameters:
+      - name: ident_code_like
+        in: query
+        description: Filter carrier setups by ident code.<br>In the example, all carrier setups which includes 'DHL' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique.
+        schema:
+          maxLength: 20
+          minLength: 0
+          type: string
+        example: '*DHL*'
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierSetupPage'
+              examples:
+                Carrier setup list:
+                  description: Carrier setup list
+                  value:
+                    content:
+                    - identCode: UPS
+                      isEnabled: false
+                      name: UPS EMEA
+                      type: STANDARD
+                    - identCode: DHLPAKETINT
+                      isEnabled: false
+                      name: DHL Paket international
+                      type: STANDARD
+  /carrier-setups/{id}/additional-values/{additional-value-id}:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns an additional value setup of a carrier setup with the requested ID.
+      operationId: getAdditionalValueSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: additional-value-id
+        in: path
+        description: The requested ID of an additional value setup.
+        required: true
+        schema:
+          type: string
+        example: UPSPREMIER
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalValuesSetup'
+              examples:
+                Additional value setup entry:
+                  description: Additional value setup entry
+                  value:
+                    identCode: TEST12
+                    type: SETUP_SPECIFIC
+                    attributes:
+                      dataType: STRING
+                      businessObject: SHIPMENT
+                      translations:
+                      - language: DE
+                        name: testD
+                      - language: EN
+                        name: testE
+                      choiceList:
+                      - identCode: kürzel
+                        ediCode: Edi
+                        translations:
+                        - language: EN
+                        - language: DE
+                          name: testD
+        '404':
+          description: Requested additional value setup does not exist.
+          content:
+            application/json:
+              examples:
+                Additional value setup not found:
+                  description: Additional value setup not found
+                  value:
+                    errorMessage: Keine Zusatzfeld-Einrichtung mit der ID 'UPSOTHERCHA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update an additional value setup of a carrier setup with the requested ID. If the additional value setup with the given ID does not exist, a new additional value setup will be created. If the additional value setup exists, the existing additional value setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing additional value setup. It is therefore recommended to use the GET/carrier-setups/{id}/additional-values to check whether an additional value setup with an ID already exists BEFORE you use PUT/carrier-setups/{id}/additional-values/{id}
+      operationId: createOrUpdateAdditionalValueSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: additional-value-id
+        in: path
+        description: The requested ID of an additional value setup.
+        required: true
+        schema:
+          type: string
+        example: UPSPREMIER
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalValuesSetup'
+            examples:
+              Additional value setup request:
+                description: Additional value setup request
+                value:
+                  identCode: TEST12
+                  type: SETUP_SPECIFIC
+                  attributes:
+                    dataType: STRING
+                    businessObject: SHIPMENT
+                    translations:
+                    - language: DE
+                      name: testD
+                    - language: EN
+                      name: testE
+                    choiceList:
+                    - identCode: kürzel
+                      ediCode: Edi
+                      translations:
+                      - language: EN
+                      - language: DE
+                        name: testD
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalValuesSetup'
+              examples:
+                Additional value setup entry:
+                  description: Additional value setup entry
+                  value:
+                    identCode: TEST12
+                    type: SETUP_SPECIFIC
+                    attributes:
+                      dataType: STRING
+                      businessObject: SHIPMENT
+                      translations:
+                      - language: DE
+                        name: testD
+                      - language: EN
+                        name: testE
+                      choiceList:
+                      - identCode: kürzel
+                        ediCode: Edi
+                        translations:
+                        - language: EN
+                        - language: DE
+                          name: testD
+        '400':
+          description: Wrong additional value type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Wrong additional value type in the request.:
+                  description: Wrong additional value type in the request.
+                  value:
+                    type: additional-value/wrong-type
+                    status: 400
+                    title: Wrong AdditionalValueType
+                    detail: Die angegebene Zusatzfeldart entspricht nicht der vorhandenen Zusatzfeldart.
+                    timestamp: '2024-09-26T11:57:01.261294600Z'
+                    errors: []
+        '404':
+          description: Requested additional value definition does not exist.
+          content:
+            application/json:
+              examples:
+                Additional value definition not found:
+                  description: Additional value definition not found
+                  value:
+                    errorMessage: Keine Zusatzfeld-Definition mit der ID 'UPSOTHERCHA' für die Dienstleister-Definition 'UPS' gefunden.
+        '500':
+          description: Additional value already exists.
+          content:
+            application/json:
+              examples:
+                Requested additional value with the same id already exists.:
+                  description: Requested additional value with the same id already exists.
+                  value:
+                    errorMessage: 'Commit der Transaktion ist fehlgeschlagen: Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
+                    errorCause: 'Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
+    delete:
+      tags:
+      - CarrierSetup
+      description: Deletes an additional value setup of a carrier setup with the requested ID.
+      operationId: deleteAdditionalValueSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: additional-value-id
+        in: path
+        description: The requested ID of an additional value setup.
+        required: true
+        schema:
+          type: string
+        example: UPSPREMIER
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalValuesSetup'
+              examples:
+                Additional value setup entry:
+                  description: Additional value setup entry
+                  value:
+                    identCode: TEST12
+                    type: SETUP_SPECIFIC
+                    attributes:
+                      dataType: STRING
+                      businessObject: SHIPMENT
+                      translations:
+                      - language: DE
+                        name: testD
+                      - language: EN
+                        name: testE
+                      choiceList:
+                      - identCode: kürzel
+                        ediCode: Edi
+                        translations:
+                        - language: EN
+                        - language: DE
+                          name: testD
+        '404':
+          description: Requested additional value setup does not exist.
+          content:
+            application/json:
+              examples:
+                Additional value setup not found:
+                  description: Additional value setup not found
+                  value:
+                    errorMessage: Keine Zusatzfeld-Einrichtung mit der ID 'UPSOTHERCHA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+  /carrier-setups/{id}/additional-values:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns all additional value setups of a carrier setup.
+      operationId: getAdditionalValueSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalValueSetupPage'
+              examples:
+                Additional value setup list:
+                  description: Additional value setup list
+                  value:
+                    content:
+                    - identCode: Additional Value
+                      type: SETUP_SPECIFIC
+                      attributes:
+                        dataType: CHOICE
+                        businessObject: SHIPMENT
+                        translations:
+                        - language: DE
+                          name: testD
+                        - language: EN
+                          name: testE
+                        choiceList:
+                        - identCode: kürzel
+                          ediCode: Edi
+                          translations:
+                          - language: EN
+                          - language: DE
+                            name: testD
+                    - identCode: UPSMRN
+                      type: DEFINITION_BASED
+                      attributes:
+                        dataType: STRING
+                        businessObject: SHIPMENT
+                        translations:
+                        - name: MRN
+                        - name: MRN
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update all additional value setups of a carrier setup with the requested ID. If the additional value setup with the given ID does not exist, a new additional value setup will be created. If the additional value setup exists, the existing additional value setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing additional value setup. It is therefore recommended to use the GET/carrier-setups/{id}/additional-values to check whether an additional value setup with an ID already exists BEFORE you use PUT/carrier-setups/{id}/additional-values.
+      operationId: createOrUpdateAllAdditionalValueSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalValueSetupPage'
+            examples:
+              Additional value setup list request:
+                description: Additional value setup list request
+                value:
+                  content:
+                  - identCode: Additional Value
+                    type: SETUP_SPECIFIC
+                    attributes:
+                      dataType: CHOICE
+                      businessObject: SHIPMENT
+                      translations:
+                      - language: DE
+                        name: testD
+                      - language: EN
+                        name: testE
+                      choiceList:
+                      - identCode: kürzel
+                        ediCode: Edi
+                        translations:
+                        - language: EN
+                        - language: DE
+                          name: testD
+                  - identCode: UPSMRN
+                    type: DEFINITION_BASED
+                    attributes:
+                      dataType: STRING
+                      businessObject: SHIPMENT
+                      translations:
+                      - name: MRN
+                      - name: MRN
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalValueSetupPage'
+              examples:
+                Additional value setup list:
+                  description: Additional value setup list
+                  value:
+                    content:
+                    - identCode: Additional Value
+                      type: SETUP_SPECIFIC
+                      attributes:
+                        dataType: CHOICE
+                        businessObject: SHIPMENT
+                        translations:
+                        - language: DE
+                          name: testD
+                        - language: EN
+                          name: testE
+                        choiceList:
+                        - identCode: kürzel
+                          ediCode: Edi
+                          translations:
+                          - language: EN
+                          - language: DE
+                            name: testD
+                    - identCode: UPSMRN
+                      type: DEFINITION_BASED
+                      attributes:
+                        dataType: STRING
+                        businessObject: SHIPMENT
+                        translations:
+                        - name: MRN
+                        - name: MRN
+        '400':
+          description: Wrong additional value type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Wrong additional value type in the request.:
+                  description: Wrong additional value type in the request.
+                  value:
+                    type: additional-value/wrong-type
+                    status: 400
+                    title: Wrong AdditionalValueType
+                    detail: Die angegebene Zusatzfeldart entspricht nicht der vorhandenen Zusatzfeldart.
+                    timestamp: '2024-09-26T11:57:01.261294600Z'
+                    errors: []
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+        '500':
+          description: Additional value already exists.
+          content:
+            application/json:
+              examples:
+                Requested additional value with the same id already exists.:
+                  description: Requested additional value with the same id already exists.
+                  value:
+                    errorMessage: 'Commit der Transaktion ist fehlgeschlagen: Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
+                    errorCause: 'Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
+  /carrier-setups/{id}/application-url:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns the application URL of a carrier setup with the requested ID.
+      operationId: getCarrierSetupApplicationURL
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierSetupStatus'
+              examples:
+                Carrier setup application URL entry:
+                  description: Carrier setup application URL entry
+                  value:
+                    url: http://pc-xddev0406:40080/as4carrierintegration/servlet/StartXPage/dl/DLCarrierSetupFolderACV?encrQuery=lXFp-6SbTQ2tdV_SSn01iR-YvtEWfL_BChC6HJJ8Huexv8C1xtxJ1qCLxT2uZgHiZ1rTSVCcFxl621pLSUNptc4C143dN9biM-W75i4W_fcL2zFSH0HjO5C0_mnHQQ6KgRROHjWTJYp246QsvsM1wcZzTAnu-Sip-O14NAKmNcdbATaZclflQKbU6iHGI17mO2Ie1trOHwaAQRroqpxvO8zAaJAPl7B1lA-hb4j3ZLZqhJsGhlSkfFSdj5fSYeSPOS9jx9TNVrU3rN3vU3XFWnA
+        '404':
+          description: Requested carrier setup does not exist
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+  /carrier-setups/{id}/carrier-info-texts:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns all carrier info text setups of a carrier setup.
+      operationId: getCarrierInfoTextSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoTextSetupPage'
+              examples:
+                Carrier info text setup list:
+                  description: Carrier info text setup list
+                  value:
+                    totalElements: 4
+                    content:
+                    - identCode: HID
+                      isEnabled: true
+                      isDeprecated: false
+                    - identCode: SHP
+                      isEnabled: true
+                      isDeprecated: false
+                    - identCode: TSR
+                      isEnabled: true
+                      isDeprecated: false
+                    - identCode: TEST
+                      isEnabled: false
+                      isDeprecated: false
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update all carrier info text setups of a carrier setup with the requested ID. If the carrier info text setup with the given ID does not exist, a new carrier info text setup will be created. If the carrier info text setup exist, the existing carrier info text setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier info text setup. It is therefore recommended to use the GET/carrier-setups/{id}/carrier-info-texts to check whether a carrier info text setup with an ID already exists BEFORE you use PUT/carrier-setups/{id}/carrier-info-texts.
+      operationId: createOrUpdateAllCarrierInfoTextSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+            examples:
+              Carrier info text setup list request:
+                description: Carrier info text setup list request
+                value:
+                  totalElements: 4
+                  content:
+                  - identCode: HID
+                    isEnabled: true
+                    isDeprecated: false
+                  - identCode: SHP
+                    isEnabled: true
+                    isDeprecated: false
+                  - identCode: TSR
+                    isEnabled: true
+                    isDeprecated: false
+                  - identCode: TEST
+                    isEnabled: false
+                    isDeprecated: false
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoTextSetupPage'
+              examples:
+                Carrier info text setup list:
+                  description: Carrier info text setup list
+                  value:
+                    totalElements: 4
+                    content:
+                    - identCode: HID
+                      isEnabled: true
+                      isDeprecated: false
+                    - identCode: SHP
+                      isEnabled: true
+                      isDeprecated: false
+                    - identCode: TSR
+                      isEnabled: true
+                      isDeprecated: false
+                    - identCode: TEST
+                      isEnabled: false
+                      isDeprecated: false
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+  /carrier-setups/{id}/carrier-info-texts/{carrier-info-text-id}:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns a carrier info text setup of a carrier setup with the requested ID.
+      operationId: getCarrierInfoTextSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: carrier-info-text-id
+        in: path
+        description: The requested ID of a carrier info text setup.
+        required: true
+        schema:
+          type: string
+        example: HAN
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoTextSetup'
+              examples:
+                Carrier info text setup entry:
+                  description: Carrier info text setup entry
+                  value:
+                    identCode: TEST
+                    isEnabled: false
+                    isDeprecated: false
+        '404':
+          description: Requested carrier info text setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier info text setup not found:
+                  description: Carrier info text setup not found
+                  value:
+                    errorMessage: Keine Hinweistext-Einrichtung mit der ID 'TES' für die Dienstleister-Einrichtung 'SCHENKER_ROAD_DE' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update a carrier info text setup of a carrier setup with the requested ID. If the carrier info text setup with the given ID does not exist, a new carrier info text setup will be created. If the carrier info text setup exists, the existing carrier info text setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier info text setup. It is therefore recommended to use the GET/carrier-setups/{id}/carrier-info-texts to check whether a carrier info text setup with an ID already exists BEFORE you use PUT/carrier-setups/{id}/carrier-info-texts/{id}
+      operationId: createOrUpdateCarrierInfoTextSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: carrier-info-text-id
+        in: path
+        description: The requested ID of a carrier info text setup.
+        required: true
+        schema:
+          type: string
+        example: HAN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarrierInfoTextSetup'
+            examples:
+              Carrier info text setup request:
+                description: Carrier info text setup request
+                value:
+                  identCode: TEST
+                  isEnabled: false
+                  isDeprecated: false
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoTextSetup'
+              examples:
+                Carrier info text setup entry:
+                  description: Carrier info text setup entry
+                  value:
+                    identCode: TEST
+                    isEnabled: false
+                    isDeprecated: false
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested carrier info text definition does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier info text definition not found:
+                  description: Carrier info text definition not found
+                  value:
+                    errorMessage: Keine Hinweistext-Definition mit der ID 'UPS_EXPR_SAV' für die Dienstleister-Definition 'UPS' gefunden.
+    delete:
+      tags:
+      - CarrierSetup
+      description: Deletes a carrier info text setup of a carrier setup with the requested ID.
+      operationId: deleteCarrierInfoTextSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: carrier-info-text-id
+        in: path
+        description: The requested ID of a carrier info text setup.
+        required: true
+        schema:
+          type: string
+        example: HAN
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierInfoTextSetup'
+              examples:
+                Carrier info text setup entry:
+                  description: Carrier info text setup entry
+                  value:
+                    identCode: TEST
+                    isEnabled: false
+                    isDeprecated: false
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested carrier info text setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier info text setup not found:
+                  description: Carrier info text setup not found
+                  value:
+                    errorMessage: Keine Hinweistext-Einrichtung mit der ID 'TES' für die Dienstleister-Einrichtung 'SCHENKER_ROAD_DE' gefunden.
+  /carrier-setups/{id}/services:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns all service setups of a carrier setup.
+      operationId: getServiceSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSetupPage'
+              examples:
+                Service setup list:
+                  description: Service setup list
+                  value:
+                    content:
+                    - identCode: UPS_EXPR_SAV
+                      isEnabled: 'true'
+                      isDeprecated: false
+                    - identCode: UPS_EXPE_FREIGHT_MDY
+                      isEnabled: 'true'
+                      isDeprecated: false
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update all service setups of a carrier setup with the requested ID. If the service setup with the given ID does not exist, a new service setup will be created. If the service setup exist, the existing service setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service setup. It is therefore recommended to use the GET/carrier-setups/{id}/services to check whether a service setup with an ID already exists BEFORE you use PUT/carrier-setups/{id}/services.
+      operationId: createOrUpdateAllServiceSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+            examples:
+              Service setup list request:
+                description: Service setup list request
+                value:
+                  content:
+                  - identCode: UPS_EXPR_SAV
+                    isEnabled: 'true'
+                    isDeprecated: false
+                  - identCode: UPS_EXPE_FREIGHT_MDY
+                    isEnabled: 'true'
+                    isDeprecated: false
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSetupPage'
+              examples:
+                Service setup list:
+                  description: Service setup list
+                  value:
+                    content:
+                    - identCode: UPS_EXPR_SAV
+                      isEnabled: 'true'
+                      isDeprecated: false
+                    - identCode: UPS_EXPE_FREIGHT_MDY
+                      isEnabled: 'true'
+                      isDeprecated: false
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+  /carrier-setups/{id}/services/{service-id}:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns a service setup of a carrier setup with the requested ID.
+      operationId: getServiceSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: service-id
+        in: path
+        description: The requested ID of a service setup.
+        required: true
+        schema:
+          type: string
+        example: UPS_EXPR
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSetup'
+              examples:
+                Service setup entry:
+                  description: Service setup entry
+                  value:
+                    identCode: UPS_EXPR_SAV
+                    isEnabled: 'true'
+                    isDeprecated: false
+        '404':
+          description: Requested service setup does not exist.
+          content:
+            application/json:
+              examples:
+                Service setup not found:
+                  description: Service setup not found
+                  value:
+                    errorMessage: Keine Service-Einrichtung mit der ID 'UPS_EXPR_SA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update a service setup of a carrier setup with the requested ID. If the service setup with the given ID does not exist, a new service setup will be created. If the service setup exist, the existing service setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service setup. It is therefore recommended to use the GET/carrier-setups/{id}/services to check whether a service setup with an ID already exists BEFORE you use PUT/carrier-setups/{id}/services/{id}
+      operationId: createOrUpdateServiceSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: service-id
+        in: path
+        description: The requested ID of a service setup.
+        required: true
+        schema:
+          type: string
+        example: UPS_EXPR
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceSetup'
+            examples:
+              Service setup request:
+                description: Service setup request
+                value:
+                  identCode: UPS_EXPR_SAV
+                  isEnabled: 'true'
+                  isDeprecated: false
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSetup'
+              examples:
+                Service setup entry:
+                  description: Service setup entry
+                  value:
+                    identCode: UPS_EXPR_SAV
+                    isEnabled: 'true'
+                    isDeprecated: false
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested service definition does not exist.
+          content:
+            application/json:
+              examples:
+                Service definition not found:
+                  description: Service definition not found
+                  value:
+                    errorMessage: Keine Service-Definition mit der ID 'UPS_EXPR_SA' für die Dienstleister-Definition 'UPS' gefunden.
+    delete:
+      tags:
+      - CarrierSetup
+      description: Deletes a service setup of a carrier setup with the requested ID.
+      operationId: deleteServiceSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: service-id
+        in: path
+        description: The requested ID of a service setup.
+        required: true
+        schema:
+          type: string
+        example: UPS_EXPR
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSetup'
+              examples:
+                Service setup entry:
+                  description: Service setup entry
+                  value:
+                    identCode: UPS_EXPR_SAV
+                    isEnabled: 'true'
+                    isDeprecated: false
+        '409':
+          description: Locking error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AebProblem'
+              examples:
+                Carrier setup is locked:
+                  description: Carrier setup is locked
+                  value:
+                    type: about:blank
+                    status: 409
+                    title: Locked
+                    detail: Locking für Dienstleister-Einrichtung - [UPS EMEA] fehlgeschlagen.
+                    timestamp: '2024-09-26T11:33:35.095908100Z'
+                    errors: []
+        '404':
+          description: Requested service setup does not exist.
+          content:
+            application/json:
+              examples:
+                Service setup not found:
+                  description: Service setup not found
+                  value:
+                    errorMessage: Keine Service-Einrichtung mit der ID 'UPS_EXPR_SA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+  /carrier-setups/{id}/status:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns the status of a carrier setup with the requested ID.
+      operationId: getCarrierSetupStatus
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarrierSetupStatus'
+              examples:
+                Carrier setup status entry:
+                  description: Carrier setup status entry
+                  value:
+                    status: COMPLETE
+        '404':
+          description: Requested carrier setup does not exist
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+  /carrier-setups/{id}/value-added-services:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns all value added service setups of a carrier setup.
+      operationId: getValueAddedServiceSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueAddedServicePage'
+              examples:
+                Value added service setup list:
+                  description: Value added service setup list
+                  value:
+                    content:
+                    - identCode: EMAILNOTIFYEXCP
+                      isEnabled: 'true'
+                      isDeprecated: false
+                    - identCode: EMAILNOTIFY
+                      isEnabled: 'true'
+                      isDeprecated: false
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update all value added service setups of a carrier setup with the requested ID. If the value added service setup with the given ID does not exist, a new value added service setup will be created. If the value added service setup exists, the value added service carrier setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing carrier setup. It is therefore recommended to use the GET/carrier-setups/{id}/value-added-services to check whether a value added service setup with an ID already exists BEFORE you use PUT /carrier-setups/{id}/value-added-services/{id}.
+      operationId: createOrUpdateAllValueAddedServiceSetups
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+            examples:
+              Value added service setup list request:
+                description: Value added service setup list request
+                value:
+                  content:
+                  - identCode: EMAILNOTIFYEXCP
+                    isEnabled: 'true'
+                    isDeprecated: false
+                  - identCode: EMAILNOTIFY
+                    isEnabled: 'true'
+                    isDeprecated: false
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueAddedServicePage'
+              examples:
+                Value added service setup list:
+                  description: Value added service setup list
+                  value:
+                    content:
+                    - identCode: EMAILNOTIFYEXCP
+                      isEnabled: 'true'
+                      isDeprecated: false
+                    - identCode: EMAILNOTIFY
+                      isEnabled: 'true'
+                      isDeprecated: false
+        '404':
+          description: Requested carrier setup does not exist.
+          content:
+            application/json:
+              examples:
+                Carrier setup not found:
+                  description: Carrier setup not found
+                  value:
+                    errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+  /carrier-setups/{id}/value-added-services/{value-added-service-id}:
+    get:
+      tags:
+      - CarrierSetup
+      description: Returns a value added service setup of a carrier setup with the requested ID.
+      operationId: getValueAddedServiceSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: value-added-service-id
+        in: path
+        description: The requested ID of a value added service setup.
+        required: true
+        schema:
+          type: string
+        example: COD
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueAddedService'
+              examples:
+                Value added service setup entry:
+                  description: Value added service setup entry
+                  value:
+                    identCode: EMAILNOTIFY
+                    isEnabled: 'true'
+                    isDeprecated: false
+        '404':
+          description: Requested value added service setup does not exist.
+          content:
+            application/json:
+              examples:
+                Value added service setup not found:
+                  description: Value added service setup not found
+                  value:
+                    errorMessage: Keine Zusatzleistung-Einrichtung mit der ID 'EMAILNOTIF' für die Dienstleister-Einrichtung 'UPS' gefunden.
+    put:
+      tags:
+      - CarrierSetup
+      description: Create or update a value added service setup of a carrier setup with the requested ID. If the value added service setup with the given ID does not exist, a new value added service setup will be created. If the value added service setup exists, the existing value added service setup is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing value added service setup. It is therefore recommended to use the GET/carrier-setups/{id}/value-added-services to check whether a value added service setup with an ID already exists BEFORE you use PUT /carrier-setups/{id}/value-added-services/{id}.
+      operationId: createOrUpdateValueAddedServiceSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: value-added-service-id
+        in: path
+        description: The requested ID of a value added service setup.
+        required: true
+        schema:
+          type: string
+        example: COD
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueAddedService'
+            examples:
+              Value added service setup request:
+                description: Value added service setup request
+                value:
+                  identCode: EMAILNOTIFY
+                  isEnabled: 'true'
+                  isDeprecated: false
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueAddedService'
+              examples:
+                Value added service setup entry:
+                  description: Value added service setup entry
+                  value:
+                    identCode: EMAILNOTIFY
+                    isEnabled: 'true'
+                    isDeprecated: false
+        '404':
+          description: Requested value added service definition does not exist.
+          content:
+            application/json:
+              examples:
+                Value added service definition not found:
+                  description: Value added service definition not found
+                  value:
+                    errorMessage: Keine Zusatzleistung-Definition mit der ID 'EMAILNOTIF' für die Dienstleister-Definition 'UPS' gefunden.
+    delete:
+      tags:
+      - CarrierSetup
+      description: Deletes a value added service setup of a carrier setup with the requested ID.
+      operationId: deleteValueAddedServiceSetup
+      parameters:
+      - name: id
+        in: path
+        description: The requested ID of a carrier setup.
+        required: true
+        schema:
+          type: string
+        example: UPS
+      - name: value-added-service-id
+        in: path
+        description: The requested ID of a value added service setup.
+        required: true
+        schema:
+          type: string
+        example: COD
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValueAddedService'
+              examples:
+                Value added service setup entry:
+                  description: Value added service setup entry
+                  value:
+                    identCode: EMAILNOTIFY
+                    isEnabled: 'true'
+                    isDeprecated: false
+        '404':
+          description: Requested value added service setup does not exist.
+          content:
+            application/json:
+              examples:
+                Value added service setup not found:
+                  description: Value added service setup not found
+                  value:
+                    errorMessage: Keine Zusatzleistung-Einrichtung mit der ID 'EMAILNOTIF' für die Dienstleister-Einrichtung 'UPS' gefunden.
+components:
+  schemas:
+    CarrierInfoTextSetupPage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of carrier info text setups.
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextSetup'
+    AdditionalValueSetupAttributes:
+      required:
+      - businessObject
+      - choiceList
+      - dataType
+      - translations
+      type: object
+      properties:
+        dataType:
+          type: string
+          description: The data type of the additional value
+          enum:
+          - BOOLEAN
+          - CHOICE
+          - CURRENCY
+          - DATE
+          - DATETIME
+          - DECIMAL2
+          - DECIMAL3
+          - PACKAGE_TYPE
+          - STRING
+          - TIME
+        businessObject:
+          type: string
+          description: The business object, which the additional value refers to
+          enum:
+          - HAZITEM
+          - ITEM
+          - PACKAGE
+          - SHIPMENT
+        translations:
+          type: array
+          description: The name of the additional value in multiple languages.
+          items:
+            $ref: '#/components/schemas/AdditionalValueTextTranslation'
+        choiceList:
+          type: array
+          description: List of choices for the Datatype 'choice'
+          items:
+            $ref: '#/components/schemas/AdditionalValueChoiceEntry'
+      description: Information about the additional value setup.
+    ServiceSetup:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier service is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the carrier service is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: List of service setups.
+    AebProblemError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
+          type: string
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
+    ChoiceEntryTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: The name of the choice entry
+          example: UPS Express
+      description: Name of the choice entry in a certain language.
+    AdditionalValueSetupPage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of additional value setups.
+          items:
+            $ref: '#/components/schemas/AdditionalValuesSetup'
+    CarrierSetupStatus:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: 'The status of the carrier setup. Possible values are: <li>COMPLETE <li>INCOMPLETE<br> COMPLETE means that the carrier setup is ready for use. INCOMPLETE means that the carrier setup still has status objectives and therefore is not ready for use.'
+          readOnly: true
+          enum:
+          - COMPLETE
+          - INCOMPLETE
+      description: The status of a carrier setup.
+    AdditionalValueChoiceEntry:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The identCode of the choice entry.
+        ediCode:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: The ediCode of the choice entry
+        translations:
+          type: array
+          description: The name of the choice entry in multiple languages.
+          items:
+            $ref: '#/components/schemas/ChoiceEntryTextTranslation'
+      description: Additional information about the choice entry of an additional value.
+    ValueAddedServicePage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of value added service setups.
+          items:
+            $ref: '#/components/schemas/ValueAddedService'
+    CarrierSetupPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of carrier setups.
+          items:
+            $ref: '#/components/schemas/CarrierSetup'
+    ServiceSetupPage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of service setups.
+          items:
+            $ref: '#/components/schemas/ServiceSetup'
+    AdditionalValuesSetup:
+      required:
+      - identCode
+      - type
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        type:
+          type: string
+          description: The type of the additional value
+          enum:
+          - DEFINITION_BASED
+          - SETUP_SPECIFIC
+        attributes:
+          $ref: '#/components/schemas/AdditionalValueSetupAttributes'
+      description: Information about an additional value setup.
+    AebProblem:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'A URI reference that uniquely identifies the problem type in the
+
+            context of the provided API. Opposed to the specification in RFC-7807,
+
+            it neither points to a human-readable documentation nor globally
+
+            unique for the problem type.'
+          format: uri
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 404
+        title:
+          type: string
+          description: Title
+          example: Not found
+        detail:
+          type: string
+          description: Detail info
+          example: Item not found
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          format: uri
+          example: item/12345
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          format: date-time
+          example: '2024-03-28T12:45:31.7857371Z'
+        xRequestId:
+          type: string
+          description: ID of the request that is associated with the problem.
+        errors:
+          type: array
+          description: Array of related errors
+          items:
+            $ref: '#/components/schemas/AebProblemError'
+    CarrierSetup:
+      required:
+      - identCode
+      - name
+      - type
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier setup is logically deleted. <br> Disabling a carrier setup means that it cannot be linked to new shipments any more. <br>Disabled carrier setups are considered in both PUT and DELETE /carrier-setups API methods.
+          example: false
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the carrier setup
+          readOnly: true
+          example: DHL Paket international
+        type:
+          type: string
+          description: The type of the carrier setup
+          readOnly: true
+          example: STANDARD
+          enum:
+          - STANDARD
+          - PROJECT
+          - CLIENT
+      description: The most important information of the carrier setup.
+    ValueAddedService:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the value added service is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the value added service is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: Information about the value added service setup.
+    CarrierInfoTextSetup:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier info text is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the carrier info text is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: List of carrier info text setups.
+    AdditionalValueTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the additional value.
+          example: UPS Express
+      description: Name of the additional value in a certain language.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

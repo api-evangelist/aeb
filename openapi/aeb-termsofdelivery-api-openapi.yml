@@ -1,0 +1,211 @@
+openapi: 3.2.0
+info:
+  title: Carrier Connect HTTP Terms Of Delivery API
+  description: Thank you for using our HTTP API documentation.
+  version: '3.0'
+servers:
+- url: https://rz3.aeb.de/demo1cai/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: TermsOfDelivery
+  description: Rest API for terms of deliveries
+paths:
+  /terms-of-deliveries/{id}:
+    get:
+      tags:
+      - TermsOfDelivery
+      description: 'Returns a terms of delivery with the requested ID. If the ID does not exist, an error will be returned '
+      operationId: getTermsOfDelivery
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DLClientTermsOfDeliveryRestDTO'
+              examples:
+                Terms of delivery entry:
+                  description: Terms of delivery entry
+                  value:
+                    identCode: FCAG
+                    isDefault: false
+                    costType: TYPE_CHARGEABLE
+                    customsDutyTaxesType: TYPE_UNPAIDUNTAXED
+                    incotermIdentCode: FCA
+                    translations:
+                    - language: DE
+                      description: FCA - Free carrier
+                    - language: EN
+                      description: FCA - Free Carrier
+        '404':
+          description: Terms of delivery with the requested ID is not found.
+          content:
+            application/json:
+              examples:
+                Terms of delivery not found:
+                  description: Terms of delivery not found
+                  value:
+                    errorMessage: No terms of delivery with ID 'FOB' found.
+  /terms-of-deliveries:
+    get:
+      tags:
+      - TermsOfDelivery
+      description: Returns all terms of deliveries matching the given filter criteria. In case no terms of delivery matches the given filter criteria an empty collection is returned. If the filter field supports place holders ('*' or '%'), you get all terms of deliveries back beginning with the value of the filter which means a place holder at the end of the filter value is added automatically.
+      operationId: searchTermsOfDeliveries
+      parameters:
+      - name: ident_code_like
+        in: query
+        description: Filter terms of deliveries by ident code.<br>In the example, all terms of deliveries which includes 'D' are returned.<br>This filter field is case insensitive.<br>Place holders are supported. The ident code is unique.
+        schema:
+          maxLength: 20
+          minLength: 0
+          type: string
+        example: '*D*'
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DLClientTermsOfDeliveryListRestDTO'
+              examples:
+                Terms of deliveries list:
+                  description: Terms of deliveries list
+                  value:
+                    content:
+                    - identCode: FCAG
+                      isDefault: false
+                      costType: TYPE_CHARGEABLE
+                      customsDutyTaxesType: TYPE_UNPAIDUNTAXED
+                      incotermIdentCode: FCA
+                      translations:
+                      - language: DE
+                        description: FCA - Free carrier
+                      - language: EN
+                        description: FCA - Free Carrier
+                    - identCode: EXW UNFREI/UNVERZOLL
+                      isDefault: false
+                      costType: TYPE_CHARGEABLE
+                      customsDutyTaxesType: TYPE_UNPAIDUNTAXED
+                      incotermIdentCode: EXW
+                      translations:
+                      - language: DE
+                        description: ab Werk
+                      - language: EN
+                        description: ex works
+components:
+  schemas:
+    DLClientTermsOfDeliveryRestDTO:
+      required:
+      - costType
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isDefault:
+          type: boolean
+          description: Indicates that this terms of delivery is set by default in the shipping order.
+          readOnly: true
+          example: false
+        costType:
+          type: string
+          description: The type of costs of the terms of delivery.
+          enum:
+          - CHARGEABLE
+          - FREEDELIVERY
+        customsDutyTaxesType:
+          type:
+          - string
+          - 'null'
+          description: The type of duties and taxes of the terms of delivery.
+          enum:
+          - PAIDTAXED
+          - PAIDUNTAXED
+          - TAXESUNDEFINED
+          - UNPAIDTAXED
+          - UNPAIDUNTAXED
+        incotermIdentCode:
+          type:
+          - string
+          - 'null'
+          description: The ID of the incoterm of the terms of delivery.
+        translations:
+          type: array
+          description: The name of the terms of delivery in multiple languages.
+          items:
+            $ref: '#/components/schemas/TermsOfDeliveryTextTranslation'
+      description: List of terms of deliveries.
+    DLClientTermsOfDeliveryListRestDTO:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of terms of deliveries.
+          items:
+            $ref: '#/components/schemas/DLClientTermsOfDeliveryRestDTO'
+    TermsOfDeliveryTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the terms of delivery.
+      description: Description of the terms of delivery in a certain language.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

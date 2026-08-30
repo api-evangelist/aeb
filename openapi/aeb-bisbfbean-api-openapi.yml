@@ -1,0 +1,560 @@
+openapi: 3.2.0
+info:
+  title: Customs Broker Portal HTTP BISBF Bean API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/test2broker/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: BISBFBean
+  description: Business facade for handling BrokerInstructions.
+paths:
+  /BISBFBean/acknowledgeGetCustomerBrokerInstructions:
+    post:
+      tags:
+      - BISBFBean
+      description: 'Acknowledge, that the result of calling {@link #getCustomerBrokerInstructions(GetCustomerBrokerInstructionsRequestDTO)} was processed.'
+      operationId: acknowledgeGetCustomerBrokerInstructions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeGetCustomerBrokerInstructionsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeGetCustomerBrokerInstructionsResponseDTO'
+  /BISBFBean/addBrokerInstructionEvents:
+    post:
+      tags:
+      - BISBFBean
+      description: Adds events to broker instruction.
+      operationId: addBrokerInstructionEvents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddBrokerInstructionEventsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddBrokerInstructionEventsResponseDTO'
+  /BISBFBean/bisBfDummyMethod:
+    get:
+      tags:
+      - BISBFBean
+      description: Dummy method for testing.
+      operationId: bisBfDummyMethod_1
+      parameters:
+      - name: argument
+        in: query
+        description: argument
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                type: string
+  /BISBFBean/getCustomerBrokerInstructions:
+    post:
+      tags:
+      - BISBFBean
+      description: Gets broker instructions from customer.
+      operationId: getCustomerBrokerInstructions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerBrokerInstructionsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomerBrokerInstructionsResponseDTO'
+components:
+  schemas:
+    BISAttachmentDTO:
+      type: object
+      properties:
+        name:
+          maxLength: 250
+          type: string
+          description: The name of the attachment, e.g. a file name with extension.
+        attachmentCode:
+          maxLength: 50
+          type: string
+          description: The identifier of the attachment.
+          enum:
+          - EAD_FILE
+          - TAD_FILE
+          - POE_FILE
+          - TAX_FILE
+          - SAD_FILE
+          - PREEAD_FILE
+          - PRETAD_FILE
+          - PRETAX_FILE
+          - PRESAD_FILE
+          - BROKER_FILE
+          - (Self defined identifier)
+        identifier:
+          maxLength: 50
+          type: string
+          description: The identifier of the attachment.
+          deprecated: true
+          enum:
+          - EAD_FILE
+          - TAD_FILE
+          - POE_FILE
+          - TAX_FILE
+          - SAD_FILE
+          - BROKER_FILE
+          - (Self defined identifier)
+        content:
+          type: string
+          description: The actual binary content of the attachment
+          format: byte
+      description: Data transfer object to hold attachment data.
+    AmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    DateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
+    AddBrokerInstructionEventsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Result data for adding events to a broker instruction.
+    BISAmountOfMoneyDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        amountCode:
+          type: string
+          description: Code specifying the type of monetary value. <p>length=20</p>
+        description:
+          type: string
+          description: Description of the declaration value type. <p>length=250</p>
+        amount:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+      description: DTO to hold data representing an amount.
+    AcknowledgeGetCustomerBrokerInstructionsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          maxLength: 20
+          type: string
+          description: Synchronization ID for for acknowledging. <p> Use this syncId in subsequent calls to IBISBF#acknowledgeGetCustomerBrokerInstructions(AcknowledgeGetCustomerBrokerInstructionsRequestDTO) to acknowledge the processing of the calling of IBISBF#getCustomerBrokerInstructions(GetCustomerBrokerInstructionsRequestDTO). </p> <p> This syncId may be null if no broker instructions were found to synchronize.  In this case no call to IBISBF#acknowledgeGetCustomerBrokerInstructions(AcknowledgeGetCustomerBrokerInstructionsRequestDTO) is necessary.
+      description: ' Request parameter for IBISBF#acknowledgeGetCustomerBrokerInstructions(AcknowledgeGetCustomerBrokerInstructionsRequestDTO)'
+    GetCustomerBrokerInstructionsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        clientCode:
+          type: string
+          description: The ident code of client.
+        brokerInstructions:
+          type: array
+          description: The broker instructions from customer.
+          items:
+            $ref: '#/components/schemas/BrokerInstructionEnvelopeDTO'
+        syncId:
+          maxLength: 20
+          type: string
+          description: Synchronization ID for for acknowledging. <p> Use this syncId in subsequent calls to IBISBF#acknowledgeGetCustomerBrokerInstructions(AcknowledgeGetCustomerBrokerInstructionsRequestDTO) to acknowledge the processing of the calling of IBISBF#getCustomerBrokerInstructions(GetCustomerBrokerInstructionsRequestDTO). </p> <p> This syncId may be null if no broker instructions were found to synchronize.  In this case no call to IBISBF#acknowledgeGetCustomerBrokerInstructions(AcknowledgeGetCustomerBrokerInstructionsRequestDTO) is necessary.
+        isComplete:
+          type: boolean
+          description: ' True, if the synchronization is complete and currently no further modified declarations are available. False if not.<br> In this case, after acknowledging with de.aeb.xnsg.ic.bf.IInternationalCustomsBF#acknowledgeGetChangedDeclarations(ICAcknowledgeGetChangedDeclarationsRequestDTO), an immediate second call to de.aeb.xnsg.ic.bf.IInternationalCustomsBF#getChangedDeclarations(ICGetChangedDeclarationsRequestDTO) would be sensible.<p> Because a maximum of 100 declarations are returned with one call of de.aeb.xnsg.ic.bf.IInternationalCustomsBF#getChangedDeclarations(ICGetChangedDeclarationsRequestDTO),  the result may be incomplete.</p>'
+      description: Result data for getting customer broker instructions.
+    CustomsBrokerDeclarationReferenceDTO:
+      type: object
+      properties:
+        declarationProcess:
+          type: string
+          description: The declaration process of the customs declaration.
+          enum:
+          - IMPORT
+          - SECURITY_IMPORT
+          - EXPORT
+          - TRANSIT_DEPARTURE
+        localReference:
+          type: string
+          description: Local unique reference number<p> length=40 </p>
+        customsRegistrationNumber:
+          type: string
+          description: Registration number given by customs (e.g. MRN, CRN, ...) <p> length=40 </p>
+      description: Minimal reference DTO to identify a customs broker declaration.
+    AcknowledgeGetCustomerBrokerInstructionsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: ' Response (result) for IBISBF#acknowledgeGetCustomerBrokerInstructions(AcknowledgeGetCustomerBrokerInstructionsRequestDTO).'
+    BrokerEventReferenceDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          type: string
+          description: Type of the reference. Possible values are 'mrn', 'lrn'. Further types are documented in the API description. <p>length=20</p>
+        value:
+          maxLength: 40
+          type: string
+          description: Value of the reference.
+      description: DTO to hold a references value.
+    GetCustomerBrokerInstructionsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+      description: Body data for getting customer broker instructions.
+    QuantityDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: A quantity with a value and a quantity unit. Quantity units are encoded by using AEB unit codes mainly based on the International System of Unit (e.g. 'Gram' is encoded by the code 'gr') or - if supported - UNECE unit codes (e.g. 'Gram' is encoded by the code 'GRM').<br>Recoding of the quantity unit code from capital letters to small letters (e.g. from 'LB' to 'lb') may be supported, depending on the AEB product.<br>The quantity unit type is specified by the usage context, i.e. if this quantity is a weight, a volume or similar.
+    AddBrokerInstructionEventsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        createDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        localReference:
+          maxLength: 35
+          type: string
+          description: Local reference of the broker instruction.
+          example: ST6CGC00AD2000200145
+        totalNumberCustomsDeclarations:
+          maximum: 999
+          type:
+          - integer
+          - 'null'
+          description: ' (Optional) Number of customs declarations generated for this broker instruction. If it is left empty, exactly one customs declaration is expected.'
+          format: int32
+        events:
+          type: array
+          description: Events
+          items:
+            $ref: '#/components/schemas/BrokerEventsEventDTO'
+      description: Body data for adding events to a broker instruction.
+    BrokerEventsEventDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          type: string
+          description: IdentCode of the event sent
+          enum:
+          - SND
+          - RLD
+          - DEP
+          - TAX
+          - CPLT
+          - INFO
+          - ARC
+          - INV
+          - CANCEL
+          - CANREJ
+          - CANREQ (only for internal use)
+          - ACK
+          - CTRL
+        typeQualifier:
+          maxLength: 35
+          type: string
+          description: Optional qualifier for event type. Currently, it is only used for the event controls 'CTRL' for the detailed type information.
+          enum:
+          - PHYSICAL_CONTROL
+          - DOCUMENT_CONTROL
+          - OTHER
+        actualDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        declarationProcess:
+          type: string
+          description: The declaration process of the referenced broker declarations.
+          enum:
+          - IMPORT
+          - SECURITY_IMPORT
+          - EXPORT
+          - TRANSIT_DEPARTURE
+          - IMPORT
+          - EXPORT
+          - TRANSIT_DEPARTURE
+          - SECURITY_IMPORT
+        amountsOfMoney:
+          type:
+          - array
+          - 'null'
+          description: (Optional) List of amount of moneys. (e.g. Tax, Duty value)
+          items:
+            $ref: '#/components/schemas/BISAmountOfMoneyDTO'
+        references:
+          type:
+          - array
+          - 'null'
+          description: Reference values. MRN is mandatory latest with event 'RLD' and LRN is mandatory when multiple declarations are uploaded. Further references can be uploaded.
+          items:
+            $ref: '#/components/schemas/BrokerEventReferenceDTO'
+        additionalInfo:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: (Optional) Additional informations supplied from the broker.
+        problem:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: (Optional) Problem description.
+        documents:
+          type:
+          - array
+          - 'null'
+          description: (Optional) Document name and identifiers for documents. This field is mandatory for some events.
+          items:
+            $ref: '#/components/schemas/BISAttachmentDTO'
+        totalGrossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        totalNumberItems:
+          maxLength: 5
+          type:
+          - integer
+          - 'null'
+          description: (Optional) TotalNumber of items of the customs declaration.
+          format: int32
+        totalNumberPackages:
+          maxLength: 9
+          type:
+          - integer
+          - 'null'
+          description: (Optional) TotalNumber of packages of the customs declaration.
+          format: int32
+        isIncomplete:
+          type:
+          - boolean
+          - 'null'
+          description: (Optional) Indicates that the customs declaration should not be completed automatically. Option is relevant only for events DEP and TAX.
+      description: DTO to hold an event.
+    BrokerInstructionEnvelopeDTO:
+      type: object
+      properties:
+        usecase:
+          type: string
+          description: Indicates that the broker instruction was created or updated by customer.
+          enum:
+          - CREATE
+          - UPDATE
+          - CANCEL
+        localReference:
+          type: string
+          description: The local reference number of the broker instruction.
+        customsDeclarations:
+          type: array
+          description: Customs declarations for the broker instruction. (Only used for the usecase 'CANCEL')
+          items:
+            $ref: '#/components/schemas/CustomsBrokerDeclarationReferenceDTO'
+        attachments:
+          type: array
+          description: The attachments of the broker instruction.
+          items:
+            $ref: '#/components/schemas/BISAttachmentDTO'
+      description: DTO to hold the data of a broker instruction
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

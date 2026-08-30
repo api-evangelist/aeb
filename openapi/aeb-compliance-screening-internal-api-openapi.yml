@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: Trade Compliance Management HTTP Compliance Screening Internal API
+  description: Thank you for using our HTTP API documentation.
+  version: '4.0'
+servers:
+- url: https://rz3.aeb.de/test4ce/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Compliance Screening Internal
+  description: Internal API for compliance screening
+paths:
+  /ComplianceScreeningInternal/setFinalReferenceComment:
+    post:
+      tags:
+      - Compliance Screening Internal
+      summary: Update existing reference comments.
+      description: Update the reference comment for existing screening protocols. This method should only be called by the SAP plugin, which always provides a reference comment containing "[SAP has not assigned a no. yet]" in the first screening. This placeholder is supposed to be replaced with the help of this method (although the whole reference comment must be passed).
+      operationId: setFinalReferenceComment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetFinalCommentRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/SetFinalCommentRequestDTO'
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetFinalCommentRequestDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SetFinalCommentRequestDTO'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '405':
+          description: Method not allowed. Use POST.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '406':
+          description: Not Acceptable. This resource produces application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json or application/xml.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+        '500':
+          description: Internal server error. See errorMessage for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorData'
+components:
+  schemas:
+    SetFinalCommentRequestDTO:
+      required:
+      - referenceComment
+      - referenceId
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        referenceId:
+          type: string
+          description: Combined with <code>clientIdentCode</code> and <code>clientSystemId</code>, uniquely identifies the screening protocol in question.
+          example: CUSNO=4711;CLIENT=800;USER=BEN003;PC=PC-PHILIPP
+        referenceComment:
+          type: string
+          description: The updated reference comment.
+          example: 'Customer no.: 4711, Client: 800, User: BEN003, Pc: PC-PHILIPP'
+      description: Request DTO for <code>/ComplianceScreeningInternal/setFinalReferenceComment</code> containing identifying data for the entries to be updated as well as the new reference comment.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

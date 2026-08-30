@@ -1,0 +1,50 @@
+openapi: 3.2.0
+info:
+  title: BSM (TEST2) HTTP SAP® SAP® API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: SAP®
+  description: All SAP® specific APIs to interact with the BSM.
+paths:
+  /SAP/handleEvent:
+    post:
+      tags:
+      - SAP®
+      summary: Handle SAP® events.
+      description: Handles events from SAP® to process according to customizing.
+      operationId: handleEvent
+      requestBody:
+        description: Event data as JSON String.
+        content:
+          application/cloudevents+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK. The operation response. See response schema documentation for details.
+        '401':
+          description: Unauthorized. Missing or invalid authorization token.
+        '405':
+          description: Method not allowed. Use POST.
+        '406':
+          description: Not Acceptable. This resource produces application/json.
+        '415':
+          description: Unsupported Media Type. This resource accepts application/json.
+        '500':
+          description: Other errors, like a malformed request or internal server error. See errorMessage for details.
+components:
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

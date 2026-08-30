@@ -1,0 +1,313 @@
+openapi: 3.2.0
+info:
+  title: Customs Management HTTP Document extractions API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2ici/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Document extractions
+  description: Document extractions API
+paths:
+  /v1/document-extractions:
+    post:
+      tags:
+      - Document extractions
+      summary: Creates a list of document extractions for the given documents
+      operationId: create-document-extractions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ICCreateDocumentExtractionRequestDTO'
+      responses:
+        '200':
+          description: Document extractions successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ICCreateDocumentExtractionResponseDTO'
+        '400':
+          description: Request contained invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+        '500':
+          description: Internal server error occurred
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDTO'
+components:
+  schemas:
+    ErrorResponseMessageDTO:
+      type: object
+      properties:
+        messageIdentCode:
+          type: string
+          description: Code identifying the type of the error.
+          example: EMPTY_MANDATORY_FIELD
+        messageTexts:
+          type: array
+          description: Description of the error in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        field:
+          type: string
+          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
+          example: item[2].itemNumber
+        invalidValue:
+          type: string
+          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
+          example: 'null'
+      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+    ICDocumentExtractionCreationDTO:
+      required:
+      - commercialReference
+      - foreignId
+      - profileCode
+      type: object
+      properties:
+        foreignId:
+          maxLength: 255
+          type: string
+          description: Foreign ID provided by the client to link the document extraction to an external entity.
+          example: ID0815
+        organizationUnit:
+          maxLength: 255
+          type: string
+          description: Additional criteria to separate different organizational units.
+        commercialReference:
+          maxLength: 70
+          type: string
+          description: Commercial reference provided by the client.
+          example: REF123
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Profile code to determine the processing rules for the document extraction.
+          example: STD
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDocumentExtractionDocumentWithContentDTO'
+      description: The payload for creating a new document extraction.
+    ICCreateDocumentExtractionRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        documentExtractions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDocumentExtractionCreationDTO'
+      description: Request data for creating document extractions.
+    ICDocumentExtractionDTO:
+      type: object
+      properties:
+        id:
+          maxLength: 20
+          type: string
+          description: Document extraction ID.
+          example: YZB6CGC0000000714400
+        foreignId:
+          maxLength: 255
+          type: string
+          description: Foreign ID provided at creation time.
+          example: ID0815
+        createdAt:
+          type: string
+          description: Creation date of the document extraction.
+          format: date
+          example: '2026-03-18'
+        consignmentId:
+          maxLength: 20
+          type: string
+          description: Consignment ID if the document extraction is linked to a consignment.
+          example: YZB6CGC0000000714300
+        commercialReference:
+          maxLength: 70
+          type: string
+          description: Commercial reference provided at creation time.
+          example: REF123
+        status:
+          type: string
+          description: The processing status of a document extraction.
+          example: REVIEW
+          enum:
+          - NEW
+          - PROCESSING
+          - REVIEW
+          - COMPLETE
+          - INVALID
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Profile code associated with the document extraction.
+          example: STD
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDocumentExtractionDocumentDTO'
+      description: A document extraction with its current processing state and associated documents.
+    ProblemDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A URI reference that uniquely identifies the problem type in the context of the provided API. Opposed to the specification in RFC-7807, it neither points to a human-readable documentation nor globally unique for the problem type.
+          default: about:blank
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          format: int32
+          example: 400
+        title:
+          type: string
+          description: A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
+          example: Bad request
+        detail:
+          type: string
+          description: A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.
+          example: Some description for the error situation
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.
+          example: example-resouce/id1
+        errors:
+          type: array
+          description: Error messages.
+          items:
+            $ref: '#/components/schemas/ErrorResponseMessageDTO'
+      description: The response DTO which indicates that a problem occurred when processing the request. See RFC 7807 for further specification details.
+      externalDocs:
+        url: https://tools.ietf.org/html/rfc7807
+    ICDocumentExtractionDocumentWithContentDTO:
+      required:
+      - content
+      - fileName
+      - mediaType
+      type: object
+      properties:
+        fileName:
+          maxLength: 250
+          type: string
+          description: Name of the document file.
+          example: Invoice-0815.pdf
+        mediaType:
+          maxLength: 50
+          type: string
+          description: Media type of the document.
+          example: application/pdf
+        content:
+          type: string
+          description: Base64-encoded content of the document.
+          format: byte
+          example: SlZCRVJpMHhMalFLSmNmc2o2SUtOU0F3SUc=
+      description: A document including its Base64-encoded content.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    ICCreateDocumentExtractionResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        documentExtractions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDocumentExtractionDTO'
+      description: The response data of creating a new document extractions.
+    ICDocumentExtractionDocumentDTO:
+      type: object
+      properties:
+        fileName:
+          maxLength: 250
+          type: string
+          description: Name of the document file.
+          example: Invoice-0815.pdf
+        mediaType:
+          maxLength: 50
+          type: string
+          description: Media type of the document.
+          example: application/pdf
+      description: A document belonging to a document extraction, without content.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

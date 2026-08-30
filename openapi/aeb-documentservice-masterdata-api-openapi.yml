@@ -1,0 +1,968 @@
+openapi: 3.2.0
+info:
+  title: Document Service (DEMO1) HTTP Document Service Master Data API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/demo1docs/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: DocumentService_MasterData
+  description: REST API for the Document Service master data maintenance
+paths:
+  /DocumentService/docType/{identCode}:
+    get:
+      tags:
+      - DocumentService_MasterData
+      summary: getDocType
+      description: Returns the requested document type if it is available for the caller (session client).
+      operationId: getDocType
+      parameters:
+      - name: identCode
+        in: path
+        description: Unique document type id
+        required: true
+        schema:
+          type: string
+        example: DEMODOC
+      responses:
+        '200':
+          description: Document type data was successfully returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocTypeResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetDocTypeResponseDTO'
+        '404':
+          description: The required document type was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    put:
+      tags:
+      - DocumentService_MasterData
+      summary: putDocType
+      description: Store data of the provided document type. Access is restricted to the `I_DOCUMENTSERVICEBF_ADMIN` role.
+      operationId: putDocType
+      parameters:
+      - name: identCode
+        in: path
+        description: Unique document type id
+        required: true
+        schema:
+          type: string
+        example: DEMODOC
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutDocTypeDataDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PutDocTypeDataDTO'
+      responses:
+        '204':
+          description: Document type was created or updated.
+        '423':
+          description: The requested document type was found but it is currently locked. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+      - DocumentService_MasterData
+      summary: deleteDocType
+      description: Delete all data of the provided document type. Access is restricted to the `I_DOCUMENTSERVICEBF_ADMIN` role.
+      operationId: deleteDocType
+      parameters:
+      - name: identCode
+        in: path
+        description: Unique document type id
+        required: true
+        schema:
+          type: string
+        example: DEMODOC
+      - name: withTemplate
+        in: query
+        description: Also deletes the template if available and if it is managed externally.
+        schema:
+          type: boolean
+          default: false
+        example: false
+      responses:
+        '204':
+          description: Document type was successfully deleted.
+        '404':
+          description: The required document type was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '423':
+          description: The requested document type was found but it is currently locked. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /DocumentService/docType:
+    get:
+      tags:
+      - DocumentService_MasterData
+      summary: getDocTypes
+      description: Executes a search query on the document types. Only the documents that are visible to the caller (session client) are returned.
+      operationId: getDocTypes
+      responses:
+        '200':
+          description: Found document types data was successfully returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocTypesResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetDocTypesResponseDTO'
+  /DocumentService/referenceType/{identCode}:
+    get:
+      tags:
+      - DocumentService_MasterData
+      summary: getReferenceObjectType
+      description: Retrieve data for the requested document reference object type.
+      operationId: getDocumentReferenceObjectType
+      parameters:
+      - name: identCode
+        in: path
+        description: Unique document reference object type id
+        required: true
+        schema:
+          type: string
+        example: SHIPMENT
+      responses:
+        '200':
+          description: Document reference object type data was successfully returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocumentReferenceObjectTypeResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetDocumentReferenceObjectTypeResponseDTO'
+        '404':
+          description: The required document reference object type was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    put:
+      tags:
+      - DocumentService_MasterData
+      summary: putReferenceObjectType
+      description: Store data of the provided document reference object type. Access is restricted to the `I_DOCUMENTSERVICEBF_ADMIN` role.
+      operationId: putDocumentReferenceObjectType
+      parameters:
+      - name: identCode
+        in: path
+        description: Unique document reference object type id
+        required: true
+        schema:
+          type: string
+        example: SHIPMENT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutDocumentReferenceObjectTypeDataDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PutDocumentReferenceObjectTypeDataDTO'
+      responses:
+        '204':
+          description: Document reference object type was created or updated.
+        '400':
+          description: Document reference object type was found but can't be deleted (e.g. client access denied).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '423':
+          description: The requested document reference object type was found but it is currently locked. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+      - DocumentService_MasterData
+      summary: deleteReferenceObjectType
+      description: Delete all data of the provided document reference object type. Access is restricted to the `I_DOCUMENTSERVICEBF_ADMIN` role.
+      operationId: deleteDocumentReferenceObjectType
+      parameters:
+      - name: identCode
+        in: path
+        description: Unique document reference object type id
+        required: true
+        schema:
+          type: string
+        example: SHIPMENT
+      responses:
+        '204':
+          description: Document reference object type was successfully deleted.
+        '400':
+          description: Document reference object type was found but can't be deleted (e.g. client access denied).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The required document reference object type was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '423':
+          description: The requested document reference object type was found but it is currently locked. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /DocumentService/referenceType:
+    get:
+      tags:
+      - DocumentService_MasterData
+      summary: getReferenceObjectTypes
+      description: Executes a search query on the document reference object types. Only the records that are visible to the caller (session client) are returned.
+      operationId: getDocumentReferenceObjectTypes
+      parameters:
+      - name: clientDependentOnly
+        in: query
+        description: Indicates that the result records will be limited to those that belong to the context client. If `false`, client-independent records are returned, too. Default is `false`.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Found document reference object types data was successfully returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocumentReferenceObjectTypesResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GetDocumentReferenceObjectTypesResponseDTO'
+  /DocumentService/template/{fileName}:
+    put:
+      tags:
+      - DocumentService_MasterData
+      summary: putDocumentTemplate
+      description: Store data of the provided document template. Access is restricted to the `I_DOCUMENTSERVICEBF_ADMIN` role.
+      operationId: putDocumentTemplate
+      parameters:
+      - name: fileName
+        in: path
+        description: Document template file name
+        required: true
+        schema:
+          type: string
+        example: DemoDoc10.pdf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutDocumentTemplateDataDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PutDocumentTemplateDataDTO'
+      responses:
+        '204':
+          description: Document template was created or updated.
+        '400':
+          description: The required document template can't be handled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '423':
+          description: The requested document template was found but it is currently locked. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+      - DocumentService_MasterData
+      summary: deleteDocumentTemplate
+      description: Delete all data of the provided document template. Access is restricted to the `I_DOCUMENTSERVICEBF_ADMIN` role.
+      operationId: deleteDocumentTemplate
+      parameters:
+      - name: fileName
+        in: path
+        description: Document template file name
+        required: true
+        schema:
+          type: string
+        example: DemoDoc10.pdf
+      responses:
+        '204':
+          description: Document template was successfully deleted.
+        '400':
+          description: The required document template can't be handled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The required document template was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '423':
+          description: The requested document template was found but it is currently locked. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+components:
+  schemas:
+    DocumentTemplateSchemaDTO:
+      type: object
+      properties:
+        rootTypeName:
+          type: string
+          description: Name of the root data element type.
+          example: documentData
+        types:
+          type: array
+          description: Object types included in the schema.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateSchemaObjectTypeDTO'
+      description: Schema
+    GetDocTypesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        documentTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocTypeDTO'
+      xml:
+        name: GetDocTypesResponse
+    DocumentTemplateLocalizedTextDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Unique text key. The `key` is the applicable via `{{key}}` in the template.
+          example: refNrLabel
+        text:
+          type: string
+          description: Localized text.
+          example: Ref. Nō
+    DocumentTemplateDocumentationTextDTO:
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          type: string
+          description: 2-letter language code as defined in ISO-639.
+          example: en
+        description:
+          type: string
+          description: Short (one-line) template title / description.
+          example: Sample referent document
+        text:
+          type: string
+          description: Complete (multi-line) template documentation.
+          example: Document containing the referent number
+      description: Localized documentation texts.
+    DocumentTemplateArchiveFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the archive field. Starts and ends with an upper-case letter; only contains upper-case letters, digits, "_". Pattern: `^[A-Z][A-Z0-9_]*[A-Z0-9]$|^[A-Z]$`'
+          example: REF_NR
+        path:
+          type: string
+          description: Slash-separated path to a field. The path must match the document data schema root object hierarchy.
+          example: refNr
+      description: Archive fields.
+    LocalizedIdentCodeDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Reference object type identifier.
+          example: SHIPMENT
+        label:
+          type: string
+          description: Reference object type label.
+          example: Shipment/Consignment
+    DocumentReferenceObjectTypeDTO:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          type: string
+          description: The unique identCode of the type. <p>length=50</p>
+          example: SHIPMENT
+        translations:
+          type: array
+          description: Translations of the type for different languages.
+          items:
+            $ref: '#/components/schemas/DocumentReferenceObjectTypeTranslationDTO'
+        isClientCustomized:
+          type: boolean
+          description: <code>true</code>, if the template is customized for the current client
+      description: DTO class for a document reference object type for maintenance purposes.
+    GetDocumentReferenceObjectTypeResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        state:
+          type: string
+          description: The result state of the request
+          enum:
+          - SUCCESS
+          - NOT_FOUND
+        referenceType:
+          $ref: '#/components/schemas/DocumentReferenceObjectTypeDTO'
+      description: Response with data of a document reference object type
+      xml:
+        name: GetDocumentReferenceObjectTypeResponse
+    DocumentTemplateSchemaObjectTypeDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the object type. Starts and ends with a letter; only contains letters, digits, "_", "$". Pattern: `^[a-zA-Z][a-zA-Z0-9_\$]*[a-zA-Z0-9]$|^[a-zA-Z]$`'
+          example: Referent
+        fields:
+          type: array
+          description: Object fields.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateSchemaFieldDTO'
+      description: Object types included in the schema.
+    DocumentReferenceObjectTypeTranslationDTO:
+      required:
+      - languageISOCode
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the description. <p>length=2</p>
+          example: de
+        name:
+          maxLength: 50
+          type: string
+          description: The name of the document reference object type <p>length=50</p>
+          example: Lieferung
+      description: Text translations for the document reference object type
+    PutDocumentReferenceObjectTypeDataDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentReferenceObjectTypeTranslationDTO'
+      xml:
+        name: PutDocumentReferenceObjectTypeData
+    DocTypeDTO:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          type: string
+          description: Unique document type identifier.<p>length=50</p>
+          example: DEMODOC
+        remark:
+          maxLength: 1000
+          type: string
+          description: Additional comment on the document type definition.
+          example: This is just an example
+        processorType:
+          type: string
+          description: Program that prepares the document in the defined format.
+          example: PDF-XFA
+          enum:
+          - PDF-XFA
+          - NICELABEL
+          - EXTPRINTABLE
+        templateName:
+          maxLength: 250
+          type: string
+          description: The name of the document template.
+          example: RefDoc.pdf
+        referenceType:
+          $ref: '#/components/schemas/LocalizedIdentCodeDTO'
+        translations:
+          type: array
+          description: Translations of the type for different languages.
+          items:
+            $ref: '#/components/schemas/DocTypeTranslationDTO'
+        templateInfo:
+          $ref: '#/components/schemas/DocTemplateInfoDTO'
+    GetDocumentReferenceObjectTypesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        referenceTypes:
+          type: array
+          description: Returns all `DocumentReferenceObjectTypeDTO`s.
+          items:
+            $ref: '#/components/schemas/DocumentReferenceObjectTypeDTO'
+      xml:
+        name: GetDocumentReferenceObjectTypesResponse
+    DocumentTemplateSchemaFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the field. Starts with a letter; only contains letters, digits, "_". Pattern: `^[a-zA-Z][a-zA-Z0-9_]*$`'
+          example: refNr
+        objectTypeName:
+          type: string
+          description: Name of the object type of the field. If empty, this field is of type `string`.
+          example: ''
+        isList:
+          type: boolean
+          description: Indicates that this field is a list. If `true`, the `objectTypeName` must be filled.
+          example: false
+        info:
+          type: string
+          description: Code description of the field.
+          example: Referent Nr.
+        documentation:
+          type: array
+          description: Localizable documentation of the field.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateSchemaFieldDocumentationDTO'
+      description: Object fields.
+    DocTemplateInfoDTO:
+      type: object
+      properties:
+        isStandard:
+          type: boolean
+        isCustomized:
+          type: boolean
+        isClientCustomized:
+          type: boolean
+        isManagedExternally:
+          type: boolean
+        externalTag:
+          type: string
+      description: Additional info on the document template.
+    DocumentTemplateDocumentationDTO:
+      type: object
+      properties:
+        isDataOnlyModeSupported:
+          type: boolean
+          description: Whether option 'Print with background' is supported.
+          example: false
+        documentationTexts:
+          type: array
+          description: Localized documentation texts.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateDocumentationTextDTO'
+      description: Additional template documentation.
+    PutDocumentTemplateDataDTO:
+      required:
+      - processorCode
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        templateFileData:
+          type: string
+          description: Content of the template file (base64 encoded)
+          format: base64
+          example: base64-encoded-template-file
+        externalTag:
+          maxLength: 64
+          type: string
+          description: Document template will be tagged with this value. Must be non-blank; maximum size of 64.
+          example: V1.0
+        createDefaultResources:
+          type: boolean
+          description: If `true`, default resources will be created (e.g. document schema and example data file extracted from the template file).
+          example: false
+        schema:
+          $ref: '#/components/schemas/DocumentTemplateSchemaDTO'
+        archiveFields:
+          type: array
+          description: Archive fields.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateArchiveFieldDTO'
+        localizedTexts:
+          type: array
+          description: Localized texts (applicable in the template via the <code>{{key}}</code> notation).
+          items:
+            $ref: '#/components/schemas/DocumentTemplateLocalizedTextsDTO'
+        exampleFiles:
+          type: array
+          description: Accompanying data example files.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateExampleFileDTO'
+        documentation:
+          $ref: '#/components/schemas/DocumentTemplateDocumentationDTO'
+        processorCode:
+          type: string
+          description: Document processor code. Possible values may differ depending on configuration.
+          example: PDF-XFA
+          enum:
+          - PDF-XFA
+          - NICELABEL
+        revisionComment:
+          type: string
+          description: Revision comment. If filled, a revision of the document template will be created before replacement.
+          example: Update v1.0
+      xml:
+        name: PutDocumentTemplateData
+    ErrorDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      xml:
+        name: Error
+    DocumentTemplateLocalizedTextsDTO:
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          type: string
+          description: 2-letter language code as defined in ISO-639.
+          example: en
+        texts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentTemplateLocalizedTextDTO'
+      description: Localized texts (applicable in the template via the <code>{{key}}</code> notation).
+    DocTypeTranslationDTO:
+      required:
+      - languageISOCode
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the description. <p>length=2</p>
+          example: de
+        description:
+          maxLength: 250
+          type: string
+          description: The description of the document type <p>length=250</p>
+          example: Referent document
+      description: Translations of the type for different languages.
+    GetDocTypeResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        documentType:
+          $ref: '#/components/schemas/DocTypeDTO'
+      xml:
+        name: GetDocTypeResponse
+    PutDocTypeDataDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        remark:
+          maxLength: 1000
+          type: string
+          description: Additional comment on the document type definition.
+          example: This is just an example document type
+        translations:
+          type: array
+          description: Translations of the type for different languages.
+          items:
+            $ref: '#/components/schemas/DocTypeTranslationDTO'
+        mergeTranslations:
+          maxLength: 1000
+          type: boolean
+          description: "If set to `true`, any existing translations will be retained.\tTranslations from the request will only be used to create missing values.\tDefault: false"
+          default: false
+        templateName:
+          maxLength: 250
+          type: string
+          description: "The name of the template to use (when required). If no name has been defined the identCode is regarded as template name.\tThe template must exists before creating the document type or the template must be defined in the request."
+          example: ''
+        referenceType:
+          type: string
+          description: Type of the reference object for which the document type is valid.
+          example: SHIPMENT
+        autoCreateReferenceObjectType:
+          type: boolean
+          description: "If set to `true` the reference object type will be created, too.\tDefault: false."
+          default: false
+        defaultOutputSettingsIdentCode:
+          type: string
+          description: Identcode of the output settings default preset.
+          example: Standard
+        defaultOutputSettingsUpdate:
+          type: boolean
+          description: 'If set to `true`, the default output settings (`defaultOutputSettingsIdentCode`) are always applied, even if the document type has been modified manually since it was created. If `false` or not set, the default output settings are only applied when the document type has not been modified after its creation, so that manual customizations are not overwritten. Default: false.'
+          default: false
+        processorCode:
+          type: string
+          description: Document processor code. Possible values may differ depending on configuration.
+          example: PDF-XFA
+          enum:
+          - PDF-XFA
+          - NICELABEL
+          - EXTPRINTABLE
+        template:
+          $ref: '#/components/schemas/PutDocTypeTemplateDTO'
+      xml:
+        name: PutDocTypeData
+    DocumentTemplateExampleFileDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: File name (name + extension) of the example.
+          example: RefDoc.example.xml
+        xmlData:
+          type: string
+          description: XML content of the example document data file (base64 encoded).
+          format: base64
+          example: base64-encoded-example-file
+      description: Accompanying data example files.
+    DocumentTemplateSchemaFieldDocumentationDTO:
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          type: string
+          description: 2-letter language code as defined in ISO-639.
+          example: en
+        text:
+          type: string
+          description: Localized field documentation.
+          example: Referent number
+      description: Localizable documentation of the field.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    PutDocTypeTemplateDTO:
+      type: object
+      properties:
+        name:
+          maxLength: 250
+          type: string
+          description: 'Name of the document template (and, implicitly, name for the template file). Must have an file extension as expected by the processor (PDF-XFA: ".pdf", NICELABEL: ".nlbl").'
+          example: RefDoc.pdf
+        templateFileData:
+          type: string
+          description: Content of the template file (base64 encoded)
+          format: base64
+          example: base64-encoded-template-file
+        externalTag:
+          maxLength: 64
+          type: string
+          description: Document template will be tagged with this value. Must be non-blank; maximum size of 64.
+          example: V1.0
+        createDefaultResources:
+          type: boolean
+          description: If `true`, default resources will be created (e.g. document schema and example data file extracted from the template file).
+          example: false
+        schema:
+          $ref: '#/components/schemas/DocumentTemplateSchemaDTO'
+        archiveFields:
+          type: array
+          description: Archive fields.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateArchiveFieldDTO'
+        localizedTexts:
+          type: array
+          description: Localized texts (applicable in the template via the <code>{{key}}</code> notation).
+          items:
+            $ref: '#/components/schemas/DocumentTemplateLocalizedTextsDTO'
+        exampleFiles:
+          type: array
+          description: Accompanying data example files.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateExampleFileDTO'
+        documentation:
+          $ref: '#/components/schemas/DocumentTemplateDocumentationDTO'
+        revisionComment:
+          type: string
+          description: Revision comment. If filled, a revision of the document template will be created before replacement.
+          example: Update v1.0
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

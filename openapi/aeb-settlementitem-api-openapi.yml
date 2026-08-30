@@ -1,0 +1,590 @@
+openapi: 3.2.0
+info:
+  title: Logistics Cost Management HTTP Settlement Item API
+  description: Thank you for using our HTTP API documentation.
+  version: '2.0'
+servers:
+- url: https://rz3.aeb.de/demo1billing/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: SettlementItem
+  description: REST API for settlementitems
+paths:
+  /settlements/{id}/settlement-items:
+    get:
+      tags:
+      - SettlementItem
+      summary: Search settlements
+      description: Returns all settlement items matching the given filter criteria. In case no settlement items matches, an empty collection is returned. Supports wildcards in filter fields.
+      operationId: searchSettlementItem
+      parameters:
+      - name: id
+        in: path
+        description: The Settlementnumber of the requested Settlement.
+        required: true
+        schema:
+          type: string
+        example: '000001'
+      - name: offset
+        in: query
+        description: 'The starting point from which to return elements of the ordered list.<br><i>Minimum : 0</i>'
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: limit
+        in: query
+        description: 'The maximum number of elements to be returned from the ordered list.<br><i>Minimum : 1</i><br><i>Maximum : 1000</i>'
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+        example: 200
+      responses:
+        '200':
+          description: Successful call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementItem'
+              examples:
+                Settlement entry:
+                  description: Settlement entry
+                  value:
+                    orderNumber: ORD-556677
+                    serviceItemId: SRVITEM-00042
+                    numberInServiceItem: 1
+                    referenceNumber: REF-456
+                    serviceItemDescription: International freight – sea FCL
+                    orderDate: '2025-09-10'
+                    referenceDate: '2025-09-15'
+                    chargeDate: '2025-09-20'
+                    serviceDate: '2025-09-21'
+                    createdAt: '2025-09-21T14:22:05Z'
+                    isCancelled: false
+                    boStatus:
+                      statusID: 210
+                      dirty: false
+                      identCode: ITEM_READY
+                      error: false
+                    clientSystemId: CLIENT_SYS_A
+                    clientOrgaId: CL001
+                    costCenter: COST-CC-01
+                    provider:
+                      companyNo: PROV001
+                    orderer:
+                      companyNo: ORD001
+                    payer:
+                      companyNo: PAY001
+                    beneficiary:
+                      companyNo: BEN001
+                    billingScenario:
+                      identCode: BILL_SCEN_STD
+                    serviceId: SRV_TRANSPORT
+                    quantity:
+                      value: 10.0
+                      unit: PALLET
+                      factor: '1'
+                    pricingDate: '2025-09-18'
+                    calcRef:
+                      contractNumber: CON-778899
+                      apsContractNumber: APS-1122
+                      apsNumber: 3
+                      apsSchemaNumber: APS-SCHEMA-01
+                      apsComponentNumber: 5
+                      calcSchemaNumber: CALC-SCHEMA-ROOT
+                      calcComponentNumber: 12
+                      calcComponentAttribute: BASE
+                      calcCompDescription: Base tariff component
+                      calcTid: GENERIC
+                      calcGenericIdentCode: GEN_TARIFF
+                    translations:
+                    - description: International freight – sea FCL
+                    - description: Internationale Seefracht – FCL
+                    chargeableQty:
+                      value: 10.0
+                      unit: PALLET
+                      factor: '1'
+                    groupingIdentCode1: GRP_ORIGIN
+                    groupingIdentCode2: GRP_DESTINATION
+                    priceType: STANDARD
+                    settlementType:
+                      identCode: STANDARD
+                      scenIdentCode: SCEN_MAIN
+                    period:
+                      start: '2025-09-01'
+                      end: '2025-09-30'
+                      type: MONTH
+                    price:
+                      value: 100.0
+                      currency: EUR
+                    settlementPrice:
+                      value: 100.0
+                      currency: EUR
+                    settlVatPrice:
+                      value: 19.0
+                      currency: EUR
+                    settlGrsPrice:
+                      value: 119.0
+                      currency: EUR
+                    settlementPriceRate:
+                      quantNot: 1.0
+                      valueNot: 1.067
+                      isoCurrTo: USD
+                      tableCode: ECB
+                      rateDate: '2025-09-30'
+                      validFrom: '2025-09-29'
+                    clientPrice:
+                      value: 106.7
+                      currency: USD
+                    kindOfCreation:
+                      code: AUTO
+                    creationReason: Automatically generated from contract.
+                    reason: BASE
+                    vatInfo:
+                      scenarioIdentCode: VAT_SCEN_STD
+                      typeIdentCode: VAT_STD
+                      ratePercent: 19.0
+                      vatDate: '2025-09-30'
+                    vatSplitCode: VAT_SPLIT_A
+                    comparisonCode:
+                      code1: CMP1
+                      code2: CMP2
+                    archiveInfo:
+                      archiveState: NEW
+                      archivedAt: '2025-09-21T14:22:05Z'
+                      archiveId: ARCH-ITEM-0001
+                      transactionId: TX-ITEM-123456
+                      onRetrySince: '2025-09-21T14:22:05Z'
+                    parentItemId: null
+                    rootItemId: ROOT-ITEM-0001
+                    childItemIds:
+                    - ROOT-ITEM-0001-CH1
+                    - ROOT-ITEM-0001-CH2
+                    settlementId: SETTL-2025-000123
+                    storageAdapterId: S3-STORAGE-01
+        '404':
+          description: Requested settlement does not exist.
+          content:
+            application/json:
+              examples:
+                Settlement not found:
+                  description: Settlement not found
+                  value:
+                    error: No settlement with the ID '0001' found.
+components:
+  schemas:
+    BSettlementItemTranslationRestDTO:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the model object.
+      description: localized descriptions.
+    VATInfoRestDTO:
+      required:
+      - ratePercent
+      - scenarioIdentCode
+      - typeIdentCode
+      - vatDate
+      type: object
+      properties:
+        scenarioIdentCode:
+          type: string
+          description: Scenario ID
+        typeIdentCode:
+          type: string
+          description: VAT Type ID
+        ratePercent:
+          type: number
+          description: VAT rate in %.
+        vatDate:
+          type: string
+          description: VAT date
+          format: date-time
+      description: VAT info including rate and type.
+    ComparisonCodeRestDTO:
+      required:
+      - code1
+      - code2
+      type: object
+      properties:
+        code1:
+          type: string
+          description: Comparison Code 1.
+        code2:
+          type: string
+          description: Comparison Code 2.
+      description: Comparison codes (used for audits / grouping).
+    BQuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: Quantities for Billing.
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
+    CalculationReferencesRestDTO:
+      type: object
+      properties:
+        contractNumber:
+          type: string
+          description: The Number of the contract of the service item.
+        apsContractNumber:
+          type: string
+          description: ' The number of the contract that contained the pricing customizing that created the settlement item.'
+        apsNumber:
+          type: integer
+          description: The number of the assigned price schema that was selected from the contract.
+          format: int32
+        apsSchemaNumber:
+          type: string
+          description: ' Number of the price schema of the assigned price schema. In case of a master price schema this is not the schema that contains the component that calculated the settlement item.'
+        apsComponentNumber:
+          type: integer
+          description: Number of the component from the price schema that was used. In case of a master price schema this is not the component that calculated the settlement item.
+          format: int32
+        calcSchemaNumber:
+          type: string
+          description: Number of the priceSchema that contained the component that calculated the settlement item. This is either the used master price schema or the same as apsSchemaNumber.
+        calcComponentNumber:
+          type: integer
+          description: Number of the component that calculated the settlement item.
+          format: int32
+        calcComponentAttribute:
+          type: string
+          description: Mark of the component that calculated the settlement item.
+        calcCompDescription:
+          type: string
+          description: Description of the component that calculated the settlement item.
+        calcTid:
+          type: string
+          description: TID of the  CPriceCalculation-subclass of the component that calculated the settlement item. Either fix-price, business rule, or generic. Never master price schema.
+        calcGenericIdentCode:
+          type: string
+          description: Ident code of the generic calculation type of the component that calculated the settlement item. Empty if the price calculation is not generic.
+      description: Calculation references (contract/component numbers).
+    PeriodRestDTO:
+      required:
+      - end
+      - start
+      - type
+      type: object
+      properties:
+        start:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        end:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        type:
+          type: string
+          description: The Type of Period.
+          enum:
+          - DAY
+          - HALFAMONTH
+          - HALFAYEAR
+          - MONTH
+          - QUARTER
+          - DECADE
+          - TWOWEEKS
+          - WEEK
+          - YEAR
+      description: Period covered by this settlement item.
+    CurrencyRateRestDTO:
+      type: object
+      properties:
+        quantityNotation:
+          type: number
+          description: Quantity notation of the currency rate.
+        valueNotation:
+          type: number
+          description: Value notation of the currency rate.
+        isoCurrencyTo:
+          type: string
+          description: ISO code of the target currency.
+        rateDate:
+          type: string
+          description: Currency rate date.
+          format: date-time
+        validFrom:
+          type: string
+          description: Valid from date.
+          format: date-time
+      description: Currency rate information for settlement price.
+    BAmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    BSettlementItemStatusRestDTO:
+      required:
+      - identCode
+      - statusID
+      type: object
+      properties:
+        statusID:
+          type: integer
+          description: The statusId
+          format: int32
+        identCode:
+          type: string
+          description: 'The status Ident Code. Possible Status Codes are: READY, COMPLETE, CANCELLED'
+          enum:
+          - READY
+          - COMPLETE
+          - CANCELLED
+      description: Business object status of the settlement item.
+    SettlementTypeRestDTO:
+      required:
+      - identCode
+      - scenarioIdentCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The SettlementType Ident Code.
+        scenarioIdentCode:
+          type: string
+          description: The Scenario Ident Code.
+      description: Settlement type (workflow classification).
+    SettlementItem:
+      required:
+      - beneficiary
+      - billingScenarioIdentCode
+      - calcRef
+      - chargeableQty
+      - clientPrice
+      - comparisonCode
+      - orderer
+      - payer
+      - period
+      - price
+      - provider
+      - quantity
+      - settlGrsPrice
+      - settlVatPrice
+      - settlementPrice
+      - settlementType
+      - status
+      - vatInfo
+      type: object
+      properties:
+        orderNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Order number (reference from original service item).
+        serviceItemId:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Service item technical id.
+        numberInServiceItem:
+          type: integer
+          description: Sequential number of this settlement item within the service item.
+          format: int32
+        referenceNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Primary reference number of the item.
+        serviceItemDescription:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: Description copied from service item (long description).
+        orderDate:
+          type: string
+          description: Order date of the underlying service item.
+          format: date-time
+        referenceDate:
+          type: string
+          description: Main reference date of the service item.
+          format: date-time
+        chargeDate:
+          type: string
+          description: Charge date relevant for period assignment.
+          format: date-time
+        serviceDate:
+          type: string
+          description: Service (fulfillment) date of the item.
+          format: date-time
+        createdAt:
+          type: string
+          description: Timestamp when the settlement item was created.
+          format: date-time
+        status:
+          $ref: '#/components/schemas/BSettlementItemStatusRestDTO'
+        clientSystemId:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Client system identifier.
+        clientOrgaId:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: Client organization identifier.
+        costCenter:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Cost center code for the item.
+        provider:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        orderer:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        payer:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        beneficiary:
+          $ref: '#/components/schemas/BSettlementCompanyRestDTO'
+        billingScenarioIdentCode:
+          type: string
+          description: Billing scenario ident code (pricing context).
+        serviceIdentCode:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Primary service associated with the settlement item.
+        quantity:
+          $ref: '#/components/schemas/BQuantityDTO'
+        pricingDate:
+          type: string
+          description: Pricing date used to evaluate contract validity.
+          format: date-time
+        calcRef:
+          $ref: '#/components/schemas/CalculationReferencesRestDTO'
+        descriptions:
+          type: array
+          description: localized descriptions.
+          items:
+            $ref: '#/components/schemas/BSettlementItemTranslationRestDTO'
+        chargeableQty:
+          $ref: '#/components/schemas/BQuantityDTO'
+        groupingIdentCode1:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: First grouping ident code for aggregation.
+        groupingIdentCode2:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Second grouping ident code for aggregation.
+        priceTypeIdentCode:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Price type ident code (pricing method).
+        settlementType:
+          $ref: '#/components/schemas/SettlementTypeRestDTO'
+        period:
+          $ref: '#/components/schemas/PeriodRestDTO'
+        price:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlVatPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlGrsPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        settlementPriceRate:
+          $ref: '#/components/schemas/CurrencyRateRestDTO'
+        clientPrice:
+          $ref: '#/components/schemas/BAmountOfMoneyDTO'
+        kindOfCreation:
+          type: string
+          description: Kind of creation (manual, offset, etc.).
+          enum:
+          - ADJUST
+          - EMPTY
+          - AUDIT
+          - AUDITOFFSETANNULMENT
+          - AUDITOFFSET
+          - AUDITWITHOFFSET
+          - OFFSET
+          - OTHER
+          - PRICING
+          - STTLMNTCANCELLATION
+        creationReason:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: Reason/details for creation (long description).
+        reason:
+          maxLength: 75
+          minLength: 0
+          type: string
+          description: Short reason / code for creation (short description).
+        vatInfo:
+          $ref: '#/components/schemas/VATInfoRestDTO'
+        vatSplitCode:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: VAT split code for audit/reference.
+        comparisonCode:
+          $ref: '#/components/schemas/ComparisonCodeRestDTO'
+        parentNumberInServiceItem:
+          type: integer
+          description: Parent settlement number in service item.
+          format: int32
+        settlementNumber:
+          maxLength: 50
+          type: string
+          description: Settlement internal number this item belongs to.
+      description: Settlement item REST DTO containing pricing, partner and status information, mapped from the BSettlementItem domain object.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false

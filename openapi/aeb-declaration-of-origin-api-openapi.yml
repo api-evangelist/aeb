@@ -1,0 +1,279 @@
+openapi: 3.2.0
+info:
+  title: BSM (TEST2) HTTP Declaration of Origin API
+  description: Thank you for using our HTTP API documentation.
+  version: '1.0'
+servers:
+- url: https://rz3.aeb.de/test2bsm/rest
+security:
+- SWAGGER_AUTH_KEY: []
+- BASIC_AUTH: []
+tags:
+- name: Declaration of Origin
+  description: The API with all about declaration of origin
+paths:
+  /DeclarationOfOriginBFBean/getDeclarationOfOrigin:
+    post:
+      tags:
+      - Declaration of Origin
+      summary: getDeclarationOfOrigin
+      description: Get a declaration of origin
+      operationId: getDeclarationOfOrigin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeclarationOfOriginRequestDTO'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/DeclarationOfOriginRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeclarationOfOriginResponseDTO'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DeclarationOfOriginResponseDTO'
+      security:
+      - BASIC_AUTH: []
+components:
+  schemas:
+    DeclarationOfOriginRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        organizationalUnit:
+          type: string
+          description: 'Length: 20 - The organizational unit to the corresponding business object.'
+        referenceNo:
+          type: string
+          description: 'Length: 32 - The reference number to the corresponding business object.'
+        idHost:
+          type: string
+          description: 'Length: 100 - The unique id of the host system.'
+        labelHost:
+          type: string
+          description: 'Length: 150 - The label host is a readable way of the id host.'
+        destinationCountry:
+          type: string
+          description: 'Length: 3 - The destination country for the declaration of origin request.'
+        documentDate:
+          type: string
+          description: 'Length: 10 - The document date for the declaration of origin request. (Format yyyy-MM-dd)'
+        place:
+          type: string
+          description: 'Length: 20 - The place for the declaration of origin request.'
+        remarks:
+          type: string
+          description: The remarks for the declaration of origin request.
+        signatoryName:
+          type: string
+          description: The signature name for the declaration of origin request.
+        documentLanguageIso:
+          type: string
+          description: 'Length: 2 - The document language iso for the declaration of origin request.'
+        isInvoiceSigned:
+          type: boolean
+          description: The indicator if the invoice is already signed.
+        isDateAndPlacePresentAtInvoice:
+          type: boolean
+          description: The indicator if the invoice has already date and place present.
+        mainOrganizationalUnit:
+          type: string
+          description: 'Length: 20 - The main organizational unit to the corresponding business object.'
+        sourceCountry:
+          type: string
+          description: 'Length: 3 - The source country for the declaration of origin request.'
+        validFrom:
+          type: string
+          description: 'Length: 10 - The valid from date for the declaration of origin request. (Format yyyy-MM-dd)'
+        validTo:
+          type: string
+          description: 'Length: 10 - The valid to date for the declaration of origin request. (Format yyyy-MM-dd)'
+        nameOfExporter:
+          type: string
+          description: The name of exporter for the declaration of origin request.
+        factoryPriceCurrency:
+          type: string
+          description: 'Length: 3 - The factory price currency for the declaration of origin request.'
+        serialNumber:
+          type: string
+          description: The serial number for the declaration of origin request.
+        declarationOfOriginType:
+          type: string
+          description: The type for the declaration of origin request. If it is null the type "AUTO" is used.
+        additionalFields:
+          type: array
+          description: The additional fields for the declaration of origin request.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        items:
+          type: array
+          description: The items for the declaration of origin request.
+          items:
+            $ref: '#/components/schemas/DeclarationOfOriginItemRequestDTO'
+      description: With these parameters it is possible to request a declaration of origin
+    DeclarationOfOriginItemResponseDTO:
+      type: object
+      properties:
+        itemNo:
+          type: string
+          description: The item number for a declaration of origin response.
+        text:
+          type: string
+          description: The item text for a declaration of origin.
+        hasPreference:
+          type: boolean
+          description: Indicates whether the item has preference or not.
+        preferentialOrigin:
+          type: string
+          description: The preferential origin of the item.
+        nonPreferentialOrigin:
+          type: string
+          description: The non preferential origin of the item.
+      description: The item response for a declaration of origin request.
+    GenericDataFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
+        value:
+          type: string
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
+    DeclarationOfOriginItemRequestDTO:
+      type: object
+      properties:
+        itemNo:
+          type: string
+          description: 'Length: 30 - The cumulation type of the material master data.'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material number for the declaration and origin request.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of a material number for the declaration and origin request.'
+        materialOrderItemReference:
+          type: string
+          description: 'Length: 60 - The material order item reference for the declaration and origin request.'
+        factoryPrice:
+          type: number
+          description: 'Length: 11,2 - The factory price for the declaration and origin request.'
+        quantity:
+          type: number
+          description: 'Length: 12,5 - The quantity for the declaration and origin request.'
+        additionalFields:
+          type: array
+          description: The additional fields for the declaration of origin request.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+      description: The item data of a request for the declaration of origin.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    DeclarationOfOriginResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        text:
+          type: string
+          description: The head text for a declaration of origin request.
+        isDeclarationOfOriginAllowed:
+          type: boolean
+          description: Indicates whether the declaration of origin is allowed or not.
+        isDeclarationOfOriginToSign:
+          type: boolean
+          description: Indicates whether the declaration of origin has to be signed or not. Also takes into account if the request says that the invoice is already signed.
+        items:
+          type: array
+          description: The item response data for a declaration of origin request.
+          items:
+            $ref: '#/components/schemas/DeclarationOfOriginItemResponseDTO'
+        linkToDeclOfOriginCheckLog:
+          type: string
+          description: The link (url) to the corresponding declaration of origin check log.
+      description: The response data for a declaration of origin request.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+  securitySchemes:
+    SWAGGER_AUTH_KEY:
+      type: apiKey
+      name: X-XNSG_WEB_TOKEN
+      in: header
+    BASIC_AUTH:
+      type: http
+      scheme: basic
+x-proxy-enabled: false
