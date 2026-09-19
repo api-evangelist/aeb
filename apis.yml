@@ -29,6 +29,9 @@ deliveryModel:
   generated: '2026-08-28'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/aeb.png
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-17
 tags:
 - Logistics
 - Supply Chain
@@ -3642,6 +3645,8 @@ apis:
   humanURL: https://customsmanagement.docs.developers.aeb.com/
   baseURL: https://rz3.aeb.de/test2ici/rest
   tags:
+  - Services
+  tags_raw:
   - Service
   properties:
   - type: OpenAPI
