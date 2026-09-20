@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 25
+edge_count: 27
 edges:
 - tag: Compliance Screening
   spec_file: aeb-compliance-screening-api-openapi.yml
@@ -96,6 +96,17 @@ edges:
     finalise approvals/clearings with customs info updates — this is cross-border trade compliance screening.
     Kept at L1 because export-control checking spans denied-party/sanctions screening and goods classification
     rather than naming one sub-capability.
+- tag: Routing
+  spec_file: aeb-routing-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.85
+  evidence: POST /RoutingBFBean/createRoutingTask; getAllCarriers; getHandoverPoints; getRatingProfiles;
+    RoutingProposalDTO, RouteScheduleDTO, BillingAdditionalFreightCalculationDataDTO
+  reason: Carrier selection and routing of shipments — routing tasks, handover points, carrier lists,
+    freight rating profiles — is transport/logistics execution, i.e. Logistics Operations Management.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: x360
   spec_file: aeb-x360-api-openapi.yml
   capability_id: BC-2480.40
@@ -106,6 +117,17 @@ edges:
   reason: Single operation triggers a compliance screening of a customer from the BSM (business/sanctions
     screening) module of a global-trade vendor, which matches denied-party/sanctions screening of parties.
     Slight ambiguity remains because the endpoint is an event hook, hence not 0.95.
+- tag: BSM Carrier
+  spec_file: aeb-bsm-carrier-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.8
+  evidence: POST /BSMCarrierBFBean/createShipment, getQuotes, getShipment; schemas DLShipmentResponseDataDTO,
+    DLHazardousGoodsItemResponseDataDTO, DLTransportEquipmentReferenceDTO, GetQuotedServiceDTO
+  reason: Creating shipments with carriers, requesting carrier service quotes and retrieving shipment
+    data is transport/carrier execution — logistics operations management within the supply chain.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: BSM International Customs
   spec_file: aeb-bsm-international-customs-api-openapi.yml
   capability_id: BC-2480.20
