@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Trade Compliance Management HTTP Risk Assessment Applications API
+  title: Trade Compliance Management HTTP Risk Assessment…
   description: Thank you for using our HTTP API documentation.
   version: '4.0'
 servers:
@@ -174,38 +174,6 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    QuestionnaireRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        questionnaireParms:
-          $ref: '#/components/schemas/QuestionnaireParmsDTO'
-      description: Request for the application open questionnaire.
     AbsoluteIntervalFilterDTO:
       type: object
       properties:
@@ -216,6 +184,14 @@ components:
           type: string
           description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
       description: Initializes the filter with a fix interval between two dates.
+    RelativeIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+        to:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
     SearchQuestionnairesRequestDTO:
       type: object
       properties:
@@ -224,13 +200,6 @@ components:
         filterParms:
           $ref: '#/components/schemas/QuestionnairesFilterParmsDTO'
       description: Request for the application search questionnaires.
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
     ApplicationFacadeDTO:
       type: object
       properties:
@@ -261,34 +230,26 @@ components:
           description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
           format: int32
       description: Initializes the filter with a time interval relative to 'today'.
-    QuestionnaireParmsDTO:
-      required:
-      - clientSystemId
-      - questTemplId
-      - referenceIdHost
+    ErrorData:
       type: object
       properties:
-        questTemplId:
-          maxLength: 20
+        errorMessage:
           type: string
-          description: ID of the questionnaire template used for the questionnaire.
-          example: '000005'
-        clientSystemId:
-          maxLength: 20
+        errorCause:
           type: string
-          description: ID of the partner system the questionnaire was created by.
-          example: API-TEST
-        referenceIdHost:
-          maxLength: 255
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
           type: string
-          description: Unique reference key of the object in the partner system for which a questionnaire should be found.
-          example: ref-121
-        isReadOnly:
-          type: boolean
-          description: If <code>true</code>, the questionnaire is opened in read-only mode.
-          example: false
-          default: false
-      description: Passing the parameters to identify the questionnaire.<br>The fields <code>questTemplId</code>, <code>clientSystemId</code>, and <code>referenceIdHost</code> are mandatory.
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
     QuestionnairesFilterParmsDTO:
       type: object
       properties:
@@ -351,14 +312,17 @@ components:
         creationDate:
           $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
       description: Passing the filters of the questionaires.
-    DateTimeIntervalRangeFilterDTO:
+    AFShellExecuteParmsDTO:
       type: object
       properties:
-        relativeInterval:
-          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
-        absoluteInterval:
-          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
-      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -422,14 +386,50 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
-    RelativeIntervalFilterDTO:
+    QuestionnaireParmsDTO:
+      required:
+      - clientSystemId
+      - questTemplId
+      - referenceIdHost
       type: object
       properties:
-        from:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-        to:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
+        questTemplId:
+          maxLength: 20
+          type: string
+          description: ID of the questionnaire template used for the questionnaire.
+          example: '000005'
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: ID of the partner system the questionnaire was created by.
+          example: API-TEST
+        referenceIdHost:
+          maxLength: 255
+          type: string
+          description: Unique reference key of the object in the partner system for which a questionnaire should be found.
+          example: ref-121
+        isReadOnly:
+          type: boolean
+          description: If <code>true</code>, the questionnaire is opened in read-only mode.
+          example: false
+          default: false
+      description: Passing the parameters to identify the questionnaire.<br>The fields <code>questTemplId</code>, <code>clientSystemId</code>, and <code>referenceIdHost</code> are mandatory.
+    DateTimeIntervalRangeFilterDTO:
+      type: object
+      properties:
+        relativeInterval:
+          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
+        absoluteInterval:
+          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
+      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
+    QuestionnaireRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        questionnaireParms:
+          $ref: '#/components/schemas/QuestionnaireParmsDTO'
+      description: Request for the application open questionnaire.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

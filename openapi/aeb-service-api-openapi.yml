@@ -61,6 +61,8 @@ paths:
                   description: Service not found
                   value:
                     errorMessage: Kein Leistungstyp mit dem Kürzel 'UPS_EXPR' für das Billingszenario '001' gefunden.
+      summary: Get service
+      x-summary-source: derived
     put:
       tags:
       - Service
@@ -132,6 +134,8 @@ paths:
                   description: Service not found
                   value:
                     errorMessage: Kein Leistungstyp mit dem Kürzel 'UPS_EXPR' für das Billingszenario '001' gefunden.
+      summary: Create or update service
+      x-summary-source: derived
     delete:
       tags:
       - Service
@@ -186,6 +190,8 @@ paths:
                   description: Billing scenario not found
                   value:
                     errorMessage: Kein Billingszenario mit dem Kürzel '001' gefunden.
+      summary: Delete service
+      x-summary-source: derived
   /billing-scenarios/{id}/services:
     get:
       tags:
@@ -272,28 +278,28 @@ paths:
                         description: DHL Express Worldwide
                       attribute: DHL
                       quantityUnitType: QUANTITY
+      summary: Search services
+      x-summary-source: derived
 components:
   schemas:
-    AebProblemError:
+    ServiceTextTranslation:
+      required:
+      - language
       type: object
       properties:
-        code:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
           type: string
-          description: Code identifying the type of the error.
-          example: INVALID_VALUE
-        message:
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
           type: string
-          description: Description of the error.
-          example: Item number invalid
-        field:
-          type: string
-          description: JSON pointer to a data field that contains the erroneous value.
-          example: items/2/itemNumber
-        value:
-          type: string
-          description: Textual representation of the erroneous value.
-          example: 7411A
-      description: Array of related errors
+          description: The description of the model object.
+      description: Name of the service in a certain language.
     Service:
       required:
       - identCode
@@ -324,24 +330,6 @@ components:
           type: string
           description: '<p>The quantity unit type code of the service. Possible standard types are: <li>SPACE <li>DENSITY <li>ENERGY <li>DIMENSION <li>QUANTITY <li>TIME <li>NONE <li>VOLUME <li>WEIGHT</p>'
       description: List of services.
-    ServiceTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The description of the model object.
-      description: Name of the service in a certain language.
     AebProblem:
       type: object
       properties:
@@ -386,6 +374,26 @@ components:
           description: Array of related errors
           items:
             $ref: '#/components/schemas/AebProblemError'
+    AebProblemError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
+          type: string
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
     ServicePage:
       required:
       - content

@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Aeb Workstation Service Agent API
   version: '1.0'
-  description: 'Operations tagged WorkstationServiceAgent across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged WorkstationServiceAgent across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json…'
 servers:
 - url: https://rz3.aeb.de/test2bsm/rest
 - url: https://rz3.aeb.de/demo1cai/rest
@@ -23,8 +23,6 @@ tags:
   description: Connection handler for the Workstation Service Agent
 paths:
   /wssagent/connect:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     get:
       tags:
       - WorkstationServiceAgent
@@ -45,6 +43,8 @@ paths:
         '401':
           description: Authentication is missing.
       deprecated: true
+      summary: Connect
+      x-summary-source: derived
     delete:
       tags:
       - WorkstationServiceAgent
@@ -61,9 +61,11 @@ paths:
         '401':
           description: Authentication is missing.
       deprecated: true
-  /wssagent/connection/{id}:
+      summary: Disconnect0
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /wssagent/connection/{id}:
     get:
       tags:
       - WorkstationServiceAgent
@@ -90,6 +92,8 @@ paths:
           description: Unknown connection id.
         '401':
           description: Authentication is missing.
+      summary: Status0
+      x-summary-source: derived
     post:
       tags:
       - WorkstationServiceAgent
@@ -158,6 +162,8 @@ paths:
                 $ref: '#/components/schemas/WorkstationSessionInfoDTO'
         '401':
           description: Authentication is missing.
+      summary: Connect0
+      x-summary-source: derived
     delete:
       tags:
       - WorkstationServiceAgent
@@ -174,9 +180,11 @@ paths:
           description: No content
         '401':
           description: Authentication is missing.
-  /wssagent/status:
+      summary: Disconnect1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /wssagent/status:
     get:
       tags:
       - WorkstationServiceAgent
@@ -201,22 +209,12 @@ paths:
         '401':
           description: Authentication is missing.
       deprecated: true
+      summary: Status
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    WorkstationSessionInfoDTO:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - UNKNOWN
-          - LAUNCH_REQUEST
-          - LAUNCHING
-          - CONNECTED
-        info:
-          $ref: '#/components/schemas/DesktopAgentInfo'
     DesktopAgentInfo:
       type: object
       properties:
@@ -254,13 +252,37 @@ components:
         lastNetworkActivityTime:
           type: string
           format: date-time
-    LauncherInfo:
+    TracingInfo:
       type: object
       properties:
-        version:
+        enabled:
+          type: boolean
+        debugEnabled:
+          type: boolean
+        count:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        oldestTime:
           type: string
-        zoneName:
+          format: date-time
+        newestTime:
           type: string
+          format: date-time
+    PerfMonitoringInfo:
+      type: object
+      properties:
+        createdToRegisteredDurationMs:
+          type: integer
+          format: int64
+        createdToFirstNetworkActivityDurationMs:
+          type: integer
+          format: int64
+        createdToLaunchRequestedDurationMs:
+          type: integer
+          format: int64
     ProcessInfo:
       type: object
       properties:
@@ -281,37 +303,27 @@ components:
       properties:
         userName:
           type: string
-    PerfMonitoringInfo:
+    LauncherInfo:
       type: object
       properties:
-        createdToRegisteredDurationMs:
-          type: integer
-          format: int64
-        createdToFirstNetworkActivityDurationMs:
-          type: integer
-          format: int64
-        createdToLaunchRequestedDurationMs:
-          type: integer
-          format: int64
-    TracingInfo:
+        version:
+          type: string
+        zoneName:
+          type: string
+    WorkstationSessionInfoDTO:
       type: object
       properties:
-        enabled:
-          type: boolean
-        debugEnabled:
-          type: boolean
-        count:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int64
-        oldestTime:
+        id:
           type: string
-          format: date-time
-        newestTime:
+        status:
           type: string
-          format: date-time
+          enum:
+          - UNKNOWN
+          - LAUNCH_REQUEST
+          - LAUNCHING
+          - CONNECTED
+        info:
+          $ref: '#/components/schemas/DesktopAgentInfo'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

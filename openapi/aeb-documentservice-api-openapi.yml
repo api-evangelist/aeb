@@ -17,7 +17,10 @@ paths:
       tags:
       - DocumentService
       summary: getWorkstations
-      description: <h3>Fetch all registered workstations</h3><p>Returns an information about all registered workstations as json or xml list.</p>
+      description: 'Fetch all registered workstations
+
+
+        Returns an information about all registered workstations as json or xml list.'
       operationId: getWorkstations
       responses:
         '200':
@@ -30,7 +33,10 @@ paths:
       tags:
       - DocumentService
       summary: parseDocumentTemplateContent
-      description: <h3>Parse document</h3><p>Parses the referenced template data and returns the required information, as specified in the parse query parameters. The supported query parameters are individual to each document processor. The referenced template must already exist in the system.</p>
+      description: 'Parse document
+
+
+        Parses the referenced template data and returns the required information, as specified in the parse query parameters. The supported query parameters are individual to each document processor. The referenced template must already exist in the system.'
       operationId: parseDocumentTemplateContent
       parameters:
       - name: fileName
@@ -92,7 +98,10 @@ paths:
       tags:
       - DocumentService
       summary: queryDocumentTemplates
-      description: <h3>Query information on document templates</h3><p>Returns a list of available templates for the specified processor. The templates are resolved in the context of a session client. Processor parameter is optional; templates for all supported processors are returned when empty.</p>
+      description: 'Query information on document templates
+
+
+        Returns a list of available templates for the specified processor. The templates are resolved in the context of a session client. Processor parameter is optional; templates for all supported processors are returned when empty.'
       operationId: queryDocumentTemplates
       parameters:
       - name: processor
@@ -114,7 +123,10 @@ paths:
       tags:
       - DocumentService
       summary: openPrintRequestQueue
-      description: <h3>Get URL to print queue</h3><p>Returns print request queue in url.</p>
+      description: 'Get URL to print queue
+
+
+        Returns print request queue in url.'
       operationId: openPrintRequestQueue
       parameters:
       - name: user
@@ -156,7 +168,10 @@ paths:
       tags:
       - DocumentService
       summary: openStagedDocumentEditor
-      description: <h3>Get URL to edit document</h3><p>Returns document editor url.</p>
+      description: 'Get URL to edit document
+
+
+        Returns document editor url.'
       operationId: openStagedDocumentEditor
       parameters:
       - name: documentId
@@ -208,7 +223,10 @@ paths:
       tags:
       - DocumentService
       summary: openStagedDocumentSearch
-      description: <h3>Get URL to search document</h3><p>Returns document search link.</p>
+      description: 'Get URL to search document
+
+
+        Returns document search link.'
       operationId: openStagedDocumentSearch
       parameters:
       - name: user
@@ -313,7 +331,22 @@ paths:
       tags:
       - DocumentService
       summary: queryDocuments
-      description: '<h3>Query information on existing documents</h3><p>Executes a search query on the documents stored in the document storage. Only the documents that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.</p><h4>Date time interval range filter</h4><p>Use one of the given attributes to pass the filter. If more than one attribute is filled attributes will be used in the following order: relative interval, absolute interval<ul><li>Filter relative to current day, e.g: from 6 moths ago to a week ago (relativeFrom = "-6 MONTHS", relativeTo = "-1 WEEKS")</li><li>Filter with absolute date-time values, see field examples</li></ul></p>'
+      description: 'Query information on existing documents
+
+
+        Executes a search query on the documents stored in the document storage. Only the documents that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.
+
+
+        Date time interval range filter
+
+
+        Use one of the given attributes to pass the filter. If more than one attribute is filled attributes will be used in the following order: relative interval, absolute interval
+
+
+        Filter relative to current day, e.g: from 6 moths ago to a week ago (relativeFrom = "-6 MONTHS", relativeTo = "-1 WEEKS")
+
+
+        Filter with absolute date-time values, see field examples'
       operationId: queryDocuments
       parameters:
       - name: referenceType
@@ -442,7 +475,12 @@ paths:
       tags:
       - DocumentService
       summary: createDocument
-      description: <h3>Upload an external document</h3><p>Uploads an external document (which does not depend on any document templates). Like `POST /document`, the uploaded document can be queried, deleted and fetched by calling the corresponding method with the received `documentId`. The document also has a date to which it is at least stored in the document store.<br/>Currently only PDF documents up to a maximum size of 10MB are supported, without embedded links, scripts or attachments.</p>
+      description: 'Upload an external document
+
+
+        Uploads an external document (which does not depend on any document templates). Like `POST /document`, the uploaded document can be queried, deleted and fetched by calling the corresponding method with the received `documentId`. The document also has a date to which it is at least stored in the document store.
+
+        Currently only PDF documents up to a maximum size of 10MB are supported, without embedded links, scripts or attachments.'
       operationId: createDocument
       parameters:
       - name: fileName
@@ -513,7 +551,14 @@ paths:
       tags:
       - DocumentService
       summary: createDocument
-      description: <h3>Generate a new document either synchronously (wait for the result) or asynchronously (enqueue document creation and get the result later with the provided documentId).</h3><p>Creates a document from the referenced template and document data. The template is resolved in the context of the session client. If any of the <b>Staging options</b> is filled the created document contents will be retained for later reuse.<br/>An existing document can be updated in `POST /document/{documentId}` and stored as a new revision in the archive in case it was previously archived.<br/>The update can be done in different ways, see the description for `POST /document/{documentId}`
+      description: 'Generate a new document either synchronously (wait for the result) or asynchronously (enqueue document creation and get the result later with the provided documentId).
+
+
+        Creates a document from the referenced template and document data. The template is resolved in the context of the session client. If any of the Staging options is filled the created document contents will be retained for later reuse.
+
+        An existing document can be updated in `POST /document/{documentId}` and stored as a new revision in the archive in case it was previously archived.
+
+        The update can be done in different ways, see the description for `POST /document/{documentId}`'
       operationId: createDocument_1
       parameters:
       - name: async
@@ -654,7 +699,11 @@ paths:
       tags:
       - DocumentService
       summary: createDocumentTrusted
-      description: <h3>Upload an external document</h3>Access is restricted to the `I_DOCUMENTSERVICEBF_TRUSTED` role.<p>Like `PUT /document` but with less limitations to the uploaded contents.</p>
+      description: 'Upload an external document
+
+        Access is restricted to the `I_DOCUMENTSERVICEBF_TRUSTED` role.
+
+        Like `PUT /document` but with less limitations to the uploaded contents.'
       operationId: createDocumentTrusted
       parameters:
       - name: fileName
@@ -728,7 +777,10 @@ paths:
       tags:
       - DocumentService
       summary: getDocument
-      description: <h3>Download an existing document content</h3><p>Returns the requested document content if it is available for the user. A document may contain several contents, so the user has to define which content to return by the documentId and the variant.</p>
+      description: 'Download an existing document content
+
+
+        Returns the requested document content if it is available for the user. A document may contain several contents, so the user has to define which content to return by the documentId and the variant.'
       operationId: getDocument
       parameters:
       - name: documentId
@@ -793,7 +845,12 @@ paths:
       tags:
       - DocumentService
       summary: updateDocument
-      description: <h3>Upload an external document</h3><p>Uploads an external document (which does not depend on any document templates). Like `POST /document/{documentId}` the uploaded document can be queried, deleted and fetched by calling the corresponding method with received `documentId`. The document also has a date to which it is at least stored in the document store.<br/>Currently only PDF documents up to a maximum size of 10MB are supported, without embedded links, scripts or attachments.</p>
+      description: 'Upload an external document
+
+
+        Uploads an external document (which does not depend on any document templates). Like `POST /document/{documentId}` the uploaded document can be queried, deleted and fetched by calling the corresponding method with received `documentId`. The document also has a date to which it is at least stored in the document store.
+
+        Currently only PDF documents up to a maximum size of 10MB are supported, without embedded links, scripts or attachments.'
       operationId: updateDocument
       parameters:
       - name: documentId
@@ -889,7 +946,30 @@ paths:
       tags:
       - DocumentService
       summary: updateDocument
-      description: "<h3>Update an existing document or generate it in a different format either synchronously (wait for the result) or asynchronously (enqueue document creation and get the result later with the documentId).</h3> <p> Possibilities to update the stored document contents:<br /> <ul>   <li>`xml/json` data is filled + any of <b>Processing Options</b> is filled:<br />   \tThe contents of the document are completely replaced by newly created ones</li>   <li>`xml/json` data is <em>not</em> filled + any of <b>Processing Options</b> is filled:<br />   \tThe contents are created or updated using the existing document data stored together with the document.<br />   \tExisting contents are retained. For example, it allows to add content in a new format.</li>   <li>`xml/json` data is filled + none of <b>Processing Options</b> is filled:<br />   \tAll existing contents are recreated/updated with the new document data.</li> </ul> </p> If the stored document is archived a new revision will be created in the connected archive."
+      description: 'Update an existing document or generate it in a different format either synchronously (wait for the result) or asynchronously (enqueue document creation and get the result later with the documentId).
+
+
+        Possibilities to update the stored document contents:
+
+
+        `xml/json` data is filled + any of Processing Options is filled:
+
+        The contents of the document are completely replaced by newly created ones
+
+
+        `xml/json` data is not filled + any of Processing Options is filled:
+
+        The contents are created or updated using the existing document data stored together with the document.
+
+        Existing contents are retained. For example, it allows to add content in a new format.
+
+
+        `xml/json` data is filled + none of Processing Options is filled:
+
+        All existing contents are recreated/updated with the new document data.
+
+
+        If the stored document is archived a new revision will be created in the connected archive.'
       operationId: updateDocument_1
       parameters:
       - name: documentId
@@ -1052,7 +1132,10 @@ paths:
       tags:
       - DocumentService
       summary: deleteDocument
-      description: <h3>Delete an existing document</h3><p>Deletes the document with the requested documentId.</p>
+      description: 'Delete an existing document
+
+
+        Deletes the document with the requested documentId.'
       operationId: deleteDocument
       parameters:
       - name: documentId
@@ -1093,7 +1176,22 @@ paths:
       tags:
       - DocumentService
       summary: queryDocumentsById
-      description: '<h3>Query information on existing documents</h3><p>Executes a search query on the documents stored in the document storage. Only the documents that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.</p><h4>Date time interval range filter</h4><p>Use one of the given attributes to pass the filter. If more than one attribute is filled attributes will be used in the following order: relative interval, absolute interval<ul><li>Filter relative to current day, e.g: from 2 months ago to a week ago (relativeFrom = "-2 MONTHS", relativeTo = "-1 WEEKS")</li><li>Filter with absolute date-time values, see field examples</li></ul></p>'
+      description: 'Query information on existing documents
+
+
+        Executes a search query on the documents stored in the document storage. Only the documents that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.
+
+
+        Date time interval range filter
+
+
+        Use one of the given attributes to pass the filter. If more than one attribute is filled attributes will be used in the following order: relative interval, absolute interval
+
+
+        Filter relative to current day, e.g: from 2 months ago to a week ago (relativeFrom = "-2 MONTHS", relativeTo = "-1 WEEKS")
+
+
+        Filter with absolute date-time values, see field examples'
       operationId: queryDocumentsById
       requestBody:
         content:
@@ -1118,7 +1216,22 @@ paths:
       tags:
       - DocumentService
       summary: queryDocumentsByRef
-      description: '<h3>Query information on existing documents</h3><p>Executes a search query on the documents stored in the document storage. Only the documents that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.</p><h4>Date time interval range filter</h4><p>Use one of the given attributes to pass the filter. If more than one attribute is filled attributes will be used in the following order: relative interval, absolute interval<ul><li>Filter relative to current day, e.g: from 2 months ago to a week ago (relativeFrom = "-2 MONTHS", relativeTo = "-1 WEEKS")</li><li>Filter with absolute date-time values, see field examples</li></ul></p>'
+      description: 'Query information on existing documents
+
+
+        Executes a search query on the documents stored in the document storage. Only the documents that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.
+
+
+        Date time interval range filter
+
+
+        Use one of the given attributes to pass the filter. If more than one attribute is filled attributes will be used in the following order: relative interval, absolute interval
+
+
+        Filter relative to current day, e.g: from 2 months ago to a week ago (relativeFrom = "-2 MONTHS", relativeTo = "-1 WEEKS")
+
+
+        Filter with absolute date-time values, see field examples'
       operationId: queryDocumentsByRef
       requestBody:
         content:
@@ -1143,7 +1256,11 @@ paths:
       tags:
       - DocumentService
       summary: updateDocumentTrusted
-      description: <h3>Upload an external document</h3>Access is restricted to the `I_DOCUMENTSERVICEBF_TRUSTED` role.<p>Like `PUT /document/{documentId}` but with less limitations to the uploaded contents.</p>
+      description: 'Upload an external document
+
+        Access is restricted to the `I_DOCUMENTSERVICEBF_TRUSTED` role.
+
+        Like `PUT /document/{documentId}` but with less limitations to the uploaded contents.'
       operationId: updateDocumentTrusted
       parameters:
       - name: documentId
@@ -1242,7 +1359,10 @@ paths:
       tags:
       - DocumentService
       summary: getDocumentInstance
-      description: <h3>Download an existing document content</h3><p>Returns the document instance for the given reference object and document type.</p>
+      description: 'Download an existing document content
+
+
+        Returns the document instance for the given reference object and document type.'
       operationId: getDocumentInstance
       parameters:
       - name: referenceType
@@ -1333,7 +1453,12 @@ paths:
       tags:
       - DocumentService
       summary: updateDocumentInstance
-      description: <h3>Update specified document instance.</h3><p>Uploads an external document which does not depend on templates of the document. The document type and reference object are resolved in the context of the session client. The archive options are defined in the referenced document type. Like <code>POST /documentInstance/{referenceType}/{referenceNumber}/{documentType}</code> the uploaded document can be queried, deleted and fetched by calling the corresponding method with the received documentId.The document also has a date to which this document is at least stored in the document store.<br/>Currently only PDF up to a maximum size of 10MB is supported.</p>
+      description: 'Update specified document instance.
+
+
+        Uploads an external document which does not depend on templates of the document. The document type and reference object are resolved in the context of the session client. The archive options are defined in the referenced document type. Like POST /documentInstance/{referenceType}/{referenceNumber}/{documentType} the uploaded document can be queried, deleted and fetched by calling the corresponding method with the received documentId.The document also has a date to which this document is at least stored in the document store.
+
+        Currently only PDF up to a maximum size of 10MB is supported.'
       operationId: updateDocumentInstance
       parameters:
       - name: referenceType
@@ -1450,7 +1575,10 @@ paths:
       tags:
       - DocumentService
       summary: createDocumentInstance
-      description: <h3>Generate a new document instance.</h3><p>Prepares a document immediately within response or asynchronously from the referenced document type and document data. The document type and reference object are resolved in the context of the session client. The output format and archive options are defined in the referenced document type. Created documents are retained for later reuse, e.g. fetching or printing the document. The caller can fetch the document contents by calling <code>GET /document/{documentId}</code> with the received documentId or <code>GET /documentInstance/{referenceType}/{referenceNumber}/{documentType}</code>. An existing document can be updated by specifying the reference object and stored as a new revision in the archive if it has to be or was previously archived.</p>
+      description: 'Generate a new document instance.
+
+
+        Prepares a document immediately within response or asynchronously from the referenced document type and document data. The document type and reference object are resolved in the context of the session client. The output format and archive options are defined in the referenced document type. Created documents are retained for later reuse, e.g. fetching or printing the document. The caller can fetch the document contents by calling GET /document/{documentId} with the received documentId or GET /documentInstance/{referenceType}/{referenceNumber}/{documentType}. An existing document can be updated by specifying the reference object and stored as a new revision in the archive if it has to be or was previously archived.'
       operationId: createDocumentInstance
       parameters:
       - name: referenceType
@@ -1617,7 +1745,10 @@ paths:
       tags:
       - DocumentService
       summary: deleteDocumentInstance
-      description: <h3>Delete an existing document instance</h3><p>Deletes the document instance for the given reference object and document type.</p>
+      description: 'Delete an existing document instance
+
+
+        Deletes the document instance for the given reference object and document type.'
       operationId: deleteDocumentInstance
       parameters:
       - name: referenceType
@@ -1672,7 +1803,10 @@ paths:
       tags:
       - DocumentService
       summary: getDocumentInstances
-      description: <h3>Query information on existing document instances</h3><p>Returns the document instances for the given reference object.</p>
+      description: 'Query information on existing document instances
+
+
+        Returns the document instances for the given reference object.'
       operationId: getDocumentInstances
       parameters:
       - name: referenceType
@@ -1715,7 +1849,13 @@ paths:
       tags:
       - DocumentService
       summary: printDocumentInstance
-      description: <h3>Create a print request for document instance.</h3><p>Creates a print request for the requested document. The document must have been created by <code>POST /documentInstance/{referenceType}/{referenceNumber}/{documentType}</code> and defined by its documentId.The printing location depends on the session context (e.g. user/client or workstation) and the printing output settings in the document type of the document.</p><p>The print request is processed asynchronously and may fail if the cloud printing server service is not started on the target machine. When the print request is processed the <b>actual content</b> of the document will be printed, e.g. if the document has been changed since the print request was created the changes will be printed.</p>
+      description: 'Create a print request for document instance.
+
+
+        Creates a print request for the requested document. The document must have been created by POST /documentInstance/{referenceType}/{referenceNumber}/{documentType} and defined by its documentId.The printing location depends on the session context (e.g. user/client or workstation) and the printing output settings in the document type of the document.
+
+
+        The print request is processed asynchronously and may fail if the cloud printing server service is not started on the target machine. When the print request is processed the actual content of the document will be printed, e.g. if the document has been changed since the print request was created the changes will be printed.'
       operationId: printDocumentInstance
       parameters:
       - name: documentId
@@ -1824,7 +1964,12 @@ paths:
       tags:
       - DocumentService
       summary: updateDocumentInstanceTrusted
-      description: <h3>Generate a new document instance.</h3>Access is restricted to <code>I_DOCUMENTSERVICEBF_TRUSTED</code> role.<br/><p>Like <code>PUT /documentInstance/{referenceType}/{referenceNumber}/{documentType}</code> but with less limitations to the uploaded contents.</p>
+      description: 'Generate a new document instance.
+
+        Access is restricted to I_DOCUMENTSERVICEBF_TRUSTED role.
+
+
+        Like PUT /documentInstance/{referenceType}/{referenceNumber}/{documentType} but with less limitations to the uploaded contents.'
       operationId: updateDocumentInstanceTrusted
       parameters:
       - name: referenceType
@@ -1972,7 +2117,10 @@ paths:
       tags:
       - DocumentService
       summary: getDocumentReferenceObject
-      description: <h3>Find one document reference object</h3><p>Returns the requested document reference object if it is available for the user.</p>
+      description: 'Find one document reference object
+
+
+        Returns the requested document reference object if it is available for the user.'
       operationId: getDocumentReferenceObject
       parameters:
       - name: referenceType
@@ -2001,7 +2149,10 @@ paths:
       tags:
       - DocumentService
       summary: updateDocumentReferenceObject
-      description: <h3>Create or update document reference object.</h3><p>Creates new or updates existing document reference object.</p>
+      description: 'Create or update document reference object.
+
+
+        Creates new or updates existing document reference object.'
       operationId: updateDocumentReferenceObject
       parameters:
       - name: referenceType
@@ -2029,7 +2180,10 @@ paths:
       tags:
       - DocumentService
       summary: deleteDocumentReferenceObject
-      description: <h3>Delete an existing document reference object</h3><p>Deletes the document reference object with the requested <code>referenceType</code> and <code>referenceNumber</code> along with all its documents (optionally the documents can be preserved).</p>
+      description: 'Delete an existing document reference object
+
+
+        Deletes the document reference object with the requested referenceType and referenceNumber along with all its documents (optionally the documents can be preserved).'
       operationId: deleteDocumentReferenceObject
       parameters:
       - name: referenceType
@@ -2063,7 +2217,10 @@ paths:
       tags:
       - DocumentService
       summary: queryDocumentReferenceObjects
-      description: <h3>Search document reference objects</h3><p>Executes a search query on the document reference objects. Only the document reference objects that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.</p>
+      description: 'Search document reference objects
+
+
+        Executes a search query on the document reference objects. Only the document reference objects that are visible to the caller (session user and session client) are returned. The results can be sorted by predefined criteria, the limit of the number of results is configurable, too.'
       operationId: queryDocumentReferenceObjects
       parameters:
       - name: referenceType
@@ -2115,7 +2272,10 @@ paths:
       tags:
       - DocumentService
       summary: getPrintRequest
-      description: <h3>Get information on print request state</h3><p>Returns the state of a print request identified by its unique ID (obtained by <code>POST /documentInstance/{documentId}/print</code>).</p>
+      description: 'Get information on print request state
+
+
+        Returns the state of a print request identified by its unique ID (obtained by POST /documentInstance/{documentId}/print).'
       operationId: getPrintRequest
       parameters:
       - name: printRequestId
@@ -2149,7 +2309,10 @@ paths:
       tags:
       - DocumentService
       summary: updatePrintRequest
-      description: <h3>Update print request</h3><p>Updates a print request identified by its unique ID (obtained by <code>POST /documentInstance/{documentId}/print</code>) with a specific action.</p>
+      description: 'Update print request
+
+
+        Updates a print request identified by its unique ID (obtained by POST /documentInstance/{documentId}/print) with a specific action.'
       operationId: updatePrintRequest
       parameters:
       - name: printRequestId
@@ -2217,7 +2380,10 @@ paths:
       tags:
       - DocumentService
       summary: deletePrintRequest
-      description: <h3>Delete print request.</h3><p>Removes a specific print request identified by its unique ID (obtained by <code>POST /documentInstance/{documentId}/print</code>).</p>
+      description: 'Delete print request.
+
+
+        Removes a specific print request identified by its unique ID (obtained by POST /documentInstance/{documentId}/print).'
       operationId: deletePrintRequest
       parameters:
       - name: printRequestId
@@ -2257,7 +2423,10 @@ paths:
       tags:
       - DocumentService
       summary: getPrintRequests
-      description: '<h3>Get information on print requests</h3><p>Returns list of all print requests for the specified queue (default: active only). The state of the queue may influence the individual request states.</p>'
+      description: 'Get information on print requests
+
+
+        Returns list of all print requests for the specified queue (default: active only). The state of the queue may influence the individual request states.'
       operationId: getPrintRequests
       parameters:
       - name: onlyActive
@@ -2299,7 +2468,12 @@ paths:
       tags:
       - DocumentService
       summary: getProcessorInfo
-      description: <h3>Fetch processor detailed information</h3><p>Returns an information on functions and/or features supported by the processor.<br/>Supported output formats are controlled by the <code>Accept</code> header. Currently only <code>application/json</code> and <code>application/xml</code> are available.</p>
+      description: 'Fetch processor detailed information
+
+
+        Returns an information on functions and/or features supported by the processor.
+
+        Supported output formats are controlled by the Accept header. Currently only application/json and application/xml are available.'
       operationId: getProcessorInfo
       parameters:
       - name: processor
@@ -2320,7 +2494,10 @@ paths:
       tags:
       - DocumentService
       summary: getSupportedProcessors
-      description: <h3>Fetch supported processors</h3><p>Collects tags of all document processors that are supported in this service.</p>
+      description: 'Fetch supported processors
+
+
+        Collects tags of all document processors that are supported in this service.'
       operationId: getSupportedProcessors
       responses:
         '200':
@@ -2333,7 +2510,7 @@ paths:
       tags:
       - DocumentService
       summary: schemaToXsd
-      description: <h3>Convert proprietary schema descriptor to XSD format</h3>
+      description: Convert proprietary schema descriptor to XSD format
       operationId: schemaToXsd
       requestBody:
         description: Schema
@@ -2354,7 +2531,9 @@ paths:
       tags:
       - DocumentService
       summary: xsdToSchema
-      description: <h3>Convert XSD input to a proprietary schema descriptor</h3>Supported output formats are controlled by the <code>Accept</code> header. Currently only <code>application/json</code> and <code>application/xml</code> are available.</p>
+      description: 'Convert XSD input to a proprietary schema descriptor
+
+        Supported output formats are controlled by the Accept header. Currently only application/json and application/xml are available.'
       operationId: xsdToSchema
       requestBody:
         description: XSD schema to convert
@@ -2381,100 +2560,6 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
-    DocumentInstanceReferenceDTO:
-      required:
-      - documentReferenceObjectRef
-      - documentTypeRef
-      type: object
-      properties:
-        documentTypeRef:
-          $ref: '#/components/schemas/DocTypeReferenceDTO'
-        documentReferenceObjectRef:
-          $ref: '#/components/schemas/DocumentReferenceObjectReferenceDTO'
-    DocumentTemplateSchemaDTO:
-      type: object
-      properties:
-        rootTypeName:
-          type: string
-          description: Name of the root data element type.
-          example: documentData
-        types:
-          type: array
-          description: Object types included in the schema.
-          items:
-            $ref: '#/components/schemas/DocumentTemplateSchemaObjectTypeDTO'
-      description: Schema
-    IntervalFromNowFilterDTO:
-      type: object
-      properties:
-        unit:
-          type: string
-          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
-        duration:
-          type: integer
-          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
-          format: int32
-      description: Initializes the filter with a time interval relative to 'today'.
-    QueryDocumentsByIdRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        createdAtRange:
-          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
-        returnTotalCount:
-          type: boolean
-          description: If <code>true</code>, total number of documents found is returned in field <code>totalCount</code>. Total number can be different from number of actually returned documents in case total document count exceeds the value of <code>maxResults</code>
-          example: false
-        maxResults:
-          type: integer
-          description: 'Limits how many documents can be returned in a single request.<br><i>Minimum: 1</i><br><i>Maximum: 100</i><br><i>Default: 30</i>'
-          format: int32
-          example: 30
-        skipFirst:
-          type: integer
-          description: If set, defines the number of documents that will be skipped before collecting results. Use this to retrieve further documents if a previous query did not return all required documents. The number must not exceed 10000
-          format: int32
-          example: 0
-        orderBy:
-          type: string
-          description: 'Defines how the requested documents are sorted.<ul><li><code>CREATED_AT_ASC</code> : <i>Sorted by date/time of document creation, oldest first.</i></li><li><code>CREATED_AT_DESC</code> : <i>Sorted by date/time of document creation, newest first.</i></li><li><code>REFERENCE_NUMBER_ASC</code> : <i>Sorted by document reference number, alphabetically ascending.</i></li><li><code>REFERENCE_NUMBER_DESC</code> : <i>Sorted by document reference number, alphabetically descending.</i></li><li><code>REFERENCE_TYPE_ASC</code> : <i>Sorted by document reference type, alphabetically ascending.</i></li><li><code>REFERENCE_TYPE_DESC</code> : <i>Sorted by document reference type, alphabetically descending.</i></li></ul>'
-          example: CREATED_AT_ASC
-          enum:
-          - CREATED_AT_ASC
-          - CREATED_AT_DESC
-          - REFERENCE_NUMBER_ASC
-          - REFERENCE_NUMBER_DESC
-          - REFERENCE_TYPE_ASC
-          - REFERENCE_TYPE_DESC
-        documentIdInList:
-          maxItems: 1000
-          type: array
-          description: List of document IDs (max. 1000 elements allowed). Only documents exactly matching these IDs will be returned.
-          items:
-            type: string
-            description: A single document ID
-            default: documentId
     SchemaToXsdRequestDTO:
       type: object
       properties:
@@ -2503,225 +2588,77 @@ components:
         schema:
           $ref: '#/components/schemas/DocumentTemplateSchemaDTO'
       description: Schema conversion request
-    RelativeIntervalFilterDTO:
+    GetPrintRequestsResponseData:
       type: object
       properties:
-        from:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-        to:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
-    DocumentReferenceObjectReferenceDTO:
-      required:
-      - referenceNumber
-      - referenceType
-      type: object
-      properties:
-        referenceType:
-          type: string
-          description: Type of the reference object, e.g. "CONSIGNEMENT", "PACKAGE", "CUSTOMER" etc.
-          example: CONSIGNEMENT
-        referenceNumber:
-          type: string
-          description: Identification of the referenced object. This identification is unique within the type of the referenced object.
-          example: '4711'
-      description: Reference of the associated document's reference object.
-    LocalizedIdentCodeDTO:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Reference object type identifier.
-          example: SHIPMENT
-        label:
-          type: string
-          description: Reference object type label.
-          example: Shipment/Consignment
-    AbsoluteIntervalFilterDTO:
-      type: object
-      properties:
-        from:
-          type: string
-          description: Start date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
-        to:
-          type: string
-          description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
-      description: Initializes the filter with a fix interval between two dates.
-    PrepareDocumentResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        state:
-          type: string
-          description: The result state of the document processing.
-          example: SUCCESS
-          enum:
-          - SUCCESS
-          - TEMPLATE_MISSING
-          - VERSION_MISMATCH
-          - DOCUMENT_NOT_FOUND
-          - DOCUMENT_LOCKED
-          - DOCUMENT_EXPIRED
-        documentId:
-          type: string
-          description: The unique documentId for a stored document. To be used to retrieve the document at a later time.
-          example: 012345678-abcd-4eff-9876-543210fedcba
-        retentionTimestamp:
-          type: string
-          description: Date to which this document is at least retained in the document store. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
-          example: '2025-01-31T00:00:00'
-      xml:
-        name: PrepareDocumentResponse
-    DocumentTemplateSchemaObjectTypeDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'Name of the object type. Starts and ends with a letter; only contains letters, digits, "_", "$". Pattern: `^[a-zA-Z][a-zA-Z0-9_\$]*[a-zA-Z0-9]$|^[a-zA-Z]$`'
-          example: Referent
-        fields:
-          type: array
-          description: Object fields.
-          items:
-            $ref: '#/components/schemas/DocumentTemplateSchemaFieldDTO'
-      description: Object types included in the schema.
-    PrintDocumentInstanceResponseData:
-      required:
-      - printRequestId
-      - state
-      type: object
-      properties:
-        state:
-          type: string
-          description: The result state of the document processing
-          example: SUCCESS
-          enum:
-          - SUCCESS
-          - DOCUMENT_NOT_FOUND
-          - DOCUMENT_LOCKED
-          - DOCUMENT_EXPIRED
-          - LOCKED
-          - DOCUMENT_CONTENT_PENDING
-          - PRINTER_NOT_FOUND
-        printRequestId:
-          type: string
-          description: The unique ID of the created print request.
-          example: 0123456789ABCDEFFEDCBA9876543210
-        effectiveOutputSettings:
-          $ref: '#/components/schemas/OutputSettingsPrinterDTO'
-        documentInfo:
-          $ref: '#/components/schemas/DocumentInfoDTO'
-      xml:
-        name: PrintDocumentInstanceResponse
-    QueryDocumentsResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        documentInfos:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentInfoDTO'
-        maxResultsExceeded:
-          type: boolean
-        totalCount:
-          type: integer
-      xml:
-        name: QueryDocumentsResponse
-    GetPrintRequestStateResponseData:
-      required:
-      - documentId
-      - printRequestId
-      type: object
-      properties:
-        printRequestId:
-          type: string
-          description: The unique ID of the print request
-          example: 0123456789ABCDEFFEDCBA9876543210
-        documentId:
-          type: string
-          description: The unique documentId which defines the document to be printed
-          example: 012345678-abcd-4eff-9876-543210fedcba
-        stopOnError:
-          type: boolean
-          description: Indicates a print job as sequential relevant. The following print jobs are not executed as long as the print job is in error state or is not ignored.
-          example: false
-        isIgnored:
-          type: boolean
-          description: Indicates that the print request has to be ignored.
-          example: false
-        state:
-          type: string
-          description: 'State of the print request (may be `null` if not processed yet). Possible values: PROCESSING, PRINTED, ERROR'
-          example: ERROR
-          enum:
-          - PROCESSING
-          - PRINTED
-          - ERROR
-        stateMessage:
-          type: string
-          description: State message of the print request. In case of an error state it contains the reason of the error.
-          example: There is currently no active Service Agent available. Documents cannot be printed.
-        requestedAt:
-          type: string
-          description: Time at which the print request was created. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
-          example: '2024-06-01T12:34:56'
-        lastAccessedAt:
-          type: string
-          description: Time of the last change of the print job. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
-          example: '2024-06-01T12:45:00'
         queueStoppedMessage:
           type: string
           description: If the queue is stopped due to an error state of a previous print request it contains the reason of the error. If this message is filled the current print request is not processed till the error is fixed.
           example: There is currently no active Service Agent available. Documents cannot be printed.
-        userName:
-          type: string
-          description: Name of the user who initiated the print request
-          example: XYZ
+        printRequests:
+          type: array
+          description: List of requests in the print queue.
+          items:
+            $ref: '#/components/schemas/GetPrintRequestStateResponseDataElement'
       xml:
-        name: GetPrintRequestStateResponse
-    DocumentReferenceObjectDTO:
+        name: GetPrintRequestsResponse
+    DocumentInstanceReferenceDTO:
+      required:
+      - documentReferenceObjectRef
+      - documentTypeRef
       type: object
       properties:
+        documentTypeRef:
+          $ref: '#/components/schemas/DocTypeReferenceDTO'
+        documentReferenceObjectRef:
+          $ref: '#/components/schemas/DocumentReferenceObjectReferenceDTO'
+    DocumentReferenceDTO:
+      type: object
+      properties:
+        documentType:
+          type:
+          - string
+          - 'null'
+          description: Brief name of the referenced (external) document, e.g. "INVOICE", "PACKING LIST" etc.
+          example: INVOICE
         referenceType:
-          $ref: '#/components/schemas/LocalizedIdentCodeDTO'
+          type:
+          - string
+          - 'null'
+          description: Type of the referenced (external) object, e.g. "CONSIGNEMENT", "PACKAGE", "CUSTOMER" etc.
+          example: CONSIGNEMENT
         referenceNumber:
-          type: string
-        documentInfos:
+          type:
+          - string
+          - 'null'
+          description: Identification of the referenced (external) object (e.g. a reference number).
+          example: '4711'
+      description: Information describing/identifying the referenced (external) document.
+    XsdToSchemaResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
           type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
-            $ref: '#/components/schemas/DocumentInstanceInfoDTO'
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        schema:
+          $ref: '#/components/schemas/DocumentTemplateSchemaDTO'
+      description: XSD conversion response
+      xml:
+        name: XsdToSchemaResponse
     DocumentTemplateSchemaFieldDTO:
       type: object
       properties:
@@ -2747,18 +2684,34 @@ components:
           items:
             $ref: '#/components/schemas/DocumentTemplateSchemaFieldDocumentationDTO'
       description: Object fields.
-    DocTypeReferenceDTO:
+    GetDocumentReferenceObjectsResponseDTO:
       type: object
       properties:
-        identCode:
-          type: string
-          description: The unique identCode of the document type in the document service.
-          example: INVOICE
-        externalTag:
-          type: string
-          description: The external tag of the document template which is used by the document type.
-          example: ''
-      description: Reference of the associated document type.
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        referenceObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentReferenceObjectDTO'
+        totalCount:
+          type: integer
+      xml:
+        name: GetDocumentReferenceObjectsResponse
     DocumentInfoDTO:
       required:
       - archivedState
@@ -2849,44 +2802,183 @@ components:
             example: '["invoice","priority-high"]'
       description: Information about the document which is stored/staged for a certain period of time.
       readOnly: true
-    DocumentContentStoreInfoDTO:
+    PrintDocumentInstanceResponseDTO:
+      required:
+      - printRequestId
+      - state
       type: object
       properties:
-        name:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        state:
           type: string
-          description: Name of the content
-          example: invoice.pdf
-        mimeType:
+          description: The result state of the document processing
+          example: SUCCESS
+          enum:
+          - SUCCESS
+          - DOCUMENT_NOT_FOUND
+          - DOCUMENT_LOCKED
+          - DOCUMENT_EXPIRED
+          - LOCKED
+          - DOCUMENT_CONTENT_PENDING
+          - PRINTER_NOT_FOUND
+        printRequestId:
           type: string
-          description: MimeType of the document content
-          example: application/pdf
-        contentVariant:
-          type: string
-          description: Variant of the document content to distinguish the contents of a document by its format
-          example: PDFa
-      description: Meta values of the available document contents.
-    DateTimeIntervalRangeFilterDTO:
+          description: The unique ID of the created print request.
+          example: 0123456789ABCDEFFEDCBA9876543210
+        effectiveOutputSettings:
+          $ref: '#/components/schemas/OutputSettingsPrinterDTO'
+        documentInfo:
+          $ref: '#/components/schemas/DocumentInfoDTO'
+      xml:
+        name: PrintDocumentInstanceResponse
+    DocTypeReferenceDTO:
       type: object
       properties:
-        relativeInterval:
-          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
-        absoluteInterval:
-          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
-      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
-    GetPrintRequestsResponseData:
+        identCode:
+          type: string
+          description: The unique identCode of the document type in the document service.
+          example: INVOICE
+        externalTag:
+          type: string
+          description: The external tag of the document template which is used by the document type.
+          example: ''
+      description: Reference of the associated document type.
+    DocumentTemplateSchemaDTO:
       type: object
       properties:
+        rootTypeName:
+          type: string
+          description: Name of the root data element type.
+          example: documentData
+        types:
+          type: array
+          description: Object types included in the schema.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateSchemaObjectTypeDTO'
+      description: Schema
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    DocumentTemplateSchemaFieldDocumentationDTO:
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          type: string
+          description: 2-letter language code as defined in ISO-639.
+          example: en
+        text:
+          type: string
+          description: Localized field documentation.
+          example: Referent number
+      description: Localizable documentation of the field.
+    GetPrintRequestStateResponseData:
+      required:
+      - documentId
+      - printRequestId
+      type: object
+      properties:
+        printRequestId:
+          type: string
+          description: The unique ID of the print request
+          example: 0123456789ABCDEFFEDCBA9876543210
+        documentId:
+          type: string
+          description: The unique documentId which defines the document to be printed
+          example: 012345678-abcd-4eff-9876-543210fedcba
+        stopOnError:
+          type: boolean
+          description: Indicates a print job as sequential relevant. The following print jobs are not executed as long as the print job is in error state or is not ignored.
+          example: false
+        isIgnored:
+          type: boolean
+          description: Indicates that the print request has to be ignored.
+          example: false
+        state:
+          type: string
+          description: 'State of the print request (may be `null` if not processed yet). Possible values: PROCESSING, PRINTED, ERROR'
+          example: ERROR
+          enum:
+          - PROCESSING
+          - PRINTED
+          - ERROR
+        stateMessage:
+          type: string
+          description: State message of the print request. In case of an error state it contains the reason of the error.
+          example: There is currently no active Service Agent available. Documents cannot be printed.
+        requestedAt:
+          type: string
+          description: Time at which the print request was created. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
+          example: '2024-06-01T12:34:56'
+        lastAccessedAt:
+          type: string
+          description: Time of the last change of the print job. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
+          example: '2024-06-01T12:45:00'
         queueStoppedMessage:
           type: string
           description: If the queue is stopped due to an error state of a previous print request it contains the reason of the error. If this message is filled the current print request is not processed till the error is fixed.
           example: There is currently no active Service Agent available. Documents cannot be printed.
-        printRequests:
-          type: array
-          description: List of requests in the print queue.
-          items:
-            $ref: '#/components/schemas/GetPrintRequestStateResponseDataElement'
+        userName:
+          type: string
+          description: Name of the user who initiated the print request
+          example: XYZ
       xml:
-        name: GetPrintRequestsResponse
+        name: GetPrintRequestStateResponse
+    QueryDocumentsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        documentInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentInfoDTO'
+        maxResultsExceeded:
+          type: boolean
+        totalCount:
+          type: integer
+      xml:
+        name: QueryDocumentsResponse
     ErrorDTO:
       type: object
       properties:
@@ -2909,7 +3001,7 @@ components:
             $ref: '#/components/schemas/ResponseMessageDTO'
       xml:
         name: Error
-    GetDocumentReferenceObjectsResponseDTO:
+    PrepareDocumentResponseDTO:
       type: object
       properties:
         hasErrors:
@@ -2929,68 +3021,150 @@ components:
           description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
             $ref: '#/components/schemas/ResponseMessageDTO'
-        referenceObjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentReferenceObjectDTO'
-        totalCount:
-          type: integer
+        state:
+          type: string
+          description: The result state of the document processing.
+          example: SUCCESS
+          enum:
+          - SUCCESS
+          - TEMPLATE_MISSING
+          - VERSION_MISMATCH
+          - DOCUMENT_NOT_FOUND
+          - DOCUMENT_LOCKED
+          - DOCUMENT_EXPIRED
+        documentId:
+          type: string
+          description: The unique documentId for a stored document. To be used to retrieve the document at a later time.
+          example: 012345678-abcd-4eff-9876-543210fedcba
+        retentionTimestamp:
+          type: string
+          description: Date to which this document is at least retained in the document store. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
+          example: '2025-01-31T00:00:00'
       xml:
-        name: GetDocumentReferenceObjectsResponse
-    GetDocumentInstancesResponseData:
+        name: PrepareDocumentResponse
+    DocumentReferencesDTO:
+      type: object
+      properties:
+        referenceType:
+          type: string
+          description: Document reference type (only exact match)
+          example: SHIPMENT
+        referenceNumberInList:
+          maxItems: 1000
+          type: array
+          description: List of document reference numbers (max. 1000 elements allowed). Only documents exactly matching these numbers will be returned.
+          items:
+            type: string
+            description: A single document reference number
+            example: '4711'
+        documentTypeInList:
+          maxItems: 1000
+          type: array
+          description: List of referenced (external) document types (max. 1000 elements allowed). Only documents exactly matching these types will be returned.
+          items:
+            type: string
+            description: A single document reference number
+            example: DEMODOC
+      description: Criteria for a single document reference type
+    IntervalFromNowFilterDTO:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
+        duration:
+          type: integer
+          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
+          format: int32
+      description: Initializes the filter with a time interval relative to 'today'.
+    PrintDocumentInstanceResponseData:
       required:
+      - printRequestId
       - state
       type: object
       properties:
         state:
           type: string
-          description: The result state of fetching the document.
+          description: The result state of the document processing
           example: SUCCESS
           enum:
           - SUCCESS
-          - REFERENCE_OBJECT_NOT_FOUND
-        documentInfos:
-          type: array
-          description: Information about the queried documents and their contents.
-          items:
-            $ref: '#/components/schemas/DocumentInstanceInfoDTO'
+          - DOCUMENT_NOT_FOUND
+          - DOCUMENT_LOCKED
+          - DOCUMENT_EXPIRED
+          - LOCKED
+          - DOCUMENT_CONTENT_PENDING
+          - PRINTER_NOT_FOUND
+        printRequestId:
+          type: string
+          description: The unique ID of the created print request.
+          example: 0123456789ABCDEFFEDCBA9876543210
+        effectiveOutputSettings:
+          $ref: '#/components/schemas/OutputSettingsPrinterDTO'
+        documentInfo:
+          $ref: '#/components/schemas/DocumentInfoDTO'
       xml:
-        name: GetDocumentInstancesResponse
-    DocumentReferenceDTO:
+        name: PrintDocumentInstanceResponse
+    QueryDocumentsByIdRequestDTO:
       type: object
       properties:
-        documentType:
-          type:
-          - string
-          - 'null'
-          description: Brief name of the referenced (external) document, e.g. "INVOICE", "PACKING LIST" etc.
-          example: INVOICE
-        referenceType:
-          type:
-          - string
-          - 'null'
-          description: Type of the referenced (external) object, e.g. "CONSIGNEMENT", "PACKAGE", "CUSTOMER" etc.
-          example: CONSIGNEMENT
-        referenceNumber:
-          type:
-          - string
-          - 'null'
-          description: Identification of the referenced (external) object (e.g. a reference number).
-          example: '4711'
-      description: Information describing/identifying the referenced (external) document.
-    OutputSettingsPrinterDTO:
-      type: object
-      properties:
-        printerName:
+        clientSystemId:
           type: string
-          description: Printer name as defined in the operating system. Printers provided by a cloud printing server end with the server name separated by the unicode character \u2601 (cloud symbol)
-          example: MyPrinter
-        printerType:
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
           type: string
-          description: Optional printer type/model identifier. If provided, the value must conform to that of `PrinterRawPrintOptionsDTO.printerModelString` upon printing.
-          example: Zebra ZPL 200dpi
-      description: The output settings contain information of a document in the current output owner context (e.g. printer name and printer type).
-      readOnly: true
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        createdAtRange:
+          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
+        returnTotalCount:
+          type: boolean
+          description: If <code>true</code>, total number of documents found is returned in field <code>totalCount</code>. Total number can be different from number of actually returned documents in case total document count exceeds the value of <code>maxResults</code>
+          example: false
+        maxResults:
+          type: integer
+          description: 'Limits how many documents can be returned in a single request.<br><i>Minimum: 1</i><br><i>Maximum: 100</i><br><i>Default: 30</i>'
+          format: int32
+          example: 30
+        skipFirst:
+          type: integer
+          description: If set, defines the number of documents that will be skipped before collecting results. Use this to retrieve further documents if a previous query did not return all required documents. The number must not exceed 10000
+          format: int32
+          example: 0
+        orderBy:
+          type: string
+          description: 'Defines how the requested documents are sorted.<ul><li><code>CREATED_AT_ASC</code> : <i>Sorted by date/time of document creation, oldest first.</i></li><li><code>CREATED_AT_DESC</code> : <i>Sorted by date/time of document creation, newest first.</i></li><li><code>REFERENCE_NUMBER_ASC</code> : <i>Sorted by document reference number, alphabetically ascending.</i></li><li><code>REFERENCE_NUMBER_DESC</code> : <i>Sorted by document reference number, alphabetically descending.</i></li><li><code>REFERENCE_TYPE_ASC</code> : <i>Sorted by document reference type, alphabetically ascending.</i></li><li><code>REFERENCE_TYPE_DESC</code> : <i>Sorted by document reference type, alphabetically descending.</i></li></ul>'
+          example: CREATED_AT_ASC
+          enum:
+          - CREATED_AT_ASC
+          - CREATED_AT_DESC
+          - REFERENCE_NUMBER_ASC
+          - REFERENCE_NUMBER_DESC
+          - REFERENCE_TYPE_ASC
+          - REFERENCE_TYPE_DESC
+        documentIdInList:
+          maxItems: 1000
+          type: array
+          description: List of document IDs (max. 1000 elements allowed). Only documents exactly matching these IDs will be returned.
+          items:
+            type: string
+            description: A single document ID
+            default: documentId
     QueryDocumentsByRefRequestDTO:
       type: object
       properties:
@@ -3049,102 +3223,6 @@ components:
           description: List of document reference criteria (max. 1000 elements allowed). Only documents exactly matching these criteria will be returned.
           items:
             $ref: '#/components/schemas/DocumentReferencesDTO'
-    GetPrintRequestStateResponseDataElement:
-      required:
-      - documentId
-      - printRequestId
-      type: object
-      properties:
-        printRequestId:
-          type: string
-          description: The unique ID of the print request
-          example: 0123456789ABCDEFFEDCBA9876543210
-        documentId:
-          type: string
-          description: The unique documentId which defines the document to be printed
-          example: 012345678-abcd-4eff-9876-543210fedcba
-        stopOnError:
-          type: boolean
-          description: Indicates a print job as sequential relevant. The following print jobs are not executed as long as the print job is in error state or is not ignored.
-          example: false
-        isIgnored:
-          type: boolean
-          description: Indicates that the print request has to be ignored.
-          example: false
-        state:
-          type: string
-          description: 'State of the print request (may be `null` if not processed yet). Possible values: PROCESSING, PRINTED, ERROR'
-          example: ERROR
-          enum:
-          - PROCESSING
-          - PRINTED
-          - ERROR
-        stateMessage:
-          type: string
-          description: State message of the print request. In case of an error state it contains the reason of the error.
-          example: There is currently no active Service Agent available. Documents cannot be printed.
-        requestedAt:
-          type: string
-          description: Time at which the print request was created. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
-          example: '2024-06-01T12:34:56'
-        lastAccessedAt:
-          type: string
-          description: Time of the last change of the print job. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
-          example: '2024-06-01T12:45:00'
-        queueStoppedMessage:
-          type: string
-          description: If the queue is stopped due to an error state of a previous print request it contains the reason of the error. If this message is filled the current print request is not processed till the error is fixed.
-          example: There is currently no active Service Agent available. Documents cannot be printed.
-        userName:
-          type: string
-          description: Name of the user who initiated the print request
-          example: XYZ
-      description: Latest info of the updated print request as returned immediately after update action.
-    PrintDocumentInstanceResponseDTO:
-      required:
-      - printRequestId
-      - state
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        state:
-          type: string
-          description: The result state of the document processing
-          example: SUCCESS
-          enum:
-          - SUCCESS
-          - DOCUMENT_NOT_FOUND
-          - DOCUMENT_LOCKED
-          - DOCUMENT_EXPIRED
-          - LOCKED
-          - DOCUMENT_CONTENT_PENDING
-          - PRINTER_NOT_FOUND
-        printRequestId:
-          type: string
-          description: The unique ID of the created print request.
-          example: 0123456789ABCDEFFEDCBA9876543210
-        effectiveOutputSettings:
-          $ref: '#/components/schemas/OutputSettingsPrinterDTO'
-        documentInfo:
-          $ref: '#/components/schemas/DocumentInfoDTO'
-      xml:
-        name: PrintDocumentInstanceResponse
     DocumentInstanceInfoDTO:
       required:
       - archivedState
@@ -3235,80 +3313,17 @@ components:
             example: '["invoice","priority-high"]'
         documentInstanceReference:
           $ref: '#/components/schemas/DocumentInstanceReferenceDTO'
-    DocumentTemplateSchemaFieldDocumentationDTO:
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          type: string
-          description: 2-letter language code as defined in ISO-639.
-          example: en
-        text:
-          type: string
-          description: Localized field documentation.
-          example: Referent number
-      description: Localizable documentation of the field.
-    XsdToSchemaResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        schema:
-          $ref: '#/components/schemas/DocumentTemplateSchemaDTO'
-      description: XSD conversion response
-      xml:
-        name: XsdToSchemaResponse
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    DocumentReferencesDTO:
+    DocumentReferenceObjectDTO:
       type: object
       properties:
         referenceType:
+          $ref: '#/components/schemas/LocalizedIdentCodeDTO'
+        referenceNumber:
           type: string
-          description: Document reference type (only exact match)
-          example: SHIPMENT
-        referenceNumberInList:
-          maxItems: 1000
+        documentInfos:
           type: array
-          description: List of document reference numbers (max. 1000 elements allowed). Only documents exactly matching these numbers will be returned.
           items:
-            type: string
-            description: A single document reference number
-            example: '4711'
-        documentTypeInList:
-          maxItems: 1000
-          type: array
-          description: List of referenced (external) document types (max. 1000 elements allowed). Only documents exactly matching these types will be returned.
-          items:
-            type: string
-            description: A single document reference number
-            example: DEMODOC
-      description: Criteria for a single document reference type
+            $ref: '#/components/schemas/DocumentInstanceInfoDTO'
     ResponseMessageDTO:
       type: object
       properties:
@@ -3331,6 +3346,149 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
+    DocumentReferenceObjectReferenceDTO:
+      required:
+      - referenceNumber
+      - referenceType
+      type: object
+      properties:
+        referenceType:
+          type: string
+          description: Type of the reference object, e.g. "CONSIGNEMENT", "PACKAGE", "CUSTOMER" etc.
+          example: CONSIGNEMENT
+        referenceNumber:
+          type: string
+          description: Identification of the referenced object. This identification is unique within the type of the referenced object.
+          example: '4711'
+      description: Reference of the associated document's reference object.
+    DocumentTemplateSchemaObjectTypeDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the object type. Starts and ends with a letter; only contains letters, digits, "_", "$". Pattern: `^[a-zA-Z][a-zA-Z0-9_\$]*[a-zA-Z0-9]$|^[a-zA-Z]$`'
+          example: Referent
+        fields:
+          type: array
+          description: Object fields.
+          items:
+            $ref: '#/components/schemas/DocumentTemplateSchemaFieldDTO'
+      description: Object types included in the schema.
+    AbsoluteIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
+        to:
+          type: string
+          description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
+      description: Initializes the filter with a fix interval between two dates.
+    RelativeIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+        to:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
+    GetPrintRequestStateResponseDataElement:
+      required:
+      - documentId
+      - printRequestId
+      type: object
+      properties:
+        printRequestId:
+          type: string
+          description: The unique ID of the print request
+          example: 0123456789ABCDEFFEDCBA9876543210
+        documentId:
+          type: string
+          description: The unique documentId which defines the document to be printed
+          example: 012345678-abcd-4eff-9876-543210fedcba
+        stopOnError:
+          type: boolean
+          description: Indicates a print job as sequential relevant. The following print jobs are not executed as long as the print job is in error state or is not ignored.
+          example: false
+        isIgnored:
+          type: boolean
+          description: Indicates that the print request has to be ignored.
+          example: false
+        state:
+          type: string
+          description: 'State of the print request (may be `null` if not processed yet). Possible values: PROCESSING, PRINTED, ERROR'
+          example: ERROR
+          enum:
+          - PROCESSING
+          - PRINTED
+          - ERROR
+        stateMessage:
+          type: string
+          description: State message of the print request. In case of an error state it contains the reason of the error.
+          example: There is currently no active Service Agent available. Documents cannot be printed.
+        requestedAt:
+          type: string
+          description: Time at which the print request was created. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
+          example: '2024-06-01T12:34:56'
+        lastAccessedAt:
+          type: string
+          description: Time of the last change of the print job. The format of this value is YYYY-MM-DD'T'HH:MM:SS (in UTC time).
+          example: '2024-06-01T12:45:00'
+        queueStoppedMessage:
+          type: string
+          description: If the queue is stopped due to an error state of a previous print request it contains the reason of the error. If this message is filled the current print request is not processed till the error is fixed.
+          example: There is currently no active Service Agent available. Documents cannot be printed.
+        userName:
+          type: string
+          description: Name of the user who initiated the print request
+          example: XYZ
+      description: Latest info of the updated print request as returned immediately after update action.
+    LocalizedIdentCodeDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Reference object type identifier.
+          example: SHIPMENT
+        label:
+          type: string
+          description: Reference object type label.
+          example: Shipment/Consignment
+    DocumentContentStoreInfoDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the content
+          example: invoice.pdf
+        mimeType:
+          type: string
+          description: MimeType of the document content
+          example: application/pdf
+        contentVariant:
+          type: string
+          description: Variant of the document content to distinguish the contents of a document by its format
+          example: PDFa
+      description: Meta values of the available document contents.
+    GetDocumentInstancesResponseData:
+      required:
+      - state
+      type: object
+      properties:
+        state:
+          type: string
+          description: The result state of fetching the document.
+          example: SUCCESS
+          enum:
+          - SUCCESS
+          - REFERENCE_OBJECT_NOT_FOUND
+        documentInfos:
+          type: array
+          description: Information about the queried documents and their contents.
+          items:
+            $ref: '#/components/schemas/DocumentInstanceInfoDTO'
+      xml:
+        name: GetDocumentInstancesResponse
     UpdatePrintRequestResponseData:
       type: object
       properties:
@@ -3347,6 +3505,27 @@ components:
           $ref: '#/components/schemas/GetPrintRequestStateResponseDataElement'
       xml:
         name: UpdatePrintRequestResponse
+    OutputSettingsPrinterDTO:
+      type: object
+      properties:
+        printerName:
+          type: string
+          description: Printer name as defined in the operating system. Printers provided by a cloud printing server end with the server name separated by the unicode character \u2601 (cloud symbol)
+          example: MyPrinter
+        printerType:
+          type: string
+          description: Optional printer type/model identifier. If provided, the value must conform to that of `PrinterRawPrintOptionsDTO.printerModelString` upon printing.
+          example: Zebra ZPL 200dpi
+      description: The output settings contain information of a document in the current output owner context (e.g. printer name and printer type).
+      readOnly: true
+    DateTimeIntervalRangeFilterDTO:
+      type: object
+      properties:
+        relativeInterval:
+          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
+        absoluteInterval:
+          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
+      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - Export Control Internal
-      summary: Update existing transaction labels.
+      summary: Update existing transaction labels
       description: Update the transaction label for existing export control transaction protocols, clearings and clearing protocols after they were created. This method should only be called by the SAP plugin, which always provides a transaction label containing "[SAP has not assigned a no. yet]" in the first check of a check transaction. This placeholder is supposed to be replaced with the help of this method (although the whole label must be passed).
       operationId: setFinalTransactionLabelHost
       requestBody:
@@ -93,6 +93,13 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
     SetFinalLabelRequestDTO:
       required:
       - transactionIdHost
@@ -130,13 +137,6 @@ components:
           description: The updated reference label.
           example: Mandant = 001; Auftragsnr. = 80004989
       description: Request DTO for <code>/ExportControlInternal/setFinalTransactionLabelHost</code> containing identifying data for the entries to be updated as well as the new transaction label.
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

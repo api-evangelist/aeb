@@ -15,8 +15,6 @@ tags:
   description: API to open views that support this generic interface.
 paths:
   /GenericAFBean/getGenericApplicationFacadeInfo:
-    servers:
-    - url: https://rz3.aeb.de/test2ici/rest
     get:
       tags:
       - GenericAFBean
@@ -28,9 +26,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericApplicationFacadeInfoDTO'
-  /GenericAFBean/applications/{applicationName}:
+      summary: Get generic application facade info
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2ici/rest
+  /GenericAFBean/applications/{applicationName}:
     post:
       tags:
       - GenericAFBean
@@ -53,6 +53,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApplicationFacadeDTO'
+      summary: Open
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
 components:
   schemas:
     ApplicationInfoDTO:
@@ -67,6 +71,37 @@ components:
           items:
             $ref: '#/components/schemas/GenericParameterInfoDTO'
       description: Contains information about an application, that can be accessed via GenericAF#open
+    GenericParameterDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the parameter.
+        value:
+          type:
+          - string
+          - 'null'
+          description: The value of the parameter.
+      description: A name-value pair representing a single parameter.
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
+          type: string
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
     AFExecuteProcessParmsDTO:
       type: object
       properties:
@@ -163,63 +198,6 @@ components:
           description: This is the contents that has to be written to the file
           format: byte
       description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    GenericParameterDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the parameter.
-        value:
-          type:
-          - string
-          - 'null'
-          description: The value of the parameter.
-      description: A name-value pair representing a single parameter.
-    GenericApplicationFacadeInfoDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        applicationInfoDTOs:
-          type: array
-          description: A set of application info DTOs, each representing an available application with the allowed parameters.
-          items:
-            $ref: '#/components/schemas/ApplicationInfoDTO'
-      description: 'The result DTO for #getGenericApplicationFacadeInfo().'
-    ApplicationFacadeDTO:
-      type: object
-      properties:
-        sessionid:
-          type: string
-          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
-        httpUrl:
-          type: string
-          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
-        urlCloseToken:
-          type: string
-          description: URL token to check on the remote system (for example SAP) if the browser was closed.
-        executeProcess:
-          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
-        shellExecute:
-          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
-      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
-      xml:
-        name: ApplicationFacade
     TextInLanguageDTO:
       type: object
       properties:
@@ -268,6 +246,32 @@ components:
           description: The maximal length of the sent value.
           format: int32
       description: Information about a specific parameter for an application.
+    GenericApplicationFacadeInfoDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        applicationInfoDTOs:
+          type: array
+          description: A set of application info DTOs, each representing an available application with the allowed parameters.
+          items:
+            $ref: '#/components/schemas/ApplicationInfoDTO'
+      description: 'The result DTO for #getGenericApplicationFacadeInfo().'
     ResponseMessageDTO:
       type: object
       properties:

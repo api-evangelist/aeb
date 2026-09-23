@@ -50,6 +50,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get carrier setup
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -116,6 +118,8 @@ paths:
                   description: Carrier definition not found
                   value:
                     errorMessage: Keine Dienstleister-Definition mit der ID 'BASS' gefunden.
+      summary: Create or update carrier setup
+      x-summary-source: derived
     delete:
       tags:
       - CarrierSetup
@@ -169,6 +173,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Delete carrier setup
+      x-summary-source: derived
   /carrier-setups:
     get:
       tags:
@@ -223,6 +229,8 @@ paths:
                       isEnabled: false
                       name: DHL Paket international
                       type: STANDARD
+      summary: Search carrier setups
+      x-summary-source: derived
   /carrier-setups/{id}/additional-values/{additional-value-id}:
     get:
       tags:
@@ -281,6 +289,8 @@ paths:
                   description: Additional value setup not found
                   value:
                     errorMessage: Keine Zusatzfeld-Einrichtung mit der ID 'UPSOTHERCHA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+      summary: Get additional value setup
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -390,6 +400,8 @@ paths:
                   value:
                     errorMessage: 'Commit der Transaktion ist fehlgeschlagen: Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
                     errorCause: 'Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
+      summary: Create or update additional value setup
+      x-summary-source: derived
     delete:
       tags:
       - CarrierSetup
@@ -447,6 +459,8 @@ paths:
                   description: Additional value setup not found
                   value:
                     errorMessage: Keine Zusatzfeld-Einrichtung mit der ID 'UPSOTHERCHA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+      summary: Delete additional value setup
+      x-summary-source: derived
   /carrier-setups/{id}/additional-values:
     get:
       tags:
@@ -507,6 +521,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get additional value setups
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -627,6 +643,8 @@ paths:
                   value:
                     errorMessage: 'Commit der Transaktion ist fehlgeschlagen: Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
                     errorCause: 'Cannot commit changes: Zusatzfeld - [testD]: Es existiert bereits ein Eintrag für Zusatzfeld mit Dienstleister-Einrichtung ''UPS EMEA'' und Kürzel ''TEST12''.'
+      summary: Create or update all additional value setups
+      x-summary-source: derived
   /carrier-setups/{id}/application-url:
     get:
       tags:
@@ -662,6 +680,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get carrier setup application URL
+      x-summary-source: derived
   /carrier-setups/{id}/carrier-info-texts:
     get:
       tags:
@@ -710,6 +730,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get carrier info text setups
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -796,6 +818,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Create or update all carrier info text setups
+      x-summary-source: derived
   /carrier-setups/{id}/carrier-info-texts/{carrier-info-text-id}:
     get:
       tags:
@@ -840,6 +864,8 @@ paths:
                   description: Carrier info text setup not found
                   value:
                     errorMessage: Keine Hinweistext-Einrichtung mit der ID 'TES' für die Dienstleister-Einrichtung 'SCHENKER_ROAD_DE' gefunden.
+      summary: Get carrier info text setup
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -911,6 +937,8 @@ paths:
                   description: Carrier info text definition not found
                   value:
                     errorMessage: Keine Hinweistext-Definition mit der ID 'UPS_EXPR_SAV' für die Dienstleister-Definition 'UPS' gefunden.
+      summary: Create or update carrier info text setup
+      x-summary-source: derived
     delete:
       tags:
       - CarrierSetup
@@ -970,6 +998,8 @@ paths:
                   description: Carrier info text setup not found
                   value:
                     errorMessage: Keine Hinweistext-Einrichtung mit der ID 'TES' für die Dienstleister-Einrichtung 'SCHENKER_ROAD_DE' gefunden.
+      summary: Delete carrier info text setup
+      x-summary-source: derived
   /carrier-setups/{id}/services:
     get:
       tags:
@@ -1011,6 +1041,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get service setups
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -1083,6 +1115,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Create or update all service setups
+      x-summary-source: derived
   /carrier-setups/{id}/services/{service-id}:
     get:
       tags:
@@ -1127,6 +1161,8 @@ paths:
                   description: Service setup not found
                   value:
                     errorMessage: Keine Service-Einrichtung mit der ID 'UPS_EXPR_SA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+      summary: Get service setup
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -1198,6 +1234,8 @@ paths:
                   description: Service definition not found
                   value:
                     errorMessage: Keine Service-Definition mit der ID 'UPS_EXPR_SA' für die Dienstleister-Definition 'UPS' gefunden.
+      summary: Create or update service setup
+      x-summary-source: derived
     delete:
       tags:
       - CarrierSetup
@@ -1257,6 +1295,8 @@ paths:
                   description: Service setup not found
                   value:
                     errorMessage: Keine Service-Einrichtung mit der ID 'UPS_EXPR_SA' für die Dienstleister-Einrichtung 'UPS' gefunden.
+      summary: Delete service setup
+      x-summary-source: derived
   /carrier-setups/{id}/status:
     get:
       tags:
@@ -1292,6 +1332,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get carrier setup status
+      x-summary-source: derived
   /carrier-setups/{id}/value-added-services:
     get:
       tags:
@@ -1333,6 +1375,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Get value added service setups
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -1389,6 +1433,8 @@ paths:
                   description: Carrier setup not found
                   value:
                     errorMessage: Keine Dienstleister-Einrichtung mit der ID 'SCHENKER_ROAD' gefunden.
+      summary: Create or update all value added service setups
+      x-summary-source: derived
   /carrier-setups/{id}/value-added-services/{value-added-service-id}:
     get:
       tags:
@@ -1433,6 +1479,8 @@ paths:
                   description: Value added service setup not found
                   value:
                     errorMessage: Keine Zusatzleistung-Einrichtung mit der ID 'EMAILNOTIF' für die Dienstleister-Einrichtung 'UPS' gefunden.
+      summary: Get value added service setup
+      x-summary-source: derived
     put:
       tags:
       - CarrierSetup
@@ -1488,6 +1536,8 @@ paths:
                   description: Value added service definition not found
                   value:
                     errorMessage: Keine Zusatzleistung-Definition mit der ID 'EMAILNOTIF' für die Dienstleister-Definition 'UPS' gefunden.
+      summary: Create or update value added service setup
+      x-summary-source: derived
     delete:
       tags:
       - CarrierSetup
@@ -1531,18 +1581,112 @@ paths:
                   description: Value added service setup not found
                   value:
                     errorMessage: Keine Zusatzleistung-Einrichtung mit der ID 'EMAILNOTIF' für die Dienstleister-Einrichtung 'UPS' gefunden.
+      summary: Delete value added service setup
+      x-summary-source: derived
 components:
   schemas:
-    CarrierInfoTextSetupPage:
+    AdditionalValuesSetup:
+      required:
+      - identCode
+      - type
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        type:
+          type: string
+          description: The type of the additional value
+          enum:
+          - DEFINITION_BASED
+          - SETUP_SPECIFIC
+        attributes:
+          $ref: '#/components/schemas/AdditionalValueSetupAttributes'
+      description: Information about an additional value setup.
+    AdditionalValueTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the additional value.
+          example: UPS Express
+      description: Name of the additional value in a certain language.
+    AdditionalValueSetupPage:
       required:
       - content
       type: object
       properties:
         content:
           type: array
-          description: List of carrier info text setups.
+          description: List of additional value setups.
           items:
-            $ref: '#/components/schemas/CarrierInfoTextSetup'
+            $ref: '#/components/schemas/AdditionalValuesSetup'
+    ServiceSetup:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier service is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the carrier service is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: List of service setups.
+    CarrierSetupStatus:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: 'The status of the carrier setup. Possible values are: <li>COMPLETE <li>INCOMPLETE<br> COMPLETE means that the carrier setup is ready for use. INCOMPLETE means that the carrier setup still has status objectives and therefore is not ready for use.'
+          readOnly: true
+          enum:
+          - COMPLETE
+          - INCOMPLETE
+      description: The status of a carrier setup.
+    ValueAddedService:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the value added service is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the value added service is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: Information about the value added service setup.
     AdditionalValueSetupAttributes:
       required:
       - businessObject
@@ -1584,88 +1728,16 @@ components:
           items:
             $ref: '#/components/schemas/AdditionalValueChoiceEntry'
       description: Information about the additional value setup.
-    ServiceSetup:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the carrier service is inactive and not available for new shipments.
-          example: true
-        isDeprecated:
-          type: boolean
-          description: If true, the carrier service is deprecated an should not be used anymore for new shipments.
-          readOnly: true
-          example: true
-      description: List of service setups.
-    AebProblemError:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Code identifying the type of the error.
-          example: INVALID_VALUE
-        message:
-          type: string
-          description: Description of the error.
-          example: Item number invalid
-        field:
-          type: string
-          description: JSON pointer to a data field that contains the erroneous value.
-          example: items/2/itemNumber
-        value:
-          type: string
-          description: Textual representation of the erroneous value.
-          example: 7411A
-      description: Array of related errors
-    ChoiceEntryTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        name:
-          maxLength: 40
-          minLength: 0
-          type: string
-          description: The name of the choice entry
-          example: UPS Express
-      description: Name of the choice entry in a certain language.
-    AdditionalValueSetupPage:
+    ValueAddedServicePage:
       required:
       - content
       type: object
       properties:
         content:
           type: array
-          description: List of additional value setups.
+          description: List of value added service setups.
           items:
-            $ref: '#/components/schemas/AdditionalValuesSetup'
-    CarrierSetupStatus:
-      required:
-      - status
-      type: object
-      properties:
-        status:
-          type: string
-          description: 'The status of the carrier setup. Possible values are: <li>COMPLETE <li>INCOMPLETE<br> COMPLETE means that the carrier setup is ready for use. INCOMPLETE means that the carrier setup still has status objectives and therefore is not ready for use.'
-          readOnly: true
-          enum:
-          - COMPLETE
-          - INCOMPLETE
-      description: The status of a carrier setup.
+            $ref: '#/components/schemas/ValueAddedService'
     AdditionalValueChoiceEntry:
       required:
       - identCode
@@ -1688,32 +1760,25 @@ components:
           items:
             $ref: '#/components/schemas/ChoiceEntryTextTranslation'
       description: Additional information about the choice entry of an additional value.
-    ValueAddedServicePage:
+    ChoiceEntryTextTranslation:
       required:
-      - content
+      - language
       type: object
       properties:
-        content:
-          type: array
-          description: List of value added service setups.
-          items:
-            $ref: '#/components/schemas/ValueAddedService'
-    CarrierSetupPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of carrier setups.
-          items:
-            $ref: '#/components/schemas/CarrierSetup'
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: The name of the choice entry
+          example: UPS Express
+      description: Name of the choice entry in a certain language.
     ServiceSetupPage:
       required:
       - content
@@ -1724,9 +1789,40 @@ components:
           description: List of service setups.
           items:
             $ref: '#/components/schemas/ServiceSetup'
-    AdditionalValuesSetup:
+    CarrierInfoTextSetupPage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of carrier info text setups.
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextSetup'
+    CarrierInfoTextSetup:
       required:
       - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier info text is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the carrier info text is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: List of carrier info text setups.
+    CarrierSetup:
+      required:
+      - identCode
+      - name
       - type
       type: object
       properties:
@@ -1735,15 +1831,27 @@ components:
           minLength: 1
           type: string
           description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier setup is logically deleted. <br> Disabling a carrier setup means that it cannot be linked to new shipments any more. <br>Disabled carrier setups are considered in both PUT and DELETE /carrier-setups API methods.
+          example: false
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the carrier setup
+          readOnly: true
+          example: DHL Paket international
         type:
           type: string
-          description: The type of the additional value
+          description: The type of the carrier setup
+          readOnly: true
+          example: STANDARD
           enum:
-          - DEFINITION_BASED
-          - SETUP_SPECIFIC
-        attributes:
-          $ref: '#/components/schemas/AdditionalValueSetupAttributes'
-      description: Information about an additional value setup.
+          - STANDARD
+          - PROJECT
+          - CLIENT
+      description: The most important information of the carrier setup.
     AebProblem:
       type: object
       properties:
@@ -1788,98 +1896,42 @@ components:
           description: Array of related errors
           items:
             $ref: '#/components/schemas/AebProblemError'
-    CarrierSetup:
-      required:
-      - identCode
-      - name
-      - type
+    AebProblemError:
       type: object
       properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
+        code:
           type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the carrier setup is logically deleted. <br> Disabling a carrier setup means that it cannot be linked to new shipments any more. <br>Disabled carrier setups are considered in both PUT and DELETE /carrier-setups API methods.
-          example: false
-        name:
-          maxLength: 50
-          minLength: 0
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
           type: string
-          description: The name of the carrier setup
-          readOnly: true
-          example: DHL Paket international
-        type:
+          description: Description of the error.
+          example: Item number invalid
+        field:
           type: string
-          description: The type of the carrier setup
-          readOnly: true
-          example: STANDARD
-          enum:
-          - STANDARD
-          - PROJECT
-          - CLIENT
-      description: The most important information of the carrier setup.
-    ValueAddedService:
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
+    CarrierSetupPage:
       required:
-      - identCode
+      - content
+      - totalElements
       type: object
       properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the value added service is inactive and not available for new shipments.
-          example: true
-        isDeprecated:
-          type: boolean
-          description: If true, the value added service is deprecated an should not be used anymore for new shipments.
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
           readOnly: true
-          example: true
-      description: Information about the value added service setup.
-    CarrierInfoTextSetup:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the carrier info text is inactive and not available for new shipments.
-          example: true
-        isDeprecated:
-          type: boolean
-          description: If true, the carrier info text is deprecated an should not be used anymore for new shipments.
-          readOnly: true
-          example: true
-      description: List of carrier info text setups.
-    AdditionalValueTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        name:
-          maxLength: 50
-          minLength: 0
-          type: string
-          description: The name of the additional value.
-          example: UPS Express
-      description: Name of the additional value in a certain language.
+          example: 100
+        content:
+          type: array
+          description: List of carrier setups.
+          items:
+            $ref: '#/components/schemas/CarrierSetup'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

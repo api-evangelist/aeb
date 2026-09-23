@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Aeb Foundation AF Bean API
   version: '1.0'
-  description: 'Operations tagged FoundationAFBean across 10 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged FoundationAFBean across 10 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json.'
 servers:
 - url: https://rz3.aeb.de/test2bsm/rest
 - url: https://rz3.aeb.de/demo1cai/rest
@@ -22,12 +22,16 @@ tags:
   description: Business facade for the XNSGFoundation UI API
 paths:
   /FoundationAFBean/releaseApplicationFacade:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     post:
       tags:
       - FoundationAFBean
-      description: Release a UI API which is no longer needed.<br> This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.<br> The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.<br> The RFC name of this function is \"/AEB/XNSG_IF_RELAF\".
+      description: 'Release a UI API which is no longer needed.
+
+        This call will save resources in the server, because the server must not wait for the timeout of the UI API session but can release it earlier.
+
+        The method should only be called if it is definitively known, that no access to the UI API by the user is possible any more, e.g. because the surrounding client GUI window was closed.
+
+        The RFC name of this function is \"/AEB/XNSG_IF_RELAF\".'
       operationId: releaseApplicationFacade
       parameters:
       - name: sessionid
@@ -40,13 +44,19 @@ paths:
           description: No result.
           content:
             application/json: {}
-  /FoundationAFBean/workplace:
+      summary: Release application facade
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationAFBean/workplace:
     post:
       tags:
       - FoundationAFBean
-      description: Creates an UI API to be able to display the workplace.<br> The difference of this method compared to the the method \"IFoundationBF.getWorkplaceURL()\" is the fact, that no logon mask will be dipsplayed before entering the workplace<br> The RFC name of this function is \"/AEB/XNSG_IF_WPL\".
+      description: 'Creates an UI API to be able to display the workplace.
+
+        The difference of this method compared to the the method \"IFoundationBF.getWorkplaceURL()\" is the fact, that no logon mask will be dipsplayed before entering the workplace
+
+        The RFC name of this function is \"/AEB/XNSG_IF_WPL\".'
       operationId: workplace
       requestBody:
         content:
@@ -60,8 +70,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApplicationFacadeDTO'
+      summary: Workplace
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
+          type: string
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -125,49 +182,6 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    ApplicationFacadeDTO:
-      type: object
-      properties:
-        sessionid:
-          type: string
-          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
-        httpUrl:
-          type: string
-          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
-        urlCloseToken:
-          type: string
-          description: URL token to check on the remote system (for example SAP) if the browser was closed.
-        executeProcess:
-          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
-        shellExecute:
-          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
-      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
-      xml:
-        name: ApplicationFacade
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -21,8 +21,6 @@ tags:
   description: REST endpoint for FoundationBF
 paths:
   /FoundationBFBean/acknowledgeFile:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     post:
       tags:
       - FoundationBFBean
@@ -40,9 +38,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AcknowledgeFileResponseDTO'
-  /FoundationBFBean/announceStop:
+      summary: Acknowledge file
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/announceStop:
     post:
       tags:
       - FoundationBFBean
@@ -60,9 +60,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AnnounceStopResultDTO'
-  /FoundationBFBean/cancelAnnounceStop:
+      summary: Announce stop
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/cancelAnnounceStop:
     post:
       tags:
       - FoundationBFBean
@@ -80,9 +82,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CancelAnnounceStopResultDTO'
-  /FoundationBFBean/changeAdminPassword:
+      summary: Cancel announce stop
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/changeAdminPassword:
     post:
       tags:
       - FoundationBFBean
@@ -100,9 +104,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChangeAdminPasswordResultDTO'
-  /FoundationBFBean/client:
+      summary: Change admin password
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/client:
     get:
       tags:
       - FoundationBFBean
@@ -128,6 +134,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClientDTO'
+      summary: Query clients
+      x-summary-source: derived
     post:
       tags:
       - FoundationBFBean
@@ -145,9 +153,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateClientResponseDTO'
-  /FoundationBFBean/downloadFile:
+      summary: Create client
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/downloadFile:
     post:
       tags:
       - FoundationBFBean
@@ -165,9 +175,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DownloadFileResponseDTO'
-  /FoundationBFBean/generateClientIdentCode:
+      summary: Download file
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/generateClientIdentCode:
     post:
       tags:
       - FoundationBFBean
@@ -181,9 +193,11 @@ paths:
       responses:
         '200':
           description: The client ident code.
-  /FoundationBFBean/client/active:
+      summary: Generate client ident code
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/client/active:
     get:
       tags:
       - FoundationBFBean
@@ -198,9 +212,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClientDTO'
-  /FoundationBFBean/monitoringValue:
+      summary: Get all active clients
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/monitoringValue:
     get:
       tags:
       - FoundationBFBean
@@ -215,9 +231,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/MonitoringDataProviderDTO'
-  /FoundationBFBean/solution/{name}/build:
+      summary: Get all monitoring values 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/solution/{name}/build:
     get:
       tags:
       - FoundationBFBean
@@ -233,9 +251,11 @@ paths:
       responses:
         '200':
           description: Contains the build info.
-  /FoundationBFBean/downloadableFileRefs:
+      summary: Get build for solution 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/downloadableFileRefs:
     post:
       tags:
       - FoundationBFBean
@@ -253,9 +273,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DLFilesRefsResponseDTO'
-  /FoundationBFBean/monitoringValue/{groupName}/{valueName}:
+      summary: Get downloadable files refs
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/monitoringValue/{groupName}/{valueName}:
     get:
       tags:
       - FoundationBFBean
@@ -277,9 +299,11 @@ paths:
       responses:
         '200':
           description: The monitoring value.
-  /FoundationBFBean/numberOfClients:
+      summary: Get monitoring value 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/numberOfClients:
     get:
       tags:
       - FoundationBFBean
@@ -288,9 +312,11 @@ paths:
       responses:
         '200':
           description: The client count.
-  /FoundationBFBean/productInfo:
+      summary: Get number of clients
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/productInfo:
     get:
       tags:
       - FoundationBFBean
@@ -303,9 +329,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductInfoDTO'
-  /FoundationBFBean/runtimeInfo:
+      summary: Get product info 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/runtimeInfo:
     get:
       tags:
       - FoundationBFBean
@@ -318,9 +346,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RuntimeInfoDTO'
-  /FoundationBFBean/scriptExecutionState:
+      summary: Get runtime info 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/scriptExecutionState:
     post:
       tags:
       - FoundationBFBean
@@ -338,9 +368,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScriptExecutionStateResultDTO'
-  /FoundationBFBean/tableUpdateState:
+      summary: Get script execution state
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/tableUpdateState:
     post:
       tags:
       - FoundationBFBean
@@ -358,9 +390,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TableUpdateStateResultDTO'
-  /FoundationBFBean/uploadSettings:
+      summary: Get table update state
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/uploadSettings:
     post:
       tags:
       - FoundationBFBean
@@ -378,9 +412,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadSettingsResponseDTO'
-  /FoundationBFBean/solution/{name}/version:
+      summary: Get upload settings
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/solution/{name}/version:
     get:
       tags:
       - FoundationBFBean
@@ -400,9 +436,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfoDTO'
-  /FoundationBFBean/workplaceURL:
+      summary: Get version for solution 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/workplaceURL:
     get:
       tags:
       - FoundationBFBean
@@ -411,9 +449,11 @@ paths:
       responses:
         '200':
           description: The workspace url.
-  /FoundationBFBean/checkDebtorNumber:
+      summary: Get workplace URL
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/checkDebtorNumber:
     get:
       tags:
       - FoundationBFBean
@@ -428,9 +468,11 @@ paths:
       responses:
         '200':
           description: True if known.
-  /FoundationBFBean/publishUserMessage:
+      summary: Is debtor number known
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/publishUserMessage:
     post:
       tags:
       - FoundationBFBean
@@ -448,9 +490,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublishMessageResponseDTO'
-  /FoundationBFBean/roles:
+      summary: Publish user message
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/roles:
     get:
       tags:
       - FoundationBFBean
@@ -465,9 +509,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RoleInfoDTO'
-  /FoundationBFBean/roles/{clientIdentCode}:
+      summary: Request report
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/roles/{clientIdentCode}:
     get:
       tags:
       - FoundationBFBean
@@ -493,9 +539,11 @@ paths:
           description: Client ident code is invalid.
         '404':
           description: No client with that ident code exists.
-  /FoundationBFBean/restartRFCServer:
+      summary: Request report 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/restartRFCServer:
     post:
       tags:
       - FoundationBFBean
@@ -506,9 +554,11 @@ paths:
           description: default response
           content:
             application/json: {}
-  /FoundationBFBean/sendMail:
+      summary: Restart RFC server 1
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/sendMail:
     post:
       tags:
       - FoundationBFBean
@@ -526,9 +576,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendMailResultDTO'
-  /FoundationBFBean/startScriptExecution:
+      summary: Send mail
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/startScriptExecution:
     post:
       tags:
       - FoundationBFBean
@@ -546,9 +598,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StartScriptExecutionResultDTO'
-  /FoundationBFBean/startTableUpdate:
+      summary: Start script execution
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/startTableUpdate:
     post:
       tags:
       - FoundationBFBean
@@ -566,9 +620,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TableUpdateStateResultDTO'
-  /FoundationBFBean/systemSearch/{language}:
+      summary: Start table update
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/systemSearch/{language}:
     post:
       tags:
       - FoundationBFBean
@@ -597,9 +653,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SystemSearchResultDTO'
-  /FoundationBFBean/uploadFileMultiPart:
+      summary: System search
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /FoundationBFBean/uploadFileMultiPart:
     post:
       tags:
       - FoundationBFBean
@@ -624,103 +682,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadFileResponseDTO'
+      summary: Upload file multi part
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
+    DLFilesRefsResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+        downloadableFilesReferences:
+          type: array
+          description: The references of files available for download
+          items:
+            $ref: '#/components/schemas/SimpleFileDTO'
+      description: Contains the result for a request to get the number of files available for download
     CancelAnnounceStopParmDTO:
       type: object
       description: parameter necessary to cancel an announced stop
-    DataSource:
-      type: object
-      properties:
-        contentType:
-          type: string
-        outputStream:
-          type: object
-        inputStream:
-          type: object
-        name:
-          type: string
-    SendMailParmDTO:
-      type: object
-      properties:
-        receivers:
-          type: array
-          description: receivers of the mail
-          items:
-            type: string
-            description: receivers of the mail
-        replytos:
-          type: array
-          description: reply to addresses of the mail
-          items:
-            type: string
-            description: reply to addresses of the mail
-        ccs:
-          type: array
-          description: ccs of the mail
-          items:
-            type: string
-            description: ccs of the mail
-        bccs:
-          type: array
-          description: bccs of the mail
-          items:
-            type: string
-            description: bccs of the mail
-        subject:
-          type: string
-          description: subject of the mail
-        content:
-          type: string
-          description: content of the mail
-        contentType:
-          type: string
-          description: content-type of the mail
-        mimeCharSet:
-          type: string
-          description: MIME-characterset of the mail
-        attachments:
-          type: array
-          description: Attachments of the mail
-          items:
-            $ref: '#/components/schemas/SendMailAttachmentParmDTO'
-      description: Parameter necessary for sending a mail
-    UploadSettingsRequestDTO:
-      type: object
-      properties:
-        channelID:
-          type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
-          type: string
-          description: An identCode of the client. Controls data visibility.
-      description: retrieves the server settings for uploading files via SFT interface
-    ScriptExecutionRowDTO:
-      type: object
-      properties:
-        columns:
-          type: array
-          description: columns of a row
-          items:
-            type: string
-            description: columns of a row
-        dummy:
-          type: string
-          description: dummy
-      description: This dto contains the data of a single line in script result
-    StartScriptExecutionResultDTO:
-      type: object
-      properties:
-        uuid:
-          type: string
-          description: uuid assigned to the BF call
-        isFailed:
-          type: boolean
-          description: Returns true, if start script execution failed, e.g. generation of uuid failed
-        info:
-          type: string
-          description: information about the start
-      description: result of start script execution
     TableUpdateStateResultDTO:
       type: object
       properties:
@@ -741,18 +726,73 @@ components:
           type: boolean
           description: Returns true, if the schema synchronisation failed
       description: Contains the result information of the get table update state bf
-    AcknowledgeFileRequestDTO:
+    SendMailAttachmentParmDTO:
       type: object
       properties:
-        channelID:
+        fileContent:
           type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
+          description: Content of the attachment file
+          format: byte
+        fileContentType:
           type: string
-          description: An identCode of the client. Controls data visibility.
-        fileReference:
-          $ref: '#/components/schemas/SimpleFileDTO'
-      description: Contains information about the result of a file transfer
+          description: Content-type of the attachment (e.g. "application/octet-stream")
+        fileName:
+          type: string
+          description: Name of the attachment file
+      description: Contains an attachment for an email.
+    TableUpdateStateParmDTO:
+      type: object
+      description: the parameter necessary to ask the server for the current state of the table update
+    ChangeAdminPasswordParmDTO:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          description: the old admin password
+        newPassword:
+          type: string
+          description: the new admin password
+      description: This class contains the old and the new admin password
+    StartTableUpdateParmDTO:
+      type: object
+      description: parameter necessary for the table update
+    SendMailResultDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: true on success
+        errorMessage:
+          type: string
+          description: error-message, if an error occured
+      description: Contains the result of the sendMail method.
+    SystemSearchResultDTO:
+      type: object
+      properties:
+        category:
+          type: string
+          description: search category where this result belongs to
+        type:
+          type: string
+          description: type of result, e.g. class name of model object - defined within the category
+        state:
+          type: string
+          description: state of the item described by this result - possible values are defined within the category
+        key:
+          type: string
+          description: key of the object described by this item. - format defined within the category for each type
+        text:
+          type: string
+          description: explanation of this search result
+        relevance:
+          type: integer
+          description: relevance of the result; an indication (in percent, ranging from 0 .. 100) of how much the result matches the query
+          format: int32
+        depth:
+          type: integer
+          description: an integer >= 0 describing the hierarchical level of the result; it can be used to format the textual output
+          format: int32
+      description: DTO contained in the result array of systemSearch function
     RoleInfoDTO:
       type: object
       properties:
@@ -787,43 +827,59 @@ components:
             type: string
             description: the implied roles
       description: dto for roles
-    MessageTextsDTO:
+    GenerateClientIdentCodeRequestDTO:
       type: object
       properties:
-        locale:
+        clientIdentCode:
           type: string
-          description: locale for the texts - must be a language supported by the system
-        uuid:
+          description: client ident code should be generated
+        debtorNumber:
           type: string
-          description: uuid of user tip - should only be filled when updating existing tip
-        title:
+          description: debtor number
+      description: encapsulates the request parameters
+    AcknowledgeFileResponseDTO:
+      type: object
+      properties:
+        errorCode:
           type: string
-          description: title of the user tip
-        text:
+          description: A short error code.
+        errorMessage:
           type: string
-          description: text of the user tip
-        titlePopup:
+          description: A human-readable error message
+      description: Contains the result for an acknowledge file request.
+    ProductInfoDTO:
+      type: object
+      properties:
+        productName:
           type: string
-          description: title of the popup, when shown as popup
-        textPopup:
-          type: string
-          description: text of the popup, when shown as popup
-        links:
+          description: This is the name of the product that is deployed to this server.
+        productVersion:
+          $ref: '#/components/schemas/VersionInfoDTO'
+        solutions:
           type: array
-          description: links associated with the tip
+          description: This contains a list of names of all solutions, which are deployed to the server.
           items:
-            $ref: '#/components/schemas/LinkDTO'
-      description: locale specific data of the user tip. key is the language iso code.This language must be defined, or tip is not created.
-    CommandInfo:
+            type: string
+            description: This contains a list of names of all solutions, which are deployed to the server.
+        productNameInternal:
+          type: string
+          description: This is the name of the product that is deployed to this server in its original manner.
+      description: This class holds various information items of the server which serves this request.
+    AnnounceStopParmDTO:
       type: object
       properties:
-        commandClass:
+        utcStopAtYYYYMMDDHHMMSS:
           type: string
-        commandName:
-          type: string
-    CancelAnnounceStopResultDTO:
-      type: object
-      description: Contains the result information of the cancel announce stop bf
+          description: the server will stop at this date/time
+        expectedDowntimeMinutes:
+          type: integer
+          description: the server will be down for the period in minutes
+          format: int32
+        preventedLogonMinutes:
+          type: integer
+          description: The server will prevent new logons for this number of minutes before the date specified for the stop (see property utcStopAtYYYYMMDDHHMMSS).
+          format: int32
+      description: parameter necessary to announce a stop of the server
     DLFilesRefsRequestDTO:
       type: object
       properties:
@@ -848,6 +904,163 @@ components:
           items:
             $ref: '#/components/schemas/MessageDataDTO'
       description: Contains ids of user tips that were created, or error messages
+    VersionInfoDTO:
+      type: object
+      properties:
+        version:
+          type: string
+          description: The version string of the solution/product. This String is typically of the form "integer.integer.integer".
+        binaryVersion:
+          type: array
+          description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+          items:
+            type: integer
+            description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+            format: int32
+      description: This class holds version information about a solution or product in a server.
+    SimpleFileDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of a file
+        size:
+          type: integer
+          description: Size of a file
+          format: int64
+      description: Meta-data for a transfer file
+    ScriptExecutionStateResultDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: this table represents the result of the script execution
+          items:
+            $ref: '#/components/schemas/ScriptExecutionRowDTO'
+        isBusy:
+          type: boolean
+          description: Returns true, if the script execution is running
+        isFailed:
+          type: boolean
+          description: Returns true, if the script execution failed
+        info:
+          type: string
+          description: information about the script execution
+      description: Contains the result information of the script execution bf
+    DataHandler:
+      type: object
+      properties:
+        dataSource:
+          $ref: '#/components/schemas/DataSource'
+        commandMap:
+          $ref: '#/components/schemas/CommandMap'
+        preferredCommands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandInfo'
+        allCommands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandInfo'
+        transferDataFlavors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivationDataFlavor'
+        contentType:
+          type: string
+        outputStream:
+          type: object
+        inputStream:
+          type: object
+        content:
+          type: object
+        name:
+          type: string
+      description: The content of a file
+    MessageDataDTO:
+      type: object
+      properties:
+        locale:
+          type: string
+          description: locale of user tip whose results are given here
+        uuid:
+          type: string
+          description: the uuid of the tip (only filled when no error) - should be stored if later tip should be updated
+        error:
+          type: string
+          description: error message, if any error occurred during processing
+      description: resulting user tip for one locale
+    DownloadFileRequestDTO:
+      type: object
+      properties:
+        channelID:
+          type: string
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
+          type: string
+          description: An identCode of the client. Controls data visibility.
+        fileReference:
+          $ref: '#/components/schemas/SimpleFileDTO'
+        parameters:
+          type: array
+          description: A list of generic parameters
+          items:
+            $ref: '#/components/schemas/TransferFileParameterDTO'
+      description: Contains information on how to select a file for transferring
+    LinkDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: url of the link
+        name:
+          type: string
+          description: text to be shown for the link
+        position:
+          type: integer
+          description: position of the link
+          format: int32
+      description: links associated with the tip
+    ScriptExecutionStateParmDTO:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: uuid assigned to the BF call
+      description: parameters necessary to ask the server for the current state of the script execution
+    UploadSettingsResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+        maxFileSize:
+          type: integer
+          description: maximum size of uploadable files
+          format: int64
+      description: retrieves the server settings for uploading files via SFT interface
+    CreateClientResponseDTO:
+      type: object
+      properties:
+        resultState:
+          type: string
+          description: result status
+      description: encapsulates the response parameters
+    AcknowledgeFileRequestDTO:
+      type: object
+      properties:
+        channelID:
+          type: string
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
+          type: string
+          description: An identCode of the client. Controls data visibility.
+        fileReference:
+          $ref: '#/components/schemas/SimpleFileDTO'
+      description: Contains information about the result of a file transfer
     SystemSearchParameterDTO:
       type: object
       properties:
@@ -898,86 +1111,30 @@ components:
           description: file attribute lastAccessTime as FileTime millis
           format: int64
       description: Contains information on how a transmitted file should be processed
-    PublishMessageRequestDTO:
+    DataSource:
       type: object
       properties:
-        contentPerLocale:
-          type: array
-          description: locale specific data of the user tip. key is the language iso code.This language must be defined, or tip is not created.
-          items:
-            $ref: '#/components/schemas/MessageTextsDTO'
-        clientIdentCode:
+        contentType:
           type: string
-          description: ident code of client - when call is not done with administrative rights, this must match the client of authentication
-        showAsPopup:
-          type: boolean
-          description: true when tip is to be shown as popup
-        clientGroup:
+        outputStream:
+          type: object
+        inputStream:
+          type: object
+        name:
           type: string
-          description: client group for which this tip is valid - can only be used when call is authenticated with administrative rights
-        validFrom:
-          type: string
-          description: timestamp from which on the tip is valid, format yyyy-MM-dd or yyyy-MM-ddThh-mm-ss - when null, no restriction is assumed
-        validTo:
-          type: string
-          description: timestamp until which tip is valid, format yyyy-MM-dd or yyyy-MM-ddThh-mm-ss - when null tip is valid indefinitely
-        isReleased:
-          type: boolean
-          description: when true tip is shown - empty means true
-        roleAccessType:
-          type: string
-          description: one of the subclasses of CRoleAccessType, namely REVOK, NECCE, GRANT
-        role:
-          type: string
-          description: role of a user that determines if tip is shown - see roleAccessType which decides if tip is shown to users having this role, not shown to users not having this role
-        isImportantMessage:
-          type: boolean
-          description: when true tip is shown as important message
-        clientLicenceRoles:
-          type: string
-          description: when filled, tip is only shown for clients that have licenced the roles specified here
-        visibilityProperties:
-          type: string
-          description: other properties that define if tip is shown
-        isMailToAdmin:
-          type: boolean
-          description: when true an email is sent to admin to inform about new tip
-        isRealUserTip:
-          type: boolean
-          description: when true tip is considered as real user tip
-      description: the for user tip, possibly in several locales
-    ProductInfoDTO:
+    AnnounceStopResultDTO:
+      type: object
+      description: the result of the announce stop API
+    TransferFileParameterDTO:
       type: object
       properties:
-        productName:
+        key:
           type: string
-          description: This is the name of the product that is deployed to this server.
-        productVersion:
-          $ref: '#/components/schemas/VersionInfoDTO'
-        solutions:
-          type: array
-          description: This contains a list of names of all solutions, which are deployed to the server.
-          items:
-            type: string
-            description: This contains a list of names of all solutions, which are deployed to the server.
-        productNameInternal:
+          description: Key of the parameter
+        value:
           type: string
-          description: This is the name of the product that is deployed to this server in its original manner.
-      description: This class holds various information items of the server which serves this request.
-    ScriptExecutionStateParmDTO:
-      type: object
-      properties:
-        uuid:
-          type: string
-          description: uuid assigned to the BF call
-      description: parameters necessary to ask the server for the current state of the script execution
-    CommandMap:
-      type: object
-      properties:
-        mimeTypes:
-          type: array
-          items:
-            type: string
+          description: Value of the parameter
+      description: A generic parameter for use-case specific information
     RuntimeInfoDTO:
       type: object
       properties:
@@ -1035,33 +1192,93 @@ components:
             description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
           description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
       description: This class holds various runtime information items of the server which serves this request.
-    VersionInfoDTO:
+    ScriptExecutionRowDTO:
       type: object
       properties:
-        version:
-          type: string
-          description: The version string of the solution/product. This String is typically of the form "integer.integer.integer".
-        binaryVersion:
+        columns:
           type: array
-          description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+          description: columns of a row
           items:
-            type: integer
-            description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
-            format: int32
-      description: This class holds version information about a solution or product in a server.
-    MonitoringDataProviderDTO:
+            type: string
+            description: columns of a row
+        dummy:
+          type: string
+          description: dummy
+      description: This dto contains the data of a single line in script result
+    StartScriptExecutionParmDTO:
       type: object
       properties:
-        groupName:
+        scriptContent:
           type: string
-          description: Name of the group.
-        name:
+          description: string value represents the content of script
+        maxRows:
+          type: integer
+          description: max. number of rows included in result of script execution
+          format: int32
+        scriptType:
           type: string
-          description: Name of the entry.
-        value:
+          description: type of script, sql, oql and java script are supported
+        dataPoolName:
           type: string
-          description: Value of the entry - this is a string representation.
-      description: Data Transfer Object for monitoring provider
+          description: name of the data pool with which the sql / oql script will be executed
+      description: parameters for start script execution
+    SendMailParmDTO:
+      type: object
+      properties:
+        receivers:
+          type: array
+          description: receivers of the mail
+          items:
+            type: string
+            description: receivers of the mail
+        replytos:
+          type: array
+          description: reply to addresses of the mail
+          items:
+            type: string
+            description: reply to addresses of the mail
+        ccs:
+          type: array
+          description: ccs of the mail
+          items:
+            type: string
+            description: ccs of the mail
+        bccs:
+          type: array
+          description: bccs of the mail
+          items:
+            type: string
+            description: bccs of the mail
+        subject:
+          type: string
+          description: subject of the mail
+        content:
+          type: string
+          description: content of the mail
+        contentType:
+          type: string
+          description: content-type of the mail
+        mimeCharSet:
+          type: string
+          description: MIME-characterset of the mail
+        attachments:
+          type: array
+          description: Attachments of the mail
+          items:
+            $ref: '#/components/schemas/SendMailAttachmentParmDTO'
+      description: Parameter necessary for sending a mail
+    DownloadFileResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+        downloadFile:
+          $ref: '#/components/schemas/FileDTO'
+      description: Contains the result for a download file request
     ClientDTO:
       type: object
       properties:
@@ -1084,16 +1301,151 @@ components:
           type: string
           description: the debtor number of the client
       description: DTO representing an XNSG Client.
-    SendMailResultDTO:
+    CancelAnnounceStopResultDTO:
+      type: object
+      description: Contains the result information of the cancel announce stop bf
+    MessageTextsDTO:
+      type: object
+      properties:
+        locale:
+          type: string
+          description: locale for the texts - must be a language supported by the system
+        uuid:
+          type: string
+          description: uuid of user tip - should only be filled when updating existing tip
+        title:
+          type: string
+          description: title of the user tip
+        text:
+          type: string
+          description: text of the user tip
+        titlePopup:
+          type: string
+          description: title of the popup, when shown as popup
+        textPopup:
+          type: string
+          description: text of the popup, when shown as popup
+        links:
+          type: array
+          description: links associated with the tip
+          items:
+            $ref: '#/components/schemas/LinkDTO'
+      description: locale specific data of the user tip. key is the language iso code.This language must be defined, or tip is not created.
+    CommandMap:
+      type: object
+      properties:
+        mimeTypes:
+          type: array
+          items:
+            type: string
+    ChangeAdminPasswordResultDTO:
       type: object
       properties:
         success:
           type: boolean
-          description: true on success
+          description: false, if old password was wrong
+      description: Contains the result information of the change admin password bf
+    CommandInfo:
+      type: object
+      properties:
+        commandClass:
+          type: string
+        commandName:
+          type: string
+    UploadSettingsRequestDTO:
+      type: object
+      properties:
+        channelID:
+          type: string
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
+          type: string
+          description: An identCode of the client. Controls data visibility.
+      description: retrieves the server settings for uploading files via SFT interface
+    PublishMessageRequestDTO:
+      type: object
+      properties:
+        contentPerLocale:
+          type: array
+          description: locale specific data of the user tip. key is the language iso code.This language must be defined, or tip is not created.
+          items:
+            $ref: '#/components/schemas/MessageTextsDTO'
+        clientIdentCode:
+          type: string
+          description: ident code of client - when call is not done with administrative rights, this must match the client of authentication
+        showAsPopup:
+          type: boolean
+          description: true when tip is to be shown as popup
+        clientGroup:
+          type: string
+          description: client group for which this tip is valid - can only be used when call is authenticated with administrative rights
+        validFrom:
+          type: string
+          description: timestamp from which on the tip is valid, format yyyy-MM-dd or yyyy-MM-ddThh-mm-ss - when null, no restriction is assumed
+        validTo:
+          type: string
+          description: timestamp until which tip is valid, format yyyy-MM-dd or yyyy-MM-ddThh-mm-ss - when null tip is valid indefinitely
+        isReleased:
+          type: boolean
+          description: when true tip is shown - empty means true
+        roleAccessType:
+          type: string
+          description: one of the subclasses of CRoleAccessType, namely REVOK, NECCE, GRANT
+        role:
+          type: string
+          description: role of a user that determines if tip is shown - see roleAccessType which decides if tip is shown to users having this role, not shown to users not having this role
+        isImportantMessage:
+          type: boolean
+          description: when true tip is shown as important message
+        clientLicenceRoles:
+          type: string
+          description: when filled, tip is only shown for clients that have licenced the roles specified here
+        visibilityProperties:
+          type: string
+          description: other properties that define if tip is shown
+        isMailToAdmin:
+          type: boolean
+          description: when true an email is sent to admin to inform about new tip
+        isRealUserTip:
+          type: boolean
+          description: when true tip is considered as real user tip
+      description: the for user tip, possibly in several locales
+    StartScriptExecutionResultDTO:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: uuid assigned to the BF call
+        isFailed:
+          type: boolean
+          description: Returns true, if start script execution failed, e.g. generation of uuid failed
+        info:
+          type: string
+          description: information about the start
+      description: result of start script execution
+    UploadFileResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
         errorMessage:
           type: string
-          description: error-message, if an error occured
-      description: Contains the result of the sendMail method.
+          description: A human-readable error message
+      description: Contains the result for a upload file request.
+    CreateClientRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The identification code of the client
+        name:
+          type: string
+          description: The name of the client
+        debtorNumber:
+          type: string
+          description: The debtor number (Kundennummer) of a client
+      description: encapsulates the request parameters
     FileDTO:
       type: object
       properties:
@@ -1123,57 +1475,19 @@ components:
           description: file attribute lastAccessTime as FileTime millis
           format: int64
       description: Data Transfer Object for a file.
-    ChangeAdminPasswordParmDTO:
+    MonitoringDataProviderDTO:
       type: object
       properties:
-        oldPassword:
+        groupName:
           type: string
-          description: the old admin password
-        newPassword:
+          description: Name of the group.
+        name:
           type: string
-          description: the new admin password
-      description: This class contains the old and the new admin password
-    SystemSearchResultDTO:
-      type: object
-      properties:
-        category:
+          description: Name of the entry.
+        value:
           type: string
-          description: search category where this result belongs to
-        type:
-          type: string
-          description: type of result, e.g. class name of model object - defined within the category
-        state:
-          type: string
-          description: state of the item described by this result - possible values are defined within the category
-        key:
-          type: string
-          description: key of the object described by this item. - format defined within the category for each type
-        text:
-          type: string
-          description: explanation of this search result
-        relevance:
-          type: integer
-          description: relevance of the result; an indication (in percent, ranging from 0 .. 100) of how much the result matches the query
-          format: int32
-        depth:
-          type: integer
-          description: an integer >= 0 describing the hierarchical level of the result; it can be used to format the textual output
-          format: int32
-      description: DTO contained in the result array of systemSearch function
-    SendMailAttachmentParmDTO:
-      type: object
-      properties:
-        fileContent:
-          type: string
-          description: Content of the attachment file
-          format: byte
-        fileContentType:
-          type: string
-          description: Content-type of the attachment (e.g. "application/octet-stream")
-        fileName:
-          type: string
-          description: Name of the attachment file
-      description: Contains an attachment for an email.
+          description: Value of the entry - this is a string representation.
+      description: Data Transfer Object for monitoring provider
     ActivationDataFlavor:
       type: object
       properties:
@@ -1181,258 +1495,6 @@ components:
           type: string
         humanPresentableName:
           type: string
-    StartTableUpdateParmDTO:
-      type: object
-      description: parameter necessary for the table update
-    ScriptExecutionStateResultDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: this table represents the result of the script execution
-          items:
-            $ref: '#/components/schemas/ScriptExecutionRowDTO'
-        isBusy:
-          type: boolean
-          description: Returns true, if the script execution is running
-        isFailed:
-          type: boolean
-          description: Returns true, if the script execution failed
-        info:
-          type: string
-          description: information about the script execution
-      description: Contains the result information of the script execution bf
-    DownloadFileResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-        downloadFile:
-          $ref: '#/components/schemas/FileDTO'
-      description: Contains the result for a download file request
-    DownloadFileRequestDTO:
-      type: object
-      properties:
-        channelID:
-          type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
-          type: string
-          description: An identCode of the client. Controls data visibility.
-        fileReference:
-          $ref: '#/components/schemas/SimpleFileDTO'
-        parameters:
-          type: array
-          description: A list of generic parameters
-          items:
-            $ref: '#/components/schemas/TransferFileParameterDTO'
-      description: Contains information on how to select a file for transferring
-    ChangeAdminPasswordResultDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: false, if old password was wrong
-      description: Contains the result information of the change admin password bf
-    TableUpdateStateParmDTO:
-      type: object
-      description: the parameter necessary to ask the server for the current state of the table update
-    DLFilesRefsResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-        downloadableFilesReferences:
-          type: array
-          description: The references of files available for download
-          items:
-            $ref: '#/components/schemas/SimpleFileDTO'
-      description: Contains the result for a request to get the number of files available for download
-    UploadSettingsResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-        maxFileSize:
-          type: integer
-          description: maximum size of uploadable files
-          format: int64
-      description: retrieves the server settings for uploading files via SFT interface
-    UploadFileResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-      description: Contains the result for a upload file request.
-    DataHandler:
-      type: object
-      properties:
-        dataSource:
-          $ref: '#/components/schemas/DataSource'
-        commandMap:
-          $ref: '#/components/schemas/CommandMap'
-        preferredCommands:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommandInfo'
-        allCommands:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommandInfo'
-        transferDataFlavors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ActivationDataFlavor'
-        contentType:
-          type: string
-        outputStream:
-          type: object
-        inputStream:
-          type: object
-        content:
-          type: object
-        name:
-          type: string
-      description: The content of a file
-    AcknowledgeFileResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-      description: Contains the result for an acknowledge file request.
-    AnnounceStopParmDTO:
-      type: object
-      properties:
-        utcStopAtYYYYMMDDHHMMSS:
-          type: string
-          description: the server will stop at this date/time
-        expectedDowntimeMinutes:
-          type: integer
-          description: the server will be down for the period in minutes
-          format: int32
-        preventedLogonMinutes:
-          type: integer
-          description: The server will prevent new logons for this number of minutes before the date specified for the stop (see property utcStopAtYYYYMMDDHHMMSS).
-          format: int32
-      description: parameter necessary to announce a stop of the server
-    CreateClientResponseDTO:
-      type: object
-      properties:
-        resultState:
-          type: string
-          description: result status
-      description: encapsulates the response parameters
-    GenerateClientIdentCodeRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: client ident code should be generated
-        debtorNumber:
-          type: string
-          description: debtor number
-      description: encapsulates the request parameters
-    StartScriptExecutionParmDTO:
-      type: object
-      properties:
-        scriptContent:
-          type: string
-          description: string value represents the content of script
-        maxRows:
-          type: integer
-          description: max. number of rows included in result of script execution
-          format: int32
-        scriptType:
-          type: string
-          description: type of script, sql, oql and java script are supported
-        dataPoolName:
-          type: string
-          description: name of the data pool with which the sql / oql script will be executed
-      description: parameters for start script execution
-    SimpleFileDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of a file
-        size:
-          type: integer
-          description: Size of a file
-          format: int64
-      description: Meta-data for a transfer file
-    CreateClientRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The identification code of the client
-        name:
-          type: string
-          description: The name of the client
-        debtorNumber:
-          type: string
-          description: The debtor number (Kundennummer) of a client
-      description: encapsulates the request parameters
-    TransferFileParameterDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Key of the parameter
-        value:
-          type: string
-          description: Value of the parameter
-      description: A generic parameter for use-case specific information
-    AnnounceStopResultDTO:
-      type: object
-      description: the result of the announce stop API
-    LinkDTO:
-      type: object
-      properties:
-        url:
-          type: string
-          description: url of the link
-        name:
-          type: string
-          description: text to be shown for the link
-        position:
-          type: integer
-          description: position of the link
-          format: int32
-      description: links associated with the tip
-    MessageDataDTO:
-      type: object
-      properties:
-        locale:
-          type: string
-          description: locale of user tip whose results are given here
-        uuid:
-          type: string
-          description: the uuid of the tip (only filled when no error) - should be stored if later tip should be updated
-        error:
-          type: string
-          description: error message, if any error occurred during processing
-      description: resulting user tip for one locale
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

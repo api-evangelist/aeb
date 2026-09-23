@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Product Classification HTTP Material Configuration BF Bean API
+  title: Product Classification HTTP Material Configuration BF Bean…
   description: Thank you for using our HTTP API documentation.
   version: '4.0'
 servers:
@@ -16,7 +16,7 @@ paths:
     get:
       tags:
       - MaterialConfigurationBFBean
-      summary: Check if the supplied value is valid for the given type.
+      summary: Check if the supplied value is valid for the given type
       operationId: checkClassificationValueValid
       parameters:
       - name: typeName
@@ -62,7 +62,7 @@ paths:
     get:
       tags:
       - MaterialConfigurationBFBean
-      summary: Get a specific classification profile of the client.
+      summary: Get a specific classification profile of the client
       operationId: getClassificationProfile
       parameters:
       - name: profileCode
@@ -95,7 +95,7 @@ paths:
     get:
       tags:
       - MaterialConfigurationBFBean
-      summary: Get classification profiles of the client.
+      summary: Get classification profiles of the client
       operationId: getClassificationProfiles
       parameters:
       - name: clientIdentCode
@@ -126,7 +126,7 @@ paths:
     get:
       tags:
       - MaterialConfigurationBFBean
-      summary: Get a specific classification value type of the client.
+      summary: Get a specific classification value type of the client
       operationId: getClassificationValueType
       parameters:
       - name: typeName
@@ -159,7 +159,7 @@ paths:
     get:
       tags:
       - MaterialConfigurationBFBean
-      summary: Get classification value types of the client.
+      summary: Get classification value types of the client
       operationId: getClassificationValueTypes
       parameters:
       - name: clientIdentCode
@@ -190,7 +190,7 @@ paths:
     get:
       tags:
       - MaterialConfigurationBFBean
-      summary: Get information about a specific client.
+      summary: Get information about a specific client
       operationId: getClientInfo_1
       parameters:
       - name: clientIdentCode
@@ -214,6 +214,102 @@ paths:
                 $ref: '#/components/schemas/GetClientInfoResultDTO'
 components:
   schemas:
+    GetClassificationProfilesResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        profiles:
+          type: array
+          description: List of classification profiles, that match the request filter.
+          items:
+            $ref: '#/components/schemas/ClassificationProfileDTO'
+      description: Response DTO for <code>IMaterialConfigurationBF#getClassificationProfiles</code>.
+    GetClassificationProfileResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        profile:
+          $ref: '#/components/schemas/ClassificationProfileDTO'
+      description: Response DTO for <code>IMaterialConfigurationBF#getClassificationProfile</code>.
+    GetClassificationValueTypeResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        type:
+          $ref: '#/components/schemas/ClassificationCodeTypeDTO'
+      description: Response DTO for <code>IMaterialConfigurationBF#getClassificationValueType</code>.
+    CheckCodeValueValidResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        valid:
+          type: boolean
+          description: If true, the supplied code value is a valid value of the given type at the decisive date.
+      description: Response DTO for <code>IMaterialConfigurationBF#checkClassificationValueValid</code>.
     ClassificationCodeTypeDTO:
       type: object
       properties:
@@ -256,6 +352,33 @@ components:
           - 'null'
           description: Identcode of a reference object, according to the value type. 'COMMODITY_CODE' and 'EXPORT_CONTROL' reference a catalog, 'VALUELIST' a valuelist.
       description: DTO holding information about a classification code type.
+    ClassificationProfileDTO:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Current activation status of the profile. If true the type may be used by the engine.
+        profileIdentCode:
+          type: string
+          description: Identcode as defined in the engine. Identcode and ISO-Code build a unique key per client.
+        types:
+          type: array
+          description: All types of this profile. Inactive may be hidden according to request.
+          items:
+            $ref: '#/components/schemas/ClassificationCodeTypeDTO'
+      description: DTO holding information about a classification profile.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     GetClientInfoResultDTO:
       type: object
       properties:
@@ -280,32 +403,47 @@ components:
           type: boolean
           description: Indicates if the client only uses material data from Product Classification.
       description: 'Response DTO for #getClientInfo'
-    GetClassificationProfilesResultDTO:
+    ResponseMessageDTO:
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
           type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          description: <p>Detailed message texts in the requested languages.</p>
           items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        profiles:
-          type: array
-          description: List of classification profiles, that match the request filter.
-          items:
-            $ref: '#/components/schemas/ClassificationProfileDTO'
-      description: Response DTO for <code>IMaterialConfigurationBF#getClassificationProfiles</code>.
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    ProfileTypeContextDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        alias:
+          maxLength: 40
+          type:
+          - string
+          - 'null'
+          description: Names the type uniquely within the context of the requested profile. Used to name diffenent types uniformly for each profile. E.g. COCO_EXPORT.
+        relationship:
+          maxLength: 255
+          type: string
+          description: Defines how the type is taken into account for classification status calculation.
+          enum:
+          - MANDATORY
+          - OPTIONAL
+      description: 'If a type is requested in the context of a profile (#getClassificationProfile or #getClassificationProfiles) this additional information about the type is returned.'
     GetClassificationValueTypesResultDTO:
       type: object
       properties:
@@ -332,144 +470,6 @@ components:
           items:
             $ref: '#/components/schemas/ClassificationCodeTypeDTO'
       description: Response DTO for <code>IMaterialConfigurationBF#getClassificationValueTypes</code>.
-    CheckCodeValueValidResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        valid:
-          type: boolean
-          description: If true, the supplied code value is a valid value of the given type at the decisive date.
-      description: Response DTO for <code>IMaterialConfigurationBF#checkClassificationValueValid</code>.
-    GetClassificationProfileResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        profile:
-          $ref: '#/components/schemas/ClassificationProfileDTO'
-      description: Response DTO for <code>IMaterialConfigurationBF#getClassificationProfile</code>.
-    ClassificationProfileDTO:
-      type: object
-      properties:
-        active:
-          type: boolean
-          description: Current activation status of the profile. If true the type may be used by the engine.
-        profileIdentCode:
-          type: string
-          description: Identcode as defined in the engine. Identcode and ISO-Code build a unique key per client.
-        types:
-          type: array
-          description: All types of this profile. Inactive may be hidden according to request.
-          items:
-            $ref: '#/components/schemas/ClassificationCodeTypeDTO'
-      description: DTO holding information about a classification profile.
-    GetClassificationValueTypeResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        type:
-          $ref: '#/components/schemas/ClassificationCodeTypeDTO'
-      description: Response DTO for <code>IMaterialConfigurationBF#getClassificationValueType</code>.
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    ProfileTypeContextDTO:
-      type:
-      - object
-      - 'null'
-      properties:
-        alias:
-          maxLength: 40
-          type:
-          - string
-          - 'null'
-          description: Names the type uniquely within the context of the requested profile. Used to name diffenent types uniformly for each profile. E.g. COCO_EXPORT.
-        relationship:
-          maxLength: 255
-          type: string
-          description: Defines how the type is taken into account for classification status calculation.
-          enum:
-          - MANDATORY
-          - OPTIONAL
-      description: 'If a type is requested in the context of a profile (#getClassificationProfile or #getClassificationProfiles) this additional information about the type is returned.'
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

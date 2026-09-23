@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - FinanceDataCHBFBean
-      summary: Gets the data of the specified summary.
+      summary: Gets the data of the specified summary
       description: Gets the data of the specified summary. The summary is identified by the business object id.
       operationId: getSummary
       requestBody:
@@ -31,7 +31,7 @@ paths:
     post:
       tags:
       - FinanceDataCHBFBean
-      summary: Queries for available summaries.
+      summary: Queries for available summaries
       description: Queries for available summaries. The summaries can be filtered by additional criteria.
       operationId: listSummaries
       requestBody:

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Trade Compliance Management HTTP Export Control Applications API
+  title: Trade Compliance Management HTTP Export Control…
   description: Thank you for using our HTTP API documentation.
   version: '4.0'
 servers:
@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - Export Control Applications
-      summary: Get application for the Commerce Control List.
+      summary: Get application for the Commerce Control List
       description: Returns an URL for an application, which displays the Commerce Control List appliaction.
       operationId: getCommerceControlList
       requestBody:
@@ -95,7 +95,7 @@ paths:
     post:
       tags:
       - Export Control Applications
-      summary: Get application for displaying an export control transaction.
+      summary: Get application for displaying an export control transaction
       description: Returns an URL for an application, which displays an export control transaction. Since 2022/11.
       operationId: getECTransaction
       requestBody:
@@ -174,7 +174,7 @@ paths:
     post:
       tags:
       - Export Control Applications
-      summary: Get application for the EU export control list.
+      summary: Get application for the EU export control list
       description: Returns an URL for an application, which displays the EU export control list.
       operationId: getEUExportControlList
       requestBody:
@@ -253,7 +253,7 @@ paths:
     post:
       tags:
       - Export Control Applications
-      summary: Get application for the overview of Export Controls log entries.
+      summary: Get application for the overview of Export Controls log entries
       description: Returns an URL for an application, which displays the overview of Export Controls log entries.
       operationId: getExpCtrlLogs
       requestBody:
@@ -332,7 +332,7 @@ paths:
     post:
       tags:
       - Export Control Applications
-      summary: Get application for the list of all known values of the specified goods attribute.
+      summary: Get application for the list of all known values of the specified goods…
       description: Returns an URL for an application, which displays the list of all known values of the specified goods attribute.
       operationId: getGoodsAttributeValuesList
       requestBody:
@@ -411,7 +411,7 @@ paths:
     post:
       tags:
       - Export Control Applications
-      summary: Get application for a Quick check.
+      summary: Get application for a Quick check
       description: Returns an URL for an application, which displays the Quick check.
       operationId: getQuickCheck
       requestBody:
@@ -488,22 +488,6 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    GoodsAttributeValuesParmsDTO:
-      type: object
-      properties:
-        goodsAttributeIdentCode:
-          type: string
-          description: The ident code of the goods attribute which should be displayed.
-          example: ClassificationMaterialNumbers
-      description: Parameters for the goods attribute application.
-    ExpCtrlLogsRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        filterParms:
-          $ref: '#/components/schemas/ExpCtrlLogsAFParmsDTO'
-      description: Request object for the export control logs application.
     QuickCheckParmsDTO:
       type: object
       properties:
@@ -560,41 +544,22 @@ components:
           description: This value will be prefilled into the final use field.
           example: FINAL_USAGE_ALL
       description: Parameters for the Quick check application.
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    ECTransactionRequestDTO:
-      required:
-      - generalParms
-      - parms
+    GoodsAttributeValuesListRequestDTO:
       type: object
       properties:
         generalParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
         parms:
-          $ref: '#/components/schemas/ECTransactionParmsDTO'
-      description: Request object for opening the export control transaction application.
+          $ref: '#/components/schemas/GoodsAttributeValuesParmsDTO'
+      description: Request object for the list of goods attribute values application.
+    EUExportControlListRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/EUExpCtrlListParmsDTO'
+      description: Request object for the EU export control list application.
     ECTransactionParmsDTO:
       required:
       - clientSystemId
@@ -611,22 +576,6 @@ components:
           description: Required unique ID of the export control transaction to open.
           example: MANDANT=001/BELNO=80004989
       description: Parameters for the export control transaction application.
-    EUExpCtrlListParmsDTO:
-      type: object
-      properties:
-        euExpCtrlListPattern:
-          type: string
-          description: 'Value for the search criterion to find export control numbers with a specific number or description. You can also search for multiple export control numbers by specifying one number after another separated by semicolons.<br><br>Example value: <code>2A005;3B006;5C003</code>'
-          example: '0005'
-      description: Parameters for the EU export control list application
-    QuickCheckRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        parms:
-          $ref: '#/components/schemas/QuickCheckParmsDTO'
-      description: Request object for the Quick check application.
     ApplicationFacadeDTO:
       type: object
       properties:
@@ -646,14 +595,6 @@ components:
       description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
       xml:
         name: ApplicationFacade
-    EccnListParmsDTO:
-      type: object
-      properties:
-        eccnPattern:
-          type: string
-          description: Value for the search criterion to find ECCNs with a specific number or description. You can also search for multiple ECCNs by specifying one number after another separated by semicolons.
-          example: 2A005;3B006;5C003
-      description: Parameters for the Commerce Control List application.
     CommerceControlListRequestDTO:
       type: object
       properties:
@@ -669,6 +610,77 @@ components:
           type: string
         errorCause:
           type: string
+    ECClassificationDTO:
+      type: object
+      properties:
+        classificationIdentCode:
+          type: string
+          description: Identcode of the classification the <code>classificationNumber</code> belongs to.<br>There are some predefined attributes and others may be configured.<br>The following predefined attributes are supported:<ul><li><code>ClassificationMaterialNumbers</code> for material numbers</li><li><code>ClassificationAusfuhrliste</code> for EU export control numbers</li><li><code>CLASSIFICATION_US_EAR_CCL</code> for US export control numbers, i.e., a specific ECCN or <code>EAR99</code></li><li><code>CLASSIFICATION_US_EAR_ACTRELEVANT</code> for the EAR99 property (only supported for clients using version 1 for goods attribute handling)</li><li><code>ClassificationStatisticalNumbers</code> for commodity codes</li><li><code>ClassificationSelfDefined</code> for self defined numbers</li></ul>
+          example: CLASSIFICATION_US_EAR_CCL
+        classificationNumber:
+          type: string
+          description: 'The value of the attribute, e.g. a export control number, material number, commodity code and other relevant numbers for export control checks and license matching.<br>There are some attributes that only allow some fixed, predefined values.The following predefined values are supported:<ul><li>For all attributes: <code>NOT_LISTED</code> indicating that an item is not listed on the goods list describing the classification</li><li>For ECCNs: <code>EAR99</code> indicating that the item is an EAR99 product.</li></ul>'
+          example: 0A002
+      description: An attribute with a value for a transaction item.
+    ExpCtrlLogsRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        filterParms:
+          $ref: '#/components/schemas/ExpCtrlLogsAFParmsDTO'
+      description: Request object for the export control logs application.
+    ECTransactionRequestDTO:
+      required:
+      - generalParms
+      - parms
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/ECTransactionParmsDTO'
+      description: Request object for opening the export control transaction application.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    EUExpCtrlListParmsDTO:
+      type: object
+      properties:
+        euExpCtrlListPattern:
+          type: string
+          description: 'Value for the search criterion to find export control numbers with a specific number or description. You can also search for multiple export control numbers by specifying one number after another separated by semicolons.<br><br>Example value: <code>2A005;3B006;5C003</code>'
+          example: '0005'
+      description: Parameters for the EU export control list application
+    QuickCheckRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/QuickCheckParmsDTO'
+      description: Request object for the Quick check application.
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -732,34 +744,14 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
-    EUExportControlListRequestDTO:
+    GoodsAttributeValuesParmsDTO:
       type: object
       properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        parms:
-          $ref: '#/components/schemas/EUExpCtrlListParmsDTO'
-      description: Request object for the EU export control list application.
-    GoodsAttributeValuesListRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        parms:
-          $ref: '#/components/schemas/GoodsAttributeValuesParmsDTO'
-      description: Request object for the list of goods attribute values application.
-    ECClassificationDTO:
-      type: object
-      properties:
-        classificationIdentCode:
+        goodsAttributeIdentCode:
           type: string
-          description: Identcode of the classification the <code>classificationNumber</code> belongs to.<br>There are some predefined attributes and others may be configured.<br>The following predefined attributes are supported:<ul><li><code>ClassificationMaterialNumbers</code> for material numbers</li><li><code>ClassificationAusfuhrliste</code> for EU export control numbers</li><li><code>CLASSIFICATION_US_EAR_CCL</code> for US export control numbers, i.e., a specific ECCN or <code>EAR99</code></li><li><code>CLASSIFICATION_US_EAR_ACTRELEVANT</code> for the EAR99 property (only supported for clients using version 1 for goods attribute handling)</li><li><code>ClassificationStatisticalNumbers</code> for commodity codes</li><li><code>ClassificationSelfDefined</code> for self defined numbers</li></ul>
-          example: CLASSIFICATION_US_EAR_CCL
-        classificationNumber:
-          type: string
-          description: 'The value of the attribute, e.g. a export control number, material number, commodity code and other relevant numbers for export control checks and license matching.<br>There are some attributes that only allow some fixed, predefined values.The following predefined values are supported:<ul><li>For all attributes: <code>NOT_LISTED</code> indicating that an item is not listed on the goods list describing the classification</li><li>For ECCNs: <code>EAR99</code> indicating that the item is an EAR99 product.</li></ul>'
-          example: 0A002
-      description: An attribute with a value for a transaction item.
+          description: The ident code of the goods attribute which should be displayed.
+          example: ClassificationMaterialNumbers
+      description: Parameters for the goods attribute application.
     ExpCtrlLogsAFParmsDTO:
       type: object
       properties:
@@ -780,6 +772,14 @@ components:
           description: Value for the search criterion to find logs of a specific client.
           example: APITEST
       description: Data transfer object with filter options for the export control logs application.
+    EccnListParmsDTO:
+      type: object
+      properties:
+        eccnPattern:
+          type: string
+          description: Value for the search criterion to find ECCNs with a specific number or description. You can also search for multiple ECCNs by specifying one number after another separated by semicolons.
+          example: 2A005;3B006;5C003
+      description: Parameters for the Commerce Control List application.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Aeb Remote Admin BF Bean API
   version: '1.0'
-  description: 'Operations tagged RemoteAdminBFBean across 9 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged RemoteAdminBFBean across 9 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json.'
 servers:
 - url: https://rz3.aeb.de/test2bsm/rest
 - url: https://rz3.aeb.de/demo1cai/rest
@@ -18,11 +18,9 @@ security:
 - BASIC_AUTH: []
 tags:
 - name: RemoteAdminBFBean
-  description: ' Remote Administration tools use this methods. The main player are the Identity Access Manager (IAM) and the Installation Repository (IR).'
+  description: Remote Administration tools use this methods. The main player are the Identity Access Manager (IAM) and the Installation Repository (IR).
 paths:
   /RemoteAdminBFBean/clientRoles/{clientId}:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     get:
       tags:
       - RemoteAdminBFBean
@@ -47,9 +45,9 @@ paths:
                 $ref: '#/components/schemas/RolesOfClientDTO'
         '404':
           description: returned when client with given ident code is not found
-  /RemoteAdminBFBean/roles:
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /RemoteAdminBFBean/roles:
     get:
       tags:
       - RemoteAdminBFBean
@@ -82,8 +80,22 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/GetRolesResponseDTO'
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
+    ClientRolesDTO:
+      type: object
+      properties:
+        client:
+          type: string
+          description: Client identCode
+        roleInfos:
+          type: array
+          description: The role informations.
+          items:
+            $ref: '#/components/schemas/RoleInfoDTO'
+      description: Response DTO for listing client specific roles in GetRolesResponseDTO.
     RoleDTO:
       type: object
       properties:
@@ -144,16 +156,6 @@ components:
       description: DTO for GetRoles response
       xml:
         name: getRolesResponseDTO
-    RoleTextDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: the name of the role, a short word describing the role
-        description:
-          type: string
-          description: a longer description that explains what this role is for
-      description: language dependent values of a role
     RolesOfClientDTO:
       type: object
       properties:
@@ -234,18 +236,16 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
-    ClientRolesDTO:
+    RoleTextDTO:
       type: object
       properties:
-        client:
+        name:
           type: string
-          description: Client identCode
-        roleInfos:
-          type: array
-          description: The role informations.
-          items:
-            $ref: '#/components/schemas/RoleInfoDTO'
-      description: Response DTO for listing client specific roles in GetRolesResponseDTO.
+          description: the name of the role, a short word describing the role
+        description:
+          type: string
+          description: a longer description that explains what this role is for
+      description: language dependent values of a role
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

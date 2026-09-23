@@ -16,8 +16,26 @@ paths:
     post:
       tags:
       - Compliance Foundation
-      summary: Returns the identifiers of master data for a client.
-      description: 'Returns the identifiers of master data for a client. The available types of master data are the following:<ul><li>Partner roles: <code>PARTNER_ROLE_IDENTIFIERS</code></li><li>Goods attributes: <code>GOODS_ATTRIBUTE_IDENTIFIERS</code></li><li>Transaction types: <code>TRANSACTION_TYPE_IDENTIFIERS</code></li><li>Jurisdictions: <code>JURISDICTION_IDENTIFIERS</code></li><li>All value lists and their entries: The <code>identCode</code> of the requested value list</li></ul> The result will include all client independent identifiers plus the identifiers of the specified client.'
+      summary: Returns the identifiers of master data for a client
+      description: 'Returns the identifiers of master data for a client. The available types of master data are the following:
+
+
+        Partner roles: PARTNER_ROLE_IDENTIFIERS
+
+
+        Goods attributes: GOODS_ATTRIBUTE_IDENTIFIERS
+
+
+        Transaction types: TRANSACTION_TYPE_IDENTIFIERS
+
+
+        Jurisdictions: JURISDICTION_IDENTIFIERS
+
+
+        All value lists and their entries: The identCode of the requested value list
+
+
+        The result will include all client independent identifiers plus the identifiers of the specified client.'
       operationId: getMasterdataIdentifiers
       requestBody:
         content:
@@ -93,27 +111,6 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    MasterdataIdentifierDTO:
-      type: object
-      properties:
-        identCode:
-          maxLength: 50
-          type: string
-          description: The unique identifier of the master data identified by this DTO.
-          example: BUYER_STD
-        descriptions:
-          type: array
-          description: A textual description of the master data in the requested languages.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-      description: Represents a master data identifier.
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
     GetMasterdataIdentifiersRequestDTO:
       required:
       - masterdataType
@@ -146,18 +143,6 @@ components:
           description: 'The type of master data identifiers to request. Use one of the following keys:<ul><li>Partner roles: <code>PARTNER_ROLE_IDENTIFIERS</code></li><li>Goods attributes: <code>GOODS_ATTRIBUTE_IDENTIFIERS</code></li><li>Transaction types: <code>TRANSACTION_TYPE_IDENTIFIERS</code></li><li>Jurisdictions: <code>JURISDICTION_IDENTIFIERS</code></li><li>All value lists and their entries: The <code>identCode</code> of the requested value list</li></ul>'
           example: PARTNER_ROLE_IDENTIFIERS
       description: Request object for <code>/ComplianceFoundation/getMasterdataIdentifiers</code>
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
     GetMasterdataIdentifiersResponseDTO:
       type: object
       properties:
@@ -184,6 +169,39 @@ components:
           items:
             $ref: '#/components/schemas/MasterdataIdentifierDTO'
       description: Response object for <code>/ComplianceFoundation/getMasterdataIdentifiers</code>
+    MasterdataIdentifierDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 50
+          type: string
+          description: The unique identifier of the master data identified by this DTO.
+          example: BUYER_STD
+        descriptions:
+          type: array
+          description: A textual description of the master data in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: Represents a master data identifier.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     ResponseMessageDTO:
       type: object
       properties:

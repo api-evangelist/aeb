@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Aeb Data Feed BF Bean API
   version: '1.0'
-  description: 'Operations tagged DataFeedBFBean across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged DataFeedBFBean across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json…'
 servers:
 - url: https://rz3.aeb.de/test2bsm/rest
 - url: https://rz3.aeb.de/demo1cai/rest
@@ -23,8 +23,6 @@ tags:
   description: DataFeedBFBean
 paths:
   /DataFeedBFBean/acknowledgePublishedDataFeedParts:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     post:
       tags:
       - DataFeedBFBean
@@ -42,9 +40,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AcknowledgePublishedDataFeedPartsResponseDTO'
-  /DataFeedBFBean/dataFeedParts/{client}/{id}:
+      summary: Acknowledge published data feed parts
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /DataFeedBFBean/dataFeedParts/{client}/{id}:
     get:
       tags:
       - DataFeedBFBean
@@ -66,13 +66,15 @@ paths:
           description: The content of the data feed part.
           content:
             application/octet-stream: {}
-  /DataFeedBFBean/getPublishedDataFeedParts:
+      summary: Get data feed part content for rest
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /DataFeedBFBean/getPublishedDataFeedParts:
     post:
       tags:
       - DataFeedBFBean
-      description: 'Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id} '
+      description: Poll data about the next 10 published data feed parts. This data contains an id, which can be used to download the content of a part. To download the content, use the endpoint /DataFeedBFBean/dataFeedParts/{client}/{id}
       operationId: getPublishedDataFeedParts
       requestBody:
         content:
@@ -86,64 +88,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetPublishedDataFeedPartsResponseDTO'
+      summary: Get published data feed parts
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    AcknowledgePublishedDataFeedPartsResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response (result) for IDataFeedBF#acknowledgePublishedDataFeedParts(AcknowledgePublishedDataFeedPartsRequestDTO.
-    PublishedDataFeedPartDTO:
-      type: object
-      properties:
-        dataFeedDefinitionIdentCode:
-          type: string
-          description: Ident code of the corresponding data feed definition
-        sequenceNumber:
-          type: integer
-          description: Consecutive number of the data feed part
-          format: int32
-        partNumberInPeriod:
-          type: integer
-          description: Part number of the data feed part for the period
-          format: int32
-        numberOfPartsOfPeriod:
-          type: integer
-          description: Number of parts in the period
-          format: int32
-        periodStartDate:
-          type: string
-          description: '<p>Date/time stamp in the format yyyy-MM-dd for the start date of the period this data feed part contains data for</p> <p>Length: 19</p>'
-        periodEndDate:
-          type: string
-          description: '<p>Date/time stamp in the format yyyy-MM-dd for the end date of the period this data feed part contains data for</p> <p>Length: 19</p>'
-        numberOfRecords:
-          type: integer
-          description: Number of data records contained in the data feed part
-          format: int32
-        dataFeedPartId:
-          type: string
-          description: The id of the published data feed part. To be used to retrieve the content via endpoint /DataFeedBFBean/dataFeedParts/{client}/{id}
-        fileExtension:
-          type: string
-          description: Extension of the data feed part as a file, e.g. CSV, JSON
-      description: DTO to hold the data of a published data feed part.
     GetPublishedDataFeedPartsResponseDTO:
       type: object
       properties:
@@ -176,6 +126,56 @@ components:
           type: boolean
           description: <code>true</code> if the synchronization is complete and currently no further published data feed parts are available.
       description: Response (result) for IDataFeedBF#getPublishedDataFeedParts(GetPublishedDataFeedPartsRequestDTO).
+    AcknowledgePublishedDataFeedPartsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response (result) for IDataFeedBF#acknowledgePublishedDataFeedParts(AcknowledgePublishedDataFeedPartsRequestDTO.
+    AcknowledgePublishedDataFeedPartsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          type: string
+          description: Synchronization ID for acknowledging. <p> Use the value received with  GetPublishedDataFeedPartsResponseDTO#syncId with the last call to IDataFeedBF#getPublishedDataFeedParts(GetPublishedDataFeedPartsRequestDTO) to acknowledge the processed published data feed parts. </p> <p> length=20 </p>
+      description: Request parameter for Response (result) for IDataFeedBF#acknowledgePublishedDataFeedParts(AcknowledgePublishedDataFeedPartsRequestDTO.
     GetPublishedDataFeedPartsRequestDTO:
       type: object
       properties:
@@ -236,35 +236,41 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
-    AcknowledgePublishedDataFeedPartsRequestDTO:
+    PublishedDataFeedPartDTO:
       type: object
       properties:
-        clientSystemId:
+        dataFeedDefinitionIdentCode:
           type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
+          description: Ident code of the corresponding data feed definition
+        sequenceNumber:
+          type: integer
+          description: Consecutive number of the data feed part
+          format: int32
+        partNumberInPeriod:
+          type: integer
+          description: Part number of the data feed part for the period
+          format: int32
+        numberOfPartsOfPeriod:
+          type: integer
+          description: Number of parts in the period
+          format: int32
+        periodStartDate:
           type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
+          description: '<p>Date/time stamp in the format yyyy-MM-dd for the start date of the period this data feed part contains data for</p> <p>Length: 19</p>'
+        periodEndDate:
           type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        syncId:
+          description: '<p>Date/time stamp in the format yyyy-MM-dd for the end date of the period this data feed part contains data for</p> <p>Length: 19</p>'
+        numberOfRecords:
+          type: integer
+          description: Number of data records contained in the data feed part
+          format: int32
+        dataFeedPartId:
           type: string
-          description: Synchronization ID for acknowledging. <p> Use the value received with  GetPublishedDataFeedPartsResponseDTO#syncId with the last call to IDataFeedBF#getPublishedDataFeedParts(GetPublishedDataFeedPartsRequestDTO) to acknowledge the processed published data feed parts. </p> <p> length=20 </p>
-      description: Request parameter for Response (result) for IDataFeedBF#acknowledgePublishedDataFeedParts(AcknowledgePublishedDataFeedPartsRequestDTO.
+          description: The id of the published data feed part. To be used to retrieve the content via endpoint /DataFeedBFBean/dataFeedParts/{client}/{id}
+        fileExtension:
+          type: string
+          description: Extension of the data feed part as a file, e.g. CSV, JSON
+      description: DTO to hold the data of a published data feed part.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

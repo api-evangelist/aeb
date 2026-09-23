@@ -90,73 +90,6 @@ paths:
                 $ref: '#/components/schemas/ApplicationFacadeDTO'
 components:
   schemas:
-    OpenDeclarationFolderArgumentDTO:
-      type: object
-      properties:
-        afParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        folderParms:
-          $ref: '#/components/schemas/ICDeclarationFolderParmsDTO'
-      description: Arguments to open a declaration folder.
-    OpenDeclarationAttachmentArgumentDTO:
-      type: object
-      properties:
-        afParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        attachmentParms:
-          $ref: '#/components/schemas/ICDeclarationAttachmentParmsDTO'
-      description: Arguments to open an attachment.
-    ICDeclarationFolderParmsDTO:
-      type: object
-      properties:
-        customsProcess:
-          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
-        businessObjectId:
-          type: string
-          description: The unique business object id of the desired declaration.<p> length=50 </p>
-      description: Identifies a declaration to be opened in a folder.
-    ICConsignmentFolderParmsDTO:
-      type: object
-      properties:
-        businessObjectId:
-          type: string
-          description: The unique business object id of the desired consignment. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=50 </p>
-        consignmentIdClientSystem:
-          type: string
-          description: The consignment id of the ERP system of the client. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=255 </p>
-      description: Identifies a consignment to be opened in a folder.
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    OpenDeclarationSearchArgumentDTO:
-      type: object
-      properties:
-        afParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        searchParms:
-          $ref: '#/components/schemas/ICDeclarationSearchParmsDTO'
-      description: Arguments to open a declaration search.
     AbsoluteIntervalFilterDTO:
       type: object
       properties:
@@ -167,20 +100,64 @@ components:
           type: string
           description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
       description: Initializes the filter with a fix interval between two dates.
-    ICCustomsProcessTypeDTO:
+    RelativeIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+        to:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
+    OpenDeclarationAttachmentArgumentDTO:
+      type: object
+      properties:
+        afParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        attachmentParms:
+          $ref: '#/components/schemas/ICDeclarationAttachmentParmsDTO'
+      description: Arguments to open an attachment.
+    ICConsignmentFolderParmsDTO:
+      type: object
+      properties:
+        businessObjectId:
+          type: string
+          description: The unique business object id of the desired consignment. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=50 </p>
+        consignmentIdClientSystem:
+          type: string
+          description: The consignment id of the ERP system of the client. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=255 </p>
+      description: Identifies a consignment to be opened in a folder.
+    ICDeclarationAttachmentParmsDTO:
       type: object
       properties:
         customsProcess:
-          maxLength: 35
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        businessObjectId:
           type: string
-          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
-          example: EXPORT_BROKER
-        countrySetupIdentCode:
-          maxLength: 2
+          description: The unique business object id of the desired declaration.<p> length=50 </p>
+        attachmentCode:
           type: string
-          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
-          example: CN
-      description: DTO to hold the customs process type.
+          description: Code of the attachment.<p> length=250 </p>
+        setPrinted:
+          type: boolean
+          description: When opening the attachment it is set automatically to printed.
+      description: Identifies a declaration attachment to be opened.
+    ICDeclarationFolderParmsDTO:
+      type: object
+      properties:
+        customsProcess:
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        businessObjectId:
+          type: string
+          description: The unique business object id of the desired declaration.<p> length=50 </p>
+      description: Identifies a declaration to be opened in a folder.
+    OpenConsignmentFolderArgumentDTO:
+      type: object
+      properties:
+        afParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        folderParms:
+          $ref: '#/components/schemas/ICConsignmentFolderParmsDTO'
+      description: Arguments to open a consignment folder.
     ApplicationFacadeDTO:
       type: object
       properties:
@@ -211,6 +188,49 @@ components:
           description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
           format: int32
       description: Initializes the filter with a time interval relative to 'today'.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    ICDeclarationSearchParmsDTO:
+      type: object
+      properties:
+        customsProcess:
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        declarationDate:
+          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
+        filterName:
+          type: string
+          description: Name of the stored filter/view which belongs to the declaration search. Views can be edited and stored within the declaration service. Length=100
+      description: Parameters for a declaration search.
+    OpenDeclarationFolderArgumentDTO:
+      type: object
+      properties:
+        afParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        folderParms:
+          $ref: '#/components/schemas/ICDeclarationFolderParmsDTO'
+      description: Arguments to open a declaration folder.
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -274,25 +294,28 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
-    ICDeclarationSearchParmsDTO:
-      type: object
-      properties:
-        customsProcess:
-          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
-        declarationDate:
-          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
-        filterName:
-          type: string
-          description: Name of the stored filter/view which belongs to the declaration search. Views can be edited and stored within the declaration service. Length=100
-      description: Parameters for a declaration search.
-    OpenConsignmentFolderArgumentDTO:
+    OpenDeclarationSearchArgumentDTO:
       type: object
       properties:
         afParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        folderParms:
-          $ref: '#/components/schemas/ICConsignmentFolderParmsDTO'
-      description: Arguments to open a consignment folder.
+        searchParms:
+          $ref: '#/components/schemas/ICDeclarationSearchParmsDTO'
+      description: Arguments to open a declaration search.
+    ICCustomsProcessTypeDTO:
+      type: object
+      properties:
+        customsProcess:
+          maxLength: 35
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
+          example: EXPORT_BROKER
+        countrySetupIdentCode:
+          maxLength: 2
+          type: string
+          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
+          example: CN
+      description: DTO to hold the customs process type.
     DateTimeIntervalRangeFilterDTO:
       type: object
       properties:
@@ -301,29 +324,6 @@ components:
         absoluteInterval:
           $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
       description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
-    ICDeclarationAttachmentParmsDTO:
-      type: object
-      properties:
-        customsProcess:
-          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
-        businessObjectId:
-          type: string
-          description: The unique business object id of the desired declaration.<p> length=50 </p>
-        attachmentCode:
-          type: string
-          description: Code of the attachment.<p> length=250 </p>
-        setPrinted:
-          type: boolean
-          description: When opening the attachment it is set automatically to printed.
-      description: Identifies a declaration attachment to be opened.
-    RelativeIntervalFilterDTO:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-        to:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -31,6 +31,8 @@ paths:
             application/json:
               schema:
                 type: string
+      summary: Bis bf dummy method
+      x-summary-source: derived
   /BISAuditBFBean/getAuditData:
     post:
       tags:
@@ -49,6 +51,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAuditDataResponseDTO'
+      summary: Get audit data
+      x-summary-source: derived
 components:
   schemas:
     AmountOfMoneyDTO:
@@ -61,108 +65,20 @@ components:
           type: string
           description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
       description: An amount of money with a value and an currency ISO code.
-    GetAuditDataRequestDTO:
-      type: object
+    BISAmountOfMoneyDTO:
+      type:
+      - object
+      - 'null'
       properties:
-        clientSystemId:
+        amountCode:
           type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
+          description: Code specifying the type of monetary value. <p>length=20</p>
+        description:
           type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        syncId:
-          type: number
-          description: <p> For delta-transmissions after initialization </p> <p> Fill this field with the <code>GetAuditDataResponseDTO.syncId</code> returned in the last call of <code>getAuditData</code>. </p> <p> length=20 </p>
-        customerClientIdentCode:
-          type: string
-          description: identCode for the customer whose broker instructions should be audited. This field is mandatory. length = 20
-      description: RequestDTO, used in IBISAuditBF.
-    DateAndZoneDTO:
-      type: object
-      properties:
-        dateInTimezone:
-          type: string
-          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
-        timezone:
-          type: string
-          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
-      description: Date and timezone.
-    AuditDataDTO:
-      type: object
-      properties:
-        brokerInstruction:
-          $ref: '#/components/schemas/AuditDataBrokerInstructionDTO'
-      description: Represents the auditing data for one BrokerInstruction.
-    AuditDataBrokerInstructionDTO:
-      type: object
-      properties:
-        localReferenceNumber:
-          type: string
-          description: The local reference number, mandatory value.
-        commercialReferenceNumber:
-          type: string
-          description: The commerial reference number.
-        type:
-          type: string
-          description: The process type of the broker instruction.
-          enum:
-          - IMPORT
-          - EXPORT
-        clientCode:
-          type: string
-          description: The clientIdentCode of the broker
-        customer:
-          type: string
-          description: The clientIdentCode of the (ICI) customer
-        isInvalid:
-          type: boolean
-          description: Indicator that customs declaration process cannot be continued due to errors or missing information or documents.
-        isCanceled:
-          type: boolean
-          description: Indicator that the customs declaration process cannot be continued because it has been cancelled.
-        isTerminated:
-          type: boolean
-          description: Indicator that the last status has been reached and the customs declaration process is terminated.
-        status:
-          type: string
-          description: The current status identCode. Can be any identCode from any status, but expected values are the terminating status "CPLT" and "CANCEL"
-        orderInstructedDate:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-        numberOfItems:
-          type: integer
-          description: The number of items contained in the BrokerInstruction.
-          format: int32
-        numberOfDeclarations:
-          type: integer
-          description: Number of declarations for this broker instruction <p> length=3 </p>
-          format: int32
-        customsDeclarations:
-          type: array
-          description: Customs declarations for the broker instruction.
-          items:
-            $ref: '#/components/schemas/CustomsBrokerDeclarationDTO'
-        attachments:
-          type: array
-          description: The attachments of the broker instruction
-          items:
-            $ref: '#/components/schemas/BISAttachmentResponseDTO'
-      description: Some BrokerInstruction data. Subject to be expanded.
+          description: Description of the declaration value type. <p>length=250</p>
+        amount:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+      description: DTO to hold data representing an amount.
     GetAuditDataResponseDTO:
       type: object
       properties:
@@ -195,20 +111,16 @@ components:
           items:
             $ref: '#/components/schemas/AuditDataDTO'
       description: ResponseDTO, used in IBISAuditBF.
-    BISAmountOfMoneyDTO:
-      type:
-      - object
-      - 'null'
+    DateAndZoneDTO:
+      type: object
       properties:
-        amountCode:
+        dateInTimezone:
           type: string
-          description: Code specifying the type of monetary value. <p>length=20</p>
-        description:
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
           type: string
-          description: Description of the declaration value type. <p>length=250</p>
-        amount:
-          $ref: '#/components/schemas/AmountOfMoneyDTO'
-      description: DTO to hold data representing an amount.
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
     QuantityDTO:
       type:
       - object
@@ -230,28 +142,6 @@ components:
           description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
           example: NAR
       description: A quantity with a value and a quantity unit. Quantity units are encoded by using AEB unit codes mainly based on the International System of Unit (e.g. 'Gram' is encoded by the code 'gr') or - if supported - UNECE unit codes (e.g. 'Gram' is encoded by the code 'GRM').<br>Recoding of the quantity unit code from capital letters to small letters (e.g. from 'LB' to 'lb') may be supported, depending on the AEB product.<br>The quantity unit type is specified by the usage context, i.e. if this quantity is a weight, a volume or similar.
-    BISStatusDTO:
-      type: object
-      properties:
-        statusIdentCode:
-          type: string
-          description: Ident code of the status <p>length=10</p>
-          enum:
-          - DRQ
-          - SND
-          - RLD
-          - DEP
-          - TAX
-          - CPLT
-          - CANCEL
-          - CTRL
-          - CTRLCPLT
-          - CORR
-          - CORRCPLT
-        statusName:
-          type: string
-          description: The current status of the business object, returned in form of the status name in session language. <p>length=50</p>
-      description: Data transfer object to hold data of a status of a broker instruction.
     CustomsBrokerDeclarationDTO:
       type: object
       properties:
@@ -314,31 +204,6 @@ components:
           items:
             $ref: '#/components/schemas/BISAmountOfMoneyDTO'
       description: Data transfer object that represents one customs declaration.
-    BISDeclarationReferenceDTO:
-      type: object
-      properties:
-        referenceCode:
-          type: string
-          description: Code specifying the type of declaration reference. <p>length=20</p>
-        description:
-          type: string
-          description: Description of the declaration reference type. <p>length=250</p>
-        reference:
-          type: string
-          description: The declaration reference. <p>length=40</p>
-      description: DTO to hold data representing a declaration reference.
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
     BISEventDTO:
       type: object
       properties:
@@ -389,28 +254,6 @@ components:
           items:
             $ref: '#/components/schemas/BISAttachmentResponseDTO'
       description: Data transfer object to hold event data.
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
     BISAttachmentResponseDTO:
       type: object
       properties:
@@ -457,6 +300,167 @@ components:
         uploadDate:
           $ref: '#/components/schemas/DateAndZoneDTO'
       description: Data transfer object for response attachment data to partner systems of BIS.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    BISDeclarationReferenceDTO:
+      type: object
+      properties:
+        referenceCode:
+          type: string
+          description: Code specifying the type of declaration reference. <p>length=20</p>
+        description:
+          type: string
+          description: Description of the declaration reference type. <p>length=250</p>
+        reference:
+          type: string
+          description: The declaration reference. <p>length=40</p>
+      description: DTO to hold data representing a declaration reference.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    BISStatusDTO:
+      type: object
+      properties:
+        statusIdentCode:
+          type: string
+          description: Ident code of the status <p>length=10</p>
+          enum:
+          - DRQ
+          - SND
+          - RLD
+          - DEP
+          - TAX
+          - CPLT
+          - CANCEL
+          - CTRL
+          - CTRLCPLT
+          - CORR
+          - CORRCPLT
+        statusName:
+          type: string
+          description: The current status of the business object, returned in form of the status name in session language. <p>length=50</p>
+      description: Data transfer object to hold data of a status of a broker instruction.
+    GetAuditDataRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          type: number
+          description: <p> For delta-transmissions after initialization </p> <p> Fill this field with the <code>GetAuditDataResponseDTO.syncId</code> returned in the last call of <code>getAuditData</code>. </p> <p> length=20 </p>
+        customerClientIdentCode:
+          type: string
+          description: identCode for the customer whose broker instructions should be audited. This field is mandatory. length = 20
+      description: RequestDTO, used in IBISAuditBF.
+    AuditDataDTO:
+      type: object
+      properties:
+        brokerInstruction:
+          $ref: '#/components/schemas/AuditDataBrokerInstructionDTO'
+      description: Represents the auditing data for one BrokerInstruction.
+    AuditDataBrokerInstructionDTO:
+      type: object
+      properties:
+        localReferenceNumber:
+          type: string
+          description: The local reference number, mandatory value.
+        commercialReferenceNumber:
+          type: string
+          description: The commerial reference number.
+        type:
+          type: string
+          description: The process type of the broker instruction.
+          enum:
+          - IMPORT
+          - EXPORT
+        clientCode:
+          type: string
+          description: The clientIdentCode of the broker
+        customer:
+          type: string
+          description: The clientIdentCode of the (ICI) customer
+        isInvalid:
+          type: boolean
+          description: Indicator that customs declaration process cannot be continued due to errors or missing information or documents.
+        isCanceled:
+          type: boolean
+          description: Indicator that the customs declaration process cannot be continued because it has been cancelled.
+        isTerminated:
+          type: boolean
+          description: Indicator that the last status has been reached and the customs declaration process is terminated.
+        status:
+          type: string
+          description: The current status identCode. Can be any identCode from any status, but expected values are the terminating status "CPLT" and "CANCEL"
+        orderInstructedDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        numberOfItems:
+          type: integer
+          description: The number of items contained in the BrokerInstruction.
+          format: int32
+        numberOfDeclarations:
+          type: integer
+          description: Number of declarations for this broker instruction <p> length=3 </p>
+          format: int32
+        customsDeclarations:
+          type: array
+          description: Customs declarations for the broker instruction.
+          items:
+            $ref: '#/components/schemas/CustomsBrokerDeclarationDTO'
+        attachments:
+          type: array
+          description: The attachments of the broker instruction
+          items:
+            $ref: '#/components/schemas/BISAttachmentResponseDTO'
+      description: Some BrokerInstruction data. Subject to be expanded.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

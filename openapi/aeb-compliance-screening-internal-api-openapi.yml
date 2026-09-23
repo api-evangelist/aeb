@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Trade Compliance Management HTTP Compliance Screening Internal API
+  title: Trade Compliance Management HTTP Compliance Screening…
   description: Thank you for using our HTTP API documentation.
   version: '4.0'
 servers:
@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - Compliance Screening Internal
-      summary: Update existing reference comments.
+      summary: Update existing reference comments
       description: Update the reference comment for existing screening protocols. This method should only be called by the SAP plugin, which always provides a reference comment containing "[SAP has not assigned a no. yet]" in the first screening. This placeholder is supposed to be replaced with the help of this method (although the whole reference comment must be passed).
       operationId: setFinalReferenceComment
       requestBody:
@@ -93,6 +93,13 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
     SetFinalCommentRequestDTO:
       required:
       - referenceComment
@@ -130,13 +137,6 @@ components:
           description: The updated reference comment.
           example: 'Customer no.: 4711, Client: 800, User: BEN003, Pc: PC-PHILIPP'
       description: Request DTO for <code>/ComplianceScreeningInternal/setFinalReferenceComment</code> containing identifying data for the entries to be updated as well as the new reference comment.
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Product Classification HTTP Classification Proposal BF Bean API
+  title: Product Classification HTTP Classification Proposal BF Bean…
   description: Thank you for using our HTTP API documentation.
   version: '4.0'
 servers:
@@ -16,7 +16,7 @@ paths:
     put:
       tags:
       - ClassificationProposalBFBean
-      summary: Creates a new document template.
+      summary: Creates a new document template
       operationId: createCertTemplate
       parameters:
       - name: clientIdentCode
@@ -48,7 +48,7 @@ paths:
     put:
       tags:
       - ClassificationProposalBFBean
-      summary: Creates a new classification code template.
+      summary: Creates a new classification code template
       operationId: createCodeTemplate
       parameters:
       - name: clientIdentCode
@@ -80,7 +80,7 @@ paths:
     get:
       tags:
       - ClassificationProposalBFBean
-      summary: Gets the data of a document template.
+      summary: Gets the data of a document template
       operationId: getCertTemplate
       parameters:
       - name: id
@@ -112,7 +112,7 @@ paths:
     delete:
       tags:
       - ClassificationProposalBFBean
-      summary: Deletes an existing document template.
+      summary: Deletes an existing document template
       operationId: deleteCertTemplate
       parameters:
       - name: id
@@ -144,7 +144,7 @@ paths:
     patch:
       tags:
       - ClassificationProposalBFBean
-      summary: Updates an existing document template.
+      summary: Updates an existing document template
       operationId: updateCertTemplate
       parameters:
       - name: id
@@ -183,7 +183,7 @@ paths:
     get:
       tags:
       - ClassificationProposalBFBean
-      summary: Gets the data of a classification code template.
+      summary: Gets the data of a classification code template
       operationId: getCodeTemplate
       parameters:
       - name: id
@@ -215,7 +215,7 @@ paths:
     delete:
       tags:
       - ClassificationProposalBFBean
-      summary: Creates a new classification code template.
+      summary: Creates a new classification code template
       operationId: deleteCodeTemplate
       parameters:
       - name: id
@@ -247,7 +247,7 @@ paths:
     patch:
       tags:
       - ClassificationProposalBFBean
-      summary: Updates an existing classification code template.
+      summary: Updates an existing classification code template
       operationId: updateCodeTemplate
       parameters:
       - name: id
@@ -286,7 +286,7 @@ paths:
     post:
       tags:
       - ClassificationProposalBFBean
-      summary: Searches for suitable document templates matching the criteria of the given search input.
+      summary: Searches for suitable document templates matching the criteria of the given…
       operationId: searchCertTemplates
       parameters:
       - name: clientIdentCode
@@ -318,7 +318,7 @@ paths:
     post:
       tags:
       - ClassificationProposalBFBean
-      summary: Searches for suitable classification code templates matching the criteria of the given search input.
+      summary: Searches for suitable classification code templates matching the criteria of…
       operationId: searchCodeTemplates
       parameters:
       - name: clientIdentCode
@@ -348,250 +348,6 @@ paths:
                 $ref: '#/components/schemas/SearchCodeTemplatesResponseDTO'
 components:
   schemas:
-    DeleteCodeTemplateResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response of a classification template deletion.
-    UpdateCertTemplateResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response of a classification document update.
-    CreateCodeTemplateResponseDTO:
-      required:
-      - id
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        id:
-          maxLength: 32
-          type: string
-          description: The unique identification code of a classification code template.
-      description: Response of a classification template creation.
-    CodeTemplateDTO:
-      required:
-      - id
-      - targetTypeName
-      - value
-      type: object
-      properties:
-        id:
-          maxLength: 32
-          type: string
-          description: The unique identification code of a classification template.
-        targetTypeName:
-          maxLength: 255
-          type: string
-          description: name of the source type of the template as defined in the system.
-        value:
-          maxLength: 800
-          type: string
-          description: The classification value of the template.
-        applicationType:
-          maxLength: 15
-          type: string
-          description: Defines how a classification template should be applied into a target value.
-          enum:
-          - MANUAL
-          - AUTOMATIC
-          - RULE_BASED
-      description: DTO holding the data of a classification template.
-    CertTemplateDTO:
-      required:
-      - certTemplateData
-      - id
-      type: object
-      properties:
-        id:
-          maxLength: 32
-          type: string
-          description: The unique identification code of a document template.
-        applicationType:
-          maxLength: 15
-          type: string
-          description: Defines how a document template should be applied.
-          enum:
-          - MANUAL
-          - AUTOMATIC
-          - RULE_BASED
-        certTemplateData:
-          $ref: '#/components/schemas/CertDataDTO'
-      description: DTO holding the data of a document template.
-    SearchCodeTemplatesResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        codeTemplates:
-          type: array
-          description: The data of all the classification templates fitting the search input.
-          items:
-            $ref: '#/components/schemas/CodeTemplateDTO'
-      description: 'Response DTO for #searchCodeTemplate'
-    UpdateCodeTemplateRequestDTO:
-      type: object
-      properties:
-        value:
-          maxLength: 800
-          type: string
-          description: The classification value of the template.
-        applicationType:
-          maxLength: 15
-          type: string
-          description: Defines how a classification template should be applied into a target value.
-          default: MANUAL
-          enum:
-          - MANUAL
-          - AUTOMATIC
-      description: DTO holding the parameters for the update of a template.
-    SearchCodeTemplatesRequestDTO:
-      required:
-      - sourceTypeName
-      - sourceValue
-      type: object
-      properties:
-        sourceValue:
-          maxLength: 800
-          type: string
-          description: The source value for which classification templates will be searched.
-        sourceTypeName:
-          maxLength: 255
-          type: string
-          description: The name of the source type of the template as defined in the system.
-        targetTypeName:
-          maxLength: 255
-          type: string
-          description: name of the source type of the template as defined in the system.
-      description: DTO holding the parameters for a code template search.
-    DeleteCertTemplateResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response of a document template deletion.
-    UpdateCodeTemplateResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response of a classification template update.
-    GetCertTemplateResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        certTemplate:
-          $ref: '#/components/schemas/CertTemplateDTO'
-      description: 'Response DTO for #getCertTemplate'
     SearchCertTemplatesRequestDTO:
       required:
       - sourceTypeName
@@ -628,11 +384,148 @@ components:
           type: string
           description: The division of the document of the template.
       description: DTO holding the parameters for a certificate template search.
-    UpdateCertTemplateRequestDTO:
-      required:
-      - certData
+    DeleteCodeTemplateResponseDTO:
       type: object
       properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a classification template deletion.
+    CreateCertTemplateResponseDTO:
+      required:
+      - id
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a document template.
+      description: Response of a document template creation.
+    CreateCertTemplateRequestDTO:
+      required:
+      - certData
+      - sourceTypeName
+      - sourceValue
+      type: object
+      properties:
+        sourceTypeName:
+          maxLength: 255
+          type: string
+          description: The name of the source type of the template as defined in the system.
+        sourceValue:
+          maxLength: 800
+          type: string
+          description: The source value for which a document templates will be created.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a document template should be applied into a target value.
+          default: MANUAL
+          enum:
+          - MANUAL
+          - AUTOMATIC
+        certData:
+          $ref: '#/components/schemas/CertDataDTO'
+      description: DTO holding the parameters for the creation of a document template.
+    GetCertTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        certTemplate:
+          $ref: '#/components/schemas/CertTemplateDTO'
+      description: 'Response DTO for #getCertTemplate'
+    SearchCertTemplatesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        certTemplates:
+          type: array
+          description: The data of all the document templates fitting the search input.
+          items:
+            $ref: '#/components/schemas/CertTemplateDTO'
+      description: 'Response DTO for #searchCertTemplate'
+    CodeTemplateDTO:
+      required:
+      - id
+      - targetTypeName
+      - value
+      type: object
+      properties:
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a classification template.
+        targetTypeName:
+          maxLength: 255
+          type: string
+          description: name of the source type of the template as defined in the system.
+        value:
+          maxLength: 800
+          type: string
+          description: The classification value of the template.
         applicationType:
           maxLength: 15
           type: string
@@ -640,21 +533,34 @@ components:
           enum:
           - MANUAL
           - AUTOMATIC
-        certData:
-          $ref: '#/components/schemas/CertDataDTO'
-      description: DTO holding the parameters for the update of a document template.
-    TextInLanguageDTO:
+          - RULE_BASED
+      description: DTO holding the data of a classification template.
+    SearchCodeTemplatesResponseDTO:
       type: object
       properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        codeTemplates:
+          type: array
+          description: The data of all the classification templates fitting the search input.
+          items:
+            $ref: '#/components/schemas/CodeTemplateDTO'
+      description: 'Response DTO for #searchCodeTemplate'
     CreateCodeTemplateRequestDTO:
       required:
       - sourceTypeName
@@ -688,32 +594,209 @@ components:
           - MANUAL
           - AUTOMATIC
       description: DTO holding the parameters for the creation of a code template.
-    CreateCertTemplateRequestDTO:
+    CertTemplateDTO:
       required:
-      - certData
-      - sourceTypeName
-      - sourceValue
+      - certTemplateData
+      - id
       type: object
       properties:
-        sourceTypeName:
-          maxLength: 255
+        id:
+          maxLength: 32
           type: string
-          description: The name of the source type of the template as defined in the system.
-        sourceValue:
-          maxLength: 800
-          type: string
-          description: The source value for which a document templates will be created.
+          description: The unique identification code of a document template.
         applicationType:
           maxLength: 15
           type: string
-          description: Defines how a document template should be applied into a target value.
+          description: Defines how a document template should be applied.
+          enum:
+          - MANUAL
+          - AUTOMATIC
+          - RULE_BASED
+        certTemplateData:
+          $ref: '#/components/schemas/CertDataDTO'
+      description: DTO holding the data of a document template.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    UpdateCertTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a classification document update.
+    DeleteCertTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a document template deletion.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    UpdateCodeTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response of a classification template update.
+    CreateCodeTemplateResponseDTO:
+      required:
+      - id
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        id:
+          maxLength: 32
+          type: string
+          description: The unique identification code of a classification code template.
+      description: Response of a classification template creation.
+    UpdateCodeTemplateRequestDTO:
+      type: object
+      properties:
+        value:
+          maxLength: 800
+          type: string
+          description: The classification value of the template.
+        applicationType:
+          maxLength: 15
+          type: string
+          description: Defines how a classification template should be applied into a target value.
           default: MANUAL
           enum:
           - MANUAL
           - AUTOMATIC
-        certData:
-          $ref: '#/components/schemas/CertDataDTO'
-      description: DTO holding the parameters for the creation of a document template.
+      description: DTO holding the parameters for the update of a template.
+    SearchCodeTemplatesRequestDTO:
+      required:
+      - sourceTypeName
+      - sourceValue
+      type: object
+      properties:
+        sourceValue:
+          maxLength: 800
+          type: string
+          description: The source value for which classification templates will be searched.
+        sourceTypeName:
+          maxLength: 255
+          type: string
+          description: The name of the source type of the template as defined in the system.
+        targetTypeName:
+          maxLength: 255
+          type: string
+          description: name of the source type of the template as defined in the system.
+      description: DTO holding the parameters for a code template search.
+    GetCodeTemplateResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        codeTemplate:
+          $ref: '#/components/schemas/CodeTemplateDTO'
+      description: 'Response DTO for #getCodeTemplate'
     CertDataDTO:
       maxLength: 255
       required:
@@ -744,104 +827,21 @@ components:
           type: string
           description: The division of the document of the template.
       description: DTO holding the data of a document.
-    GetCodeTemplateResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        codeTemplate:
-          $ref: '#/components/schemas/CodeTemplateDTO'
-      description: 'Response DTO for #getCodeTemplate'
-    CreateCertTemplateResponseDTO:
+    UpdateCertTemplateRequestDTO:
       required:
-      - id
+      - certData
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        id:
-          maxLength: 32
+        applicationType:
+          maxLength: 15
           type: string
-          description: The unique identification code of a document template.
-      description: Response of a document template creation.
-    SearchCertTemplatesResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        certTemplates:
-          type: array
-          description: The data of all the document templates fitting the search input.
-          items:
-            $ref: '#/components/schemas/CertTemplateDTO'
-      description: 'Response DTO for #searchCertTemplate'
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
+          description: Defines how a classification template should be applied into a target value.
+          enum:
+          - MANUAL
+          - AUTOMATIC
+        certData:
+          $ref: '#/components/schemas/CertDataDTO'
+      description: DTO holding the parameters for the update of a document template.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

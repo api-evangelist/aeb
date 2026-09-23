@@ -49,6 +49,8 @@ paths:
                   description: 'Carrier not found '
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Get carrier
+      x-summary-source: derived
     put:
       tags:
       - Carrier
@@ -96,6 +98,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update carrier
+      x-summary-source: derived
     delete:
       tags:
       - Carrier
@@ -132,6 +136,8 @@ paths:
                   description: 'Carrier not found '
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Delete carrier
+      x-summary-source: derived
   /carriers:
     get:
       tags:
@@ -187,6 +193,8 @@ paths:
                       name: DHL Paket international
                       isCarrierValidationSupported: true
                       isBillingAdapterSupported: true
+      summary: Search carriers
+      x-summary-source: derived
   /carriers/{id}/info-texts:
     get:
       tags:
@@ -225,6 +233,8 @@ paths:
                         description: Nicht schütteln
                       - language: EN
                         description: Do no shake
+      summary: Get info texts
+      x-summary-source: derived
     put:
       tags:
       - Carrier
@@ -290,6 +300,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update all info texts
+      x-summary-source: derived
   /carriers/{id}/info-texts/{info-text-id}:
     get:
       tags:
@@ -343,6 +355,8 @@ paths:
                   description: Info text not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Get info text
+      x-summary-source: derived
     put:
       tags:
       - Carrier
@@ -401,6 +415,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update info text
+      x-summary-source: derived
     delete:
       tags:
       - Carrier
@@ -447,6 +463,8 @@ paths:
                   description: Info text not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Delete info text
+      x-summary-source: derived
   /carriers/{id}/services:
     get:
       tags:
@@ -485,6 +503,8 @@ paths:
                         name: DHL Paket int. Premium
                       - language: EN
                         name: DHL Paket int. Premium
+      summary: Get services
+      x-summary-source: derived
     put:
       tags:
       - Carrier
@@ -550,6 +570,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update all services
+      x-summary-source: derived
   /carriers/{id}/services/{service-id}:
     get:
       tags:
@@ -597,10 +619,12 @@ paths:
                   description: Service not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Get service
+      x-summary-source: derived
     put:
       tags:
       - Carrier
-      description: Create or update a service with the specified ID. If the service with the given id does not exist, a new service is created. If the service exist, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use the GET/carriers/{id}/services to check whether a service with a ID already exists BEFORE you use  PUT/carriers/{id}/services/{id}
+      description: Create or update a service with the specified ID. If the service with the given id does not exist, a new service is created. If the service exist, the existing service is fully updated. Not filled fields in the request are treated thereby as empty data fields and lead to empty fields in an existing service. It is therefore recommended to use the GET/carriers/{id}/services to check whether a service with a ID already exists BEFORE you use PUT/carriers/{id}/services/{id}
       operationId: createOrUpdateService
       parameters:
       - name: id
@@ -655,6 +679,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update service
+      x-summary-source: derived
     delete:
       tags:
       - Carrier
@@ -701,6 +727,8 @@ paths:
                   description: Service not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Delete service
+      x-summary-source: derived
   /carriers/{id}/value-added-services:
     get:
       tags:
@@ -739,6 +767,8 @@ paths:
                         name: Sperrgut
                       - language: EN
                         name: Bulky goods
+      summary: Get value added services
+      x-summary-source: derived
     put:
       tags:
       - Carrier
@@ -804,6 +834,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update all value added services
+      x-summary-source: derived
   /carriers/{id}/value-added-services/{value-added-service-id}:
     get:
       tags:
@@ -851,6 +883,8 @@ paths:
                   description: Value added service not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Get value added service
+      x-summary-source: derived
     put:
       tags:
       - Carrier
@@ -909,6 +943,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/AebProblem'
+      summary: Create or update value added service
+      x-summary-source: derived
     delete:
       tags:
       - Carrier
@@ -955,8 +991,19 @@ paths:
                   description: Value added service not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Delete value added service
+      x-summary-source: derived
 components:
   schemas:
+    CarrierValueAddedServiceList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierValueAddedService'
     CarrierValueAddedServiceTextTranslation:
       required:
       - language
@@ -973,6 +1020,30 @@ components:
           maxLength: 250
           minLength: 0
           type: string
+    CarrierInfoTextList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierInfoText'
+    CarrierPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Carrier'
     CarrierServiceList:
       required:
       - content
@@ -982,6 +1053,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CarrierService'
+    CarrierInfoText:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextTextTranslation'
     CarrierInfoTextTextTranslation:
       required:
       - language
@@ -998,47 +1084,10 @@ components:
           maxLength: 250
           minLength: 0
           type: string
-    AebProblemError:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Code identifying the type of the error.
-          example: INVALID_VALUE
-        message:
-          type: string
-          description: Description of the error.
-          example: Item number invalid
-        field:
-          type: string
-          description: JSON pointer to a data field that contains the erroneous value.
-          example: items/2/itemNumber
-        value:
-          type: string
-          description: Textual representation of the erroneous value.
-          example: 7411A
-      description: Array of related errors
-    CarrierPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Carrier'
-    Carrier:
+    CarrierService:
       required:
       - identCode
-      - isBillingAdapterSupported
-      - isCarrierValidationSupported
-      - name
+      - translations
       type: object
       properties:
         identCode:
@@ -1046,20 +1095,10 @@ components:
           minLength: 1
           type: string
           description: The identCode of the MO.
-        name:
-          maxLength: 50
-          minLength: 0
-          type: string
-          description: The name of the carrier setup
-          example: DHL Paket international
-        isCarrierValidationSupported:
-          type: boolean
-          description: When false, validation through CCO is not supported
-          example: false
-        isBillingAdapterSupported:
-          type: boolean
-          description: If false, price calculation through LCM is not supported
-          example: false
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierServiceTextTranslation'
     CarrierServiceTextTranslation:
       required:
       - language
@@ -1091,6 +1130,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CarrierValueAddedServiceTextTranslation'
+    Carrier:
+      required:
+      - identCode
+      - isBillingAdapterSupported
+      - isCarrierValidationSupported
+      - name
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the carrier setup
+          example: DHL Paket international
+        isCarrierValidationSupported:
+          type: boolean
+          description: When false, validation through CCO is not supported
+          example: false
+        isBillingAdapterSupported:
+          type: boolean
+          description: If false, price calculation through LCM is not supported
+          example: false
     AebProblem:
       type: object
       properties:
@@ -1135,54 +1201,26 @@ components:
           description: Array of related errors
           items:
             $ref: '#/components/schemas/AebProblemError'
-    CarrierValueAddedServiceList:
-      required:
-      - content
+    AebProblemError:
       type: object
       properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierValueAddedService'
-    CarrierService:
-      required:
-      - identCode
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
+        code:
           type: string
-          description: The identCode of the MO.
-        translations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierServiceTextTranslation'
-    CarrierInfoText:
-      required:
-      - identCode
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
           type: string
-          description: The identCode of the MO.
-        translations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierInfoTextTextTranslation'
-    CarrierInfoTextList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierInfoText'
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

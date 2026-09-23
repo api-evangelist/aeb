@@ -16,7 +16,7 @@ paths:
     get:
       tags:
       - TermsOfDelivery
-      description: 'Returns a terms of delivery with the requested ID. If the ID does not exist, an error will be returned '
+      description: Returns a terms of delivery with the requested ID. If the ID does not exist, an error will be returned
       operationId: getTermsOfDelivery
       parameters:
       - name: id
@@ -53,6 +53,8 @@ paths:
                   description: Terms of delivery not found
                   value:
                     errorMessage: No terms of delivery with ID 'FOB' found.
+      summary: Get terms of delivery
+      x-summary-source: derived
   /terms-of-deliveries:
     get:
       tags:
@@ -119,8 +121,44 @@ paths:
                         description: ab Werk
                       - language: EN
                         description: ex works
+      summary: Search terms of deliveries
+      x-summary-source: derived
 components:
   schemas:
+    DLClientTermsOfDeliveryListRestDTO:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of terms of deliveries.
+          items:
+            $ref: '#/components/schemas/DLClientTermsOfDeliveryRestDTO'
+    TermsOfDeliveryTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the terms of delivery.
+      description: Description of the terms of delivery in a certain language.
     DLClientTermsOfDeliveryRestDTO:
       required:
       - costType
@@ -166,40 +204,6 @@ components:
           items:
             $ref: '#/components/schemas/TermsOfDeliveryTextTranslation'
       description: List of terms of deliveries.
-    DLClientTermsOfDeliveryListRestDTO:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of terms of deliveries.
-          items:
-            $ref: '#/components/schemas/DLClientTermsOfDeliveryRestDTO'
-    TermsOfDeliveryTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The description of the terms of delivery.
-      description: Description of the terms of delivery in a certain language.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -52,6 +52,8 @@ paths:
                   description: Billing scenario not found
                   value:
                     errorMessage: Kein Billingszenario mit dem Kürzel '001' gefunden.
+      summary: Get billing scenario
+      x-summary-source: derived
   /billing-scenarios:
     get:
       tags:
@@ -99,8 +101,38 @@ paths:
                         description: '002'
                       - language: EN
                         description: '002'
+      summary: Search scenarios
+      x-summary-source: derived
 components:
   schemas:
+    BillingScenarioTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the model object.
+      description: Name of the billing scenario in a certain language.
+    BillingScenarioList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of billing scenarios.
+          items:
+            $ref: '#/components/schemas/BillingScenario'
     BillingScenario:
       required:
       - identCode
@@ -121,34 +153,6 @@ components:
             $ref: '#/components/schemas/BillingScenarioTextTranslation'
       description: List of billing scenarios.
       readOnly: true
-    BillingScenarioList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          description: List of billing scenarios.
-          items:
-            $ref: '#/components/schemas/BillingScenario'
-    BillingScenarioTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The description of the model object.
-      description: Name of the billing scenario in a certain language.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

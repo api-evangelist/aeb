@@ -56,6 +56,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AddPartnersystemToMaterialResponseDTO'
+      summary: Add partnersystem
+      x-summary-source: derived
     delete:
       tags:
       - MaterialBFBean
@@ -93,11 +95,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeletePartnersystemOfMaterialRepsonseDTO'
+      summary: Delete partnersystem
+      x-summary-source: derived
   /MaterialBFBean/materials/{materialNumber}:
     get:
       tags:
       - MaterialBFBean
-      summary: Get the data for one material.
+      summary: Get the data for one material
       operationId: getMaterial
       parameters:
       - name: materialNumber
@@ -218,10 +222,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteMaterialResponseDTO'
+      summary: Delete material
+      x-summary-source: derived
     patch:
       tags:
       - MaterialBFBean
-      summary: Update the data of one material.
+      summary: Update the data of one material
       operationId: updateMaterial
       parameters:
       - name: materialNumber
@@ -289,7 +295,7 @@ paths:
     get:
       tags:
       - MaterialBFBean
-      summary: Gets the data of a material related business object.
+      summary: Gets the data of a material related business object
       description: This method is meant to be used in combination with the ISyncBF API to get data of single business objects separately.
       operationId: getBusinessObject
       parameters:
@@ -336,7 +342,7 @@ paths:
     get:
       tags:
       - MaterialBFBean
-      summary: Returns classification values of a classification profile for the requested material.
+      summary: Returns classification values of a classification profile for the requested…
       operationId: getClassification
       parameters:
       - name: materialNumber
@@ -393,22 +399,20 @@ paths:
     patch:
       tags:
       - MaterialBFBean
-      summary: Ensures, that the a classification for the requested material and profile exists.
-      description: '<p>Optionally returns all classification values which have been maintained for this classification.</p>
+      summary: Ensures, that the a classification for the requested material and profile exists
+      description: 'Optionally returns all classification values which have been maintained for this classification.
 
-        <p>Optionally updates the workflow fields (priority/due date) regarding the worst-case principle:</p>
 
-        <ul>
+        Optionally updates the workflow fields (priority/due date) regarding the worst-case principle:
 
-        <li>It''s only possible to update to a lower #priority (= more urgent)</li>
 
-        <li>It''s only possible to update to an earlier #dueDate</li>
+        It''s only possible to update to a lower #priority (= more urgent)
 
-        <li>Both fields are taken separately into account, in case one is set the #reference will be set also.</li>
 
-        </ul>
+        It''s only possible to update to an earlier #dueDate
 
-        '
+
+        Both fields are taken separately into account, in case one is set the #reference will be set also.'
       operationId: requestClassification
       parameters:
       - name: materialNumber
@@ -486,7 +490,7 @@ paths:
     post:
       tags:
       - MaterialBFBean
-      summary: Returns classification values of a classification profile for the requested materials.
+      summary: Returns classification values of a classification profile for the requested…
       operationId: getClassificationForMaterials
       parameters:
       - name: profileCode
@@ -544,7 +548,7 @@ paths:
     post:
       tags:
       - MaterialBFBean
-      summary: Get the data for multiple materials.
+      summary: Get the data for multiple materials
       operationId: getMaterials
       parameters:
       - name: clientSystemId
@@ -631,7 +635,7 @@ paths:
     patch:
       tags:
       - MaterialBFBean
-      summary: Update an attachment file in the engine.
+      summary: Update an attachment file in the engine
       operationId: updateFileAttachment
       parameters:
       - name: materialNumber
@@ -687,165 +691,6 @@ paths:
                 $ref: '#/components/schemas/UpdateFileAttachmentResultDTO'
 components:
   schemas:
-    RequestClassificationResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        classificationValues:
-          type: array
-          description: Container with the classification values that belong to the requested classification.
-          items:
-            $ref: '#/components/schemas/ClassificationValueDTO'
-      description: 'Response DTO for #requestClassifications'
-    GetMaterialResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        material:
-          $ref: '#/components/schemas/MaterialDataDTO'
-      description: 'Response DTO for #getMaterial'
-    GetBusinessObjectResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        businessObject:
-          $ref: '#/components/schemas/GenericDataRecordDTO'
-      description: Response DTO for <code>IMaterialBF#getBusinessObject</code>.
-    DeletePartnersystemOfMaterialRepsonseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response DTO for <code>IMaterialBF#deletePartnersystem</code>.
-    DeleteMaterialResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: 'Response DTO for #deleteMaterial'
-    MaterialNumbersDTO:
-      type: object
-      properties:
-        materialNumbers:
-          type: array
-          description: The list of material numbers.
-          items:
-            type: string
-            description: The list of material numbers.
-      description: DTO to hold multiple material numbers.
-    NamedGenericDataRecordDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of this record, i.e. the role the record plays in the enclosing record.<br> When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.
-        record:
-          $ref: '#/components/schemas/GenericDataRecordDTO'
-      description: A generic data record with a name.<br> Wrapper class to encapsulate subrecords with their name and with the ability to have explicit null records.
-      example:
-      - name: child
-        record:
-          fields: []
-          subrecords: []
-    UpdateFileAttachmentResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: 'Response DTO for #updateFileAttachment'
     GetMaterialsResultDTO:
       type: object
       properties:
@@ -872,32 +717,322 @@ components:
           items:
             $ref: '#/components/schemas/MaterialDataDTO'
       description: 'Response DTO for #getMaterials'
-    MaterialDetailsDTO:
+    GenericDataRecordDTO:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: The fields of the record.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        subrecords:
+          type: array
+          description: Subrecords of the record.
+          example:
+          - name: child
+            record:
+              fields: []
+              subrecords: []
+          items:
+            $ref: '#/components/schemas/NamedGenericDataRecordDTO'
+      description: A generic record of data.<br>Each field is qualified by name and type and has a value.
+    CertificateDataDTO:
+      required:
+      - geoId
+      type: object
+      properties:
+        geoId:
+          maxLength: 10
+          type: string
+          description: Country (ISO code) or area (area code) of destination for which the certificate is valid.
+        reference:
+          maxLength: 35
+          type: string
+          description: Classifying feature of submitted certificate, e.g. its number.
+        dateOfIssue:
+          type: string
+          description: The date the certificate was issued.
+          format: date
+        endOfValidity:
+          type: string
+          description: The last day this certificate is valid.
+          format: date
+        detail:
+          maxLength: 12
+          type: string
+          description: Detailed information on a referenced certificate.
+        additionalExplanation:
+          maxLength: 35
+          type: string
+          description: Supplement to certificate submitted.
+      description: DTO holding information about the certificate instance.
+    GetBusinessObjectResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        businessObject:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+      description: Response DTO for <code>IMaterialBF#getBusinessObject</code>.
+    NamedGenericDataRecordDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this record, i.e. the role the record plays in the enclosing record.<br> When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.
+        record:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+      description: A generic data record with a name.<br> Wrapper class to encapsulate subrecords with their name and with the ability to have explicit null records.
+      example:
+      - name: child
+        record:
+          fields: []
+          subrecords: []
+    CertificateTypeDTO:
+      required:
+      - code
+      - countryOfCertificate
+      type: object
+      properties:
+        countryOfCertificate:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: Country that issued this certificate.
+        code:
+          maxLength: 5
+          type: string
+          description: Code of this certificate type.
+        qualifier:
+          maxLength: 3
+          type: string
+          description: Qualifier for further specification of the type.
+        division:
+          maxLength: 1
+          type: string
+          description: The division of this certificate.
+        validFrom:
+          type: string
+          description: The first day this certificate is valid.
+          format: date
+        validTo:
+          type: string
+          description: The last day this certificate is valid.
+          format: date
+      description: DTO holding information about the type of the certificate.
+    GetClassificationForMaterialsResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        classificationsOfMaterials:
+          type: array
+          description: Container with the classification values of each material that belong to the requested classification.
+          items:
+            $ref: '#/components/schemas/ClassificationValuesOfMaterialDTO'
+      description: Response DTO for <code>IMaterialBF#getClassificationForMaterials</code>.
+    FileContentDTO:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the file as byte array.
+          format: byte
+      description: DTO to hold the content of a file as byte array.
+    UpdateMaterialResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: 'Response DTO for #updateMaterial'
+    RequestClassificationResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        classificationValues:
+          type: array
+          description: Container with the classification values that belong to the requested classification.
+          items:
+            $ref: '#/components/schemas/ClassificationValueDTO'
+      description: 'Response DTO for #requestClassifications'
+    DeleteMaterialResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: 'Response DTO for #deleteMaterial'
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    GenericDataFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
+        value:
+          type: string
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
+    FeatureDTO:
+      required:
+      - group
+      - name
       type:
       - object
       - 'null'
       properties:
-        alternativeMaterialNumber:
+        group:
+          maxLength: 30
+          type: string
+          description: The group of the feature.
+        name:
+          maxLength: 100
+          type: string
+          description: The short name of the feature.
+        value:
+          maxLength: 1000
+          type: string
+          description: The value of the feature.
+      description: DTO holding information about a feature.
+    ClassificationValuesOfMaterialDTO:
+      type: object
+      properties:
+        materialNumber:
           maxLength: 50
           type: string
-          description: An alternative material number. This is typically a representation of the materialNumber that has a better readability.
-        attribute:
-          maxLength: 10
+          description: The material number identifies the material uniquely.
+        classificationValues:
+          type: array
+          description: Container with the classification values that belong to the requested classification.
+          items:
+            $ref: '#/components/schemas/ClassificationValueDTO'
+      description: DTO to hold classification values of a material.
+    ClassificationDTO:
+      required:
+      - profileCode
+      type:
+      - object
+      - 'null'
+      properties:
+        profileCode:
+          maxLength: 40
           type: string
-          description: Some attribute to better this material easier.
+          description: The code of the classification profile.
+        remark:
+          type:
+          - string
+          - 'null'
+          description: Remark concerning special notes and reasons for this classification.
         priority:
-          maxLength: 10
-          type: string
-          description: 'Not used anymore. Sent values will be mapped to #attribute'
-        validFrom:
-          type: string
-          description: Date from which the material is valid.
+          type:
+          - integer
+          - 'null'
+          description: Value between 0 and 999. It's only possible to update to a lower priority (= more urgency).
+          format: int32
+        dueDate:
+          type:
+          - string
+          - 'null'
+          description: Date by which this classification shall be completed. It's only possible to update to an earlier date (= more urgency).
           format: date
-        validTo:
-          type: string
-          description: Date to which the material is valid.
-          format: date
-      description: The container for material specific details.
+        reference:
+          maxLength: 255
+          type:
+          - string
+          - 'null'
+          description: Provides tracking the priority/due date; e.g. an order number. Only taken into account if priority or dueDate is updated.
+      description: A DTO containing the profile code of a classification that has been requested, or is about to be requested
     CertificateDTO:
       required:
       - data
@@ -934,116 +1069,7 @@ components:
         data:
           $ref: '#/components/schemas/CertificateDataDTO'
       description: DTO holding the information about a certificate.
-    CertificateTypeDTO:
-      required:
-      - code
-      - countryOfCertificate
-      type: object
-      properties:
-        countryOfCertificate:
-          maxLength: 2
-          minLength: 2
-          type: string
-          description: Country that issued this certificate.
-        code:
-          maxLength: 5
-          type: string
-          description: Code of this certificate type.
-        qualifier:
-          maxLength: 3
-          type: string
-          description: Qualifier for further specification of the type.
-        division:
-          maxLength: 1
-          type: string
-          description: The division of this certificate.
-        validFrom:
-          type: string
-          description: The first day this certificate is valid.
-          format: date
-        validTo:
-          type: string
-          description: The last day this certificate is valid.
-          format: date
-      description: DTO holding information about the type of the certificate.
-    GenericDataFieldDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
-        value:
-          type: string
-          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
-        type:
-          type: string
-          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
-      description: A field of a generic data record.
-    FileContentDTO:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: string
-          description: The content of the file as byte array.
-          format: byte
-      description: DTO to hold the content of a file as byte array.
-    MaterialDescriptionDTO:
-      required:
-      - language
-      type:
-      - object
-      - 'null'
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          type: string
-          description: ISO code of the language of the description.
-        description:
-          maxLength: 1000
-          type: string
-          description: The description of the material in the given language.
-      description: DTO to hold data of the description of a material in a defined language.
-    ClassificationValueDTO:
-      required:
-      - typeName
-      type:
-      - object
-      - 'null'
-      properties:
-        typeName:
-          maxLength: 255
-          type: string
-          description: The name of the type as defined in the engine.
-        validFrom:
-          type:
-          - string
-          - 'null'
-          description: The first day, this value is valid.
-          format: date
-        validTo:
-          type:
-          - string
-          - 'null'
-          description: The last day, this value is valid. If empty, there is no end date.
-          format: date
-        processingComment:
-          maxLength: 1000
-          type: string
-          description: An optional user comment about the editing of this value.
-        value:
-          maxLength: 800
-          type: string
-          description: The textual value of the classification value.
-        approved:
-          type:
-          - boolean
-          - 'null'
-          description: The current approval status of the value.
-      description: DTO holding data of a specific classification value.
-    GetClassificationForMaterialsResultDTO:
+    GetClassificationResultDTO:
       type: object
       properties:
         hasErrors:
@@ -1063,42 +1089,22 @@ components:
           description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
             $ref: '#/components/schemas/ResponseMessageDTO'
-        classificationsOfMaterials:
+        classificationValues:
           type: array
-          description: Container with the classification values of each material that belong to the requested classification.
+          description: Container with the classification values that belong to the requested classification.
           items:
-            $ref: '#/components/schemas/ClassificationValuesOfMaterialDTO'
-      description: Response DTO for <code>IMaterialBF#getClassificationForMaterials</code>.
-    CertificateDataDTO:
-      required:
-      - geoId
+            $ref: '#/components/schemas/ClassificationValueDTO'
+      description: Response DTO for <code>IMaterialBF#getClassification</code>.
+    MaterialNumbersDTO:
       type: object
       properties:
-        geoId:
-          maxLength: 10
-          type: string
-          description: Country (ISO code) or area (area code) of destination for which the certificate is valid.
-        reference:
-          maxLength: 35
-          type: string
-          description: Classifying feature of submitted certificate, e.g. its number.
-        dateOfIssue:
-          type: string
-          description: The date the certificate was issued.
-          format: date
-        endOfValidity:
-          type: string
-          description: The last day this certificate is valid.
-          format: date
-        detail:
-          maxLength: 12
-          type: string
-          description: Detailed information on a referenced certificate.
-        additionalExplanation:
-          maxLength: 35
-          type: string
-          description: Supplement to certificate submitted.
-      description: DTO holding information about the certificate instance.
+        materialNumbers:
+          type: array
+          description: The list of material numbers.
+          items:
+            type: string
+            description: The list of material numbers.
+      description: DTO to hold multiple material numbers.
     AttachmentLinkDTO:
       type:
       - object
@@ -1113,63 +1119,7 @@ components:
           type: string
           description: The URL to the attachment file or a web page.
       description: DTO holding information about an attachment.
-    ClassificationDTO:
-      required:
-      - profileCode
-      type:
-      - object
-      - 'null'
-      properties:
-        profileCode:
-          maxLength: 40
-          type: string
-          description: The code of the classification profile.
-        remark:
-          type:
-          - string
-          - 'null'
-          description: Remark concerning special notes and reasons for this classification.
-        priority:
-          type:
-          - integer
-          - 'null'
-          description: Value between 0 and 999. It's only possible to update to a lower priority (= more urgency).
-          format: int32
-        dueDate:
-          type:
-          - string
-          - 'null'
-          description: Date by which this classification shall be completed. It's only possible to update to an earlier date (= more urgency).
-          format: date
-        reference:
-          maxLength: 255
-          type:
-          - string
-          - 'null'
-          description: Provides tracking the priority/due date; e.g. an order number. Only taken into account if priority or dueDate is updated.
-      description: A DTO containing the profile code of a classification that has been requested, or is about to be requested
-    FeatureDTO:
-      required:
-      - group
-      - name
-      type:
-      - object
-      - 'null'
-      properties:
-        group:
-          maxLength: 30
-          type: string
-          description: The group of the feature.
-        name:
-          maxLength: 100
-          type: string
-          description: The short name of the feature.
-        value:
-          maxLength: 1000
-          type: string
-          description: The value of the feature.
-      description: DTO holding information about a feature.
-    AddPartnersystemToMaterialResponseDTO:
+    UpdateFileAttachmentResultDTO:
       type: object
       properties:
         hasErrors:
@@ -1189,39 +1139,7 @@ components:
           description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
             $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response DTO for <code>IMaterialBF#addPartnersystem</code>.
-    GenericDataRecordDTO:
-      type: object
-      properties:
-        fields:
-          type: array
-          description: The fields of the record.
-          items:
-            $ref: '#/components/schemas/GenericDataFieldDTO'
-        subrecords:
-          type: array
-          description: Subrecords of the record.
-          example:
-          - name: child
-            record:
-              fields: []
-              subrecords: []
-          items:
-            $ref: '#/components/schemas/NamedGenericDataRecordDTO'
-      description: A generic record of data.<br>Each field is qualified by name and type and has a value.
-    ClassificationValuesOfMaterialDTO:
-      type: object
-      properties:
-        materialNumber:
-          maxLength: 50
-          type: string
-          description: The material number identifies the material uniquely.
-        classificationValues:
-          type: array
-          description: Container with the classification values that belong to the requested classification.
-          items:
-            $ref: '#/components/schemas/ClassificationValueDTO'
-      description: DTO to hold classification values of a material.
+      description: 'Response DTO for #updateFileAttachment'
     MaterialDataDTO:
       type: object
       properties:
@@ -1274,65 +1192,43 @@ components:
           items:
             $ref: '#/components/schemas/CertificateDTO'
       description: DTO to hold data of a material.
-    UpdateMaterialResultDTO:
-      type: object
+    ClassificationValueDTO:
+      required:
+      - typeName
+      type:
+      - object
+      - 'null'
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: 'Response DTO for #updateMaterial'
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
+        typeName:
+          maxLength: 255
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
+          description: The name of the type as defined in the engine.
+        validFrom:
+          type:
+          - string
+          - 'null'
+          description: The first day, this value is valid.
+          format: date
+        validTo:
+          type:
+          - string
+          - 'null'
+          description: The last day, this value is valid. If empty, there is no end date.
+          format: date
+        processingComment:
+          maxLength: 1000
           type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    GetClassificationResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        classificationValues:
-          type: array
-          description: Container with the classification values that belong to the requested classification.
-          items:
-            $ref: '#/components/schemas/ClassificationValueDTO'
-      description: Response DTO for <code>IMaterialBF#getClassification</code>.
+          description: An optional user comment about the editing of this value.
+        value:
+          maxLength: 800
+          type: string
+          description: The textual value of the classification value.
+        approved:
+          type:
+          - boolean
+          - 'null'
+          description: The current approval status of the value.
+      description: DTO holding data of a specific classification value.
     ResponseMessageDTO:
       type: object
       properties:
@@ -1355,6 +1251,114 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
+    MaterialDescriptionDTO:
+      required:
+      - language
+      type:
+      - object
+      - 'null'
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: ISO code of the language of the description.
+        description:
+          maxLength: 1000
+          type: string
+          description: The description of the material in the given language.
+      description: DTO to hold data of the description of a material in a defined language.
+    MaterialDetailsDTO:
+      type:
+      - object
+      - 'null'
+      properties:
+        alternativeMaterialNumber:
+          maxLength: 50
+          type: string
+          description: An alternative material number. This is typically a representation of the materialNumber that has a better readability.
+        attribute:
+          maxLength: 10
+          type: string
+          description: Some attribute to better this material easier.
+        priority:
+          maxLength: 10
+          type: string
+          description: 'Not used anymore. Sent values will be mapped to #attribute'
+        validFrom:
+          type: string
+          description: Date from which the material is valid.
+          format: date
+        validTo:
+          type: string
+          description: Date to which the material is valid.
+          format: date
+      description: The container for material specific details.
+    DeletePartnersystemOfMaterialRepsonseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response DTO for <code>IMaterialBF#deletePartnersystem</code>.
+    AddPartnersystemToMaterialResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response DTO for <code>IMaterialBF#addPartnersystem</code>.
+    GetMaterialResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        material:
+          $ref: '#/components/schemas/MaterialDataDTO'
+      description: 'Response DTO for #getMaterial'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: BSM (TEST2) HTTP SAP® SAP® API
+  title: BSM (TEST2) HTTP SAP® API
   description: Thank you for using our HTTP API documentation.
   version: '1.0'
 servers:
@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - SAP®
-      summary: Handle SAP® events.
+      summary: Handle SAP® events
       description: Handles events from SAP® to process according to customizing.
       operationId: handleEvent
       requestBody:

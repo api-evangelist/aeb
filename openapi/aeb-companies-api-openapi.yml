@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Aeb Companies API
   version: '1.0'
-  description: 'Operations tagged Companies across 10 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Companies across 10 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json.'
 servers:
 - url: https://rz3.aeb.de/test2bsm/rest
 - url: https://rz3.aeb.de/demo1cai/rest
@@ -22,12 +22,10 @@ tags:
   description: Rest API for companies
 paths:
   /companies/{id}:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     get:
       tags:
       - Companies
-      description: Returns the company with the requested ID (company number). In some cases the ID (company number) is <b>not unique</b>. In this case an error is returned.
+      description: Returns the company with the requested ID (company number). In some cases the ID (company number) is not unique. In this case an error is returned.
       operationId: getCompany
       parameters:
       - name: id
@@ -97,6 +95,8 @@ paths:
                   description: Requested company not found
                   value:
                     errorMessage: HTTP 404 Not Found
+      summary: Get company
+      x-summary-source: derived
     put:
       tags:
       - Companies
@@ -205,10 +205,12 @@ paths:
                     detail: Locking für Firma - [AEB SE] fehlgeschlagen.
                     timestamp: '2024-04-24T13:43:17.602220800Z'
                     errors: []
+      summary: Create or update company
+      x-summary-source: derived
     delete:
       tags:
       - Companies
-      description: Delete the company with the specified ID (company number). The ID is in some AEB services <b>not unique</b>, in this case a conflict (409) is returned.
+      description: Delete the company with the specified ID (company number). The ID is in some AEB services not unique, in this case a conflict (409) is returned.
       operationId: deleteCompany
       parameters:
       - name: id
@@ -292,9 +294,11 @@ paths:
                     detail: Locking für Firma - [AEB SE] fehlgeschlagen.
                     timestamp: '2024-04-24T13:43:17.602220800Z'
                     errors: []
-  /companies:
+      summary: Delete company
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /companies:
     get:
       tags:
       - Companies
@@ -451,9 +455,11 @@ paths:
                       message: muss größer-gleich 1 sein
                       field: limit
                       value: '0'
-  /company-roles:
+      summary: Search companies
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /company-roles:
     get:
       tags:
       - Companies
@@ -473,52 +479,12 @@ paths:
                     roles:
                     - identCode: DLSHIPPT
                       description: Shipping point
+      summary: Get company roles
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    CompanyPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of companies.
-          items:
-            $ref: '#/components/schemas/Company'
-    CompanyRole:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the role.
-          example: DLSHIPPT
-        description:
-          maxLength: 80
-          minLength: 0
-          type: string
-          description: The name of the role in request language.
-          readOnly: true
-          example: Shipping point
-      description: A role of a company. Company roles are domain specific characteristics and can differ between the different AEB services.
-    CompanyRoleList:
-      required:
-      - roles
-      type: object
-      properties:
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompanyRole'
     Company:
       required:
       - companyNumber
@@ -661,6 +627,50 @@ components:
           items:
             $ref: '#/components/schemas/CompanyRole'
       description: A complete address of a company.
+    CompanyRole:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the role.
+          example: DLSHIPPT
+        description:
+          maxLength: 80
+          minLength: 0
+          type: string
+          description: The name of the role in request language.
+          readOnly: true
+          example: Shipping point
+      description: A role of a company. Company roles are domain specific characteristics and can differ between the different AEB services.
+    CompanyRoleList:
+      required:
+      - roles
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyRole'
+    CompanyPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of companies.
+          items:
+            $ref: '#/components/schemas/Company'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

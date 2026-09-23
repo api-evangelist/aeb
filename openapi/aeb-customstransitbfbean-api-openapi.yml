@@ -96,20 +96,6 @@ components:
           items:
             $ref: '#/components/schemas/ResponseMessageDTO'
       description: Result data for the send-conform-message operation.
-    ICCustomsProcessTypeDTO:
-      type: object
-      properties:
-        customsProcess:
-          maxLength: 35
-          type: string
-          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
-          example: EXPORT_BROKER
-        countrySetupIdentCode:
-          maxLength: 2
-          type: string
-          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
-          example: CN
-      description: DTO to hold the customs process type.
     TextInLanguageDTO:
       type: object
       properties:
@@ -144,6 +130,20 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
+    ICCustomsProcessTypeDTO:
+      type: object
+      properties:
+        customsProcess:
+          maxLength: 35
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
+          example: EXPORT_BROKER
+        countrySetupIdentCode:
+          maxLength: 2
+          type: string
+          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
+          example: CN
+      description: DTO to hold the customs process type.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

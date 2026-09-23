@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Aeb Logon API
   version: '1.0'
-  description: 'Operations tagged Logon across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Logon across 11 of this provider''s published API definitions: aeb-bsm-openapi.json, aeb-carrier-connect-openapi.json, aeb-carrier-event-service-openapi.json, aeb-carrier-select-openapi.json, aeb-customs-broker-portal-openapi.json, aeb-customs-inventory-management-openapi.json, aeb-customs-management-openapi.json, aeb-document-service-openapi.json, aeb-logistics-cost-management-openapi.json, aeb-product-classification-openapi.json, aeb-trade-compliance-management-openapi.json.'
 servers:
 - url: https://rz3.aeb.de/test2bsm/rest
 - url: https://rz3.aeb.de/demo1cai/rest
@@ -23,8 +23,6 @@ tags:
   description: Authentication handler for the XNSGFoundation
 paths:
   /logon/authToken:
-    servers:
-    - url: https://rz3.aeb.de/test2bsm/rest
     get:
       tags:
       - Logon
@@ -43,9 +41,11 @@ paths:
             text/plain:
               schema:
                 type: string
-  /logon/user:
+      summary: Auth token
+      x-summary-source: derived
     servers:
     - url: https://rz3.aeb.de/test2bsm/rest
+  /logon/user:
     post:
       tags:
       - Logon
@@ -63,6 +63,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LogonResponse'
+      summary: Logon user
+      x-summary-source: derived
+    servers:
+    - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
     LogonArgument:

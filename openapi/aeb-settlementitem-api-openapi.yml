@@ -180,24 +180,6 @@ paths:
                     error: No settlement with the ID '0001' found.
 components:
   schemas:
-    BSettlementItemTranslationRestDTO:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The description of the model object.
-      description: localized descriptions.
     VATInfoRestDTO:
       required:
       - ratePercent
@@ -220,47 +202,6 @@ components:
           description: VAT date
           format: date-time
       description: VAT info including rate and type.
-    ComparisonCodeRestDTO:
-      required:
-      - code1
-      - code2
-      type: object
-      properties:
-        code1:
-          type: string
-          description: Comparison Code 1.
-        code2:
-          type: string
-          description: Comparison Code 2.
-      description: Comparison codes (used for audits / grouping).
-    BQuantityDTO:
-      type: object
-      properties:
-        value:
-          multipleOf: 0.001
-          maximum: 999999999999.999
-          type: number
-          description: The value of the quantity.
-        unit:
-          maxLength: 10
-          type: string
-          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
-          example: kg
-        uneceUnit:
-          maxLength: 3
-          type: string
-          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
-          example: NAR
-      description: Quantities for Billing.
-    BSettlementCompanyRestDTO:
-      required:
-      - companyNo
-      type: object
-      properties:
-        companyNo:
-          type: string
-          description: The Company Number.
-      description: Beneficiary company (VAT/context party).
     CalculationReferencesRestDTO:
       type: object
       properties:
@@ -301,97 +242,6 @@ components:
           type: string
           description: Ident code of the generic calculation type of the component that calculated the settlement item. Empty if the price calculation is not generic.
       description: Calculation references (contract/component numbers).
-    PeriodRestDTO:
-      required:
-      - end
-      - start
-      - type
-      type: object
-      properties:
-        start:
-          type: string
-          description: The Start of the Period.
-          format: date-time
-        end:
-          type: string
-          description: The Start of the Period.
-          format: date-time
-        type:
-          type: string
-          description: The Type of Period.
-          enum:
-          - DAY
-          - HALFAMONTH
-          - HALFAYEAR
-          - MONTH
-          - QUARTER
-          - DECADE
-          - TWOWEEKS
-          - WEEK
-          - YEAR
-      description: Period covered by this settlement item.
-    CurrencyRateRestDTO:
-      type: object
-      properties:
-        quantityNotation:
-          type: number
-          description: Quantity notation of the currency rate.
-        valueNotation:
-          type: number
-          description: Value notation of the currency rate.
-        isoCurrencyTo:
-          type: string
-          description: ISO code of the target currency.
-        rateDate:
-          type: string
-          description: Currency rate date.
-          format: date-time
-        validFrom:
-          type: string
-          description: Valid from date.
-          format: date-time
-      description: Currency rate information for settlement price.
-    BAmountOfMoneyDTO:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The value of the amount of money. <p>length=15, scale=2</p>
-        currencyIso:
-          type: string
-          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
-      description: An amount of money with a value and an currency ISO code.
-    BSettlementItemStatusRestDTO:
-      required:
-      - identCode
-      - statusID
-      type: object
-      properties:
-        statusID:
-          type: integer
-          description: The statusId
-          format: int32
-        identCode:
-          type: string
-          description: 'The status Ident Code. Possible Status Codes are: READY, COMPLETE, CANCELLED'
-          enum:
-          - READY
-          - COMPLETE
-          - CANCELLED
-      description: Business object status of the settlement item.
-    SettlementTypeRestDTO:
-      required:
-      - identCode
-      - scenarioIdentCode
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: The SettlementType Ident Code.
-        scenarioIdentCode:
-          type: string
-          description: The Scenario Ident Code.
-      description: Settlement type (workflow classification).
     SettlementItem:
       required:
       - beneficiary
@@ -579,6 +429,156 @@ components:
           type: string
           description: Settlement internal number this item belongs to.
       description: Settlement item REST DTO containing pricing, partner and status information, mapped from the BSettlementItem domain object.
+    CurrencyRateRestDTO:
+      type: object
+      properties:
+        quantityNotation:
+          type: number
+          description: Quantity notation of the currency rate.
+        valueNotation:
+          type: number
+          description: Value notation of the currency rate.
+        isoCurrencyTo:
+          type: string
+          description: ISO code of the target currency.
+        rateDate:
+          type: string
+          description: Currency rate date.
+          format: date-time
+        validFrom:
+          type: string
+          description: Valid from date.
+          format: date-time
+      description: Currency rate information for settlement price.
+    BSettlementItemTranslationRestDTO:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the model object.
+      description: localized descriptions.
+    BAmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    PeriodRestDTO:
+      required:
+      - end
+      - start
+      - type
+      type: object
+      properties:
+        start:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        end:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        type:
+          type: string
+          description: The Type of Period.
+          enum:
+          - DAY
+          - HALFAMONTH
+          - HALFAYEAR
+          - MONTH
+          - QUARTER
+          - DECADE
+          - TWOWEEKS
+          - WEEK
+          - YEAR
+      description: Period covered by this settlement item.
+    SettlementTypeRestDTO:
+      required:
+      - identCode
+      - scenarioIdentCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The SettlementType Ident Code.
+        scenarioIdentCode:
+          type: string
+          description: The Scenario Ident Code.
+      description: Settlement type (workflow classification).
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
+    BSettlementItemStatusRestDTO:
+      required:
+      - identCode
+      - statusID
+      type: object
+      properties:
+        statusID:
+          type: integer
+          description: The statusId
+          format: int32
+        identCode:
+          type: string
+          description: 'The status Ident Code. Possible Status Codes are: READY, COMPLETE, CANCELLED'
+          enum:
+          - READY
+          - COMPLETE
+          - CANCELLED
+      description: Business object status of the settlement item.
+    ComparisonCodeRestDTO:
+      required:
+      - code1
+      - code2
+      type: object
+      properties:
+        code1:
+          type: string
+          description: Comparison Code 1.
+        code2:
+          type: string
+          description: Comparison Code 2.
+      description: Comparison codes (used for audits / grouping).
+    BQuantityDTO:
+      type: object
+      properties:
+        value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: Quantities for Billing.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

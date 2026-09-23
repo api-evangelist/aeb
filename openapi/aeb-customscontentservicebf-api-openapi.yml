@@ -15,12 +15,10 @@ tags:
   description: API providing services around customs content (nomenclatures, export control lists).
 paths:
   /CustomsContentServiceBF/content/{contentIdentCode}/finalCode/{code}:
-    servers:
-    - url: https://rz3.aeb.de/test2ici/rest
     get:
       tags:
       - CustomsContentServiceBF
-      summary: Requests one final code from a catalog.
+      summary: Requests one final code from a catalog
       operationId: getFinalCode
       parameters:
       - name: clientIdentCode
@@ -78,13 +76,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetCodeResultDTO'
-  /CustomsContentServiceBF/content/{contentIdentCode}/finalCodes:
     servers:
     - url: https://rz3.aeb.de/test2ici/rest
+  /CustomsContentServiceBF/content/{contentIdentCode}/finalCodes:
     get:
       tags:
       - CustomsContentServiceBF
-      summary: Requests final codes from a catalog. Result may be resticted with a prefix.
+      summary: Requests final codes from a catalog. Result may be resticted with a prefix
       operationId: getFinalCodes
       parameters:
       - name: clientIdentCode
@@ -141,13 +139,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetFinalCodesResultDTO'
-  /CustomsContentServiceBF/content/{contentIdentCode}/search/{searchTerm}:
     servers:
     - url: https://rz3.aeb.de/test2ici/rest
+  /CustomsContentServiceBF/content/{contentIdentCode}/search/{searchTerm}:
     get:
       tags:
       - CustomsContentServiceBF
-      summary: Searches for codes matching the given criteria.
+      summary: Searches for codes matching the given criteria
       operationId: searchCodes
       parameters:
       - name: clientIdentCode
@@ -205,34 +203,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchCodesResultDTO'
+    servers:
+    - url: https://rz3.aeb.de/test2ici/rest
 components:
   schemas:
-    SearchCodesResultDTO:
-      type: object
+    SupplementaryCodeElementInfoDTO:
+      type:
+      - object
+      - 'null'
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        matchingCodeElements:
-          type: array
-          description: An array of the matching code elements.
-          items:
-            $ref: '#/components/schemas/CodeElementDTO'
-      description: DTO to hold a search result containing all matching code elements of the nomenclature resp. the export control list.
+        type:
+          maxLength: 20
+          type: string
+          description: Type to identify the sort of information given.
+          enum:
+          - SPECIAL_UNIT
+          - SPECIAL_UNIT_2
+        text:
+          maxLength: 255
+          type: string
+          description: The information in textual form. In most cases to be expected only some code or single term.
+          example: KGM
+      description: DTO to hold one type-casted supplementary information about a code element.
     GetFinalCodesResultDTO:
       type: object
       properties:
@@ -259,47 +251,6 @@ components:
           items:
             $ref: '#/components/schemas/CodeElementDTO'
       description: DTO to hold a request result containing all final code elements of the nomenclature resp. the export control list.
-    SupplementaryCodeElementInfoDTO:
-      type:
-      - object
-      - 'null'
-      properties:
-        type:
-          maxLength: 20
-          type: string
-          description: Type to identify the sort of information given.
-          enum:
-          - SPECIAL_UNIT
-          - SPECIAL_UNIT_2
-        text:
-          maxLength: 255
-          type: string
-          description: The information in textual form. In most cases to be expected only some code or single term.
-          example: KGM
-      description: DTO to hold one type-casted supplementary information about a code element.
-    GetCodeResultDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        codeElement:
-          $ref: '#/components/schemas/CodeElementDTO'
-      description: DTO to hold a request result containing one code element of the nomenclature resp. the export control list.
     TextInLanguageDTO:
       type: object
       properties:
@@ -364,6 +315,55 @@ components:
           items:
             $ref: '#/components/schemas/SupplementaryCodeElementInfoDTO'
       description: DTO to hold data of one code element of a nomenclature resp. an export control list.
+    GetCodeResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        codeElement:
+          $ref: '#/components/schemas/CodeElementDTO'
+      description: DTO to hold a request result containing one code element of the nomenclature resp. the export control list.
+    SearchCodesResultDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        matchingCodeElements:
+          type: array
+          description: An array of the matching code elements.
+          items:
+            $ref: '#/components/schemas/CodeElementDTO'
+      description: DTO to hold a search result containing all matching code elements of the nomenclature resp. the export control list.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

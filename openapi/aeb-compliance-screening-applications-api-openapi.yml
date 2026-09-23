@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Trade Compliance Management HTTP Compliance Screening Applications API
+  title: Trade Compliance Management HTTP Compliance Screening…
   description: Thank you for using our HTTP API documentation.
   version: '4.0'
 servers:
@@ -884,73 +884,15 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    StatisticalKeyFiguresParmsDTO:
+    RestrictedPartyAddressParmsDTO:
       type: object
       properties:
-        searchDateFromPattern:
+        internalAddressId:
+          maxLength: 50
           type: string
-          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or after a specific date. Has to be specified together with <code>searchDateToPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
-          format: date-time
-        searchDateToPattern:
-          type: string
-          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or before a specific date. Has to be specified together with <code>searchDateFromPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
-          format: date-time
-        clientIdentCodePattern:
-          maxLength: 10
-          type: string
-          description: Value of the search criterion to find statistical data of events of a specific client. Must be a valid client ident code the client and user used for authentication has access to. If omitted, the client filter is set according to the authentication user's access rights.
-          example: APITEST
-        profileIdentCodePattern:
-          maxLength: 20
-          type: string
-          description: Value for the search criterion to find statistical data of events using a specific profile. Optional and only appropriate in combination with a clientIdentCodePattern. If given, must be the ident code of an existing Compliance profile valid for the client filtered for.
-          example: DEFAULT
-        clientSystemIdPattern:
-          maxLength: 20
-          type: string
-          description: Value for the search criterion to find statistical data of events related to a specific partner system. Can be omitted.
-          example: API-TEST
-      description: Application specific parameters to display the statistical key figures.
-    ScreeningProtocolEntryRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/ScreeningProtocolEntryParmsDTO'
-      description: Request object to get the URL to display a screening log entry for an address match, Good Guy alarm or non match.
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    ApplicationFacadeDTO:
-      type: object
-      properties:
-        sessionid:
-          type: string
-          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
-        httpUrl:
-          type: string
-          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
-        urlCloseToken:
-          type: string
-          description: URL token to check on the remote system (for example SAP) if the browser was closed.
-        executeProcess:
-          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
-        shellExecute:
-          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
-      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
-      xml:
-        name: ApplicationFacade
+          description: The internalAddressId of the address to show. The internalAddressId can be taken from the results returned by <code>/ComplianceScreening/findMatchingAddresses</code> or <code>/ComplianceScreening/aliasAddresses</code>.
+          example: '123454678901234567890'
+      description: Application specific parameters to display a restricted party address.
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -1014,6 +956,172 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
+    StatisticalKeyFiguresRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/StatisticalKeyFiguresParmsDTO'
+      description: Request object to get the URL to display the statistical key figures.
+    RestrictedPartyListParmsDTO:
+      type: object
+      properties:
+        groupName:
+          maxLength: 10
+          type: string
+          description: ID of the restricted party list to view.
+          example: BOE
+      description: Application specific parameters to display a restricted party list.
+    ManualAddressScreeningParmsDTO:
+      type: object
+      properties:
+        profileIdentCode:
+          maxLength: 20
+          type: string
+          description: The ident code of the Compliance profile used for screening. If given, must be a valid ident code of a profile valid for the client used in the general parameters. If omitted, the clients default profile is used.
+          example: DEFAULT
+      description: Application specific parameters to display the manual address screening application.
+    StatisticalKeyFiguresParmsDTO:
+      type: object
+      properties:
+        searchDateFromPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or after a specific date. Has to be specified together with <code>searchDateToPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        searchDateToPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or before a specific date. Has to be specified together with <code>searchDateFromPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        clientIdentCodePattern:
+          maxLength: 10
+          type: string
+          description: Value of the search criterion to find statistical data of events of a specific client. Must be a valid client ident code the client and user used for authentication has access to. If omitted, the client filter is set according to the authentication user's access rights.
+          example: APITEST
+        profileIdentCodePattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events using a specific profile. Optional and only appropriate in combination with a clientIdentCodePattern. If given, must be the ident code of an existing Compliance profile valid for the client filtered for.
+          example: DEFAULT
+        clientSystemIdPattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events related to a specific partner system. Can be omitted.
+          example: API-TEST
+      description: Application specific parameters to display the statistical key figures.
+    StatisticalDataParmsDTO:
+      type: object
+      properties:
+        searchDateFromPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or after a specific date. Has to be specified together with <code>searchDateToPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        searchDateToPattern:
+          type: string
+          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or before a specific date. Has to be specified together with <code>searchDateFromPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
+          format: date-time
+        clientIdentCodePattern:
+          maxLength: 10
+          type: string
+          description: Value of the search criterion to find statistical data of events of a specific client. Must be a valid client ident code the client and user used for authentication has access to. If omitted, the client filter is set according to the authentication user's access rights.
+          example: APITEST
+        profileIdentCodePattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events using a specific profile. Optional and only appropriate in combination with a clientIdentCodePattern. If given, must be the ident code of an existing Compliance profile valid for the client filtered for.
+          example: DEFAULT
+        clientSystemIdPattern:
+          maxLength: 20
+          type: string
+          description: Value for the search criterion to find statistical data of events related to a specific partner system. Can be omitted.
+          example: API-TEST
+      description: Application specific parameters to display the statistical overview application.
+    ScreeningLogsRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ScreeningLogsParmsDTO'
+      description: Request object to get the URL to display the screening logs application.
+    RestrictedPartyListRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/RestrictedPartyListParmsDTO'
+      description: Request object to get the URL to display a restricted party list.
+    MatchHandlingEntryAFParmsDTO:
+      required:
+      - clientIdentCode
+      type: object
+      properties:
+        referenceId:
+          type: string
+          description: Internal reference to identify the match to be displayed. If this field is left empty, clientReferenceComment needs to be filled.
+          example: customer.4711.aeb.123
+        clientReferenceComment:
+          type: string
+          description: Reference comment to identify the match to be displayed. If this field is left empty, referenceId needs to be filled.
+          example: 'Type: Customer, Id: 4711, Company name: AEB, Order number: 123'
+        clientSystemId:
+          type: string
+          description: Partner system to identify the match to be displayed. This field is not required, but should be transmitted if matches created by a partner system are supposed to be found.
+          example: API-TEST
+        clientIdentCode:
+          type: string
+          description: Client to identify the match to be displayed.
+          example: APICLIENT
+      description: Application specific parameters to display a match handling entry.
+    MatchHandlingOverviewRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/MatchHandlingOverviewParmsDTO'
+      description: Request object to get the URL to display the match handling overview.
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
+          type: string
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    ManualAddressScreeningRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ManualAddressScreeningParmsDTO'
+      description: Request object to get the URL to display the manual address screening application.
     AFShellExecuteParmsDTO:
       type: object
       properties:
@@ -1025,6 +1133,56 @@ components:
           description: This is the contents that has to be written to the file
           format: byte
       description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    ManualLogEntryRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/ManualProtocolEntryAFParmsDTO'
+      description: Request object to get the URL to display the manual log entry application.
+    MatchHandlingEntryRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        specificParms:
+          $ref: '#/components/schemas/MatchHandlingEntryAFParmsDTO'
+      description: Request object to get the URL to display a match handling entry.
+    ScreeningLogsParmsDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title to be displayed by the application to be opened.
+          example: Screening Logs
+        referenceIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific reference (internal).
+          example: CUSNO=4711*
+        clientSystemIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific partner system.
+          example: API-TEST
+        clientIdentCodePattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific client.
+          example: APITEST
+      description: Application specific parameters to display the screening logs application.
+    MatchHandlingOverviewParmsDTO:
+      type: object
+      properties:
+        storedViewName:
+          type: string
+          description: 'The abbreviation or a (translated) name of a view. The respective view must be created beforehand using the GUI.
+
+            If omitted, the default view is used.
+
+            A call for a nonexistent view also results in the default view along with a warning displayed to the user that the specified view could not be found.
+
+            Names for all translations will be searched. If there is a view A where storedViewName matches the abbreviation and a view B where it matches a translated name, then view A will take precedence.'
+          example: GG alarms user X
+      description: Application specific parameters to display the match handling overview. If omitted, the default view is used.
     ManualProtocolEntryAFParmsDTO:
       type: object
       properties:
@@ -1056,97 +1214,6 @@ components:
           description: A unique ID of the host system calling this API for logging.
           example: SAP_[sys]_[client]
       description: Application specific parameters to display the manual log entry application.
-    MatchHandlingEntryAFParmsDTO:
-      required:
-      - clientIdentCode
-      type: object
-      properties:
-        referenceId:
-          type: string
-          description: Internal reference to identify the match to be displayed. If this field is left empty, clientReferenceComment needs to be filled.
-          example: customer.4711.aeb.123
-        clientReferenceComment:
-          type: string
-          description: Reference comment to identify the match to be displayed. If this field is left empty, referenceId needs to be filled.
-          example: 'Type: Customer, Id: 4711, Company name: AEB, Order number: 123'
-        clientSystemId:
-          type: string
-          description: Partner system to identify the match to be displayed. This field is not required, but should be transmitted if matches created by a partner system are supposed to be found.
-          example: API-TEST
-        clientIdentCode:
-          type: string
-          description: Client to identify the match to be displayed.
-          example: APICLIENT
-      description: Application specific parameters to display a match handling entry.
-    StatisticalDataParmsDTO:
-      type: object
-      properties:
-        searchDateFromPattern:
-          type: string
-          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or after a specific date. Has to be specified together with <code>searchDateToPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
-          format: date-time
-        searchDateToPattern:
-          type: string
-          description: Value, accurate to the day, for the search criterion to find statistical data of events that occurred on or before a specific date. Has to be specified together with <code>searchDateFromPattern</code>. If at least one date is not specified or the search period is specified invalid, the default search period will be used.
-          format: date-time
-        clientIdentCodePattern:
-          maxLength: 10
-          type: string
-          description: Value of the search criterion to find statistical data of events of a specific client. Must be a valid client ident code the client and user used for authentication has access to. If omitted, the client filter is set according to the authentication user's access rights.
-          example: APITEST
-        profileIdentCodePattern:
-          maxLength: 20
-          type: string
-          description: Value for the search criterion to find statistical data of events using a specific profile. Optional and only appropriate in combination with a clientIdentCodePattern. If given, must be the ident code of an existing Compliance profile valid for the client filtered for.
-          example: DEFAULT
-        clientSystemIdPattern:
-          maxLength: 20
-          type: string
-          description: Value for the search criterion to find statistical data of events related to a specific partner system. Can be omitted.
-          example: API-TEST
-      description: Application specific parameters to display the statistical overview application.
-    RestrictedPartyListRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/RestrictedPartyListParmsDTO'
-      description: Request object to get the URL to display a restricted party list.
-    MatchHandlingOverviewParmsDTO:
-      type: object
-      properties:
-        storedViewName:
-          type: string
-          description: 'The abbreviation or a (translated) name of a view. The respective view must be created beforehand using the GUI.
-
-            If omitted, the default view is used.
-
-            A call for a nonexistent view also results in the default view along with a warning displayed to the user that the specified view could not be found.
-
-            Names for all translations will be searched. If there is a view A where storedViewName matches the abbreviation and a view B where it matches a translated name, then view A will take precedence.'
-          example: GG alarms user X
-      description: Application specific parameters to display the match handling overview. If omitted, the default view is used.
-    ScreeningLogsParmsDTO:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The title to be displayed by the application to be opened.
-          example: Screening Logs
-        referenceIdPattern:
-          type: string
-          description: Value for the search criterion to find logs of a specific reference (internal).
-          example: CUSNO=4711*
-        clientSystemIdPattern:
-          type: string
-          description: Value for the search criterion to find logs of a specific partner system.
-          example: API-TEST
-        clientIdentCodePattern:
-          type: string
-          description: Value for the search criterion to find logs of a specific client.
-          example: APITEST
-      description: Application specific parameters to display the screening logs application.
     ScreeningProtocolEntryParmsDTO:
       type: object
       properties:
@@ -1171,14 +1238,6 @@ components:
           description: Value for the search criterion to find the specific log for the given client.
           example: APICLIENT
       description: Application specific parameters to display a screening log entry for an address match, Good Guy alarm or non match.
-    ManualLogEntryRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/ManualProtocolEntryAFParmsDTO'
-      description: Request object to get the URL to display the manual log entry application.
     ErrorData:
       type: object
       properties:
@@ -1186,55 +1245,14 @@ components:
           type: string
         errorCause:
           type: string
-    StatisticalDataRequestDTO:
+    ScreeningProtocolEntryRequestDTO:
       type: object
       properties:
         generalParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
         specificParms:
-          $ref: '#/components/schemas/StatisticalDataParmsDTO'
-      description: Request object to get the URL to display the statistical overview application.
-    MatchHandlingEntryRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/MatchHandlingEntryAFParmsDTO'
-      description: Request object to get the URL to display a match handling entry.
-    RestrictedPartyAddressParmsDTO:
-      type: object
-      properties:
-        internalAddressId:
-          maxLength: 50
-          type: string
-          description: The internalAddressId of the address to show. The internalAddressId can be taken from the results returned by <code>/ComplianceScreening/findMatchingAddresses</code> or <code>/ComplianceScreening/aliasAddresses</code>.
-          example: '123454678901234567890'
-      description: Application specific parameters to display a restricted party address.
-    ScreeningLogsRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/ScreeningLogsParmsDTO'
-      description: Request object to get the URL to display the screening logs application.
-    StatisticalKeyFiguresRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/StatisticalKeyFiguresParmsDTO'
-      description: Request object to get the URL to display the statistical key figures.
-    ManualAddressScreeningRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        specificParms:
-          $ref: '#/components/schemas/ManualAddressScreeningParmsDTO'
-      description: Request object to get the URL to display the manual address screening application.
+          $ref: '#/components/schemas/ScreeningProtocolEntryParmsDTO'
+      description: Request object to get the URL to display a screening log entry for an address match, Good Guy alarm or non match.
     RestrictedPartyAddressRequestDTO:
       type: object
       properties:
@@ -1243,32 +1261,14 @@ components:
         specificParms:
           $ref: '#/components/schemas/RestrictedPartyAddressParmsDTO'
       description: Request object to get the URL to display a restricted party address.
-    ManualAddressScreeningParmsDTO:
-      type: object
-      properties:
-        profileIdentCode:
-          maxLength: 20
-          type: string
-          description: The ident code of the Compliance profile used for screening. If given, must be a valid ident code of a profile valid for the client used in the general parameters. If omitted, the clients default profile is used.
-          example: DEFAULT
-      description: Application specific parameters to display the manual address screening application.
-    RestrictedPartyListParmsDTO:
-      type: object
-      properties:
-        groupName:
-          maxLength: 10
-          type: string
-          description: ID of the restricted party list to view.
-          example: BOE
-      description: Application specific parameters to display a restricted party list.
-    MatchHandlingOverviewRequestDTO:
+    StatisticalDataRequestDTO:
       type: object
       properties:
         generalParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
         specificParms:
-          $ref: '#/components/schemas/MatchHandlingOverviewParmsDTO'
-      description: Request object to get the URL to display the match handling overview.
+          $ref: '#/components/schemas/StatisticalDataParmsDTO'
+      description: Request object to get the URL to display the statistical overview application.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey
