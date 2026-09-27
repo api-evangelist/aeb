@@ -265,9 +265,16 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    RuntimeStateParmDTO:
+    BFFunctionDTO:
       type: object
-      description: This class contains parameter about asking the server about its runtime state.
+      properties:
+        businessFacade:
+          type: string
+          description: The name of the API.
+        functionName:
+          type: string
+          description: The name of the function to call.  This is the function name defined by engine
+      description: Describe a API to be called.
     VersionInfoDTO:
       type: object
       properties:
@@ -282,6 +289,32 @@ components:
             description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
             format: int32
       description: This class holds version information about a solution or product in a server.
+    RuntimeStateParmDTO:
+      type: object
+      description: This class contains parameter about asking the server about its runtime state.
+    BFFunctionExistsDTO:
+      type: object
+      properties:
+        facadeExists:
+          type: boolean
+          description: Indicates whether the specified API exists.
+        functionExists:
+          type: boolean
+          description: Indicates whether the specified function in the API exists.
+      description: Result DTO for the checkBusinessFacadeFunctionExists function
+    MonitoringDataProviderDTO:
+      type: object
+      properties:
+        groupName:
+          type: string
+          description: Name of the group.
+        name:
+          type: string
+          description: Name of the entry.
+        value:
+          type: string
+          description: Value of the entry - this is a string representation.
+      description: Data Transfer Object for monitoring provider
     RuntimeStateResultDTO:
       type: object
       properties:
@@ -361,16 +394,6 @@ components:
             description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
           description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
       description: This class holds various runtime information items of the server which serves this request.
-    BFFunctionExistsDTO:
-      type: object
-      properties:
-        facadeExists:
-          type: boolean
-          description: Indicates whether the specified API exists.
-        functionExists:
-          type: boolean
-          description: Indicates whether the specified function in the API exists.
-      description: Result DTO for the checkBusinessFacadeFunctionExists function
     ProductInfoDTO:
       type: object
       properties:
@@ -389,29 +412,6 @@ components:
           type: string
           description: This is the name of the product that is deployed to this server in its original manner.
       description: This class holds various information items of the server which serves this request.
-    MonitoringDataProviderDTO:
-      type: object
-      properties:
-        groupName:
-          type: string
-          description: Name of the group.
-        name:
-          type: string
-          description: Name of the entry.
-        value:
-          type: string
-          description: Value of the entry - this is a string representation.
-      description: Data Transfer Object for monitoring provider
-    BFFunctionDTO:
-      type: object
-      properties:
-        businessFacade:
-          type: string
-          description: The name of the API.
-        functionName:
-          type: string
-          description: The name of the function to call.  This is the function name defined by engine
-      description: Describe a API to be called.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

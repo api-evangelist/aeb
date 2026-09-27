@@ -16,17 +16,22 @@ description: 'AEB SE is a German supply chain and global trade software company,
   production access requires registering with AEB and licensing the products, so it is a documented, quotable,
   contract-gated API rather than a self-serve one.'
 deliveryModel:
-  model: unknown
+  model: saas
+  license_evidence:
+    not_product:
+    - aeb-labs/docs-bsm
+    - aeb-labs/docs-trade-compliance
+    - aeb-labs/docs-transport-freight-management
   open_source: unknown
   commercial: true
   callable_host: true
-  label: Delivery model not determined — needs a product licence on record
+  label: Hosted service · you call their endpoint
   confidence: low
   source:
   - openapi
   - pricing
-  - repository-unlicensed
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/aeb.png
 x-docs-platform: readme

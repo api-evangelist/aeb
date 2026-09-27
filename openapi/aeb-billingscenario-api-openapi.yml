@@ -105,6 +105,16 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    BillingScenarioList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of billing scenarios.
+          items:
+            $ref: '#/components/schemas/BillingScenario'
     BillingScenarioTextTranslation:
       required:
       - language
@@ -123,16 +133,6 @@ components:
           type: string
           description: The description of the model object.
       description: Name of the billing scenario in a certain language.
-    BillingScenarioList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          description: List of billing scenarios.
-          items:
-            $ref: '#/components/schemas/BillingScenario'
     BillingScenario:
       required:
       - identCode

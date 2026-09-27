@@ -215,6 +215,66 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
+    TracingInfo:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        debugEnabled:
+          type: boolean
+        count:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        oldestTime:
+          type: string
+          format: date-time
+        newestTime:
+          type: string
+          format: date-time
+    LauncherInfo:
+      type: object
+      properties:
+        version:
+          type: string
+        zoneName:
+          type: string
+    SessionInfo:
+      type: object
+      properties:
+        userName:
+          type: string
+    WorkstationSessionInfoDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - UNKNOWN
+          - LAUNCH_REQUEST
+          - LAUNCHING
+          - CONNECTED
+        info:
+          $ref: '#/components/schemas/DesktopAgentInfo'
+    ProcessInfo:
+      type: object
+      properties:
+        host:
+          type: string
+        os:
+          type: string
+        pid:
+          type: string
+        name:
+          type: string
+        user:
+          type: string
+        initError:
+          type: string
     DesktopAgentInfo:
       type: object
       properties:
@@ -252,25 +312,6 @@ components:
         lastNetworkActivityTime:
           type: string
           format: date-time
-    TracingInfo:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        debugEnabled:
-          type: boolean
-        count:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int64
-        oldestTime:
-          type: string
-          format: date-time
-        newestTime:
-          type: string
-          format: date-time
     PerfMonitoringInfo:
       type: object
       properties:
@@ -283,47 +324,6 @@ components:
         createdToLaunchRequestedDurationMs:
           type: integer
           format: int64
-    ProcessInfo:
-      type: object
-      properties:
-        host:
-          type: string
-        os:
-          type: string
-        pid:
-          type: string
-        name:
-          type: string
-        user:
-          type: string
-        initError:
-          type: string
-    SessionInfo:
-      type: object
-      properties:
-        userName:
-          type: string
-    LauncherInfo:
-      type: object
-      properties:
-        version:
-          type: string
-        zoneName:
-          type: string
-    WorkstationSessionInfoDTO:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - UNKNOWN
-          - LAUNCH_REQUEST
-          - LAUNCHING
-          - CONNECTED
-        info:
-          $ref: '#/components/schemas/DesktopAgentInfo'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -629,7 +629,22 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ValueAddedServiceDefinitionPage:
+    CarrierDespatchCountry:
+      type: object
+      properties:
+        isoCode:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: The isoCode of the country.
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the country.
+      description: Information about the supported despatch country of the carrier.
+    ServiceDefinitionPage:
       required:
       - content
       - totalElements
@@ -642,9 +657,225 @@ components:
           example: 100
         content:
           type: array
-          description: List of value added service definitions.
+          description: List of service definitions.
           items:
-            $ref: '#/components/schemas/ValueAddedServiceDefinition'
+            $ref: '#/components/schemas/ServiceDefinition'
+    CarrierDefinitionPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of carrier definitions.
+          items:
+            $ref: '#/components/schemas/CarrierDefinition'
+    ValueAddedServiceDefinition:
+      required:
+      - identCode
+      - translations
+      - valueAddedServiceType
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        valueAddedServiceType:
+          type: string
+          description: The type of the value added service.
+          enum:
+          - ADD_INS
+          - BULK_CHILD
+          - BULK_MASTER
+          - COD
+          - COLL_BOOK
+          - DEL_CONF
+          - IRR_PICKUP
+          - MINIMUM_VALIDATION
+          - NONE
+          - NOTIFY
+          - PALLET_EXCHANGE
+          - REQ_DELDATE
+          - RETURN_ENCL
+          - RETURN_ENCL_ADV
+          - RETURN_DEMAND
+          - SAT_DEL
+          - UPL_DOCS
+        translations:
+          type: array
+          description: The name and the description of the value added service in multiple languages.
+          items:
+            $ref: '#/components/schemas/ValueAddedServiceDefinitionTextTranslation'
+      description: Information about the value added service the carrier offers.
+    CarrierDespatchCountryPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of all the despatch countries of the carrier. If the carrier operates globally, this list contains all countries.
+          items:
+            $ref: '#/components/schemas/CarrierDespatchCountry'
+    AdditionalValueDefinitionDefinitionPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of additional value definitions.
+          items:
+            $ref: '#/components/schemas/AdditionalValueDefinition'
+    CarrierInfoTextDefinition:
+      required:
+      - carrierInfoTextParamHandling
+      - carrierInfoTextType
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        carrierInfoTextType:
+          type: string
+          description: The type of the carrier info text.
+          enum:
+          - TYPE_DG_INFO_LITHIUM_BATTERY
+          - TYPE_DELIVERY_INSTRUCTION
+          - TYPE_FREE_TEXT
+          - TYPE_GENERAL
+        carrierInfoTextParamHandling:
+          type: string
+          description: The parameter handling type of the carrier info text.
+          enum:
+          - PARAMETER_NOT_REQUIRED
+          - PARAMETER_REQUIRED
+          - STRUCTURED_DATA_OPTIONAL
+        carrierInfoTextStructuredData:
+          type: string
+          description: The structured data definition of the carrier info text, if applicable.
+          enum:
+          - CONSIGNEE_CONTACT_PHONE_OR_EMAIL
+          - CONSIGNEE_CONTACT_EMAIL
+          - CONSIGNEE_CONTACT_PHONE
+          - IMPORTER_ADDRESS
+          - PAYER_OF_CHARG_ACC_NO
+          - PICKUPADDR_CONTACT_PHONE
+          - PORT_OF_DISCHARGE_CODE
+          - SHIPPER_EORI_NO
+          - SHIP_OR_PICK_ADDR_CONTACT_PHONE
+          - UNDEFINED
+          - CUSTOM_REGISTRATION_NO
+          - DELIVERY_INSTRUCTION
+          - DELIVERY_NOTE_NUMBER_SHIP
+          - END_CUSTOMER_REFERENCE
+          - GENERAL_INSTRUCTION
+          - INVOICE_NUMBER
+          - PICKUP_INSTRUCTION
+          - PURCHASE_ORDER_NUMBER_SHIP
+          - RECEIVER_EORI_NUMBER
+          - REFERENCENUMBER1
+        maxTextLength:
+          type: integer
+          description: The maximum text length of the carrier info text, if applicable.
+          format: int32
+        translations:
+          type: array
+          description: The description of the carrier info text in multiple languages.
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextDefinitionTextTranslation'
+      description: Information about the additional info text the carrier offers.
+    CarrierInfoTextDefinitionTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the carrier info text.
+      description: Description of the carrier info text in a certain language.
+    CarrierDefinitionLogos:
+      type: object
+      properties:
+        logo:
+          type: string
+          description: The logo of the requested carrier.
+          format: byte
+        smallLogo:
+          type: string
+          description: The small logo of the requested carrier.
+          format: byte
+        webLogo:
+          type: string
+          description: The web logo of the requested carrier.
+          format: byte
+      description: The logos of the carrier.
+    CarrierDefinition:
+      required:
+      - carrierType
+      - identCode
+      - name
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        carrierType:
+          type: string
+          description: '<p>The carrier type assigns the carrier to a category that defines the support and  maintenance level. Possible values: <li> STANDARD the carrier is part of the standard portfolio. It is regularly maintained, supported and kept up to date. <li> PROJECT the carrier is only used by very few customers and thus is not part of the standard portfolio. <li> CLIENT the carrier is defined for a specific client only and thus is not part of the standard portfolio. </p> <br> PROJECT and CLIENT carrier are not maintained by default and may become outdated over time. Maintenance must be explicitly ordered.'
+          enum:
+          - STANDARD
+          - PROJECT
+          - CLIENT
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: The name of the requested carrier.
+        translations:
+          type: array
+          description: The name of the carrier in multiple languages.
+          items:
+            $ref: '#/components/schemas/CarrierDefinitionTextTranslation'
+        extendedInfo:
+          $ref: '#/components/schemas/CarrierExtendedInfo'
+      description: The most important information of the carrier definition.
     AdditionalValueDefinition:
       required:
       - businessObject
@@ -723,75 +954,6 @@ components:
           items:
             $ref: '#/components/schemas/ServiceDefinitionTextTranslation'
       description: Information about the service the carrier offers.
-    CarrierExtendedInfo:
-      type: object
-      properties:
-        carrierUrl:
-          maxLength: 150
-          minLength: 0
-          type: string
-          description: The URL of the carrier from the carrier website.
-        imprint:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The official name of the carrier.
-      description: Extended information of the carrier.
-    ValueAddedServiceDefinition:
-      required:
-      - identCode
-      - translations
-      - valueAddedServiceType
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        valueAddedServiceType:
-          type: string
-          description: The type of the value added service.
-          enum:
-          - ADD_INS
-          - BULK_CHILD
-          - BULK_MASTER
-          - COD
-          - COLL_BOOK
-          - DEL_CONF
-          - IRR_PICKUP
-          - MINIMUM_VALIDATION
-          - NONE
-          - NOTIFY
-          - PALLET_EXCHANGE
-          - REQ_DELDATE
-          - RETURN_ENCL
-          - RETURN_ENCL_ADV
-          - RETURN_DEMAND
-          - SAT_DEL
-          - UPL_DOCS
-        translations:
-          type: array
-          description: The name and the description of the value added service in multiple languages.
-          items:
-            $ref: '#/components/schemas/ValueAddedServiceDefinitionTextTranslation'
-      description: Information about the value added service the carrier offers.
-    CarrierDespatchCountryPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of all the despatch countries of the carrier. If the carrier operates globally, this list contains all countries.
-          items:
-            $ref: '#/components/schemas/CarrierDespatchCountry'
     CarrierInfoTextDefinitionPage:
       required:
       - content
@@ -808,24 +970,36 @@ components:
           description: List of carrier info text definitions.
           items:
             $ref: '#/components/schemas/CarrierInfoTextDefinition'
-    AdditionalValueDefinitionTextTranslation:
-      required:
-      - language
+    CarrierExtendedInfo:
       type: object
       properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        name:
-          maxLength: 40
+        carrierUrl:
+          maxLength: 150
           minLength: 0
           type: string
-          description: The name of the additional value.
-      description: Name of the additional value in a certain language.
+          description: The URL of the carrier from the carrier website.
+        imprint:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The official name of the carrier.
+      description: Extended information of the carrier.
+    ValueAddedServiceDefinitionPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of value added service definitions.
+          items:
+            $ref: '#/components/schemas/ValueAddedServiceDefinition'
     ValueAddedServiceDefinitionTextTranslation:
       required:
       - language
@@ -849,6 +1023,24 @@ components:
           type: string
           description: The description of the value added service.
       description: Name and description of the value added service in a certain language.
+    AdditionalValueDefinitionTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 40
+          minLength: 0
+          type: string
+          description: The name of the additional value.
+      description: Name of the additional value in a certain language.
     CarrierDefinitionTextTranslation:
       required:
       - language
@@ -867,71 +1059,6 @@ components:
           type: string
           description: Name of the carrier.
       description: Name of the carrier in a certain language.
-    CarrierDefinition:
-      required:
-      - carrierType
-      - identCode
-      - name
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        carrierType:
-          type: string
-          description: '<p>The carrier type assigns the carrier to a category that defines the support and  maintenance level. Possible values: <li> STANDARD the carrier is part of the standard portfolio. It is regularly maintained, supported and kept up to date. <li> PROJECT the carrier is only used by very few customers and thus is not part of the standard portfolio. <li> CLIENT the carrier is defined for a specific client only and thus is not part of the standard portfolio. </p> <br> PROJECT and CLIENT carrier are not maintained by default and may become outdated over time. Maintenance must be explicitly ordered.'
-          enum:
-          - STANDARD
-          - PROJECT
-          - CLIENT
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: The name of the requested carrier.
-        translations:
-          type: array
-          description: The name of the carrier in multiple languages.
-          items:
-            $ref: '#/components/schemas/CarrierDefinitionTextTranslation'
-        extendedInfo:
-          $ref: '#/components/schemas/CarrierExtendedInfo'
-      description: The most important information of the carrier definition.
-    ServiceDefinitionPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of service definitions.
-          items:
-            $ref: '#/components/schemas/ServiceDefinition'
-    AdditionalValueDefinitionDefinitionPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of additional value definitions.
-          items:
-            $ref: '#/components/schemas/AdditionalValueDefinition'
     ServiceDefinitionTextTranslation:
       required:
       - language
@@ -955,133 +1082,6 @@ components:
           type: string
           description: The description of the service.
       description: Name and description of the service in a certain language.
-    CarrierInfoTextDefinitionTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The description of the carrier info text.
-      description: Description of the carrier info text in a certain language.
-    CarrierDespatchCountry:
-      type: object
-      properties:
-        isoCode:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: The isoCode of the country.
-        name:
-          maxLength: 50
-          minLength: 0
-          type: string
-          description: The name of the country.
-      description: Information about the supported despatch country of the carrier.
-    CarrierInfoTextDefinition:
-      required:
-      - carrierInfoTextParamHandling
-      - carrierInfoTextType
-      - identCode
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        carrierInfoTextType:
-          type: string
-          description: The type of the carrier info text.
-          enum:
-          - TYPE_DG_INFO_LITHIUM_BATTERY
-          - TYPE_DELIVERY_INSTRUCTION
-          - TYPE_FREE_TEXT
-          - TYPE_GENERAL
-        carrierInfoTextParamHandling:
-          type: string
-          description: The parameter handling type of the carrier info text.
-          enum:
-          - PARAMETER_NOT_REQUIRED
-          - PARAMETER_REQUIRED
-          - STRUCTURED_DATA_OPTIONAL
-        carrierInfoTextStructuredData:
-          type: string
-          description: The structured data definition of the carrier info text, if applicable.
-          enum:
-          - CONSIGNEE_CONTACT_PHONE_OR_EMAIL
-          - CONSIGNEE_CONTACT_EMAIL
-          - CONSIGNEE_CONTACT_PHONE
-          - IMPORTER_ADDRESS
-          - PAYER_OF_CHARG_ACC_NO
-          - PICKUPADDR_CONTACT_PHONE
-          - PORT_OF_DISCHARGE_CODE
-          - SHIPPER_EORI_NO
-          - SHIP_OR_PICK_ADDR_CONTACT_PHONE
-          - UNDEFINED
-          - CUSTOM_REGISTRATION_NO
-          - DELIVERY_INSTRUCTION
-          - DELIVERY_NOTE_NUMBER_SHIP
-          - END_CUSTOMER_REFERENCE
-          - GENERAL_INSTRUCTION
-          - INVOICE_NUMBER
-          - PICKUP_INSTRUCTION
-          - PURCHASE_ORDER_NUMBER_SHIP
-          - RECEIVER_EORI_NUMBER
-          - REFERENCENUMBER1
-        maxTextLength:
-          type: integer
-          description: The maximum text length of the carrier info text, if applicable.
-          format: int32
-        translations:
-          type: array
-          description: The description of the carrier info text in multiple languages.
-          items:
-            $ref: '#/components/schemas/CarrierInfoTextDefinitionTextTranslation'
-      description: Information about the additional info text the carrier offers.
-    CarrierDefinitionPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of carrier definitions.
-          items:
-            $ref: '#/components/schemas/CarrierDefinition'
-    CarrierDefinitionLogos:
-      type: object
-      properties:
-        logo:
-          type: string
-          description: The logo of the requested carrier.
-          format: byte
-        smallLogo:
-          type: string
-          description: The small logo of the requested carrier.
-          format: byte
-        webLogo:
-          type: string
-          description: The web logo of the requested carrier.
-          format: byte
-      description: The logos of the carrier.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -180,68 +180,16 @@ paths:
                     error: No settlement with the ID '0001' found.
 components:
   schemas:
-    VATInfoRestDTO:
-      required:
-      - ratePercent
-      - scenarioIdentCode
-      - typeIdentCode
-      - vatDate
+    BAmountOfMoneyDTO:
       type: object
       properties:
-        scenarioIdentCode:
-          type: string
-          description: Scenario ID
-        typeIdentCode:
-          type: string
-          description: VAT Type ID
-        ratePercent:
+        value:
           type: number
-          description: VAT rate in %.
-        vatDate:
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
           type: string
-          description: VAT date
-          format: date-time
-      description: VAT info including rate and type.
-    CalculationReferencesRestDTO:
-      type: object
-      properties:
-        contractNumber:
-          type: string
-          description: The Number of the contract of the service item.
-        apsContractNumber:
-          type: string
-          description: ' The number of the contract that contained the pricing customizing that created the settlement item.'
-        apsNumber:
-          type: integer
-          description: The number of the assigned price schema that was selected from the contract.
-          format: int32
-        apsSchemaNumber:
-          type: string
-          description: ' Number of the price schema of the assigned price schema. In case of a master price schema this is not the schema that contains the component that calculated the settlement item.'
-        apsComponentNumber:
-          type: integer
-          description: Number of the component from the price schema that was used. In case of a master price schema this is not the component that calculated the settlement item.
-          format: int32
-        calcSchemaNumber:
-          type: string
-          description: Number of the priceSchema that contained the component that calculated the settlement item. This is either the used master price schema or the same as apsSchemaNumber.
-        calcComponentNumber:
-          type: integer
-          description: Number of the component that calculated the settlement item.
-          format: int32
-        calcComponentAttribute:
-          type: string
-          description: Mark of the component that calculated the settlement item.
-        calcCompDescription:
-          type: string
-          description: Description of the component that calculated the settlement item.
-        calcTid:
-          type: string
-          description: TID of the  CPriceCalculation-subclass of the component that calculated the settlement item. Either fix-price, business rule, or generic. Never master price schema.
-        calcGenericIdentCode:
-          type: string
-          description: Ident code of the generic calculation type of the component that calculated the settlement item. Empty if the price calculation is not generic.
-      description: Calculation references (contract/component numbers).
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
     SettlementItem:
       required:
       - beneficiary
@@ -429,55 +377,28 @@ components:
           type: string
           description: Settlement internal number this item belongs to.
       description: Settlement item REST DTO containing pricing, partner and status information, mapped from the BSettlementItem domain object.
-    CurrencyRateRestDTO:
-      type: object
-      properties:
-        quantityNotation:
-          type: number
-          description: Quantity notation of the currency rate.
-        valueNotation:
-          type: number
-          description: Value notation of the currency rate.
-        isoCurrencyTo:
-          type: string
-          description: ISO code of the target currency.
-        rateDate:
-          type: string
-          description: Currency rate date.
-          format: date-time
-        validFrom:
-          type: string
-          description: Valid from date.
-          format: date-time
-      description: Currency rate information for settlement price.
-    BSettlementItemTranslationRestDTO:
+    VATInfoRestDTO:
       required:
-      - language
+      - ratePercent
+      - scenarioIdentCode
+      - typeIdentCode
+      - vatDate
       type: object
       properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
+        scenarioIdentCode:
           type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
+          description: Scenario ID
+        typeIdentCode:
           type: string
-          description: The description of the model object.
-      description: localized descriptions.
-    BAmountOfMoneyDTO:
-      type: object
-      properties:
-        value:
+          description: VAT Type ID
+        ratePercent:
           type: number
-          description: The value of the amount of money. <p>length=15, scale=2</p>
-        currencyIso:
+          description: VAT rate in %.
+        vatDate:
           type: string
-          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
-      description: An amount of money with a value and an currency ISO code.
+          description: VAT date
+          format: date-time
+      description: VAT info including rate and type.
     PeriodRestDTO:
       required:
       - end
@@ -507,6 +428,73 @@ components:
           - WEEK
           - YEAR
       description: Period covered by this settlement item.
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
+    BSettlementItemTranslationRestDTO:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the model object.
+      description: localized descriptions.
+    CalculationReferencesRestDTO:
+      type: object
+      properties:
+        contractNumber:
+          type: string
+          description: The Number of the contract of the service item.
+        apsContractNumber:
+          type: string
+          description: ' The number of the contract that contained the pricing customizing that created the settlement item.'
+        apsNumber:
+          type: integer
+          description: The number of the assigned price schema that was selected from the contract.
+          format: int32
+        apsSchemaNumber:
+          type: string
+          description: ' Number of the price schema of the assigned price schema. In case of a master price schema this is not the schema that contains the component that calculated the settlement item.'
+        apsComponentNumber:
+          type: integer
+          description: Number of the component from the price schema that was used. In case of a master price schema this is not the component that calculated the settlement item.
+          format: int32
+        calcSchemaNumber:
+          type: string
+          description: Number of the priceSchema that contained the component that calculated the settlement item. This is either the used master price schema or the same as apsSchemaNumber.
+        calcComponentNumber:
+          type: integer
+          description: Number of the component that calculated the settlement item.
+          format: int32
+        calcComponentAttribute:
+          type: string
+          description: Mark of the component that calculated the settlement item.
+        calcCompDescription:
+          type: string
+          description: Description of the component that calculated the settlement item.
+        calcTid:
+          type: string
+          description: TID of the  CPriceCalculation-subclass of the component that calculated the settlement item. Either fix-price, business rule, or generic. Never master price schema.
+        calcGenericIdentCode:
+          type: string
+          description: Ident code of the generic calculation type of the component that calculated the settlement item. Empty if the price calculation is not generic.
+      description: Calculation references (contract/component numbers).
     SettlementTypeRestDTO:
       required:
       - identCode
@@ -520,15 +508,40 @@ components:
           type: string
           description: The Scenario Ident Code.
       description: Settlement type (workflow classification).
-    BSettlementCompanyRestDTO:
-      required:
-      - companyNo
+    CurrencyRateRestDTO:
       type: object
       properties:
-        companyNo:
+        quantityNotation:
+          type: number
+          description: Quantity notation of the currency rate.
+        valueNotation:
+          type: number
+          description: Value notation of the currency rate.
+        isoCurrencyTo:
           type: string
-          description: The Company Number.
-      description: Beneficiary company (VAT/context party).
+          description: ISO code of the target currency.
+        rateDate:
+          type: string
+          description: Currency rate date.
+          format: date-time
+        validFrom:
+          type: string
+          description: Valid from date.
+          format: date-time
+      description: Currency rate information for settlement price.
+    ComparisonCodeRestDTO:
+      required:
+      - code1
+      - code2
+      type: object
+      properties:
+        code1:
+          type: string
+          description: Comparison Code 1.
+        code2:
+          type: string
+          description: Comparison Code 2.
+      description: Comparison codes (used for audits / grouping).
     BSettlementItemStatusRestDTO:
       required:
       - identCode
@@ -547,19 +560,6 @@ components:
           - COMPLETE
           - CANCELLED
       description: Business object status of the settlement item.
-    ComparisonCodeRestDTO:
-      required:
-      - code1
-      - code2
-      type: object
-      properties:
-        code1:
-          type: string
-          description: Comparison Code 1.
-        code2:
-          type: string
-          description: Comparison Code 2.
-      description: Comparison codes (used for audits / grouping).
     BQuantityDTO:
       type: object
       properties:
