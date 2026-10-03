@@ -93,6 +93,13 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
     SetFinalCommentRequestDTO:
       required:
       - referenceComment
@@ -130,13 +137,6 @@ components:
           description: The updated reference comment.
           example: 'Customer no.: 4711, Client: 800, User: BEN003, Pc: PC-PHILIPP'
       description: Request DTO for <code>/ComplianceScreeningInternal/setFinalReferenceComment</code> containing identifying data for the entries to be updated as well as the new reference comment.
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

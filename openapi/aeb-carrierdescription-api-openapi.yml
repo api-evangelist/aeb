@@ -58,22 +58,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CarrierDescriptionPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of carrier descriptions.
-          items:
-            $ref: '#/components/schemas/CarrierDescription'
     CarrierDescription:
       required:
       - identCode
@@ -103,6 +87,22 @@ components:
           type: string
           description: Description text in format markdown and English locale.
       description: Textual description of the functional scope of a carrier.
+    CarrierDescriptionPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of carrier descriptions.
+          items:
+            $ref: '#/components/schemas/CarrierDescription'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

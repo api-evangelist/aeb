@@ -488,34 +488,18 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    AFExecuteProcessParmsDTO:
+    ECClassificationDTO:
       type: object
       properties:
-        executableFile:
+        classificationIdentCode:
           type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
+          description: Identcode of the classification the <code>classificationNumber</code> belongs to.<br>There are some predefined attributes and others may be configured.<br>The following predefined attributes are supported:<ul><li><code>ClassificationMaterialNumbers</code> for material numbers</li><li><code>ClassificationAusfuhrliste</code> for EU export control numbers</li><li><code>CLASSIFICATION_US_EAR_CCL</code> for US export control numbers, i.e., a specific ECCN or <code>EAR99</code></li><li><code>CLASSIFICATION_US_EAR_ACTRELEVANT</code> for the EAR99 property (only supported for clients using version 1 for goods attribute handling)</li><li><code>ClassificationStatisticalNumbers</code> for commodity codes</li><li><code>ClassificationSelfDefined</code> for self defined numbers</li></ul>
+          example: CLASSIFICATION_US_EAR_CCL
+        classificationNumber:
           type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
-    EUExportControlListRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        parms:
-          $ref: '#/components/schemas/EUExpCtrlListParmsDTO'
-      description: Request object for the EU export control list application.
+          description: 'The value of the attribute, e.g. a export control number, material number, commodity code and other relevant numbers for export control checks and license matching.<br>There are some attributes that only allow some fixed, predefined values.The following predefined values are supported:<ul><li>For all attributes: <code>NOT_LISTED</code> indicating that an item is not listed on the goods list describing the classification</li><li>For ECCNs: <code>EAR99</code> indicating that the item is an EAR99 product.</li></ul>'
+          example: 0A002
+      description: An attribute with a value for a transaction item.
     ECTransactionParmsDTO:
       required:
       - clientSystemId
@@ -532,25 +516,6 @@ components:
           description: Required unique ID of the export control transaction to open.
           example: MANDANT=001/BELNO=80004989
       description: Parameters for the export control transaction application.
-    ECTransactionRequestDTO:
-      required:
-      - generalParms
-      - parms
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        parms:
-          $ref: '#/components/schemas/ECTransactionParmsDTO'
-      description: Request object for opening the export control transaction application.
-    ExpCtrlLogsRequestDTO:
-      type: object
-      properties:
-        generalParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        filterParms:
-          $ref: '#/components/schemas/ExpCtrlLogsAFParmsDTO'
-      description: Request object for the export control logs application.
     CommerceControlListRequestDTO:
       type: object
       properties:
@@ -567,100 +532,42 @@ components:
           description: Value for the search criterion to find ECCNs with a specific number or description. You can also search for multiple ECCNs by specifying one number after another separated by semicolons.
           example: 2A005;3B006;5C003
       description: Parameters for the Commerce Control List application.
-    AFShellExecuteParmsDTO:
+    ExpCtrlLogsAFParmsDTO:
       type: object
       properties:
-        fileName:
+        title:
           type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
+          description: The title to be displayed by the application.
+          example: Export Control logs
+        referenceIdPattern:
           type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    QuickCheckRequestDTO:
+          description: Value for the search criterion to find logs of a specific reference (internal).
+          example: refid-12
+        clientSystemIdPattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific partner system.
+          example: API-TEST
+        clientIdentCodePattern:
+          type: string
+          description: Value for the search criterion to find logs of a specific client.
+          example: APITEST
+      description: Data transfer object with filter options for the export control logs application.
+    GoodsAttributeValuesListRequestDTO:
       type: object
       properties:
         generalParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
         parms:
-          $ref: '#/components/schemas/QuickCheckParmsDTO'
-      description: Request object for the Quick check application.
-    QuickCheckParmsDTO:
+          $ref: '#/components/schemas/GoodsAttributeValuesParmsDTO'
+      description: Request object for the list of goods attribute values application.
+    GoodsAttributeValuesParmsDTO:
       type: object
       properties:
-        sellerCountryISO:
+        goodsAttributeIdentCode:
           type: string
-          description: This value will be prefilled into the seller country field. Value is the ISO country code.
-          example: DE
-        destinationCountryISO:
-          type: string
-          description: This value will be prefilled into the destination country field. Value is the ISO country code.
-          example: DE
-        buyerCountryISO:
-          type: string
-          description: This value will be prefilled into the buyer country field. Value is the ISO country code.
-          example: DE
-        sourceCountryISO:
-          type: string
-          description: This value will be prefilled into the source country field. Value is the ISO country code.
-          example: DE
-        recipientCountryISO:
-          type: string
-          description: This value will be prefilled into the recipient country field. Value is the ISO country code.
-          example: DE
-        eccns:
-          maxLength: 50
-          type: array
-          description: 'This value will be prefilled into the ECCN field.
-
-            Maximum length of each String: 50'
-          items:
-            maxLength: 50
-            type: string
-            description: 'This value will be prefilled into the ECCN field.
-
-              Maximum length of each String: 50'
-        alNumbers:
-          maxLength: 50
-          type: array
-          description: 'This value will be prefilled into the al-number field.\nMaximum length of each String: 50'
-          items:
-            maxLength: 50
-            type: string
-            description: 'This value will be prefilled into the al-number field.\nMaximum length of each String: 50'
-        ear99:
-          type: boolean
-          description: This value will be prefilled into the EAR99 field.
-        productClassifications:
-          type: array
-          description: This attributes will be prefilled into list of classifications in application, e.g. export control numbers, material number, EAR99 flag and other relevant numbers for export control checks.
-          items:
-            $ref: '#/components/schemas/ECClassificationDTO'
-        finalUsage:
-          type: string
-          description: This value will be prefilled into the final use field.
-          example: FINAL_USAGE_ALL
-      description: Parameters for the Quick check application.
-    ApplicationFacadeDTO:
-      type: object
-      properties:
-        sessionid:
-          type: string
-          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
-        httpUrl:
-          type: string
-          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
-        urlCloseToken:
-          type: string
-          description: URL token to check on the remote system (for example SAP) if the browser was closed.
-        executeProcess:
-          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
-        shellExecute:
-          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
-      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
-      xml:
-        name: ApplicationFacade
+          description: The ident code of the goods attribute which should be displayed.
+          example: ClassificationMaterialNumbers
+      description: Parameters for the goods attribute application.
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -724,6 +631,27 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    ExpCtrlLogsRequestDTO:
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        filterParms:
+          $ref: '#/components/schemas/ExpCtrlLogsAFParmsDTO'
+      description: Request object for the export control logs application.
     EUExpCtrlListParmsDTO:
       type: object
       properties:
@@ -732,54 +660,126 @@ components:
           description: 'Value for the search criterion to find export control numbers with a specific number or description. You can also search for multiple export control numbers by specifying one number after another separated by semicolons.<br><br>Example value: <code>2A005;3B006;5C003</code>'
           example: '0005'
       description: Parameters for the EU export control list application
-    ECClassificationDTO:
+    ErrorData:
       type: object
       properties:
-        classificationIdentCode:
+        errorMessage:
           type: string
-          description: Identcode of the classification the <code>classificationNumber</code> belongs to.<br>There are some predefined attributes and others may be configured.<br>The following predefined attributes are supported:<ul><li><code>ClassificationMaterialNumbers</code> for material numbers</li><li><code>ClassificationAusfuhrliste</code> for EU export control numbers</li><li><code>CLASSIFICATION_US_EAR_CCL</code> for US export control numbers, i.e., a specific ECCN or <code>EAR99</code></li><li><code>CLASSIFICATION_US_EAR_ACTRELEVANT</code> for the EAR99 property (only supported for clients using version 1 for goods attribute handling)</li><li><code>ClassificationStatisticalNumbers</code> for commodity codes</li><li><code>ClassificationSelfDefined</code> for self defined numbers</li></ul>
-          example: CLASSIFICATION_US_EAR_CCL
-        classificationNumber:
+        errorCause:
           type: string
-          description: 'The value of the attribute, e.g. a export control number, material number, commodity code and other relevant numbers for export control checks and license matching.<br>There are some attributes that only allow some fixed, predefined values.The following predefined values are supported:<ul><li>For all attributes: <code>NOT_LISTED</code> indicating that an item is not listed on the goods list describing the classification</li><li>For ECCNs: <code>EAR99</code> indicating that the item is an EAR99 product.</li></ul>'
-          example: 0A002
-      description: An attribute with a value for a transaction item.
-    ExpCtrlLogsAFParmsDTO:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The title to be displayed by the application.
-          example: Export Control logs
-        referenceIdPattern:
-          type: string
-          description: Value for the search criterion to find logs of a specific reference (internal).
-          example: refid-12
-        clientSystemIdPattern:
-          type: string
-          description: Value for the search criterion to find logs of a specific partner system.
-          example: API-TEST
-        clientIdentCodePattern:
-          type: string
-          description: Value for the search criterion to find logs of a specific client.
-          example: APITEST
-      description: Data transfer object with filter options for the export control logs application.
-    GoodsAttributeValuesListRequestDTO:
+    EUExportControlListRequestDTO:
       type: object
       properties:
         generalParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
         parms:
-          $ref: '#/components/schemas/GoodsAttributeValuesParmsDTO'
-      description: Request object for the list of goods attribute values application.
-    GoodsAttributeValuesParmsDTO:
+          $ref: '#/components/schemas/EUExpCtrlListParmsDTO'
+      description: Request object for the EU export control list application.
+    QuickCheckRequestDTO:
       type: object
       properties:
-        goodsAttributeIdentCode:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/QuickCheckParmsDTO'
+      description: Request object for the Quick check application.
+    ApplicationFacadeDTO:
+      type: object
+      properties:
+        sessionid:
           type: string
-          description: The ident code of the goods attribute which should be displayed.
-          example: ClassificationMaterialNumbers
-      description: Parameters for the goods attribute application.
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
+          type: string
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
+          type: string
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    ECTransactionRequestDTO:
+      required:
+      - generalParms
+      - parms
+      type: object
+      properties:
+        generalParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        parms:
+          $ref: '#/components/schemas/ECTransactionParmsDTO'
+      description: Request object for opening the export control transaction application.
+    QuickCheckParmsDTO:
+      type: object
+      properties:
+        sellerCountryISO:
+          type: string
+          description: This value will be prefilled into the seller country field. Value is the ISO country code.
+          example: DE
+        destinationCountryISO:
+          type: string
+          description: This value will be prefilled into the destination country field. Value is the ISO country code.
+          example: DE
+        buyerCountryISO:
+          type: string
+          description: This value will be prefilled into the buyer country field. Value is the ISO country code.
+          example: DE
+        sourceCountryISO:
+          type: string
+          description: This value will be prefilled into the source country field. Value is the ISO country code.
+          example: DE
+        recipientCountryISO:
+          type: string
+          description: This value will be prefilled into the recipient country field. Value is the ISO country code.
+          example: DE
+        eccns:
+          maxLength: 50
+          type: array
+          description: 'This value will be prefilled into the ECCN field.
+
+            Maximum length of each String: 50'
+          items:
+            maxLength: 50
+            type: string
+            description: 'This value will be prefilled into the ECCN field.
+
+              Maximum length of each String: 50'
+        alNumbers:
+          maxLength: 50
+          type: array
+          description: 'This value will be prefilled into the al-number field.\nMaximum length of each String: 50'
+          items:
+            maxLength: 50
+            type: string
+            description: 'This value will be prefilled into the al-number field.\nMaximum length of each String: 50'
+        ear99:
+          type: boolean
+          description: This value will be prefilled into the EAR99 field.
+        productClassifications:
+          type: array
+          description: This attributes will be prefilled into list of classifications in application, e.g. export control numbers, material number, EAR99 flag and other relevant numbers for export control checks.
+          items:
+            $ref: '#/components/schemas/ECClassificationDTO'
+        finalUsage:
+          type: string
+          description: This value will be prefilled into the final use field.
+          example: FINAL_USAGE_ALL
+      description: Parameters for the Quick check application.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

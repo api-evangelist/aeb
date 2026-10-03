@@ -41,18 +41,19 @@ paths:
       - BASIC_AUTH: []
 components:
   schemas:
-    TextInLanguageDTO:
+    GenericDataFieldDTO:
       type: object
       properties:
-        languageISOCode:
+        name:
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
+        value:
           type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
     ResponseMessageDTO:
       type: object
       properties:
@@ -75,6 +76,18 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     DeclarationOfOriginItemResponseDTO:
       type: object
       properties:
@@ -94,46 +107,44 @@ components:
           type: string
           description: The non preferential origin of the item.
       description: The item response for a declaration of origin request.
-    GenericDataFieldDTO:
+    DeclarationOfOriginResponseDTO:
       type: object
       properties:
-        name:
-          type: string
-          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
-        value:
-          type: string
-          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
-        type:
-          type: string
-          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
-      description: A field of a generic data record.
-    DeclarationOfOriginItemRequestDTO:
-      type: object
-      properties:
-        itemNo:
-          type: string
-          description: 'Length: 30 - The cumulation type of the material master data.'
-        materialNo:
-          type: string
-          description: 'Length: 40 - The material number for the declaration and origin request.'
-        materialNoInternal:
-          type: string
-          description: 'Length: 40 - The internal representation of a material number for the declaration and origin request.'
-        materialOrderItemReference:
-          type: string
-          description: 'Length: 60 - The material order item reference for the declaration and origin request.'
-        factoryPrice:
-          type: number
-          description: 'Length: 11,2 - The factory price for the declaration and origin request.'
-        quantity:
-          type: number
-          description: 'Length: 12,5 - The quantity for the declaration and origin request.'
-        additionalFields:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
           type: array
-          description: The additional fields for the declaration of origin request.
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
-            $ref: '#/components/schemas/GenericDataFieldDTO'
-      description: The item data of a request for the declaration of origin.
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        text:
+          type: string
+          description: The head text for a declaration of origin request.
+        isDeclarationOfOriginAllowed:
+          type: boolean
+          description: Indicates whether the declaration of origin is allowed or not.
+        isDeclarationOfOriginToSign:
+          type: boolean
+          description: Indicates whether the declaration of origin has to be signed or not. Also takes into account if the request says that the invoice is already signed.
+        items:
+          type: array
+          description: The item response data for a declaration of origin request.
+          items:
+            $ref: '#/components/schemas/DeclarationOfOriginItemResponseDTO'
+        linkToDeclOfOriginCheckLog:
+          type: string
+          description: The link (url) to the corresponding declaration of origin check log.
+      description: The response data for a declaration of origin request.
     DeclarationOfOriginRequestDTO:
       type: object
       properties:
@@ -230,44 +241,33 @@ components:
           items:
             $ref: '#/components/schemas/DeclarationOfOriginItemRequestDTO'
       description: With these parameters it is possible to request a declaration of origin
-    DeclarationOfOriginResponseDTO:
+    DeclarationOfOriginItemRequestDTO:
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        text:
+        itemNo:
           type: string
-          description: The head text for a declaration of origin request.
-        isDeclarationOfOriginAllowed:
-          type: boolean
-          description: Indicates whether the declaration of origin is allowed or not.
-        isDeclarationOfOriginToSign:
-          type: boolean
-          description: Indicates whether the declaration of origin has to be signed or not. Also takes into account if the request says that the invoice is already signed.
-        items:
-          type: array
-          description: The item response data for a declaration of origin request.
-          items:
-            $ref: '#/components/schemas/DeclarationOfOriginItemResponseDTO'
-        linkToDeclOfOriginCheckLog:
+          description: 'Length: 30 - The cumulation type of the material master data.'
+        materialNo:
           type: string
-          description: The link (url) to the corresponding declaration of origin check log.
-      description: The response data for a declaration of origin request.
+          description: 'Length: 40 - The material number for the declaration and origin request.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of a material number for the declaration and origin request.'
+        materialOrderItemReference:
+          type: string
+          description: 'Length: 60 - The material order item reference for the declaration and origin request.'
+        factoryPrice:
+          type: number
+          description: 'Length: 11,2 - The factory price for the declaration and origin request.'
+        quantity:
+          type: number
+          description: 'Length: 12,5 - The quantity for the declaration and origin request.'
+        additionalFields:
+          type: array
+          description: The additional fields for the declaration of origin request.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+      description: The item data of a request for the declaration of origin.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

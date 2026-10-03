@@ -94,18 +94,41 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    TextInLanguageDTO:
+    PublishedDataFeedPartDTO:
       type: object
       properties:
-        languageISOCode:
+        dataFeedDefinitionIdentCode:
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
+          description: Ident code of the corresponding data feed definition
+        sequenceNumber:
+          type: integer
+          description: Consecutive number of the data feed part
+          format: int32
+        partNumberInPeriod:
+          type: integer
+          description: Part number of the data feed part for the period
+          format: int32
+        numberOfPartsOfPeriod:
+          type: integer
+          description: Number of parts in the period
+          format: int32
+        periodStartDate:
           type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
+          description: '<p>Date/time stamp in the format yyyy-MM-dd for the start date of the period this data feed part contains data for</p> <p>Length: 19</p>'
+        periodEndDate:
+          type: string
+          description: '<p>Date/time stamp in the format yyyy-MM-dd for the end date of the period this data feed part contains data for</p> <p>Length: 19</p>'
+        numberOfRecords:
+          type: integer
+          description: Number of data records contained in the data feed part
+          format: int32
+        dataFeedPartId:
+          type: string
+          description: The id of the published data feed part. To be used to retrieve the content via endpoint /DataFeedBFBean/dataFeedParts/{client}/{id}
+        fileExtension:
+          type: string
+          description: Extension of the data feed part as a file, e.g. CSV, JSON
+      description: DTO to hold the data of a published data feed part.
     AcknowledgePublishedDataFeedPartsRequestDTO:
       type: object
       properties:
@@ -157,62 +180,6 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
-    PublishedDataFeedPartDTO:
-      type: object
-      properties:
-        dataFeedDefinitionIdentCode:
-          type: string
-          description: Ident code of the corresponding data feed definition
-        sequenceNumber:
-          type: integer
-          description: Consecutive number of the data feed part
-          format: int32
-        partNumberInPeriod:
-          type: integer
-          description: Part number of the data feed part for the period
-          format: int32
-        numberOfPartsOfPeriod:
-          type: integer
-          description: Number of parts in the period
-          format: int32
-        periodStartDate:
-          type: string
-          description: '<p>Date/time stamp in the format yyyy-MM-dd for the start date of the period this data feed part contains data for</p> <p>Length: 19</p>'
-        periodEndDate:
-          type: string
-          description: '<p>Date/time stamp in the format yyyy-MM-dd for the end date of the period this data feed part contains data for</p> <p>Length: 19</p>'
-        numberOfRecords:
-          type: integer
-          description: Number of data records contained in the data feed part
-          format: int32
-        dataFeedPartId:
-          type: string
-          description: The id of the published data feed part. To be used to retrieve the content via endpoint /DataFeedBFBean/dataFeedParts/{client}/{id}
-        fileExtension:
-          type: string
-          description: Extension of the data feed part as a file, e.g. CSV, JSON
-      description: DTO to hold the data of a published data feed part.
-    AcknowledgePublishedDataFeedPartsResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-      description: Response (result) for IDataFeedBF#acknowledgePublishedDataFeedParts(AcknowledgePublishedDataFeedPartsRequestDTO.
     GetPublishedDataFeedPartsRequestDTO:
       type: object
       properties:
@@ -271,6 +238,39 @@ components:
           type: boolean
           description: <code>true</code> if the synchronization is complete and currently no further published data feed parts are available.
       description: Response (result) for IDataFeedBF#getPublishedDataFeedParts(GetPublishedDataFeedPartsRequestDTO).
+    AcknowledgePublishedDataFeedPartsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: Response (result) for IDataFeedBF#acknowledgePublishedDataFeedParts(AcknowledgePublishedDataFeedPartsRequestDTO.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

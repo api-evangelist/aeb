@@ -111,40 +111,6 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
     GetMasterdataIdentifiersRequestDTO:
       required:
       - masterdataType
@@ -177,6 +143,35 @@ components:
           description: 'The type of master data identifiers to request. Use one of the following keys:<ul><li>Partner roles: <code>PARTNER_ROLE_IDENTIFIERS</code></li><li>Goods attributes: <code>GOODS_ATTRIBUTE_IDENTIFIERS</code></li><li>Transaction types: <code>TRANSACTION_TYPE_IDENTIFIERS</code></li><li>Jurisdictions: <code>JURISDICTION_IDENTIFIERS</code></li><li>All value lists and their entries: The <code>identCode</code> of the requested value list</li></ul>'
           example: PARTNER_ROLE_IDENTIFIERS
       description: Request object for <code>/ComplianceFoundation/getMasterdataIdentifiers</code>
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
     GetMasterdataIdentifiersResponseDTO:
       type: object
       properties:
@@ -203,13 +198,6 @@ components:
           items:
             $ref: '#/components/schemas/MasterdataIdentifierDTO'
       description: Response object for <code>/ComplianceFoundation/getMasterdataIdentifiers</code>
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
     MasterdataIdentifierDTO:
       type: object
       properties:
@@ -224,6 +212,18 @@ components:
           items:
             $ref: '#/components/schemas/TextInLanguageDTO'
       description: Represents a master data identifier.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

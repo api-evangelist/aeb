@@ -347,20 +347,6 @@ paths:
     - url: https://rz3.aeb.de/test2ici/rest
 components:
   schemas:
-    TCGetCommodityCodeSubstitutionsResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        substitutions:
-          type: array
-          description: List of commodity code substitutions.
-          items:
-            $ref: '#/components/schemas/TCCommodityCodeSubstitutionDTO'
-      description: DTO to hold a list of commodity code substitutions.
     TCGetKnCodeCertificateTypesRequestDTO:
       type: object
       properties:
@@ -379,7 +365,7 @@ components:
           type: string
           description: <p> The ISO code of the country (2 letter code) or the ID of the country group of the destination. </p> <p> length=10 </p>
       description: DTO to hold request data to get all certificates for a specific kn code.
-    TCGetImportMeasuresResultDTO:
+    TCGetCommodityCodesResultDTO:
       type: object
       properties:
         resultMessages:
@@ -387,436 +373,12 @@ components:
           description: Array of result messages
           items:
             $ref: '#/components/schemas/TCUserMessageDTO'
-        importMeasures:
+        commodityCodes:
           type: array
-          description: Import measures matching the requested parameters.
+          description: A list of all valid commodity codes.
           items:
-            $ref: '#/components/schemas/TCImportMeasureDTO'
-      description: Result DTO to hold a list of import measures matching the request criteria. <p> A <code>TCImportMeasureDTO</code> is returned for each matching import measure </p>
-    TCGetExportControlNumbersRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-        languageISOCodes:
-          type: array
-          description: The 2 letter ISO codes of the languages for the descriptions of the export control numbers. <p> length=2 </p>
-          items:
-            type: string
-            description: The 2 letter ISO codes of the languages for the descriptions of the export control numbers. <p> length=2 </p>
-        contentIdentCode:
-          type: string
-          description: Code of the content the commodity codes belongs to (e.g. BANZ.DE.ECN for the Ausfuhrliste in DE) <p> length=50 </p>
-      description: DTO to hold request data to get a list of all valid export control numbers.
-    TCCountryInGroupDTO:
-      type: object
-      properties:
-        countryISOCode:
-          type: string
-          description: ISO code of the country <p> length=2 </p>
-        validFrom:
-          $ref: '#/components/schemas/TCDateDTO'
-        validTo:
-          $ref: '#/components/schemas/TCDateDTO'
-      description: DTO to hold data of a country referenced in a country group.
-    TCDateRangeDTO:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/TCDateDTO'
-        to:
-          $ref: '#/components/schemas/TCDateDTO'
-      description: Describes a date range, spanning all days between a pair of <code>TCDateDTO</code>.
-    TCGetCertificateProposalsResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        measures:
-          type: array
-          description: Measures with certificates which match the requested parameters.
-          items:
-            $ref: '#/components/schemas/TCCommodityCodeMeasureCertificatesDTO'
-        nationalCertificates:
-          type: array
-          description: Optional information about national certificates.
-          items:
-            $ref: '#/components/schemas/TCCommodityCodeCertificateDTO'
-      description: Result DTO to hold the proposals for certificates/documents. <p> There will be a <code>TCCommodityCodeMeasureCertificatesDTO</code> for each measure that needs to be applied for materials with the commodity code that was passed in in the request, see <code>TCGetCertificateProposalsRequestDTO</code>. Additionally a list of national certificates will be returned. </p>
-    TCGetCommodityCodesRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-        languageISOCodes:
-          type: array
-          description: The 2 letter ISO codes of the languages for the descriptions of the commodity codes. <p> length=2 </p>
-          items:
-            type: string
-            description: The 2 letter ISO codes of the languages for the descriptions of the commodity codes. <p> length=2 </p>
-        contentIdentCode:
-          type: string
-          description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-        withoutLeadingDashes:
-          type: boolean
-          description: Removes the leading dashes from commodity code descriptions. By default the leading dashes are not removed.
-        withSpecialUnitCode:
-          type: boolean
-          description: Determine whether in the result DTOs <code>TCCommodityCodeDTO</code> the special unit codeshall be set (if available). This flag is to optimize runtime performance. If you don't need the special unit code set this flag to false. <p> default true </p>
-      description: DTO to hold request data to get a list of all valid commodity codes.
-    TCImportMeasureFootnoteDTO:
-      type: object
-      properties:
-        typeCode:
-          type: string
-          description: Type code of the footnote.
-        kindCode:
-          type: string
-          description: Code representing the kind of footnote.
-        identCode:
-          type: string
-          description: Identifier code for the footnote.
-      description: Describes a footnote within a <code>TCImportMeasureDTO</code>.
-    TCGetExportControlNumberResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        exportControlNumber:
-          $ref: '#/components/schemas/TCExportControlNumberDTO'
-      description: Result DTO to hold exactly one export control number.
-    TCContentDTO:
-      type: object
-      properties:
-        contentIdentCode:
-          type: string
-          description: Code of the content (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-        textTranslations:
-          type: array
-          description: List of language specific texts of the content.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-      description: DTO to hold meta data of a content.
-    TCKnCodeMeasureInfoDTO:
-      type: object
-      properties:
-        maId:
-          type: string
-          description: MaId of the measure. <p> length=3 </p>
-        zcAECode:
-          type: string
-          description: ZC/AE code to which the measure belongs to. <p> length=10 </p>
-        proposalType:
-          type: string
-          description: 'Type of the proposal <ul> <li>EXACTLY_ONE: only one certificate of the below list is necessary. <li>ATLEAST_ONE: at least one certificate of the below list is necessary. <li>UNDEFINED: no proposal possible  </ul> <p> length=20 </p>'
-        description:
-          type: string
-          description: Description of the measure. <p> length=2000 </p>
-        certificates:
-          type: array
-          description: Informations about each certificate that belongs to the measure.
-          items:
-            $ref: '#/components/schemas/TCKnCodeMeasureCertificateDTO'
-      description: Result DTO to hold the certificate proposal for exactly one measure.
-    TCGetCertificateProposalsRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        contentIdentCode:
-          type: string
-          description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-        commodityCode:
-          type: string
-          description: Commodity code <p> length=15 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-        countryISOCode:
-          type: string
-          description: ISO code of the country of destination or departure. <p> length=2 </p>
-        languageISOCode:
-          type: string
-          description: ISO code of the language of the descriptions. </p> This field might be left empty.  In this case German will be used as default. </p> <p> length=2 </p>
-        additionalCodes:
-          type: array
-          description: Optional list of additional codes to limit result to measures with theses codes.
-          items:
-            $ref: '#/components/schemas/TCCommodityCodeAdditionalCodeDTO'
-      description: DTO to hold request data to get certificate/document proposals.
-    TCGetAESCertificateTypesResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        certificateTypes:
-          type: array
-          description: A list of certificate types for the country with all fields filled
-          items:
-            $ref: '#/components/schemas/TCAESCertificateTypeDTO'
-      description: Result DTO to hold all certificates for a given country.
-    TCImportMeasureAdditionalCodeDTO:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Type of the additional code for this measure. <p> length=1 </p>
-        number:
-          type: string
-          description: Number of the additional code for this measure. <p> length=3 </p>
-      description: Represents additional code information within a <code>TCImportMeasureDTO</code>.
-    TCUserMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: Message type. Indicates the type of message. Possible values:<br><b>INFORMATION:</b> Constant for the message type 'Information'.<br><b>WARNING:</b> Constant for the message type 'Warning'.<br><b>ERROR:</b> Constant for the message type 'Error'.<p> length=35 </p>
-        messageText:
-          type: string
-          description: Detailed message content.<p> length=255 </p>
-      description: DTO encapsulates problem and information messages.
-    TCCommodityCodeDTO:
-      type: object
-      properties:
-        commodityCode:
-          type: string
-          description: Commodity code <p> length=13 </p>
-        validFrom:
-          $ref: '#/components/schemas/TCDateDTO'
-        validTo:
-          $ref: '#/components/schemas/TCDateDTO'
-        specialUnitCode:
-          type: string
-          description: Code of the special unit. Empty if no special unit is defined. <p> length=10 </p>
-        specialUnitCode2:
-          type: string
-          description: Code of the second special unit. Empty if no second special unit is defined. <p> length=10 </p>
-        descriptions:
-          type: array
-          description: Descriptions of the commodity codes in the languages defined in the request. <p> length=2000 </p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-      description: DTO to hold data of a valid commodity code.
-    TCCountryGroupDTO:
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: <p> Code of the country group </p> <p> length=50 </p>
-        textTranslations:
-          type: array
-          description: List of language specific data of the country group.
-          items:
-            $ref: '#/components/schemas/TCCountryGroupTTDTO'
-      description: DTO to hold data of a country group
-    TCGetCountriesForGroupRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        contentIdentCode:
-          type: string
-          description: Code of the content the country groups belong to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-        groupIdentCode:
-          type: string
-          description: <p> Code of the country group </p> <p> length=50 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-      description: DTO to hold request data to get all countries which belong to a given group.
-    TCGetExportControlNumberMappingResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        exportControlNumbers:
-          type: array
-          description: A list of export control numbers which belongs to the given commodity code
-          items:
-            $ref: '#/components/schemas/TCExportControlNumberDTO'
-      description: Result DTO to hold export control number mappings of a given commodity code
-    TCGetExportControlNumbersResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        exportControlNumbers:
-          type: array
-          description: A list of all valid export control numbers.
-          items:
-            $ref: '#/components/schemas/TCExportControlNumberDTO'
-      description: Result DTO to hold list of <code>TCExportControlNumberDTO</code>
-    TCGetKnCodeCertificateTypesResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        certificateTypes:
-          type: array
-          description: A list of certificate types for the kn code with only the basic data filled
-          items:
-            $ref: '#/components/schemas/TCAESCertificateTypeSimpleDTO'
-      description: Result DTO to hold all certificates for a given kn code.
-    TCGetCountryGroupsResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        countryGroups:
-          type: array
-          description: List of country groups which are related in the tariff content.
-          items:
-            $ref: '#/components/schemas/TCCountryGroupDTO'
-      description: DTO to hold result data of country groups related in the tariff content.
-    TCImportMeasureDTO:
-      type: object
-      properties:
-        measureId:
-          type: string
-          description: Identifier describing the measure's type (maId). <p> length=7 </p>
-        validityPeriod:
-          $ref: '#/components/schemas/TCDateRangeDTO'
-        areaId:
-          type: string
-          description: Country area for which this measure is valid. <p> length=4 </p>
-        additionalCode:
-          $ref: '#/components/schemas/TCImportMeasureAdditionalCodeDTO'
-        contingent:
-          type: string
-          description: Order number of the applicable contingent. <p> length=15 </p>
-        regulation:
-          type: string
-          description: Number of the regulation this measure is based on. <p> length=20 </p>
-        rate:
-          $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
-        rateExpression:
-          type: string
-          description: Textual expression of the rate - especially needed in cases the data can't be represented as structured rate DTO.
-        typeDescription:
-          type: string
-          description: Textual description of this import measure's type in the requested language.
-        conditions:
-          type: array
-          description: List of conditional rates applying to this import measure.
-          items:
-            $ref: '#/components/schemas/TCImportMeasureConditionDTO'
-        excludedCountries:
-          type: array
-          description: List of country ISO-codes to be excluded from this measure.
-          items:
-            type: string
-            description: List of country ISO-codes to be excluded from this measure.
-        excludedPeriods:
-          type: array
-          description: List of validity periods to be excluded from this measure.
-          items:
-            $ref: '#/components/schemas/TCDateRangeDTO'
-        footnotes:
-          type: array
-          description: List of footnotes associated with this measure.
-          items:
-            $ref: '#/components/schemas/TCImportMeasureFootnoteDTO'
-      description: Result DTO representing a single import measure.
-    TCExportControlNumberDTO:
-      type: object
-      properties:
-        exportControlNumber:
-          type: string
-          description: Export control number <p> length=5 </p>
-        validFrom:
-          $ref: '#/components/schemas/TCDateDTO'
-        validTo:
-          $ref: '#/components/schemas/TCDateDTO'
-        descriptions:
-          type: array
-          description: Descriptions of the export control number in the languages defined in the request. <p> length=2000 </p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-      description: DTO to hold data of a valid export control number.
-    TCGetAdditionalCodeProposalsResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        measures:
-          type: array
-          description: Measures with additional codes which match the requested parameters.
-          items:
-            $ref: '#/components/schemas/TCCommodityCodeMeasureAdditionalCodeDTO'
-      description: Result DTO to hold measures with additional codes.
-    TCCommodityCodeSubstitutionDTO:
-      type: object
-      properties:
-        validFrom:
-          $ref: '#/components/schemas/TCDateDTO'
-        commodityCodeOld:
-          type: string
-          description: The old commodity code. <p> length=11 </p>
-        commodityCodeNew:
-          type: string
-          description: The new commodity code. <p> length=11 </p>
-        commodityCodeOldTexts:
-          type: array
-          description: The translated texts of the old commodity code.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        commodityCodeNewTexts:
-          type: array
-          description: The translated texts of the new commodity code.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-      description: DTO to hold data of one commodity code substitution.
-    TCGetImportMeasuresRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        contentIdentCode:
-          type: string
-          description: Code of the content the commodity codes belongs to (e.g. AEB.EU.NCL.IMP for the import content of the EU). Must be an import content. <p> length=50 </p>
-        commodityCode:
-          type: string
-          description: Commodity code for which to obtain import measures <p> length=15 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-        countryISOCode:
-          type: string
-          description: ISO code of the applicable country. <p> length=2 </p>
-        languageISOCode:
-          type: string
-          description: ISO code of the language of the descriptions. If this field is left blank or descriptions are not available in the desired language, German and English are used as fallback languages. <p> length=2 </p>
-      description: DTO to hold request data for import measure requests
+            $ref: '#/components/schemas/TCCommodityCodeDTO'
+      description: Result DTO to hold list of <code>TCCommodityCodeDTO</code>
     TCGetExportControlNumberMappingRequestDTO:
       type: object
       properties:
@@ -838,20 +400,6 @@ components:
           type: string
           description: Code of the content the commodity codes belongs to (e.g. BANZ.DE.ECN for the Ausfuhrliste in DE) <p> length=50 </p>
       description: DTO to hold request data to get all proposed AL numbers for a KN codes.
-    TCGetCountriesForGroupResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        countriesInGroup:
-          type: array
-          description: List of countries related in a group.
-          items:
-            $ref: '#/components/schemas/TCCountryInGroupDTO'
-      description: DTO to hold result data of countries referenced in a country group.
     TCImportMeasureRateComponentDTO:
       type: object
       properties:
@@ -909,117 +457,17 @@ components:
           items:
             $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
       description: Result DTO representing one rate component of an import measure.
-    TCImportMeasureConditionDTO:
+    TCCountryInGroupDTO:
       type: object
       properties:
-        typeCode:
+        countryISOCode:
           type: string
-          description: Type code of this condition.
-        sequenceNumber:
-          type: string
-          description: Sequential index, identifying the order of this condition within its associated measure.
-        action:
-          type: string
-          description: Identifier representing the action associated with this condition.
-        conditionRate:
-          $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
-        actionRate:
-          $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
-        certificates:
-          type: array
-          description: List of certificates applying to this condition.
-          items:
-            $ref: '#/components/schemas/TCImportMeasureCertificateDTO'
-      description: Describes a conditional rate within a <code>TCImportMeasureDTO</code>.
-    TCCommodityCodeMeasureAdditionalCodeDTO:
-      type: object
-      properties:
-        measureType:
-          $ref: '#/components/schemas/TCCommodityCodeMeasureTypeDTO'
-        additionalCode:
-          $ref: '#/components/schemas/TCCommodityCodeAdditionalCodeDTO'
-      description: Result DTO to hold information of a measure with additional code.
-    TCCountryGroupTTDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: ISO code of the language the data belongs to. <p> length=2 </p>
-        name:
-          type: string
-          description: Name of the country group. <p> length=100 </p>
-        description:
-          type: string
-          description: Description of the country group. <p> length=250 </p>
-      description: DTO to hold language specific data of a country group.
-    TCGetContentsRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-      description: DTO to hold request data to get all licensed contents for the given client.
-    TCKnCodeMeasureCertificateDTO:
-      type: object
-      properties:
-        atlasCode:
-          type: string
-          description: Atlas-ID of the certificate. <p> length=5 </p>
-      description: Result DTO to hold the information about a certificate.
-    TCKnCodeCertProposalResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        measureInfos:
-          type: array
-          description: Certificate/document proposals for each measure that has to be applied.
-          items:
-            $ref: '#/components/schemas/TCKnCodeMeasureInfoDTO'
-        nationalCertificates:
-          type: array
-          description: Informations about national certificates.
-          items:
-            $ref: '#/components/schemas/TCKnCodeNationalCertificateDTO'
-      description: Result DTO to hold the proposals for certificates/documents. <p> There will be a <code>TCKnCodeMeasureInfoDTO</code> for each measure that needs to be applied for materials with the commodity code that was passed in in the request, see <code>TCKnCodeCertProposalRequestDTO</code>. Additionally a list of national certificates will be returned. </p>
-    TCGetCommodityCodesResultDTO:
-      type: object
-      properties:
-        resultMessages:
-          type: array
-          description: Array of result messages
-          items:
-            $ref: '#/components/schemas/TCUserMessageDTO'
-        commodityCodes:
-          type: array
-          description: A list of all valid commodity codes.
-          items:
-            $ref: '#/components/schemas/TCCommodityCodeDTO'
-      description: Result DTO to hold list of <code>TCCommodityCodeDTO</code>
-    TCGetCommodityCodeSubstitutionsRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        decisiveDate:
+          description: ISO code of the country <p> length=2 </p>
+        validFrom:
           $ref: '#/components/schemas/TCDateDTO'
-        languageISOCodes:
-          type: array
-          description: ISO codes of the languages in which the texts of the affected commodity codes should be returned. <p> length=2 </p>
-          items:
-            type: string
-            description: ISO codes of the languages in which the texts of the affected commodity codes should be returned. <p> length=2 </p>
-        contentIdentCode:
-          type: string
-          description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-        withoutLeadingDashes:
-          type: boolean
-          description: Removes the leading dashes from commodity code descriptions. By default the leading dashes are not removed.
-      description: DTO to hold request data to get a list of commodity code substitutions.
+        validTo:
+          $ref: '#/components/schemas/TCDateDTO'
+      description: DTO to hold data of a country referenced in a country group.
     TCGetCommodityCodeRequestDTO:
       type: object
       properties:
@@ -1047,7 +495,7 @@ components:
           type: boolean
           description: Removes the leading dashes from commodity code descriptions. By default the leading dashes are not removed.
       description: DTO to hold request data to get exactly one commodity codes.
-    TCGetContentsResultDTO:
+    TCGetKnCodeCertificateTypesResultDTO:
       type: object
       properties:
         resultMessages:
@@ -1055,13 +503,321 @@ components:
           description: Array of result messages
           items:
             $ref: '#/components/schemas/TCUserMessageDTO'
-        contents:
+        certificateTypes:
           type: array
-          description: List of licensed contents.
+          description: A list of certificate types for the kn code with only the basic data filled
           items:
-            $ref: '#/components/schemas/TCContentDTO'
-      description: Result DTO to hold a list of licensed contents.
-    TCGetExportControlNumberRequestDTO:
+            $ref: '#/components/schemas/TCAESCertificateTypeSimpleDTO'
+      description: Result DTO to hold all certificates for a given kn code.
+    TCGetCountriesForGroupResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        countriesInGroup:
+          type: array
+          description: List of countries related in a group.
+          items:
+            $ref: '#/components/schemas/TCCountryInGroupDTO'
+      description: DTO to hold result data of countries referenced in a country group.
+    TCCommodityCodeMeasureAdditionalCodeDTO:
+      type: object
+      properties:
+        measureType:
+          $ref: '#/components/schemas/TCCommodityCodeMeasureTypeDTO'
+        additionalCode:
+          $ref: '#/components/schemas/TCCommodityCodeAdditionalCodeDTO'
+      description: Result DTO to hold information of a measure with additional code.
+    TCGetExportControlNumberResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        exportControlNumber:
+          $ref: '#/components/schemas/TCExportControlNumberDTO'
+      description: Result DTO to hold exactly one export control number.
+    TCDateDTO:
+      type: object
+      properties:
+        date:
+          type: string
+          description: '<p> The string representation of a date. The following format should be used: <b>yyyy-MM-dd</b> </p> <p> length=10 </p>'
+      description: Contains a date as string.
+    TCDateRangeDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/TCDateDTO'
+        to:
+          $ref: '#/components/schemas/TCDateDTO'
+      description: Describes a date range, spanning all days between a pair of <code>TCDateDTO</code>.
+    TCGetImportMeasuresResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        importMeasures:
+          type: array
+          description: Import measures matching the requested parameters.
+          items:
+            $ref: '#/components/schemas/TCImportMeasureDTO'
+      description: Result DTO to hold a list of import measures matching the request criteria. <p> A <code>TCImportMeasureDTO</code> is returned for each matching import measure </p>
+    TCGetImportMeasuresRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content the commodity codes belongs to (e.g. AEB.EU.NCL.IMP for the import content of the EU). Must be an import content. <p> length=50 </p>
+        commodityCode:
+          type: string
+          description: Commodity code for which to obtain import measures <p> length=15 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        countryISOCode:
+          type: string
+          description: ISO code of the applicable country. <p> length=2 </p>
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the descriptions. If this field is left blank or descriptions are not available in the desired language, German and English are used as fallback languages. <p> length=2 </p>
+      description: DTO to hold request data for import measure requests
+    TCGetCommodityCodeResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        commodityCode:
+          $ref: '#/components/schemas/TCCommodityCodeDTO'
+      description: Result DTO to hold exactly one commodity code
+    TCGetExportControlNumbersResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        exportControlNumbers:
+          type: array
+          description: A list of all valid export control numbers.
+          items:
+            $ref: '#/components/schemas/TCExportControlNumberDTO'
+      description: Result DTO to hold list of <code>TCExportControlNumberDTO</code>
+    TCKnCodeNationalCertificateDTO:
+      type: object
+      properties:
+        atlasCode:
+          type: string
+          description: Atlas-ID of the certificate. <p> length=5 </p>
+        qualifier:
+          type: string
+          description: National qualifier which specializes the code above. <p> length=3 </p>
+      description: Result DTO to hold the information of a national certificate.
+    TCCommodityCodeSubstitutionDTO:
+      type: object
+      properties:
+        validFrom:
+          $ref: '#/components/schemas/TCDateDTO'
+        commodityCodeOld:
+          type: string
+          description: The old commodity code. <p> length=11 </p>
+        commodityCodeNew:
+          type: string
+          description: The new commodity code. <p> length=11 </p>
+        commodityCodeOldTexts:
+          type: array
+          description: The translated texts of the old commodity code.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        commodityCodeNewTexts:
+          type: array
+          description: The translated texts of the new commodity code.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: DTO to hold data of one commodity code substitution.
+    TCGetCountryGroupsRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content the country groups belong to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+      description: DTO to hold request data to get all country groups related in the tariff content.
+    TCKnCodeCertProposalResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        measureInfos:
+          type: array
+          description: Certificate/document proposals for each measure that has to be applied.
+          items:
+            $ref: '#/components/schemas/TCKnCodeMeasureInfoDTO'
+        nationalCertificates:
+          type: array
+          description: Informations about national certificates.
+          items:
+            $ref: '#/components/schemas/TCKnCodeNationalCertificateDTO'
+      description: Result DTO to hold the proposals for certificates/documents. <p> There will be a <code>TCKnCodeMeasureInfoDTO</code> for each measure that needs to be applied for materials with the commodity code that was passed in in the request, see <code>TCKnCodeCertProposalRequestDTO</code>. Additionally a list of national certificates will be returned. </p>
+    TCAESCertificateTypeSimpleDTO:
+      type: object
+      properties:
+        atlasCode:
+          type: string
+          description: Atlas code of the certificate.
+        qualifier:
+          type: string
+          description: Qualifier of the certificate.
+        countryISOCode:
+          type: string
+          description: 2-digit country iso code to which the certificate belongs
+        validFrom:
+          $ref: '#/components/schemas/TCDateDTO'
+        validTo:
+          $ref: '#/components/schemas/TCDateDTO'
+      description: DTO containing the basic fields of a certificate.
+    TCCommodityCodeAdditionalCodeDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Additional code. <p> length=10 </p>
+      description: Result DTO to hold code and description of an additional code
+    TCCommodityCodeDTO:
+      type: object
+      properties:
+        commodityCode:
+          type: string
+          description: Commodity code <p> length=13 </p>
+        validFrom:
+          $ref: '#/components/schemas/TCDateDTO'
+        validTo:
+          $ref: '#/components/schemas/TCDateDTO'
+        specialUnitCode:
+          type: string
+          description: Code of the special unit. Empty if no special unit is defined. <p> length=10 </p>
+        specialUnitCode2:
+          type: string
+          description: Code of the second special unit. Empty if no second special unit is defined. <p> length=10 </p>
+        descriptions:
+          type: array
+          description: Descriptions of the commodity codes in the languages defined in the request. <p> length=2000 </p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: DTO to hold data of a valid commodity code.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    TCCountryGroupTTDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: ISO code of the language the data belongs to. <p> length=2 </p>
+        name:
+          type: string
+          description: Name of the country group. <p> length=100 </p>
+        description:
+          type: string
+          description: Description of the country group. <p> length=250 </p>
+      description: DTO to hold language specific data of a country group.
+    TCGetContentsRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+      description: DTO to hold request data to get all licensed contents for the given client.
+    TCImportMeasureDTO:
+      type: object
+      properties:
+        measureId:
+          type: string
+          description: Identifier describing the measure's type (maId). <p> length=7 </p>
+        validityPeriod:
+          $ref: '#/components/schemas/TCDateRangeDTO'
+        areaId:
+          type: string
+          description: Country area for which this measure is valid. <p> length=4 </p>
+        additionalCode:
+          $ref: '#/components/schemas/TCImportMeasureAdditionalCodeDTO'
+        contingent:
+          type: string
+          description: Order number of the applicable contingent. <p> length=15 </p>
+        regulation:
+          type: string
+          description: Number of the regulation this measure is based on. <p> length=20 </p>
+        rate:
+          $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
+        rateExpression:
+          type: string
+          description: Textual expression of the rate - especially needed in cases the data can't be represented as structured rate DTO.
+        typeDescription:
+          type: string
+          description: Textual description of this import measure's type in the requested language.
+        conditions:
+          type: array
+          description: List of conditional rates applying to this import measure.
+          items:
+            $ref: '#/components/schemas/TCImportMeasureConditionDTO'
+        excludedCountries:
+          type: array
+          description: List of country ISO-codes to be excluded from this measure.
+          items:
+            type: string
+            description: List of country ISO-codes to be excluded from this measure.
+        excludedPeriods:
+          type: array
+          description: List of validity periods to be excluded from this measure.
+          items:
+            $ref: '#/components/schemas/TCDateRangeDTO'
+        footnotes:
+          type: array
+          description: List of footnotes associated with this measure.
+          items:
+            $ref: '#/components/schemas/TCImportMeasureFootnoteDTO'
+      description: Result DTO representing a single import measure.
+    TCContentDTO:
+      type: object
+      properties:
+        contentIdentCode:
+          type: string
+          description: Code of the content (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+        textTranslations:
+          type: array
+          description: List of language specific texts of the content.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: DTO to hold meta data of a content.
+    TCGetExportControlNumbersRequestDTO:
       type: object
       properties:
         clientIdentCode:
@@ -1075,13 +831,102 @@ components:
           items:
             type: string
             description: The 2 letter ISO codes of the languages for the descriptions of the export control numbers. <p> length=2 </p>
-        exportControlNumber:
-          type: string
-          description: Export control number <p> length=5 </p>
         contentIdentCode:
           type: string
           description: Code of the content the commodity codes belongs to (e.g. BANZ.DE.ECN for the Ausfuhrliste in DE) <p> length=50 </p>
-      description: DTO to hold request data to get exactly one export control number.
+      description: DTO to hold request data to get a list of all valid export control numbers.
+    TCGetCountryGroupsResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        countryGroups:
+          type: array
+          description: List of country groups which are related in the tariff content.
+          items:
+            $ref: '#/components/schemas/TCCountryGroupDTO'
+      description: DTO to hold result data of country groups related in the tariff content.
+    TCGetAdditionalCodeProposalsRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+        commodityCode:
+          type: string
+          description: Commodity code <p> length=15 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        countryISOCode:
+          type: string
+          description: ISO code of the country of destination or departure. <p> length=2 </p>
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the descriptions. </p> This field might be left empty.  In this case German will be used as default. </p> <p> length=2 </p>
+      description: DTO to hold request data to get additional codes.
+    TCUserMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: Message type. Indicates the type of message. Possible values:<br><b>INFORMATION:</b> Constant for the message type 'Information'.<br><b>WARNING:</b> Constant for the message type 'Warning'.<br><b>ERROR:</b> Constant for the message type 'Error'.<p> length=35 </p>
+        messageText:
+          type: string
+          description: Detailed message content.<p> length=255 </p>
+      description: DTO encapsulates problem and information messages.
+    TCGetCommodityCodeSubstitutionsRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        languageISOCodes:
+          type: array
+          description: ISO codes of the languages in which the texts of the affected commodity codes should be returned. <p> length=2 </p>
+          items:
+            type: string
+            description: ISO codes of the languages in which the texts of the affected commodity codes should be returned. <p> length=2 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+        withoutLeadingDashes:
+          type: boolean
+          description: Removes the leading dashes from commodity code descriptions. By default the leading dashes are not removed.
+      description: DTO to hold request data to get a list of commodity code substitutions.
+    TCGetCertificateProposalsRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+        commodityCode:
+          type: string
+          description: Commodity code <p> length=15 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        countryISOCode:
+          type: string
+          description: ISO code of the country of destination or departure. <p> length=2 </p>
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the descriptions. </p> This field might be left empty.  In this case German will be used as default. </p> <p> length=2 </p>
+        additionalCodes:
+          type: array
+          description: Optional list of additional codes to limit result to measures with theses codes.
+          items:
+            $ref: '#/components/schemas/TCCommodityCodeAdditionalCodeDTO'
+      description: DTO to hold request data to get certificate/document proposals.
     TCCommodityCodeMeasureCertificatesDTO:
       type: object
       properties:
@@ -1098,67 +943,6 @@ components:
           items:
             $ref: '#/components/schemas/TCCommodityCodeCertificateDTO'
       description: Result DTO to hold information of a measure with certificates.
-    TCCommodityCodeAdditionalCodeDTO:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Additional code. <p> length=10 </p>
-      description: Result DTO to hold code and description of an additional code
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    TCCommodityCodeCertificateDTO:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Code of the certificate. <p> length=4 </p>
-        qualifier:
-          type: string
-          description: Optional national qualifier which specializes the code above. <p> length=3 </p>
-      description: Result DTO to hold the information of a certificate/produced document
-    TCDateDTO:
-      type: object
-      properties:
-        date:
-          type: string
-          description: '<p> The string representation of a date. The following format should be used: <b>yyyy-MM-dd</b> </p> <p> length=10 </p>'
-      description: Contains a date as string.
-    TCImportMeasureCertificateDTO:
-      type: object
-      properties:
-        certificateType:
-          type: string
-          description: Type code (ATLAS code) of this certificate.
-      description: Represents a certificate within a <code>TCImportMeasureConditionDTO</code>.
-    TCKnCodeCertProposalRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        knCode:
-          type: string
-          description: KN code <p> length=8 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-        destinationISOCode:
-          type: string
-          description: ISO code of the country of destination. <p> length=2 </p>
-        descLanguageISOCode:
-          type: string
-          description: ISO code of the language of the descriptions. </p> This field might be left empty.  In this case German will be used as default. </p> <p> length=2 </p>
-      description: DTO to hold request data to get certificate/document proposals.
     TCAESCertificateTypeDTO:
       type: object
       properties:
@@ -1200,65 +984,71 @@ components:
           type: string
           description: Indicator if the depreciation quantity and its unit of measure are necessary. (O = optional, N = not allowed, R = necessary)
       description: DTO containing the extended field of a aes certificate.
-    TCKnCodeNationalCertificateDTO:
-      type: object
-      properties:
-        atlasCode:
-          type: string
-          description: Atlas-ID of the certificate. <p> length=5 </p>
-        qualifier:
-          type: string
-          description: National qualifier which specializes the code above. <p> length=3 </p>
-      description: Result DTO to hold the information of a national certificate.
-    TCAESCertificateTypeSimpleDTO:
-      type: object
-      properties:
-        atlasCode:
-          type: string
-          description: Atlas code of the certificate.
-        qualifier:
-          type: string
-          description: Qualifier of the certificate.
-        countryISOCode:
-          type: string
-          description: 2-digit country iso code to which the certificate belongs
-        validFrom:
-          $ref: '#/components/schemas/TCDateDTO'
-        validTo:
-          $ref: '#/components/schemas/TCDateDTO'
-      description: DTO containing the basic fields of a certificate.
-    TCGetAdditionalCodeProposalsRequestDTO:
+    TCKnCodeCertProposalRequestDTO:
       type: object
       properties:
         clientIdentCode:
           type: string
           description: The code of the client in the Classification Engine. <p> length=10 </p>
+        knCode:
+          type: string
+          description: KN code <p> length=8 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        destinationISOCode:
+          type: string
+          description: ISO code of the country of destination. <p> length=2 </p>
+        descLanguageISOCode:
+          type: string
+          description: ISO code of the language of the descriptions. </p> This field might be left empty.  In this case German will be used as default. </p> <p> length=2 </p>
+      description: DTO to hold request data to get certificate/document proposals.
+    TCImportMeasureConditionDTO:
+      type: object
+      properties:
+        typeCode:
+          type: string
+          description: Type code of this condition.
+        sequenceNumber:
+          type: string
+          description: Sequential index, identifying the order of this condition within its associated measure.
+        action:
+          type: string
+          description: Identifier representing the action associated with this condition.
+        conditionRate:
+          $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
+        actionRate:
+          $ref: '#/components/schemas/TCImportMeasureRateComponentDTO'
+        certificates:
+          type: array
+          description: List of certificates applying to this condition.
+          items:
+            $ref: '#/components/schemas/TCImportMeasureCertificateDTO'
+      description: Describes a conditional rate within a <code>TCImportMeasureDTO</code>.
+    TCGetCommodityCodesRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        languageISOCodes:
+          type: array
+          description: The 2 letter ISO codes of the languages for the descriptions of the commodity codes. <p> length=2 </p>
+          items:
+            type: string
+            description: The 2 letter ISO codes of the languages for the descriptions of the commodity codes. <p> length=2 </p>
         contentIdentCode:
           type: string
           description: Code of the content the commodity codes belongs to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-        commodityCode:
-          type: string
-          description: Commodity code <p> length=15 </p>
-        decisiveDate:
-          $ref: '#/components/schemas/TCDateDTO'
-        countryISOCode:
-          type: string
-          description: ISO code of the country of destination or departure. <p> length=2 </p>
-        languageISOCode:
-          type: string
-          description: ISO code of the language of the descriptions. </p> This field might be left empty.  In this case German will be used as default. </p> <p> length=2 </p>
-      description: DTO to hold request data to get additional codes.
-    TCGetAESCertificateTypesRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: The code of the client in the Classification Engine. <p> length=10 </p>
-        countryISOCode:
-          type: string
-          description: ISO code of the country of the certificate types. <p> length=2 </p>
-      description: DTO to hold request data to get all certificates of a specific country
-    TCGetCommodityCodeResultDTO:
+        withoutLeadingDashes:
+          type: boolean
+          description: Removes the leading dashes from commodity code descriptions. By default the leading dashes are not removed.
+        withSpecialUnitCode:
+          type: boolean
+          description: Determine whether in the result DTOs <code>TCCommodityCodeDTO</code> the special unit codeshall be set (if available). This flag is to optimize runtime performance. If you don't need the special unit code set this flag to false. <p> default true </p>
+      description: DTO to hold request data to get a list of all valid commodity codes.
+    TCGetCertificateProposalsResultDTO:
       type: object
       properties:
         resultMessages:
@@ -1266,9 +1056,128 @@ components:
           description: Array of result messages
           items:
             $ref: '#/components/schemas/TCUserMessageDTO'
-        commodityCode:
-          $ref: '#/components/schemas/TCCommodityCodeDTO'
-      description: Result DTO to hold exactly one commodity code
+        measures:
+          type: array
+          description: Measures with certificates which match the requested parameters.
+          items:
+            $ref: '#/components/schemas/TCCommodityCodeMeasureCertificatesDTO'
+        nationalCertificates:
+          type: array
+          description: Optional information about national certificates.
+          items:
+            $ref: '#/components/schemas/TCCommodityCodeCertificateDTO'
+      description: Result DTO to hold the proposals for certificates/documents. <p> There will be a <code>TCCommodityCodeMeasureCertificatesDTO</code> for each measure that needs to be applied for materials with the commodity code that was passed in in the request, see <code>TCGetCertificateProposalsRequestDTO</code>. Additionally a list of national certificates will be returned. </p>
+    TCKnCodeMeasureInfoDTO:
+      type: object
+      properties:
+        maId:
+          type: string
+          description: MaId of the measure. <p> length=3 </p>
+        zcAECode:
+          type: string
+          description: ZC/AE code to which the measure belongs to. <p> length=10 </p>
+        proposalType:
+          type: string
+          description: 'Type of the proposal <ul> <li>EXACTLY_ONE: only one certificate of the below list is necessary. <li>ATLEAST_ONE: at least one certificate of the below list is necessary. <li>UNDEFINED: no proposal possible  </ul> <p> length=20 </p>'
+        description:
+          type: string
+          description: Description of the measure. <p> length=2000 </p>
+        certificates:
+          type: array
+          description: Informations about each certificate that belongs to the measure.
+          items:
+            $ref: '#/components/schemas/TCKnCodeMeasureCertificateDTO'
+      description: Result DTO to hold the certificate proposal for exactly one measure.
+    TCCommodityCodeCertificateDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the certificate. <p> length=4 </p>
+        qualifier:
+          type: string
+          description: Optional national qualifier which specializes the code above. <p> length=3 </p>
+      description: Result DTO to hold the information of a certificate/produced document
+    TCKnCodeMeasureCertificateDTO:
+      type: object
+      properties:
+        atlasCode:
+          type: string
+          description: Atlas-ID of the certificate. <p> length=5 </p>
+      description: Result DTO to hold the information about a certificate.
+    TCGetCountriesForGroupRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        contentIdentCode:
+          type: string
+          description: Code of the content the country groups belong to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
+        groupIdentCode:
+          type: string
+          description: <p> Code of the country group </p> <p> length=50 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+      description: DTO to hold request data to get all countries which belong to a given group.
+    TCGetContentsResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        contents:
+          type: array
+          description: List of licensed contents.
+          items:
+            $ref: '#/components/schemas/TCContentDTO'
+      description: Result DTO to hold a list of licensed contents.
+    TCGetAdditionalCodeProposalsResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        measures:
+          type: array
+          description: Measures with additional codes which match the requested parameters.
+          items:
+            $ref: '#/components/schemas/TCCommodityCodeMeasureAdditionalCodeDTO'
+      description: Result DTO to hold measures with additional codes.
+    TCExportControlNumberDTO:
+      type: object
+      properties:
+        exportControlNumber:
+          type: string
+          description: Export control number <p> length=5 </p>
+        validFrom:
+          $ref: '#/components/schemas/TCDateDTO'
+        validTo:
+          $ref: '#/components/schemas/TCDateDTO'
+        descriptions:
+          type: array
+          description: Descriptions of the export control number in the languages defined in the request. <p> length=2000 </p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: DTO to hold data of a valid export control number.
+    TCGetCommodityCodeSubstitutionsResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        substitutions:
+          type: array
+          description: List of commodity code substitutions.
+          items:
+            $ref: '#/components/schemas/TCCommodityCodeSubstitutionDTO'
+      description: DTO to hold a list of commodity code substitutions.
     TCCommodityCodeMeasureTypeDTO:
       type: object
       properties:
@@ -1279,16 +1188,107 @@ components:
           type: string
           description: Description of the measure in the requested language. <p> length=2000 </p>
       description: Result DTO to hold code and description of a measure.
-    TCGetCountryGroupsRequestDTO:
+    TCCountryGroupDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: <p> Code of the country group </p> <p> length=50 </p>
+        textTranslations:
+          type: array
+          description: List of language specific data of the country group.
+          items:
+            $ref: '#/components/schemas/TCCountryGroupTTDTO'
+      description: DTO to hold data of a country group
+    TCImportMeasureFootnoteDTO:
+      type: object
+      properties:
+        typeCode:
+          type: string
+          description: Type code of the footnote.
+        kindCode:
+          type: string
+          description: Code representing the kind of footnote.
+        identCode:
+          type: string
+          description: Identifier code for the footnote.
+      description: Describes a footnote within a <code>TCImportMeasureDTO</code>.
+    TCGetAESCertificateTypesRequestDTO:
       type: object
       properties:
         clientIdentCode:
           type: string
           description: The code of the client in the Classification Engine. <p> length=10 </p>
+        countryISOCode:
+          type: string
+          description: ISO code of the country of the certificate types. <p> length=2 </p>
+      description: DTO to hold request data to get all certificates of a specific country
+    TCImportMeasureAdditionalCodeDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of the additional code for this measure. <p> length=1 </p>
+        number:
+          type: string
+          description: Number of the additional code for this measure. <p> length=3 </p>
+      description: Represents additional code information within a <code>TCImportMeasureDTO</code>.
+    TCGetExportControlNumberMappingResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        exportControlNumbers:
+          type: array
+          description: A list of export control numbers which belongs to the given commodity code
+          items:
+            $ref: '#/components/schemas/TCExportControlNumberDTO'
+      description: Result DTO to hold export control number mappings of a given commodity code
+    TCGetAESCertificateTypesResultDTO:
+      type: object
+      properties:
+        resultMessages:
+          type: array
+          description: Array of result messages
+          items:
+            $ref: '#/components/schemas/TCUserMessageDTO'
+        certificateTypes:
+          type: array
+          description: A list of certificate types for the country with all fields filled
+          items:
+            $ref: '#/components/schemas/TCAESCertificateTypeDTO'
+      description: Result DTO to hold all certificates for a given country.
+    TCImportMeasureCertificateDTO:
+      type: object
+      properties:
+        certificateType:
+          type: string
+          description: Type code (ATLAS code) of this certificate.
+      description: Represents a certificate within a <code>TCImportMeasureConditionDTO</code>.
+    TCGetExportControlNumberRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The code of the client in the Classification Engine. <p> length=10 </p>
+        decisiveDate:
+          $ref: '#/components/schemas/TCDateDTO'
+        languageISOCodes:
+          type: array
+          description: The 2 letter ISO codes of the languages for the descriptions of the export control numbers. <p> length=2 </p>
+          items:
+            type: string
+            description: The 2 letter ISO codes of the languages for the descriptions of the export control numbers. <p> length=2 </p>
+        exportControlNumber:
+          type: string
+          description: Export control number <p> length=5 </p>
         contentIdentCode:
           type: string
-          description: Code of the content the country groups belong to (e.g. BANZ.EU.NCL.EXP for the export content of the EU) <p> length=50 </p>
-      description: DTO to hold request data to get all country groups related in the tariff content.
+          description: Code of the content the commodity codes belongs to (e.g. BANZ.DE.ECN for the Ausfuhrliste in DE) <p> length=50 </p>
+      description: DTO to hold request data to get exactly one export control number.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

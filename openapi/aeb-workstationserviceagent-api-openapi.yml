@@ -234,47 +234,6 @@ components:
         newestTime:
           type: string
           format: date-time
-    LauncherInfo:
-      type: object
-      properties:
-        version:
-          type: string
-        zoneName:
-          type: string
-    SessionInfo:
-      type: object
-      properties:
-        userName:
-          type: string
-    WorkstationSessionInfoDTO:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - UNKNOWN
-          - LAUNCH_REQUEST
-          - LAUNCHING
-          - CONNECTED
-        info:
-          $ref: '#/components/schemas/DesktopAgentInfo'
-    ProcessInfo:
-      type: object
-      properties:
-        host:
-          type: string
-        os:
-          type: string
-        pid:
-          type: string
-        name:
-          type: string
-        user:
-          type: string
-        initError:
-          type: string
     DesktopAgentInfo:
       type: object
       properties:
@@ -312,6 +271,28 @@ components:
         lastNetworkActivityTime:
           type: string
           format: date-time
+    ProcessInfo:
+      type: object
+      properties:
+        host:
+          type: string
+        os:
+          type: string
+        pid:
+          type: string
+        name:
+          type: string
+        user:
+          type: string
+        initError:
+          type: string
+    LauncherInfo:
+      type: object
+      properties:
+        version:
+          type: string
+        zoneName:
+          type: string
     PerfMonitoringInfo:
       type: object
       properties:
@@ -324,6 +305,25 @@ components:
         createdToLaunchRequestedDurationMs:
           type: integer
           format: int64
+    SessionInfo:
+      type: object
+      properties:
+        userName:
+          type: string
+    WorkstationSessionInfoDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - UNKNOWN
+          - LAUNCH_REQUEST
+          - LAUNCHING
+          - CONNECTED
+        info:
+          $ref: '#/components/schemas/DesktopAgentInfo'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

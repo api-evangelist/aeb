@@ -485,6 +485,15 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
+    CompanyRoleList:
+      required:
+      - roles
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyRole'
     CompanyPage:
       required:
       - content
@@ -501,34 +510,6 @@ components:
           description: List of companies.
           items:
             $ref: '#/components/schemas/Company'
-    CompanyRole:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the role.
-          example: DLSHIPPT
-        description:
-          maxLength: 80
-          minLength: 0
-          type: string
-          description: The name of the role in request language.
-          readOnly: true
-          example: Shipping point
-      description: A role of a company. Company roles are domain specific characteristics and can differ between the different AEB services.
-    CompanyRoleList:
-      required:
-      - roles
-      type: object
-      properties:
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompanyRole'
     Company:
       required:
       - companyNumber
@@ -671,6 +652,25 @@ components:
           items:
             $ref: '#/components/schemas/CompanyRole'
       description: A complete address of a company.
+    CompanyRole:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the role.
+          example: DLSHIPPT
+        description:
+          maxLength: 80
+          minLength: 0
+          type: string
+          description: The name of the role in request language.
+          readOnly: true
+          example: Shipping point
+      description: A role of a company. Company roles are domain specific characteristics and can differ between the different AEB services.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

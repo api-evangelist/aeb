@@ -93,30 +93,6 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    ApprovalCustomsDataExtensionDTO:
-      type: object
-      properties:
-        fieldName:
-          maxLength: 255
-          type: string
-          description: 'The field name of the extension. The following names are allowed:<ul><li><code>producedDocumentReference</code>: Field "Referenz" for produced document for ATLAS (German customs)</li><li><code>producedDocumentAddition</code>: Field "Zusatz" for produced document for ATLAS (German customs)</li><li><code>quantityUnitLicenseAuthorityGermany</code>: Quantity unit used by BAFA (German license authority)</li><li><code>exportControlNumberEU_DE</code>: Export control number, either of EU or of German jurisdiction. (Export control numbers of other EU countries are not supported.)</li></ul>'
-        fieldValue:
-          maxLength: 1000
-          type: string
-          description: The value of the extension field.
-      description: Country specific property (field and value) in a <code>ApprovalCustomsDataDTO</code>.
     ApprovalCustomsDataDTO:
       type: object
       properties:
@@ -167,6 +143,31 @@ components:
           items:
             $ref: '#/components/schemas/ApprovalCustomsDataExtensionDTO'
       description: For every jurisdiction there may be zero or 1 approval for a transaction item.<br>For every approval, at least one <code>ApprovalCustomsDataDTO</code> is returned.<br>For approvals which may be declared to customs in more than one country (which especially may be true for countries in the EU), one <code>ApprovalCustomsDataDTO</code> per country may be returned.
+    TransactionApprovalsCustomsDataDTO:
+      type: object
+      properties:
+        transactionIdHost:
+          maxLength: 255
+          type: string
+          description: The transactionIdHost of the transaction.
+        items:
+          type: array
+          description: The items of the transaction.
+          items:
+            $ref: '#/components/schemas/TransactionItemApprovalsCustomsDataDTO'
+      description: Provides the customs data (based on approvals) of the transaction with the specified <code>transactionIdHost</code>.
+    ApprovalCustomsDataExtensionDTO:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 255
+          type: string
+          description: 'The field name of the extension. The following names are allowed:<ul><li><code>producedDocumentReference</code>: Field "Referenz" for produced document for ATLAS (German customs)</li><li><code>producedDocumentAddition</code>: Field "Zusatz" for produced document for ATLAS (German customs)</li><li><code>quantityUnitLicenseAuthorityGermany</code>: Quantity unit used by BAFA (German license authority)</li><li><code>exportControlNumberEU_DE</code>: Export control number, either of EU or of German jurisdiction. (Export control numbers of other EU countries are not supported.)</li></ul>'
+        fieldValue:
+          maxLength: 1000
+          type: string
+          description: The value of the extension field.
+      description: Country specific property (field and value) in a <code>ApprovalCustomsDataDTO</code>.
     ResponseMessageDTO:
       type: object
       properties:
@@ -189,6 +190,26 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
+    TransactionItemApprovalsCustomsDataDTO:
+      type: object
+      properties:
+        itemIdHost:
+          maxLength: 255
+          type: string
+          description: The itemIdHost of the item of the transaction.
+        approvals:
+          type: array
+          description: Customs data of the approvals available for the item.
+          items:
+            $ref: '#/components/schemas/ApprovalCustomsDataDTO'
+      description: Provides the customs data (based on approvals) of the item with the specified <code>itemIdHost</code>.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
     TransactionApprovalsCustomsDataResponseDTO:
       type: object
       properties:
@@ -215,32 +236,6 @@ components:
           items:
             $ref: '#/components/schemas/TransactionApprovalsCustomsDataDTO'
       description: Response DTO for <code>/LicenseManagementBF/getTransactionApprovalsCustomsData</code>
-    TransactionItemApprovalsCustomsDataDTO:
-      type: object
-      properties:
-        itemIdHost:
-          maxLength: 255
-          type: string
-          description: The itemIdHost of the item of the transaction.
-        approvals:
-          type: array
-          description: Customs data of the approvals available for the item.
-          items:
-            $ref: '#/components/schemas/ApprovalCustomsDataDTO'
-      description: Provides the customs data (based on approvals) of the item with the specified <code>itemIdHost</code>.
-    TransactionApprovalsCustomsDataDTO:
-      type: object
-      properties:
-        transactionIdHost:
-          maxLength: 255
-          type: string
-          description: The transactionIdHost of the transaction.
-        items:
-          type: array
-          description: The items of the transaction.
-          items:
-            $ref: '#/components/schemas/TransactionItemApprovalsCustomsDataDTO'
-      description: Provides the customs data (based on approvals) of the transaction with the specified <code>transactionIdHost</code>.
     TransactionApprovalsCustomsDataRequestDTO:
       required:
       - transactionIdsHost
@@ -275,13 +270,18 @@ components:
             type: string
             description: 'The transaction ids for which the approvals customs data are requested.<br> The transaction id, along with the clientIdentCode, should uniquely identify the transaction, which was checked with <code>/ExportControl/v2/checkTransaction</code>.<br><br>A maximum of <code>10</code> transactions is currently allowed to be requested here.<br> <br> Maximum length of a transactionIdHost: <code>255</code>'
       description: Request DTO for <code>/LicenseManagementBF/getTransactionApprovalsCustomsData</code>
-    ErrorData:
+    TextInLanguageDTO:
       type: object
       properties:
-        errorMessage:
+        languageISOCode:
           type: string
-        errorCause:
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
           type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

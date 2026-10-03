@@ -311,460 +311,6 @@ paths:
       - BASIC_AUTH: []
 components:
   schemas:
-    GetEventsForReferenceNumberResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        trackingEvents:
-          type: array
-          description: Collection of events returned by the call without any tracking object or shipment context because tracking events might not be resolved.
-          items:
-            $ref: '#/components/schemas/CESTrackingEventResponseDTO'
-      description: Response DTO to get events for a reference number
-      xml:
-        name: getEventsForReferenceNumberResponseDTO
-    SynchronizeResolvedEventsRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        syncId:
-          maxLength: 20
-          type: string
-          description: Synchronization ID for delta-transmission. <p>Pass this field with the value returned in SynchronizeResolvedEventsResponseDTO's syncId. For initializing of delta-transmissions pass simply null and use ageInDays.</p><p>length=20</p>
-        ageInDays:
-          type: integer
-          description: Only for the initializing of delta-transmissions (if SynchronizeResolvedEventsRequestDTO's syncId is null) this field has to be passed. <p>Start the initializing of delta transmission with this age. Older events will not be synchronized. Journal entries are deleted after 30 days. Events whose processing lies further in the past are no longer synchronized.</p>
-          format: int32
-          example: 30
-        blockSize:
-          type:
-          - integer
-          - 'null'
-          description: For defining the block size. Can be null. If empty the default block size of 200 is used.
-          format: int32
-          default: 200
-        isStandardEventTextIncluded:
-          type: boolean
-          description: Controls, if the name and description that explain the identCode of the event is included in the response. If this option is set to true, there will be a name and a description for each requested language.
-          example: true
-          default: false
-        isOriginalDescriptionIncluded:
-          type: boolean
-          description: Controls, if the description of the carriers codelist that explain the originalIdentCode and originalReason of the event is included in the response. If this option is set to true, there will be a description in the language that depends on the carrier.
-          example: true
-          default: false
-      description: DTO with parms to synchronize resolved events
-      xml:
-        name: synchronizeResolvedEventsRequestDTO
-    CESShipmentEventResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
-        hasWarnings:
-          type: boolean
-          description: True, if there are any warning messages.
-        messages:
-          type: array
-          description: Messages for the whole request, e.g. for errors or warnings.<br>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        shipmentReference:
-          $ref: '#/components/schemas/CESShipmentReferenceDTO'
-        referenceNumber1:
-          type: string
-          description: Reference number that assigns the shipment to a process in another system.
-          example: '704503458358845172150809'
-        trackingObjects:
-          type: array
-          description: Tracking objects associated with this shipment.
-          items:
-            $ref: '#/components/schemas/CESTrackingObjectResponseDTO'
-      description: DTO for the shipment containing tracking objects with its events.
-    SetCarrierTrackingConfigurationResponseItemDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
-        hasWarnings:
-          type: boolean
-          description: True, if there are any warning messages.
-        messages:
-          type: array
-          description: Messages for the whole request, e.g. for errors or warnings.<br>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        configurationReference:
-          $ref: '#/components/schemas/CESCarrierTrackingConfigurationReferenceDTO'
-      description: Item Response DTO for setting carrier configuration
-    DateAndZoneDTO:
-      type: object
-      properties:
-        dateInTimezone:
-          type: string
-          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
-        timezone:
-          type: string
-          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
-      description: Date and timezone.
-    FTPConnectionTestParametersDTO:
-      type: object
-      properties:
-        testUpload:
-          type: boolean
-          description: flag whether or not upload should be tested during connection test
-          example: false
-      description: contains parameters for a connection test of a FTP tracking configuration
-    CESReferenceNumberDTO:
-      required:
-      - type
-      - value
-      type: object
-      properties:
-        type:
-          type: string
-          description: 'Defines the reference number type  Possible types are: <ul> <li>REFERENCE_NUMBER1 (deprecated)</li> <li>REFERENCE_NUMBER2</li> <li>CARRIER_SHIPMENT_NUMBER</li> <li>CARRIER_RETURN_SHIPMENT_NUMBER</li> <li>BULK_MASTER_SHIPMENT_NUMBER</li> <li>MASTER_AIRWAYBILL_NUMBER</li> <li>HOUSE_AIRWAYBILL_NUMBER</li> <li>PACKAGE_TRANSACTION_ID</li> <li>PACKAGE_REFERENCE_NUMBER1</li> <li>PACKAGE_REFERENCE_NUMBER2</li> <li>CARRIER_PACKAGE_NUMBER</li> <li>CARRIER_RETURN_PACKAGE_NUMBER</li> </ul>'
-          example: REFERENCE_NUMBER2
-          enum:
-          - REFERENCE_NUMBER2
-          - CARRIER_SHIPMENT_NUMBER
-          - CARRIER_RETURN_SHIPMENT_NUMBER
-          - BULK_MASTER_SHIPMENT_NUMBER
-          - MASTER_AIRWAYBILL_NUMBER
-          - HOUSE_AIRWAYBILL_NUMBER
-          - PACKAGE_TRANSACTION_ID
-          - PACKAGE_REFERENCE_NUMBER1
-          - PACKAGE_REFERENCE_NUMBER2
-          - CARRIER_PACKAGE_NUMBER
-          - CARRIER_RETURN_PACKAGE_NUMBER
-        value:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: The reference number value. <p> length = 50 </p>
-          example: AB-70450345835884517215-0809
-      description: Represents a given type and value of a referenceNumber. May also contain a reference to a tracking object, which can be used to tie this reference number to a tracking object in addition to a shipment.
-    CESConverterInformationDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
-        hasWarnings:
-          type: boolean
-          description: True, if there are any warning messages.
-        messages:
-          type: array
-          description: Messages for the whole request, e.g. for errors or warnings.<br>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        identifier:
-          maxLength: 50
-          type: string
-          description: The identifier of the converter  <p>length=50</p>
-          example: DACHSER_DE_FIXEDLENGTH
-        mimetype:
-          type: string
-          description: The MIME type of the converter, e.g. 'EDIFACT', 'FIXEDLENGTH', 'JSON', 'XML'.
-          example: FIXEDLENGTH
-        charset:
-          type: string
-          description: The name of the charset used by the converter, e.g 'UTF-8'
-          example: UTF-8
-        descriptions:
-          type: array
-          description: Description of the converter for different languages
-          items:
-            $ref: '#/components/schemas/CESConverterDescriptionTranslationDTO'
-      description: DTO that identifies a converter
-    ShipmentsEventsFilterDTO:
-      type: object
-      properties:
-        referenceNumbers1:
-          type: array
-          description: Considers shipment reference number 1  <p> length=50 </p>
-          example:
-          - 704503458358845172150809
-          - 704503458358845172150810
-          items:
-            type: string
-            description: Considers shipment reference number 1  <p> length=50 </p>
-            example: '[704503458358845172150809,704503458358845172150810]'
-      description: DTO to set a filter for shipment events query
-    CESAddressResponseDTO:
-      type: object
-      properties:
-        street:
-          maxLength: 40
-          type: string
-          description: Street of the address. <p>length=40</p>
-          example: Sigmaringer Str. 109
-        postcode:
-          maxLength: 10
-          type: string
-          description: Postcode of the address. <p>length=10</p>
-          example: '70567'
-        city:
-          maxLength: 40
-          type: string
-          description: City of the address. <p>length=40</p>
-          example: Stuttgart
-        countryISOCode:
-          maxLength: 2
-          minLength: 2
-          type: string
-          description: Country of address <p>length=2</p>
-          example: DE
-        stateRegion:
-          maxLength: 40
-          type: string
-          description: The state or region <p>length=40</p>
-          example: Baden-Württemberg
-      description: Address data to be provided in responses. @see CESAddressDTO
-    GetProvidedTrackingDataResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        providedTrackingData:
-          $ref: '#/components/schemas/CESProvidedTrackingDataResponseDTO'
-      description: Response DTO for a request for CESProvidedTrackingData.
-      xml:
-        name: getProvidedTrackingDataResponseDTO
-    TestProviderConnectionRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        providerDefinition:
-          type: string
-          description: The serialized data format of a carrier provider definition configuration.
-          format: byte
-        providerSetup:
-          type: string
-          description: The serialized data format of a carrier provider setup configuration.
-          format: byte
-        parameters:
-          $ref: '#/components/schemas/ConnectionTestParametersDTO'
-      description: Request DTO that is submitted when requesting a connection test
-      xml:
-        name: testProviderConnectionRequestDTO
-    SetCarrierTrackingConfigurationRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        trackingConfigurations:
-          type: array
-          description: Array of tracking configurations to create or update. A size of 0 is discouraged.
-          items:
-            $ref: '#/components/schemas/CESCarrierTrackingConfigurationDTO'
-      description: Request for creating/updating CESCarrierTrackingConfiguration and derived data. It is possible to transmit more than one configuration.
-      xml:
-        name: setCarrierTrackingConfigurationRequestDTO
-    GetAllConverterInformationResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        converter:
-          type: array
-          description: All converters in the system
-          items:
-            $ref: '#/components/schemas/CESConverterInformationDTO'
-      description: Response dto to get every converter in the system
-      xml:
-        name: getAllConverterInformationResponseDTO
-    GetShipmentsWithEntryCertificationRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        syncId:
-          type: string
-          description: Sync ID for the getShipmentsWithEntryCertificationRequest call.
-          example: 1.695984779547969E9
-      description: Request DTO for a request for getShipmentsWithEntryCertificationRequest.
-      xml:
-        name: getShipmentsWithEntryCertificationRequestDTO
-    GetShipmentsWithEntryCertificationResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        shipmentsWithEntryCert:
-          type: array
-          description: Collection of shipments responses containing shipment number and entry certification date.
-          items:
-            $ref: '#/components/schemas/CESShipmentWithEntryCertificationDTO'
-        syncId:
-          type: string
-          description: Sync ID to be used for the next getShipmentsWithEntryCertification call.
-          example: 1.695984779547969E9
-        isComplete:
-          type: boolean
-          description: True, if the synchronization is complete and currently no further events are available. False if not.
-          example: false
-      description: Response DTO for a request for getShipmentsWithEntryCertification.
-      xml:
-        name: getShipmentsWithEntryCertificationResponseDTO
-    CESShipmentWithEntryCertificationDTO:
-      type: object
-      properties:
-        shipmentNumber:
-          maxLength: 20
-          type: string
-          description: Client unique shipmentNumber used to identify a shipment <p>length=20</p>
-          example: 0181374
-        entryCertificateDate:
-          type: string
-          description: 'Entry certification date of the shipment. <p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
-          example: '2007-12-03 10:15:30'
-      description: Represents a shipment with shipment number and entry certification date.
     DeleteCarrierTrackingConfigurationsRequestDTO:
       type: object
       properties:
@@ -798,6 +344,81 @@ components:
       description: DTO class for the number of carrier configurations that should be deleted in CES
       xml:
         name: deleteCarrierTrackingConfigurationsRequestDTO
+    CESAddressResponseDTO:
+      type: object
+      properties:
+        street:
+          maxLength: 40
+          type: string
+          description: Street of the address. <p>length=40</p>
+          example: Sigmaringer Str. 109
+        postcode:
+          maxLength: 10
+          type: string
+          description: Postcode of the address. <p>length=10</p>
+          example: '70567'
+        city:
+          maxLength: 40
+          type: string
+          description: City of the address. <p>length=40</p>
+          example: Stuttgart
+        countryISOCode:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: Country of address <p>length=2</p>
+          example: DE
+        stateRegion:
+          maxLength: 40
+          type: string
+          description: The state or region <p>length=40</p>
+          example: Baden-Württemberg
+      description: Address data to be provided in responses. @see CESAddressDTO
+    CESProvidedTrackingDataMetaDataDTO:
+      type: object
+      properties:
+        digest:
+          type: string
+          description: Unique key of the CESProvidedTrackingData
+        trackingConfigurationIdentCode:
+          type: string
+          description: "The identCode of the trackingConfiguration. This contains by convention the identcode of the carrier which gives\tkind of a hint of the original carrier."
+        receivedAt:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        messageId:
+          type: string
+          description: MessagePoolId. Can give a hint about the file, but contains some guid elements to make the id unique, too.
+        contentInfo:
+          type: string
+          description: CESProvidedTrackingData.contentInfo, e.g. "PushApi", or the converter identifier
+        contentType:
+          type: string
+          description: CESProvidedTrackingData.contentType, e.g. EDIFACT or CSV
+        contentSize:
+          type: integer
+          description: Size in byte of the binary content.
+          format: int64
+        contentSource:
+          type: string
+          description: Information about the technical source of the data content.
+      description: Meta data of a CESProvidedTrackingData
+    DeleteCarrierTrackingConfigurationResponseItemDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        configurationReference:
+          $ref: '#/components/schemas/CESCarrierTrackingConfigurationReferenceDTO'
+      description: Item Response DTO for deleting carrier configuration
     GetProvidedTrackingDataRequestDTO:
       required:
       - configurationIdentCode
@@ -841,47 +462,26 @@ components:
       description: Request DTO to request CESProvidedTrackingData
       xml:
         name: getProvidedTrackingDataRequestDTO
-    CreateShipmentsResponseItemDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
-        hasWarnings:
-          type: boolean
-          description: True, if there are any warning messages.
-        messages:
-          type: array
-          description: Messages for the whole request, e.g. for errors or warnings.<br>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        shipmentReference:
-          $ref: '#/components/schemas/CESShipmentReferenceDTO'
-      description: Represents a response information for a certain shipment after a create request. Messages include warnings, infos or errors that occured when the shipment was processed.
-    CESGeoCoordinatesResponseDTO:
-      type: object
-      properties:
-        latitude:
-          type: number
-          description: The decimal degree value of the latitude.  <p>length = 10, scale = 7</p>
-          example: -6.2649875
-        longitude:
-          type: number
-          description: The decimal degree value of the longitude.  <p>length = 10, scale = 7</p>
-          example: 106.8766384
-      description: Location data represented by geographic coordinates formatted as decimal degrees.
-    CESCarrierReferenceDTO:
+    CESCarrierServiceDataDTO:
       required:
-      - identCode
+      - carrierIdentCode
+      - serviceIdentCode
       type: object
       properties:
-        identCode:
+        carrierIdentCode:
+          maxLength: 20
           minLength: 1
           type: string
-          description: The carrier's identCode.
+          description: Carrier of the shipment. <p>length=20</p>
           example: DACHSER
-      description: DTO that encapsulates data to identify a carrier.
-    TestProviderConnectionResponseDTO:
+        serviceIdentCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Service requested for the shipment. Service must be available within the carrier identified by carrierIdentCode. <p>length=20</p>
+          example: WEEKEND
+      description: DTO to identify the service of a carrier
+    GetShipmentsEventsFilteredResponseDTO:
       type: object
       properties:
         hasErrors:
@@ -901,37 +501,14 @@ components:
           description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
             $ref: '#/components/schemas/ResponseMessageDTO'
-      description: response DTO which is submitted as a response after a connection test
-      xml:
-        name: testProviderConnectionResponseDTO
-    GetAllConverterInformationRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
+        shipments:
           type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
+          description: Collection of shipments responses containing tracking objects and event lists.
           items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-      description: Request dto to get every converter in the system
+            $ref: '#/components/schemas/CESShipmentEventResponseDTO'
+      description: The response for getShipmentEventsFiltered method
       xml:
-        name: getAllConverterInformationRequestDTO
+        name: getShipmentsEventsFilteredResponseDTO
     CESTrackingObjectDTO:
       required:
       - trackingNumber
@@ -957,6 +534,149 @@ components:
         trackingStartTime:
           $ref: '#/components/schemas/DateAndZoneDTO'
       description: Represents a tracking object of a shipment. A tracking object might be either a package or a shipment.
+    CESGeoCoordinatesResponseDTO:
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: The decimal degree value of the latitude.  <p>length = 10, scale = 7</p>
+          example: -6.2649875
+        longitude:
+          type: number
+          description: The decimal degree value of the longitude.  <p>length = 10, scale = 7</p>
+          example: 106.8766384
+      description: Location data represented by geographic coordinates formatted as decimal degrees.
+    CESCarrierTrackingConfigurationReferenceDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: Unique identCode of a carrier tracking configuration.
+          example: DACHSER_FTP
+      description: DTO to reference a CarrierTrackingConfiguration
+    CESEventTextDTO:
+      type: object
+      properties:
+        standardEventText:
+          type: array
+          description: Standard name and description linked to event identCode provided in the requested languages
+          items:
+            $ref: '#/components/schemas/CEStandardEventTextDTO'
+        originalDescription:
+          type: string
+          description: Description text linked to originalIdentCode and originalReason of a tracking event.
+          example: Some original description from the carrier
+      description: DTO for event text explaining the event ident codes, originalCodes and originalReason
+    GetShipmentsEventsRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        shipmentReferences:
+          type: array
+          description: References representing shipments. An event list should be returned for each reference provided.
+          items:
+            $ref: '#/components/schemas/CESShipmentReferenceDTO'
+        isStandardEventTextIncluded:
+          type: boolean
+          description: Controls, if the name and description that explain the identCode of the event is included in the response. If this option is set to true, there will be a name and a description for each requested language
+          example: true
+          default: false
+        isOriginalDescriptionIncluded:
+          type: boolean
+          description: ' Controls, if the description of the carriers codelist that explain the originalIdentCode and originalReasonn of the event is included in the response. If this option is set to true, there will be a name and a description for each requested language if available'
+          example: true
+          default: false
+      description: Request DTO to request events for shipment references.
+      xml:
+        name: getShipmentsEventsRequestDTO
+    TestProviderConnectionRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        providerDefinition:
+          type: string
+          description: The serialized data format of a carrier provider definition configuration.
+          format: byte
+        providerSetup:
+          type: string
+          description: The serialized data format of a carrier provider setup configuration.
+          format: byte
+        parameters:
+          $ref: '#/components/schemas/ConnectionTestParametersDTO'
+      description: Request DTO that is submitted when requesting a connection test
+      xml:
+        name: testProviderConnectionRequestDTO
+    CESReferenceNumberDTO:
+      required:
+      - type
+      - value
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'Defines the reference number type  Possible types are: <ul> <li>REFERENCE_NUMBER1 (deprecated)</li> <li>REFERENCE_NUMBER2</li> <li>CARRIER_SHIPMENT_NUMBER</li> <li>CARRIER_RETURN_SHIPMENT_NUMBER</li> <li>BULK_MASTER_SHIPMENT_NUMBER</li> <li>MASTER_AIRWAYBILL_NUMBER</li> <li>HOUSE_AIRWAYBILL_NUMBER</li> <li>PACKAGE_TRANSACTION_ID</li> <li>PACKAGE_REFERENCE_NUMBER1</li> <li>PACKAGE_REFERENCE_NUMBER2</li> <li>CARRIER_PACKAGE_NUMBER</li> <li>CARRIER_RETURN_PACKAGE_NUMBER</li> </ul>'
+          example: REFERENCE_NUMBER2
+          enum:
+          - REFERENCE_NUMBER2
+          - CARRIER_SHIPMENT_NUMBER
+          - CARRIER_RETURN_SHIPMENT_NUMBER
+          - BULK_MASTER_SHIPMENT_NUMBER
+          - MASTER_AIRWAYBILL_NUMBER
+          - HOUSE_AIRWAYBILL_NUMBER
+          - PACKAGE_TRANSACTION_ID
+          - PACKAGE_REFERENCE_NUMBER1
+          - PACKAGE_REFERENCE_NUMBER2
+          - CARRIER_PACKAGE_NUMBER
+          - CARRIER_RETURN_PACKAGE_NUMBER
+        value:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: The reference number value. <p> length = 50 </p>
+          example: AB-70450345835884517215-0809
+      description: Represents a given type and value of a referenceNumber. May also contain a reference to a tracking object, which can be used to tie this reference number to a tracking object in addition to a shipment.
     GetShipmentsEventsFilteredRequestDTO:
       required:
       - filter
@@ -1006,22 +726,73 @@ components:
       description: Request DTO for getSchipmetsEventsFiltered method
       xml:
         name: getShipmentsEventsFilteredRequestDTO
-    CESProvidedTrackingDataResponseDTO:
+    ShipmentsEventsFilterDTO:
       type: object
       properties:
-        content:
+        referenceNumbers1:
+          type: array
+          description: Considers shipment reference number 1  <p> length=50 </p>
+          example:
+          - 704503458358845172150809
+          - 704503458358845172150810
+          items:
+            type: string
+            description: Considers shipment reference number 1  <p> length=50 </p>
+            example: '[704503458358845172150809,704503458358845172150810]'
+      description: DTO to set a filter for shipment events query
+    GetShipmentsWithEntryCertificationResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        shipmentsWithEntryCert:
+          type: array
+          description: Collection of shipments responses containing shipment number and entry certification date.
+          items:
+            $ref: '#/components/schemas/CESShipmentWithEntryCertificationDTO'
+        syncId:
           type: string
-          description: Base64 encoded file content
-          format: byte
-        charset:
-          type: string
-          description: The Charset to be used for decoding the content
-        mimetype:
-          type: string
-          description: The MIMEType
-        metaData:
-          $ref: '#/components/schemas/CESProvidedTrackingDataMetaDataDTO'
-      description: DTO for a CESProvidedTrackingData
+          description: Sync ID to be used for the next getShipmentsWithEntryCertification call.
+          example: 1.695984779547969E9
+        isComplete:
+          type: boolean
+          description: True, if the synchronization is complete and currently no further events are available. False if not.
+          example: false
+      description: Response DTO for a request for getShipmentsWithEntryCertification.
+      xml:
+        name: getShipmentsWithEntryCertificationResponseDTO
+    SetCarrierTrackingConfigurationResponseItemDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        configurationReference:
+          $ref: '#/components/schemas/CESCarrierTrackingConfigurationReferenceDTO'
+      description: Item Response DTO for setting carrier configuration
     CESSynchronizeResolvedEventDTO:
       required:
       - referenceNumber1
@@ -1061,7 +832,7 @@ components:
           description: Unique key of the tracking event within the client. <p> length=40 </p>
           example: ff0192abded20f6f69b23713e1fba775bf2b5221
       description: DTO for the resolved event with context information to enable assignment of the event to a certain business object.
-    GetShipmentsEventsRequestDTO:
+    SetCarrierTrackingConfigurationRequestDTO:
       type: object
       properties:
         clientSystemId:
@@ -1086,149 +857,14 @@ components:
             type: string
             description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
             example: '["en","de"]'
-        shipmentReferences:
+        trackingConfigurations:
           type: array
-          description: References representing shipments. An event list should be returned for each reference provided.
+          description: Array of tracking configurations to create or update. A size of 0 is discouraged.
           items:
-            $ref: '#/components/schemas/CESShipmentReferenceDTO'
-        isStandardEventTextIncluded:
-          type: boolean
-          description: Controls, if the name and description that explain the identCode of the event is included in the response. If this option is set to true, there will be a name and a description for each requested language
-          example: true
-          default: false
-        isOriginalDescriptionIncluded:
-          type: boolean
-          description: ' Controls, if the description of the carriers codelist that explain the originalIdentCode and originalReasonn of the event is included in the response. If this option is set to true, there will be a name and a description for each requested language if available'
-          example: true
-          default: false
-      description: Request DTO to request events for shipment references.
+            $ref: '#/components/schemas/CESCarrierTrackingConfigurationDTO'
+      description: Request for creating/updating CESCarrierTrackingConfiguration and derived data. It is possible to transmit more than one configuration.
       xml:
-        name: getShipmentsEventsRequestDTO
-    CESEventTextDTO:
-      type: object
-      properties:
-        standardEventText:
-          type: array
-          description: Standard name and description linked to event identCode provided in the requested languages
-          items:
-            $ref: '#/components/schemas/CEStandardEventTextDTO'
-        originalDescription:
-          type: string
-          description: Description text linked to originalIdentCode and originalReason of a tracking event.
-          example: Some original description from the carrier
-      description: DTO for event text explaining the event ident codes, originalCodes and originalReason
-    CESProvidedTrackingDataMetaDataDTO:
-      type: object
-      properties:
-        digest:
-          type: string
-          description: Unique key of the CESProvidedTrackingData
-        trackingConfigurationIdentCode:
-          type: string
-          description: "The identCode of the trackingConfiguration. This contains by convention the identcode of the carrier which gives\tkind of a hint of the original carrier."
-        receivedAt:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-        messageId:
-          type: string
-          description: MessagePoolId. Can give a hint about the file, but contains some guid elements to make the id unique, too.
-        contentInfo:
-          type: string
-          description: CESProvidedTrackingData.contentInfo, e.g. "PushApi", or the converter identifier
-        contentType:
-          type: string
-          description: CESProvidedTrackingData.contentType, e.g. EDIFACT or CSV
-        contentSize:
-          type: integer
-          description: Size in byte of the binary content.
-          format: int64
-        contentSource:
-          type: string
-          description: Information about the technical source of the data content.
-      description: Meta data of a CESProvidedTrackingData
-    CESTrackingEventLocationResponseDTO:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/CESAddressResponseDTO'
-        geoCoordinates:
-          $ref: '#/components/schemas/CESGeoCoordinatesResponseDTO'
-        identifier:
-          $ref: '#/components/schemas/CESLocationIdentifierResponseDTO'
-        description:
-          type: string
-          description: The event location description.
-          example: Some description of the location used by the carrier
-      description: DTO with location data for a tracking event. Fields and substructures only filled as provided.
-    CESTrackingEventAdditionalDataDTO:
-      type: object
-      properties:
-        additionalDataType:
-          type: string
-          description: 'Type of the additional data. Possible types are:  <table> <tr><td>POD_SIGNATURE</td><td> Signature of a consignee, usually available on delivery events. </td></tr> <tr><td>MISCELLANEOUS</td><td> General additional information, notes or fields with value. It is possible to have more than one field of this type if there are different texts. </td></tr> <tr><td>MASTER_AIRWAYBILL_NUMBER</td><td> This tracking number identifies the cargo of a complete aircraft. </td></tr> <tr><td>HOUSE_AIRWAYBILL_NUMBER</td><td> This tracking number identifies a single shipping order. </td></tr> <tr><td>PORT_OF_LOADING_CODE</td><td> Port or airport code where the goods are loaded. </td></tr> <tr><td>PORT_OF_DISCHARGE_CODE</td><td> Port or airport code where the goods are unloaded. </td></tr> <tr><td>AIRLINE</td><td> The airline is a company that transports people or freight against payment. </td></tr> <tr><td>FLIGHT_NUMBER</td><td> The flight number is an ordinal number that is used to identify a specific flight connection of an airline. </td></tr> <tr><td>SCHENKERAIR_SST_NUMBER</td><td> Schenker Air specific type: SST number</td></tr> <tr><td>HOUSE_BILL_OF_LADING_NUMBER</td><td> EDIFACT qualifier BH, reference number assigned to a house bill of lading.</td></tr> <tr><td>IMPORTER_REFERENCE_NUMBER</td><td> EDIFACT qualifier ABQ</td></tr> <tr><td>PRIMARY_REFERENCE</td><td> EDIFACT qualifier AES</td></tr> <tr><td>SHIPMENT_REFERENCE_NUMBER</td><td> The shipment reference number. When tracking is on shipment, this might be the tracking number.</td></tr> <tr><td>HOUSE_SHIPMENT_REFERENCE</td><td> The house shipment reference number.</td></tr> <tr><td>CARRIER_NOTE</td><td> Note by the carrier.</td></tr> <tr><td>CONTAINER_NUMBER</td><td> The container number.</td></tr> <tr><td>VESSEL_NAME</td><td>  The vessel name can be used to identify a specific vessel.</td></tr> <tr><td>VOYAGE_NUMBER</td><td> The voyage number is an ordinal number that is used to identify a specific voyage of a vessel.</td></tr><tr><td>ETA</td><td> The ETA is a string containing a date/timestamp of the estimated time of arrival. The format of the string is based on the ISO 8601 standard and depends on the information provided by the carrier. It contains either, a date, a date time or a date time with time zone information. Example: 2021-11-30T13:37:01.87+01:00[Europe/Berlin]. </td></tr> <tr><td>TRANSPORT_TYPE</td><td> The transport type</td></tr>'
-          example: CARRIER_NOTE
-        value:
-          maxLength: 50
-          type: string
-          description: Value for this information type <p> length=50 </p>
-          example: Some carrier note
-      description: DTO with additional information provided for the carrier for the event
-    ConnectionTestParametersDTO:
-      type: object
-      properties:
-        ftpParameters:
-          $ref: '#/components/schemas/FTPConnectionTestParametersDTO'
-        sftpParameters:
-          $ref: '#/components/schemas/SFTPConnectionTestParametersDTO'
-      description: Container class for all connection test parameter types. Only one field may be filled at the same time.
-    CESCarrierServiceDataDTO:
-      required:
-      - carrierIdentCode
-      - serviceIdentCode
-      type: object
-      properties:
-        carrierIdentCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Carrier of the shipment. <p>length=20</p>
-          example: DACHSER
-        serviceIdentCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Service requested for the shipment. Service must be available within the carrier identified by carrierIdentCode. <p>length=20</p>
-          example: WEEKEND
-      description: DTO to identify the service of a carrier
-    CESTrackingEventResponseDTO:
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          type: string
-          description: The standardized AEB ident code of the event. <p> length = 20 </p>
-          example: IOD
-        originalIdentCode:
-          maxLength: 20
-          type: string
-          description: The original ident code of the event provided by the carrier. <p> length = 20 </p>
-          example: L420
-        originalReason:
-          maxLength: 20
-          type: string
-          description: The original reason that the carrier has transmitted for the event. <p> length = 20 </p>
-          example: BZ
-        eventDate:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-        originalLocation:
-          $ref: '#/components/schemas/CESTrackingEventLocationResponseDTO'
-        additionalData:
-          type: array
-          description: Depending on the type of the event additional information  could be linked to the event.
-          items:
-            $ref: '#/components/schemas/CESTrackingEventAdditionalDataDTO'
-        eventText:
-          $ref: '#/components/schemas/CESEventTextDTO'
-      description: DTO for the real event data.
+        name: setCarrierTrackingConfigurationRequestDTO
     CESAddressDTO:
       required:
       - city
@@ -1269,128 +905,79 @@ components:
           description: The state or region <p>length=40</p>
           example: Baden-Württemberg
       description: Address data
-    DeleteCarrierTrackingConfigurationResponseItemDTO:
+    CESTrackingEventLocationResponseDTO:
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
-        hasWarnings:
-          type: boolean
-          description: True, if there are any warning messages.
-        messages:
-          type: array
-          description: Messages for the whole request, e.g. for errors or warnings.<br>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        configurationReference:
-          $ref: '#/components/schemas/CESCarrierTrackingConfigurationReferenceDTO'
-      description: Item Response DTO for deleting carrier configuration
-    CESTrackingObjectResponseDTO:
-      type: object
-      properties:
-        trackingNumber:
-          maxLength: 250
-          type: string
-          description: The almost unique tracking number of the carrier that is used to identify the package or shipment in the carriers world. <p> length = 250 </p>
-          example: AB486 083 50
-        isReturnTrackingObject:
-          type: boolean
-          description: True when the tracking object is a return tracking object (retoure), else false
-        trackingObjectType:
-          type: string
-          description: 'Type or trackingObject Possible types are: <ul> <li>SHIPMENT</li> <li>PACKAGE</li> </ul>'
-          example: SHIPMENT
-        trackingStart:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-        trackingFinish:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-        trackingEvents:
-          type: array
-          description: The list of tracking events associated with this tracking object. It is returned sorted by date in ascending order, taking the time zone into account.
-          items:
-            $ref: '#/components/schemas/CESTrackingEventResponseDTO'
-      description: DTO for tracking object with its tracking events.
-    CESCarrierTrackingConfigurationReferenceDTO:
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: Unique identCode of a carrier tracking configuration.
-          example: DACHSER_FTP
-      description: DTO to reference a CarrierTrackingConfiguration
-    GetShipmentsEventsFilteredResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        shipments:
-          type: array
-          description: Collection of shipments responses containing tracking objects and event lists.
-          items:
-            $ref: '#/components/schemas/CESShipmentEventResponseDTO'
-      description: The response for getShipmentEventsFiltered method
-      xml:
-        name: getShipmentsEventsFilteredResponseDTO
-    CreateShipmentsResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        shipmentResponses:
-          type: array
-          description: The list of shipment references that were not created.
-          items:
-            $ref: '#/components/schemas/CreateShipmentsResponseItemDTO'
-      description: DTO for create shipments response
-      xml:
-        name: createShipmentsResponseDTO
-    CEStandardEventTextDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        name:
-          type: string
-          description: The translated name.
-          example: Delivered
+        address:
+          $ref: '#/components/schemas/CESAddressResponseDTO'
+        geoCoordinates:
+          $ref: '#/components/schemas/CESGeoCoordinatesResponseDTO'
+        identifier:
+          $ref: '#/components/schemas/CESLocationIdentifierResponseDTO'
         description:
           type: string
-          description: The translated description.
-          example: The shipment was delivered
-      description: DTO to provide the name and description in multiple languages
+          description: The event location description.
+          example: Some description of the location used by the carrier
+      description: DTO with location data for a tracking event. Fields and substructures only filled as provided.
+    TestProviderConnectionResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+      description: response DTO which is submitted as a response after a connection test
+      xml:
+        name: testProviderConnectionResponseDTO
+    FTPConnectionTestParametersDTO:
+      type: object
+      properties:
+        testUpload:
+          type: boolean
+          description: flag whether or not upload should be tested during connection test
+          example: false
+      description: contains parameters for a connection test of a FTP tracking configuration
+    GetAllConverterInformationResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        converter:
+          type: array
+          description: All converters in the system
+          items:
+            $ref: '#/components/schemas/CESConverterInformationDTO'
+      description: Response dto to get every converter in the system
+      xml:
+        name: getAllConverterInformationResponseDTO
     TextInLanguageDTO:
       type: object
       properties:
@@ -1403,30 +990,6 @@ components:
           description: The translated text.
           example: Some free-form text
       description: A translated text in one of the specified languages.
-    CESShipmentReferenceDTO:
-      type: object
-      properties:
-        shipmentNumber:
-          maxLength: 20
-          type: string
-          description: Client unique shipmentNumber used to identify a shipment <p>length=20</p>
-          example: 0181374
-        transactionId:
-          maxLength: 250
-          type: string
-          description: ID uniquely referencing the corresponding business transaction in the host system.  <p> length = 250 </p>
-          example: WA1-100696235133571361984584754FZOD-2110
-        clientSystemId:
-          maxLength: 20
-          type: string
-          description: Host system ID. The installation ID more precisely identifies the host system from which the shipping order was originally imported. Data for one client can be imported from different host systems. <p> length = 20 </p>
-          example: PS4_100
-        organizationUnitClientSystem:
-          maxLength: 255
-          type: string
-          description: Additional organizational unit of the host system for further specification of the data source. <p> length = 255 </p>
-          example: AL_US
-      description: Reference that identifies a shipment
     GetEventsForReferenceNumberRequestDTO:
       required:
       - carrier
@@ -1476,6 +1039,210 @@ components:
       description: Request DTO to get events for a reference number
       xml:
         name: getEventsForReferenceNumberRequestDTO
+    CESShipmentWithEntryCertificationDTO:
+      type: object
+      properties:
+        shipmentNumber:
+          maxLength: 20
+          type: string
+          description: Client unique shipmentNumber used to identify a shipment <p>length=20</p>
+          example: 0181374
+        entryCertificateDate:
+          type: string
+          description: 'Entry certification date of the shipment. <p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+          example: '2007-12-03 10:15:30'
+      description: Represents a shipment with shipment number and entry certification date.
+    CESTrackingEventAdditionalDataDTO:
+      type: object
+      properties:
+        additionalDataType:
+          type: string
+          description: 'Type of the additional data. Possible types are:  <table> <tr><td>POD_SIGNATURE</td><td> Signature of a consignee, usually available on delivery events. </td></tr> <tr><td>MISCELLANEOUS</td><td> General additional information, notes or fields with value. It is possible to have more than one field of this type if there are different texts. </td></tr> <tr><td>MASTER_AIRWAYBILL_NUMBER</td><td> This tracking number identifies the cargo of a complete aircraft. </td></tr> <tr><td>HOUSE_AIRWAYBILL_NUMBER</td><td> This tracking number identifies a single shipping order. </td></tr> <tr><td>PORT_OF_LOADING_CODE</td><td> Port or airport code where the goods are loaded. </td></tr> <tr><td>PORT_OF_DISCHARGE_CODE</td><td> Port or airport code where the goods are unloaded. </td></tr> <tr><td>AIRLINE</td><td> The airline is a company that transports people or freight against payment. </td></tr> <tr><td>FLIGHT_NUMBER</td><td> The flight number is an ordinal number that is used to identify a specific flight connection of an airline. </td></tr> <tr><td>SCHENKERAIR_SST_NUMBER</td><td> Schenker Air specific type: SST number</td></tr> <tr><td>HOUSE_BILL_OF_LADING_NUMBER</td><td> EDIFACT qualifier BH, reference number assigned to a house bill of lading.</td></tr> <tr><td>IMPORTER_REFERENCE_NUMBER</td><td> EDIFACT qualifier ABQ</td></tr> <tr><td>PRIMARY_REFERENCE</td><td> EDIFACT qualifier AES</td></tr> <tr><td>SHIPMENT_REFERENCE_NUMBER</td><td> The shipment reference number. When tracking is on shipment, this might be the tracking number.</td></tr> <tr><td>HOUSE_SHIPMENT_REFERENCE</td><td> The house shipment reference number.</td></tr> <tr><td>CARRIER_NOTE</td><td> Note by the carrier.</td></tr> <tr><td>CONTAINER_NUMBER</td><td> The container number.</td></tr> <tr><td>VESSEL_NAME</td><td>  The vessel name can be used to identify a specific vessel.</td></tr> <tr><td>VOYAGE_NUMBER</td><td> The voyage number is an ordinal number that is used to identify a specific voyage of a vessel.</td></tr><tr><td>ETA</td><td> The ETA is a string containing a date/timestamp of the estimated time of arrival. The format of the string is based on the ISO 8601 standard and depends on the information provided by the carrier. It contains either, a date, a date time or a date time with time zone information. Example: 2021-11-30T13:37:01.87+01:00[Europe/Berlin]. </td></tr> <tr><td>TRANSPORT_TYPE</td><td> The transport type</td></tr>'
+          example: CARRIER_NOTE
+        value:
+          maxLength: 50
+          type: string
+          description: Value for this information type <p> length=50 </p>
+          example: Some carrier note
+      description: DTO with additional information provided for the carrier for the event
+    CESShipmentReferenceDTO:
+      type: object
+      properties:
+        shipmentNumber:
+          maxLength: 20
+          type: string
+          description: Client unique shipmentNumber used to identify a shipment <p>length=20</p>
+          example: 0181374
+        transactionId:
+          maxLength: 250
+          type: string
+          description: ID uniquely referencing the corresponding business transaction in the host system.  <p> length = 250 </p>
+          example: WA1-100696235133571361984584754FZOD-2110
+        clientSystemId:
+          maxLength: 20
+          type: string
+          description: Host system ID. The installation ID more precisely identifies the host system from which the shipping order was originally imported. Data for one client can be imported from different host systems. <p> length = 20 </p>
+          example: PS4_100
+        organizationUnitClientSystem:
+          maxLength: 255
+          type: string
+          description: Additional organizational unit of the host system for further specification of the data source. <p> length = 255 </p>
+          example: AL_US
+      description: Reference that identifies a shipment
+    GetShipmentsEventsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        shipments:
+          type: array
+          description: Collection of shipments responses containing tracking objects and event lists.
+          items:
+            $ref: '#/components/schemas/CESShipmentEventResponseDTO'
+      description: Response DTO for a request for shipment events.
+      xml:
+        name: getShipmentsEventsResponseDTO
+    ConnectionTestParametersDTO:
+      type: object
+      properties:
+        ftpParameters:
+          $ref: '#/components/schemas/FTPConnectionTestParametersDTO'
+        sftpParameters:
+          $ref: '#/components/schemas/SFTPConnectionTestParametersDTO'
+      description: Container class for all connection test parameter types. Only one field may be filled at the same time.
+    SetCarrierTrackingConfigurationResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        trackingConfigurations:
+          type: array
+          description: Summary of a single created configuration.
+          items:
+            $ref: '#/components/schemas/SetCarrierTrackingConfigurationResponseItemDTO'
+      description: Main Response DTO for setting carrier configuration
+      xml:
+        name: setCarrierTrackingConfigurationResponseDTO
+    CESConverterDescriptionTranslationDTO:
+      required:
+      - languageISOCode
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: ISO code of the language of the description. <p>length=2</p>
+          example: de
+        description:
+          maxLength: 250
+          type: string
+          description: The description of the converter <p>length=250</p>
+          example: Dachser Deutschland fixed length
+      description: Text Translataion DTO for the description of converters
+    CESLocationIdentifierResponseDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: '<p>The functional type of the identifier.</p> <p>Possible values: <ul> <li>IATAAIRPORTCODE</li> <li>UNLOCODE</li> <li>GENERIC</li> <li>CARRIER_LOCATION_CODE</li> </ul> </p>'
+          example: UNLOCODE
+        value:
+          type: string
+          description: The value of the identifier. <p>length = 100</p>
+          example: KRSEL
+      description: Location data represented by an identifier
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    CESTrackingObjectResponseDTO:
+      type: object
+      properties:
+        trackingNumber:
+          maxLength: 250
+          type: string
+          description: The almost unique tracking number of the carrier that is used to identify the package or shipment in the carriers world. <p> length = 250 </p>
+          example: AB486 083 50
+        isReturnTrackingObject:
+          type: boolean
+          description: True when the tracking object is a return tracking object (retoure), else false
+        trackingObjectType:
+          type: string
+          description: 'Type or trackingObject Possible types are: <ul> <li>SHIPMENT</li> <li>PACKAGE</li> </ul>'
+          example: SHIPMENT
+        trackingStart:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        trackingFinish:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        trackingEvents:
+          type: array
+          description: The list of tracking events associated with this tracking object. It is returned sorted by date in ascending order, taking the time zone into account.
+          items:
+            $ref: '#/components/schemas/CESTrackingEventResponseDTO'
+      description: DTO for tracking object with its tracking events.
+    CEStandardEventTextDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        name:
+          type: string
+          description: The translated name.
+          example: Delivered
+        description:
+          type: string
+          description: The translated description.
+          example: The shipment was delivered
+      description: DTO to provide the name and description in multiple languages
     CESCarrierTrackingConfigurationDTO:
       type: object
       properties:
@@ -1508,43 +1275,58 @@ components:
           description: The serialized data format of a carrier converter definition configuration.
           format: byte
       description: DTO class that encapsulates all configuration data to create one process chain for a given carrier, data provider, converter and recoding.
-    ResponseMessageDTO:
+    CESProvidedTrackingDataResponseDTO:
       type: object
       properties:
-        messageType:
+        content:
           type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
+          description: Base64 encoded file content
+          format: byte
+        charset:
           type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
+          description: The Charset to be used for decoding the content
+        mimetype:
+          type: string
+          description: The MIMEType
+        metaData:
+          $ref: '#/components/schemas/CESProvidedTrackingDataMetaDataDTO'
+      description: DTO for a CESProvidedTrackingData
+    CreateShipmentsResponseItemDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
           type: array
-          description: <p>Detailed message texts in the requested languages.</p>
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
           items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
-    CESLocationIdentifierResponseDTO:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        shipmentReference:
+          $ref: '#/components/schemas/CESShipmentReferenceDTO'
+      description: Represents a response information for a certain shipment after a create request. Messages include warnings, infos or errors that occured when the shipment was processed.
+    DateAndZoneDTO:
       type: object
       properties:
-        type:
+        dateInTimezone:
           type: string
-          description: '<p>The functional type of the identifier.</p> <p>Possible values: <ul> <li>IATAAIRPORTCODE</li> <li>UNLOCODE</li> <li>GENERIC</li> <li>CARRIER_LOCATION_CODE</li> </ul> </p>'
-          example: UNLOCODE
-        value:
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
           type: string
-          description: The value of the identifier. <p>length = 100</p>
-          example: KRSEL
-      description: Location data represented by an identifier
-    CreateShipmentsRequestDTO:
-      required:
-      - shipments
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
+    SFTPConnectionTestParametersDTO:
+      type: object
+      properties:
+        testUpload:
+          type: boolean
+          description: flag whether or not upload should be tested during connection test
+          example: false
+      description: contains parameters for a connection test of a SFTP tracking configuration
+    GetShipmentsWithEntryCertificationRequestDTO:
       type: object
       properties:
         clientSystemId:
@@ -1569,42 +1351,13 @@ components:
             type: string
             description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
             example: '["en","de"]'
-        shipments:
-          type: array
-          description: Shipments to be created
-          items:
-            $ref: '#/components/schemas/CESShipmentDTO'
-      description: DTO for createShipments requests
+        syncId:
+          type: string
+          description: Sync ID for the getShipmentsWithEntryCertificationRequest call.
+          example: 1.695984779547969E9
+      description: Request DTO for a request for getShipmentsWithEntryCertificationRequest.
       xml:
-        name: createShipmentsRequestDTO
-    DeleteCarrierTrackingConfigurationsResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        trackingConfigurations:
-          type: array
-          description: Summary of deleted configurations.
-          items:
-            $ref: '#/components/schemas/DeleteCarrierTrackingConfigurationResponseItemDTO'
-      description: DTO with the response for deleting CarrierTrackingConfigurations <p>For each CarrierTrackingConfiguration that was requested to be deleted a single response is provided with error texts if the delete operation was not successful.</p>
-      xml:
-        name: deleteCarrierTrackingConfigurationsResponseDTO
+        name: getShipmentsWithEntryCertificationRequestDTO
     CESShipmentDTO:
       required:
       - carrierService
@@ -1666,36 +1419,45 @@ components:
           description: If an entry certificate is required the necessary data will be transferred to content storage engine.
           example: false
       description: Represents a shipment
-    CESAdditionalReferenceDTO:
+    CESCarrierReferenceDTO:
       required:
-      - referenceNumber
+      - identCode
       type: object
       properties:
-        referenceNumber:
-          $ref: '#/components/schemas/CESReferenceNumberDTO'
-        trackingObjectReference:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: A reference to a CESTrackingObjectDTO in this shipment. This is the trackingNumber of the CESTrackingObjectDTO. If provided the reference number will also be linked to the tracking object. <p> length = 250 </p>
-          example: AB486 083 50
-      description: Represents an additional reference field within a shipment request.
-    CESConverterDescriptionTranslationDTO:
-      required:
-      - languageISOCode
+        identCode:
+          minLength: 1
+          type: string
+          description: The carrier's identCode.
+          example: DACHSER
+      description: DTO that encapsulates data to identify a carrier.
+    GetEventsForReferenceNumberResponseDTO:
       type: object
       properties:
-        languageISOCode:
-          type: string
-          description: ISO code of the language of the description. <p>length=2</p>
-          example: de
-        description:
-          maxLength: 250
-          type: string
-          description: The description of the converter <p>length=250</p>
-          example: Dachser Deutschland fixed length
-      description: Text Translataion DTO for the description of converters
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        trackingEvents:
+          type: array
+          description: Collection of events returned by the call without any tracking object or shipment context because tracking events might not be resolved.
+          items:
+            $ref: '#/components/schemas/CESTrackingEventResponseDTO'
+      description: Response DTO to get events for a reference number
+      xml:
+        name: getEventsForReferenceNumberResponseDTO
     SynchronizeResolvedEventsResponseDTO:
       type: object
       properties:
@@ -1731,43 +1493,61 @@ components:
       description: DTO with result to synchronize resolved events
       xml:
         name: synchronizeResolvedEventsResponseDTO
-    GetShipmentsEventsResponseDTO:
+    SynchronizeResolvedEventsRequestDTO:
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
           type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
           items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        shipments:
-          type: array
-          description: Collection of shipments responses containing tracking objects and event lists.
-          items:
-            $ref: '#/components/schemas/CESShipmentEventResponseDTO'
-      description: Response DTO for a request for shipment events.
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        syncId:
+          maxLength: 20
+          type: string
+          description: Synchronization ID for delta-transmission. <p>Pass this field with the value returned in SynchronizeResolvedEventsResponseDTO's syncId. For initializing of delta-transmissions pass simply null and use ageInDays.</p><p>length=20</p>
+        ageInDays:
+          type: integer
+          description: Only for the initializing of delta-transmissions (if SynchronizeResolvedEventsRequestDTO's syncId is null) this field has to be passed. <p>Start the initializing of delta transmission with this age. Older events will not be synchronized. Journal entries are deleted after 30 days. Events whose processing lies further in the past are no longer synchronized.</p>
+          format: int32
+          example: 30
+        blockSize:
+          type:
+          - integer
+          - 'null'
+          description: For defining the block size. Can be null. If empty the default block size of 200 is used.
+          format: int32
+          default: 200
+        isStandardEventTextIncluded:
+          type: boolean
+          description: Controls, if the name and description that explain the identCode of the event is included in the response. If this option is set to true, there will be a name and a description for each requested language.
+          example: true
+          default: false
+        isOriginalDescriptionIncluded:
+          type: boolean
+          description: Controls, if the description of the carriers codelist that explain the originalIdentCode and originalReason of the event is included in the response. If this option is set to true, there will be a description in the language that depends on the carrier.
+          example: true
+          default: false
+      description: DTO with parms to synchronize resolved events
       xml:
-        name: getShipmentsEventsResponseDTO
-    SFTPConnectionTestParametersDTO:
-      type: object
-      properties:
-        testUpload:
-          type: boolean
-          description: flag whether or not upload should be tested during connection test
-          example: false
-      description: contains parameters for a connection test of a SFTP tracking configuration
-    SetCarrierTrackingConfigurationResponseDTO:
+        name: synchronizeResolvedEventsRequestDTO
+    DeleteCarrierTrackingConfigurationsResponseDTO:
       type: object
       properties:
         hasErrors:
@@ -1789,12 +1569,232 @@ components:
             $ref: '#/components/schemas/ResponseMessageDTO'
         trackingConfigurations:
           type: array
-          description: Summary of a single created configuration.
+          description: Summary of deleted configurations.
           items:
-            $ref: '#/components/schemas/SetCarrierTrackingConfigurationResponseItemDTO'
-      description: Main Response DTO for setting carrier configuration
+            $ref: '#/components/schemas/DeleteCarrierTrackingConfigurationResponseItemDTO'
+      description: DTO with the response for deleting CarrierTrackingConfigurations <p>For each CarrierTrackingConfiguration that was requested to be deleted a single response is provided with error texts if the delete operation was not successful.</p>
       xml:
-        name: setCarrierTrackingConfigurationResponseDTO
+        name: deleteCarrierTrackingConfigurationsResponseDTO
+    CESShipmentEventResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        shipmentReference:
+          $ref: '#/components/schemas/CESShipmentReferenceDTO'
+        referenceNumber1:
+          type: string
+          description: Reference number that assigns the shipment to a process in another system.
+          example: '704503458358845172150809'
+        trackingObjects:
+          type: array
+          description: Tracking objects associated with this shipment.
+          items:
+            $ref: '#/components/schemas/CESTrackingObjectResponseDTO'
+      description: DTO for the shipment containing tracking objects with its events.
+    CreateShipmentsResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        shipmentResponses:
+          type: array
+          description: The list of shipment references that were not created.
+          items:
+            $ref: '#/components/schemas/CreateShipmentsResponseItemDTO'
+      description: DTO for create shipments response
+      xml:
+        name: createShipmentsResponseDTO
+    GetAllConverterInformationRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+      description: Request dto to get every converter in the system
+      xml:
+        name: getAllConverterInformationRequestDTO
+    CESTrackingEventResponseDTO:
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          type: string
+          description: The standardized AEB ident code of the event. <p> length = 20 </p>
+          example: IOD
+        originalIdentCode:
+          maxLength: 20
+          type: string
+          description: The original ident code of the event provided by the carrier. <p> length = 20 </p>
+          example: L420
+        originalReason:
+          maxLength: 20
+          type: string
+          description: The original reason that the carrier has transmitted for the event. <p> length = 20 </p>
+          example: BZ
+        eventDate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        originalLocation:
+          $ref: '#/components/schemas/CESTrackingEventLocationResponseDTO'
+        additionalData:
+          type: array
+          description: Depending on the type of the event additional information  could be linked to the event.
+          items:
+            $ref: '#/components/schemas/CESTrackingEventAdditionalDataDTO'
+        eventText:
+          $ref: '#/components/schemas/CESEventTextDTO'
+      description: DTO for the real event data.
+    CESAdditionalReferenceDTO:
+      required:
+      - referenceNumber
+      type: object
+      properties:
+        referenceNumber:
+          $ref: '#/components/schemas/CESReferenceNumberDTO'
+        trackingObjectReference:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: A reference to a CESTrackingObjectDTO in this shipment. This is the trackingNumber of the CESTrackingObjectDTO. If provided the reference number will also be linked to the tracking object. <p> length = 250 </p>
+          example: AB486 083 50
+      description: Represents an additional reference field within a shipment request.
+    CESConverterInformationDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: True, if there are any error messages. If an error has occured the messages contain more details about the errors.
+        hasWarnings:
+          type: boolean
+          description: True, if there are any warning messages.
+        messages:
+          type: array
+          description: Messages for the whole request, e.g. for errors or warnings.<br>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        identifier:
+          maxLength: 50
+          type: string
+          description: The identifier of the converter  <p>length=50</p>
+          example: DACHSER_DE_FIXEDLENGTH
+        mimetype:
+          type: string
+          description: The MIME type of the converter, e.g. 'EDIFACT', 'FIXEDLENGTH', 'JSON', 'XML'.
+          example: FIXEDLENGTH
+        charset:
+          type: string
+          description: The name of the charset used by the converter, e.g 'UTF-8'
+          example: UTF-8
+        descriptions:
+          type: array
+          description: Description of the converter for different languages
+          items:
+            $ref: '#/components/schemas/CESConverterDescriptionTranslationDTO'
+      description: DTO that identifies a converter
+    GetProvidedTrackingDataResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        providedTrackingData:
+          $ref: '#/components/schemas/CESProvidedTrackingDataResponseDTO'
+      description: Response DTO for a request for CESProvidedTrackingData.
+      xml:
+        name: getProvidedTrackingDataResponseDTO
+    CreateShipmentsRequestDTO:
+      required:
+      - shipments
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        shipments:
+          type: array
+          description: Shipments to be created
+          items:
+            $ref: '#/components/schemas/CESShipmentDTO'
+      description: DTO for createShipments requests
+      xml:
+        name: createShipmentsRequestDTO
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

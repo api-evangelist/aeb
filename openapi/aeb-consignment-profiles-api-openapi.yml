@@ -153,18 +153,6 @@ paths:
                 $ref: '#/components/schemas/ProblemDTO'
 components:
   schemas:
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
     ICGetTransitionsResponseDTO:
       type: object
       properties:
@@ -191,46 +179,52 @@ components:
           items:
             $ref: '#/components/schemas/ICConsignmentProfileTransitionDTO'
       description: Response data for transitions of consignment profiles
-    ICGetConsignmentProfilesResponseDTO:
+    ICConsignmentProfileTransitionDTO:
+      required:
+      - customsProcess
+      - profileCode
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
-          type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
-          items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        profiles:
-          type: array
-          description: List of consignment profiles.
-          items:
-            $ref: '#/components/schemas/ICConsignmentProfileDTO'
-      description: Response data for consignment profiles
-    ICCustomsProcessTypeDTO:
-      type: object
-      properties:
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Unqiue code of the consignment profile.
+          example: DEFAULT_PROFILE
         customsProcess:
-          maxLength: 35
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        validFrom:
           type: string
-          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
-          example: EXPORT_BROKER
-        countrySetupIdentCode:
-          maxLength: 2
+          description: Date from which the transition settings are valid.
+          format: date
+          example: '2024-03-15'
+        validTo:
           type: string
-          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
-          example: CN
-      description: DTO to hold the customs process type.
+          description: Date to which the transition settings are valid.
+          format: date
+          example: '2025-03-15'
+      description: Data of a transition within a consignment profile
+    ICConsignmentProfileDTO:
+      required:
+      - descriptions
+      - profileCode
+      type: object
+      properties:
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Unique code of the consignment profile
+          example: DEFAULT_PROFILE
+        descriptions:
+          type: array
+          description: List of textual descriptions in different languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        transitions:
+          type: array
+          description: List of transitions.
+          items:
+            $ref: '#/components/schemas/ICConsignmentProfileTransitionDTO'
+      description: Data of a certain consignment profile
     ResponseMessageDTO:
       type: object
       properties:
@@ -253,6 +247,53 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
+    ICCustomsProcessTypeDTO:
+      type: object
+      properties:
+        customsProcess:
+          maxLength: 35
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
+          example: EXPORT_BROKER
+        countrySetupIdentCode:
+          maxLength: 2
+          type: string
+          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
+          example: CN
+      description: DTO to hold the customs process type.
+    ErrorResponseMessageDTO:
+      type: object
+      properties:
+        messageIdentCode:
+          type: string
+          description: Code identifying the type of the error.
+          example: EMPTY_MANDATORY_FIELD
+        messageTexts:
+          type: array
+          description: Description of the error in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        field:
+          type: string
+          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
+          example: item[2].itemNumber
+        invalidValue:
+          type: string
+          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
+          example: 'null'
+      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     ProblemDTO:
       type: object
       properties:
@@ -285,73 +326,32 @@ components:
       description: The response DTO which indicates that a problem occurred when processing the request. See RFC 7807 for further specification details.
       externalDocs:
         url: https://tools.ietf.org/html/rfc7807
-    ICConsignmentProfileDTO:
-      required:
-      - descriptions
-      - profileCode
+    ICGetConsignmentProfilesResponseDTO:
       type: object
       properties:
-        profileCode:
-          maxLength: 50
-          type: string
-          description: Unique code of the consignment profile
-          example: DEFAULT_PROFILE
-        descriptions:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
           type: array
-          description: List of textual descriptions in different languages.
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
           items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        transitions:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        profiles:
           type: array
-          description: List of transitions.
+          description: List of consignment profiles.
           items:
-            $ref: '#/components/schemas/ICConsignmentProfileTransitionDTO'
-      description: Data of a certain consignment profile
-    ICConsignmentProfileTransitionDTO:
-      required:
-      - customsProcess
-      - profileCode
-      type: object
-      properties:
-        profileCode:
-          maxLength: 50
-          type: string
-          description: Unqiue code of the consignment profile.
-          example: DEFAULT_PROFILE
-        customsProcess:
-          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
-        validFrom:
-          type: string
-          description: Date from which the transition settings are valid.
-          format: date
-          example: '2024-03-15'
-        validTo:
-          type: string
-          description: Date to which the transition settings are valid.
-          format: date
-          example: '2025-03-15'
-      description: Data of a transition within a consignment profile
-    ErrorResponseMessageDTO:
-      type: object
-      properties:
-        messageIdentCode:
-          type: string
-          description: Code identifying the type of the error.
-          example: EMPTY_MANDATORY_FIELD
-        messageTexts:
-          type: array
-          description: Description of the error in the requested languages.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        field:
-          type: string
-          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
-          example: item[2].itemNumber
-        invalidValue:
-          type: string
-          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
-          example: 'null'
-      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+            $ref: '#/components/schemas/ICConsignmentProfileDTO'
+      description: Response data for consignment profiles
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

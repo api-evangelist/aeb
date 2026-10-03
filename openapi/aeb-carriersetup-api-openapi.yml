@@ -1585,16 +1585,138 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ValueAddedServicePage:
+    ServiceSetupPage:
       required:
       - content
       type: object
       properties:
         content:
           type: array
-          description: List of value added service setups.
+          description: List of service setups.
           items:
-            $ref: '#/components/schemas/ValueAddedService'
+            $ref: '#/components/schemas/ServiceSetup'
+    CarrierSetup:
+      required:
+      - identCode
+      - name
+      - type
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier setup is logically deleted. <br> Disabling a carrier setup means that it cannot be linked to new shipments any more. <br>Disabled carrier setups are considered in both PUT and DELETE /carrier-setups API methods.
+          example: false
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the carrier setup
+          readOnly: true
+          example: DHL Paket international
+        type:
+          type: string
+          description: The type of the carrier setup
+          readOnly: true
+          example: STANDARD
+          enum:
+          - STANDARD
+          - PROJECT
+          - CLIENT
+      description: The most important information of the carrier setup.
+    AdditionalValueSetupPage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of additional value setups.
+          items:
+            $ref: '#/components/schemas/AdditionalValuesSetup'
+    AdditionalValuesSetup:
+      required:
+      - identCode
+      - type
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        type:
+          type: string
+          description: The type of the additional value
+          enum:
+          - DEFINITION_BASED
+          - SETUP_SPECIFIC
+        attributes:
+          $ref: '#/components/schemas/AdditionalValueSetupAttributes'
+      description: Information about an additional value setup.
+    AdditionalValueTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the additional value.
+          example: UPS Express
+      description: Name of the additional value in a certain language.
+    CarrierInfoTextSetup:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier info text is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the carrier info text is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: List of carrier info text setups.
+    AebProblemError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code identifying the type of the error.
+          example: INVALID_VALUE
+        message:
+          type: string
+          description: Description of the error.
+          example: Item number invalid
+        field:
+          type: string
+          description: JSON pointer to a data field that contains the erroneous value.
+          example: items/2/itemNumber
+        value:
+          type: string
+          description: Textual representation of the erroneous value.
+          example: 7411A
+      description: Array of related errors
     CarrierSetupStatus:
       required:
       - status
@@ -1608,6 +1730,47 @@ components:
           - COMPLETE
           - INCOMPLETE
       description: The status of a carrier setup.
+    AdditionalValueSetupAttributes:
+      required:
+      - businessObject
+      - choiceList
+      - dataType
+      - translations
+      type: object
+      properties:
+        dataType:
+          type: string
+          description: The data type of the additional value
+          enum:
+          - BOOLEAN
+          - CHOICE
+          - CURRENCY
+          - DATE
+          - DATETIME
+          - DECIMAL2
+          - DECIMAL3
+          - PACKAGE_TYPE
+          - STRING
+          - TIME
+        businessObject:
+          type: string
+          description: The business object, which the additional value refers to
+          enum:
+          - HAZITEM
+          - ITEM
+          - PACKAGE
+          - SHIPMENT
+        translations:
+          type: array
+          description: The name of the additional value in multiple languages.
+          items:
+            $ref: '#/components/schemas/AdditionalValueTextTranslation'
+        choiceList:
+          type: array
+          description: List of choices for the Datatype 'choice'
+          items:
+            $ref: '#/components/schemas/AdditionalValueChoiceEntry'
+      description: Information about the additional value setup.
     AebProblem:
       type: object
       properties:
@@ -1652,7 +1815,47 @@ components:
           description: Array of related errors
           items:
             $ref: '#/components/schemas/AebProblemError'
-    AdditionalValueTextTranslation:
+    ValueAddedServicePage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of value added service setups.
+          items:
+            $ref: '#/components/schemas/ValueAddedService'
+    CarrierInfoTextSetupPage:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of carrier info text setups.
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextSetup'
+    ServiceSetup:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        isEnabled:
+          type: boolean
+          description: If false, the carrier service is inactive and not available for new shipments.
+          example: true
+        isDeprecated:
+          type: boolean
+          description: If true, the carrier service is deprecated an should not be used anymore for new shipments.
+          readOnly: true
+          example: true
+      description: List of service setups.
+    ChoiceEntryTextTranslation:
       required:
       - language
       type: object
@@ -1665,63 +1868,28 @@ components:
           description: 2-letter ISO code of the language.
           example: DE
         name:
-          maxLength: 50
+          maxLength: 40
           minLength: 0
           type: string
-          description: The name of the additional value.
+          description: The name of the choice entry
           example: UPS Express
-      description: Name of the additional value in a certain language.
-    AdditionalValueSetupPage:
+      description: Name of the choice entry in a certain language.
+    CarrierSetupPage:
       required:
       - content
+      - totalElements
       type: object
       properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
         content:
           type: array
-          description: List of additional value setups.
+          description: List of carrier setups.
           items:
-            $ref: '#/components/schemas/AdditionalValuesSetup'
-    AdditionalValueSetupAttributes:
-      required:
-      - businessObject
-      - choiceList
-      - dataType
-      - translations
-      type: object
-      properties:
-        dataType:
-          type: string
-          description: The data type of the additional value
-          enum:
-          - BOOLEAN
-          - CHOICE
-          - CURRENCY
-          - DATE
-          - DATETIME
-          - DECIMAL2
-          - DECIMAL3
-          - PACKAGE_TYPE
-          - STRING
-          - TIME
-        businessObject:
-          type: string
-          description: The business object, which the additional value refers to
-          enum:
-          - HAZITEM
-          - ITEM
-          - PACKAGE
-          - SHIPMENT
-        translations:
-          type: array
-          description: The name of the additional value in multiple languages.
-          items:
-            $ref: '#/components/schemas/AdditionalValueTextTranslation'
-        choiceList:
-          type: array
-          description: List of choices for the Datatype 'choice'
-          items:
-            $ref: '#/components/schemas/AdditionalValueChoiceEntry'
-      description: Information about the additional value setup.
+            $ref: '#/components/schemas/CarrierSetup'
     AdditionalValueChoiceEntry:
       required:
       - identCode
@@ -1744,39 +1912,6 @@ components:
           items:
             $ref: '#/components/schemas/ChoiceEntryTextTranslation'
       description: Additional information about the choice entry of an additional value.
-    CarrierSetup:
-      required:
-      - identCode
-      - name
-      - type
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the carrier setup is logically deleted. <br> Disabling a carrier setup means that it cannot be linked to new shipments any more. <br>Disabled carrier setups are considered in both PUT and DELETE /carrier-setups API methods.
-          example: false
-        name:
-          maxLength: 50
-          minLength: 0
-          type: string
-          description: The name of the carrier setup
-          readOnly: true
-          example: DHL Paket international
-        type:
-          type: string
-          description: The type of the carrier setup
-          readOnly: true
-          example: STANDARD
-          enum:
-          - STANDARD
-          - PROJECT
-          - CLIENT
-      description: The most important information of the carrier setup.
     ValueAddedService:
       required:
       - identCode
@@ -1797,141 +1932,6 @@ components:
           readOnly: true
           example: true
       description: Information about the value added service setup.
-    ChoiceEntryTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        name:
-          maxLength: 40
-          minLength: 0
-          type: string
-          description: The name of the choice entry
-          example: UPS Express
-      description: Name of the choice entry in a certain language.
-    AdditionalValuesSetup:
-      required:
-      - identCode
-      - type
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        type:
-          type: string
-          description: The type of the additional value
-          enum:
-          - DEFINITION_BASED
-          - SETUP_SPECIFIC
-        attributes:
-          $ref: '#/components/schemas/AdditionalValueSetupAttributes'
-      description: Information about an additional value setup.
-    ServiceSetup:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the carrier service is inactive and not available for new shipments.
-          example: true
-        isDeprecated:
-          type: boolean
-          description: If true, the carrier service is deprecated an should not be used anymore for new shipments.
-          readOnly: true
-          example: true
-      description: List of service setups.
-    CarrierInfoTextSetupPage:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          description: List of carrier info text setups.
-          items:
-            $ref: '#/components/schemas/CarrierInfoTextSetup'
-    CarrierSetupPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of carrier setups.
-          items:
-            $ref: '#/components/schemas/CarrierSetup'
-    ServiceSetupPage:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          description: List of service setups.
-          items:
-            $ref: '#/components/schemas/ServiceSetup'
-    AebProblemError:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Code identifying the type of the error.
-          example: INVALID_VALUE
-        message:
-          type: string
-          description: Description of the error.
-          example: Item number invalid
-        field:
-          type: string
-          description: JSON pointer to a data field that contains the erroneous value.
-          example: items/2/itemNumber
-        value:
-          type: string
-          description: Textual representation of the erroneous value.
-          example: 7411A
-      description: Array of related errors
-    CarrierInfoTextSetup:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        isEnabled:
-          type: boolean
-          description: If false, the carrier info text is inactive and not available for new shipments.
-          example: true
-        isDeprecated:
-          type: boolean
-          description: If true, the carrier info text is deprecated an should not be used anymore for new shipments.
-          readOnly: true
-          example: true
-      description: List of carrier info text setups.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

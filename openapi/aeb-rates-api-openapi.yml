@@ -41,44 +41,77 @@ paths:
       - BASIC_AUTH: []
 components:
   schemas:
-    TextInLanguageDTO:
+    BUpdateRateSheetEntriesRequestDTO:
+      required:
+      - entries
+      - rateSheetIdentCode
       type: object
       properties:
-        languageISOCode:
+        clientSystemId:
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
           type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    BUpdateRateSheetEntriesResponseDTO:
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
+          type: array
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
+          items:
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        rateSheetIdentCode:
+          type: string
+          description: Ident code of the rate sheet that should be updated.
+        cancelOnDuplicate:
+          type: boolean
+          description: Switch if request is cancelled on duplicates. On true will cancel the request on warnings and return an error. On false will continue the request and return duplicates entries with a warning.
+        entries:
+          type: array
+          description: Entries to be updated. Entries are uniquely identified by BRateSheetEntryUpdateDTO#id. This field can be omitted; in this case neither update nor delete will be possible for the entry. If the ID is filled and a corresponding entry already exists it will be either replaced with the passed content or deleted if BRateSheetEntryUpdateDTO#delete is set. Otherwise a new entry will be created (or the entry will be ignored if BRateSheetEntryUpdateDTO#delete is set). Creation will fail if an entry with identical key values already exists. In this case an error will be returned and no entries will be updated. The number of entries is limited to 10,000 items.
+          items:
+            $ref: '#/components/schemas/BRateSheetEntryUpdateDTO'
+      description: Request parameter for RateBFBean/updateRateSheetEntries
+    BRateSheetEntryUpdateDTO:
+      required:
+      - fields
+      - id
+      - validFrom
+      - validTo
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
+        id:
+          maxLength: 32
+          type: string
+          description: (External) ID to identify the entry (for delete or update). This field can be omitted; note that in this case the entry can not be deleted or updated via this API.
+          example: '7411'
+        validFrom:
+          type: string
+          description: Date from which the entry is valid. Formatted as ISO-8601 compliant text.
+          example: '2011-12-03T10:15:30+01:00'
+        validTo:
+          type: string
+          description: Date up to which the entry is valid. Formatted as ISO-8601 compliant text.
+          example: '2011-12-03T10:15:30+01:00'
+        fields:
           type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          description: Fields of the entry.
           items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        omittedEntries:
-          type: array
-          description: Entries that were obmited because of duplication
-          items:
-            $ref: '#/components/schemas/BUpdateRateSheetOmittedEntryResponseDTO'
-      description: Response for RateBFBean/updateRateSheetEntries
+            $ref: '#/components/schemas/BRateSheetEntryFieldDTO'
+        delete:
+          type: boolean
+          description: 'If true, the rate sheet entry with the given #id will be deleted (if it exists). If set, #id must be filled. All other values can be omitted.'
+          default: false
+      description: Update data for a rate sheet entry.
     ResponseMessageDTO:
       type: object
       properties:
@@ -132,6 +165,44 @@ components:
           description: 'Code to identify the error type. Possibile Values: "DUPLICATE_DATA_ERROR", "LOCK_ERROR".'
           example: DUPLICATE_DATA_ERROR
       description: Entries that were obmited because of duplication
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    BUpdateRateSheetEntriesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        omittedEntries:
+          type: array
+          description: Entries that were obmited because of duplication
+          items:
+            $ref: '#/components/schemas/BUpdateRateSheetOmittedEntryResponseDTO'
+      description: Response for RateBFBean/updateRateSheetEntries
     BRateSheetEntryFieldDTO:
       required:
       - name
@@ -146,77 +217,6 @@ components:
           description: Value of the field. If this field contains a decimal value it must be formatted with a point as decimal separator and without any other dividers.
           example: '1234.56'
       description: Field of a rate sheet entry.
-    BRateSheetEntryUpdateDTO:
-      required:
-      - fields
-      - id
-      - validFrom
-      - validTo
-      type: object
-      properties:
-        id:
-          maxLength: 32
-          type: string
-          description: (External) ID to identify the entry (for delete or update). This field can be omitted; note that in this case the entry can not be deleted or updated via this API.
-          example: '7411'
-        validFrom:
-          type: string
-          description: Date from which the entry is valid. Formatted as ISO-8601 compliant text.
-          example: '2011-12-03T10:15:30+01:00'
-        validTo:
-          type: string
-          description: Date up to which the entry is valid. Formatted as ISO-8601 compliant text.
-          example: '2011-12-03T10:15:30+01:00'
-        fields:
-          type: array
-          description: Fields of the entry.
-          items:
-            $ref: '#/components/schemas/BRateSheetEntryFieldDTO'
-        delete:
-          type: boolean
-          description: 'If true, the rate sheet entry with the given #id will be deleted (if it exists). If set, #id must be filled. All other values can be omitted.'
-          default: false
-      description: Update data for a rate sheet entry.
-    BUpdateRateSheetEntriesRequestDTO:
-      required:
-      - entries
-      - rateSheetIdentCode
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        rateSheetIdentCode:
-          type: string
-          description: Ident code of the rate sheet that should be updated.
-        cancelOnDuplicate:
-          type: boolean
-          description: Switch if request is cancelled on duplicates. On true will cancel the request on warnings and return an error. On false will continue the request and return duplicates entries with a warning.
-        entries:
-          type: array
-          description: Entries to be updated. Entries are uniquely identified by BRateSheetEntryUpdateDTO#id. This field can be omitted; in this case neither update nor delete will be possible for the entry. If the ID is filled and a corresponding entry already exists it will be either replaced with the passed content or deleted if BRateSheetEntryUpdateDTO#delete is set. Otherwise a new entry will be created (or the entry will be ignored if BRateSheetEntryUpdateDTO#delete is set). Creation will fail if an entry with identical key values already exists. In this case an error will be returned and no entries will be updated. The number of entries is limited to 10,000 items.
-          items:
-            $ref: '#/components/schemas/BRateSheetEntryUpdateDTO'
-      description: Request parameter for RateBFBean/updateRateSheetEntries
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

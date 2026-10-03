@@ -44,18 +44,94 @@ paths:
                 $ref: '#/components/schemas/ProblemDTO'
 components:
   schemas:
-    TextInLanguageDTO:
+    ICDocumentExtractionDocumentDTO:
       type: object
       properties:
-        languageISOCode:
+        fileName:
+          maxLength: 250
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
+          description: Name of the document file.
+          example: Invoice-0815.pdf
+        mediaType:
+          maxLength: 50
           type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
+          description: Media type of the document.
+          example: application/pdf
+      description: A document belonging to a document extraction, without content.
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    ErrorResponseMessageDTO:
+      type: object
+      properties:
+        messageIdentCode:
+          type: string
+          description: Code identifying the type of the error.
+          example: EMPTY_MANDATORY_FIELD
+        messageTexts:
+          type: array
+          description: Description of the error in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        field:
+          type: string
+          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
+          example: item[2].itemNumber
+        invalidValue:
+          type: string
+          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
+          example: 'null'
+      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+    ICDocumentExtractionCreationDTO:
+      required:
+      - commercialReference
+      - foreignId
+      - profileCode
+      type: object
+      properties:
+        foreignId:
+          maxLength: 255
+          type: string
+          description: Foreign ID provided by the client to link the document extraction to an external entity.
+          example: ID0815
+        organizationUnit:
+          maxLength: 255
+          type: string
+          description: Additional criteria to separate different organizational units.
+        commercialReference:
+          maxLength: 70
+          type: string
+          description: Commercial reference provided by the client.
+          example: REF123
+        profileCode:
+          maxLength: 50
+          type: string
+          description: Profile code to determine the processing rules for the document extraction.
+          example: STD
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDocumentExtractionDocumentWithContentDTO'
+      description: The payload for creating a new document extraction.
     ICCreateDocumentExtractionResponseDTO:
       type: object
       properties:
@@ -81,65 +157,48 @@ components:
           items:
             $ref: '#/components/schemas/ICDocumentExtractionDTO'
       description: The response data of creating a new document extractions.
-    ResponseMessageDTO:
+    TextInLanguageDTO:
       type: object
       properties:
-        messageType:
+        languageISOCode:
           type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
           type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    ICCreateDocumentExtractionRequestDTO:
+      type: object
+      properties:
+        clientSystemId:
+          type: string
+          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
+          example: TEST_ID
+        clientIdentCode:
+          type: string
+          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
+          example: APITEST
+        userName:
+          type: string
+          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
+          example: API_TEST
+        resultLanguageIsoCodes:
           type: array
-          description: <p>Detailed message texts in the requested languages.</p>
+          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+          example:
+          - en
+          - de
           items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
-    ICDocumentExtractionDocumentWithContentDTO:
-      required:
-      - content
-      - fileName
-      - mediaType
-      type: object
-      properties:
-        fileName:
-          maxLength: 250
-          type: string
-          description: Name of the document file.
-          example: Invoice-0815.pdf
-        mediaType:
-          maxLength: 50
-          type: string
-          description: Media type of the document.
-          example: application/pdf
-        content:
-          type: string
-          description: Base64-encoded content of the document.
-          format: byte
-          example: SlZCRVJpMHhMalFLSmNmc2o2SUtOU0F3SUc=
-      description: A document including its Base64-encoded content.
-    ICDocumentExtractionDocumentDTO:
-      type: object
-      properties:
-        fileName:
-          maxLength: 250
-          type: string
-          description: Name of the document file.
-          example: Invoice-0815.pdf
-        mediaType:
-          maxLength: 50
-          type: string
-          description: Media type of the document.
-          example: application/pdf
-      description: A document belonging to a document extraction, without content.
+            type: string
+            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
+            example: '["en","de"]'
+        documentExtractions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICDocumentExtractionCreationDTO'
+      description: Request data for creating document extractions.
     ProblemDTO:
       type: object
       properties:
@@ -172,36 +231,6 @@ components:
       description: The response DTO which indicates that a problem occurred when processing the request. See RFC 7807 for further specification details.
       externalDocs:
         url: https://tools.ietf.org/html/rfc7807
-    ICCreateDocumentExtractionRequestDTO:
-      type: object
-      properties:
-        clientSystemId:
-          type: string
-          description: '<p>Id of the sending client system.</p><p>e.g. Installation ID of the sending host or ERP system.</p><p>Maximum length: 20</p>'
-          example: TEST_ID
-        clientIdentCode:
-          type: string
-          description: '<p>Client identification code.</p><p>Maximum length: 10</p>'
-          example: APITEST
-        userName:
-          type: string
-          description: <p>User who initiated the request from the client system.</p><p>If the user is found either in the system's user management or in a connected LDAP directory, the request runs under this user's roles.</p><p>If the user is not found, the request is only granted the basic 'I_EVERYONE' role. The user name may be used for logging purposes in this case.</p><p>Actual authentication is handled separately via the request's headers, so no password is required in the request's data.</p>
-          example: API_TEST
-        resultLanguageIsoCodes:
-          type: array
-          description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-          example:
-          - en
-          - de
-          items:
-            type: string
-            description: <p>2-letter ISO codes of the languages in which texts will be returned.</p><p>English ('en') and German ('de') are typically supported by default. Other languages may be supported.</p><p>Translations will be looked up in the order of the provided language codes. If a translation is not available in one language, the next language is used instead.</p>
-            example: '["en","de"]'
-        documentExtractions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ICDocumentExtractionCreationDTO'
-      description: Request data for creating document extractions.
     ICDocumentExtractionDTO:
       type: object
       properties:
@@ -250,58 +279,29 @@ components:
           items:
             $ref: '#/components/schemas/ICDocumentExtractionDocumentDTO'
       description: A document extraction with its current processing state and associated documents.
-    ICDocumentExtractionCreationDTO:
+    ICDocumentExtractionDocumentWithContentDTO:
       required:
-      - commercialReference
-      - foreignId
-      - profileCode
+      - content
+      - fileName
+      - mediaType
       type: object
       properties:
-        foreignId:
-          maxLength: 255
+        fileName:
+          maxLength: 250
           type: string
-          description: Foreign ID provided by the client to link the document extraction to an external entity.
-          example: ID0815
-        organizationUnit:
-          maxLength: 255
-          type: string
-          description: Additional criteria to separate different organizational units.
-        commercialReference:
-          maxLength: 70
-          type: string
-          description: Commercial reference provided by the client.
-          example: REF123
-        profileCode:
+          description: Name of the document file.
+          example: Invoice-0815.pdf
+        mediaType:
           maxLength: 50
           type: string
-          description: Profile code to determine the processing rules for the document extraction.
-          example: STD
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/ICDocumentExtractionDocumentWithContentDTO'
-      description: The payload for creating a new document extraction.
-    ErrorResponseMessageDTO:
-      type: object
-      properties:
-        messageIdentCode:
+          description: Media type of the document.
+          example: application/pdf
+        content:
           type: string
-          description: Code identifying the type of the error.
-          example: EMPTY_MANDATORY_FIELD
-        messageTexts:
-          type: array
-          description: Description of the error in the requested languages.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        field:
-          type: string
-          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
-          example: item[2].itemNumber
-        invalidValue:
-          type: string
-          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
-          example: 'null'
-      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
+          description: Base64-encoded content of the document.
+          format: byte
+          example: SlZCRVJpMHhMalFLSmNmc2o2SUtOU0F3SUc=
+      description: A document including its Base64-encoded content.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey
