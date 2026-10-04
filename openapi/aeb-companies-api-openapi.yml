@@ -485,31 +485,6 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    CompanyRoleList:
-      required:
-      - roles
-      type: object
-      properties:
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompanyRole'
-    CompanyPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of companies.
-          items:
-            $ref: '#/components/schemas/Company'
     Company:
       required:
       - companyNumber
@@ -652,6 +627,31 @@ components:
           items:
             $ref: '#/components/schemas/CompanyRole'
       description: A complete address of a company.
+    CompanyRoleList:
+      required:
+      - roles
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyRole'
+    CompanyPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of companies.
+          items:
+            $ref: '#/components/schemas/Company'
     CompanyRole:
       required:
       - identCode

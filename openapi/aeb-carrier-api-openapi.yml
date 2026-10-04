@@ -995,64 +995,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CarrierValueAddedService:
-      required:
-      - identCode
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        translations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierValueAddedServiceTextTranslation'
-    CarrierInfoTextTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-    Carrier:
-      required:
-      - identCode
-      - isBillingAdapterSupported
-      - isCarrierValidationSupported
-      - name
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        name:
-          maxLength: 50
-          minLength: 0
-          type: string
-          description: The name of the carrier setup
-          example: DHL Paket international
-        isCarrierValidationSupported:
-          type: boolean
-          description: When false, validation through CCO is not supported
-          example: false
-        isBillingAdapterSupported:
-          type: boolean
-          description: If false, price calculation through LCM is not supported
-          example: false
     CarrierPage:
       required:
       - content
@@ -1068,80 +1010,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Carrier'
-    CarrierInfoTextList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierInfoText'
-    CarrierServiceList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierService'
-    CarrierService:
-      required:
-      - identCode
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        translations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierServiceTextTranslation'
-    CarrierServiceTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        name:
-          maxLength: 250
-          minLength: 0
-          type: string
-    CarrierValueAddedServiceTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        name:
-          maxLength: 250
-          minLength: 0
-          type: string
-    CarrierValueAddedServiceList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierValueAddedService'
     AebProblem:
       type: object
       properties:
@@ -1186,21 +1054,6 @@ components:
           description: Array of related errors
           items:
             $ref: '#/components/schemas/AebProblemError'
-    CarrierInfoText:
-      required:
-      - identCode
-      - translations
-      type: object
-      properties:
-        identCode:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: The identCode of the MO.
-        translations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CarrierInfoTextTextTranslation'
     AebProblemError:
       type: object
       properties:
@@ -1221,6 +1074,153 @@ components:
           description: Textual representation of the erroneous value.
           example: 7411A
       description: Array of related errors
+    CarrierInfoTextList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierInfoText'
+    Carrier:
+      required:
+      - identCode
+      - isBillingAdapterSupported
+      - isCarrierValidationSupported
+      - name
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        name:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: The name of the carrier setup
+          example: DHL Paket international
+        isCarrierValidationSupported:
+          type: boolean
+          description: When false, validation through CCO is not supported
+          example: false
+        isBillingAdapterSupported:
+          type: boolean
+          description: If false, price calculation through LCM is not supported
+          example: false
+    CarrierService:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierServiceTextTranslation'
+    CarrierInfoTextTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+    CarrierInfoText:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierInfoTextTextTranslation'
+    CarrierServiceList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierService'
+    CarrierServiceTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 250
+          minLength: 0
+          type: string
+    CarrierValueAddedService:
+      required:
+      - identCode
+      - translations
+      type: object
+      properties:
+        identCode:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: The identCode of the MO.
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierValueAddedServiceTextTranslation'
+    CarrierValueAddedServiceTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        name:
+          maxLength: 250
+          minLength: 0
+          type: string
+    CarrierValueAddedServiceList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierValueAddedService'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

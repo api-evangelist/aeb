@@ -33,6 +33,28 @@ paths:
                 $ref: '#/components/schemas/ICSendConformUnloadingRemarksResponseDTO'
 components:
   schemas:
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
     ICSendConformUnloadingRemarksRequestDTO:
       required:
       - customsProcessType
@@ -75,42 +97,6 @@ components:
           type: string
           description: The consignment id of the ERP system of the client. Either the businessObjectId or the consignmentIdClientSystem must be filled.
       description: Body data containing references to transit arrivals for which conform messages shall be sent to customs.
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
-    ICCustomsProcessTypeDTO:
-      type: object
-      properties:
-        customsProcess:
-          maxLength: 35
-          type: string
-          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
-          example: EXPORT_BROKER
-        countrySetupIdentCode:
-          maxLength: 2
-          type: string
-          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
-          example: CN
-      description: DTO to hold the customs process type.
     TextInLanguageDTO:
       type: object
       properties:
@@ -144,6 +130,20 @@ components:
           items:
             $ref: '#/components/schemas/ResponseMessageDTO'
       description: Result data for the send-conform-message operation.
+    ICCustomsProcessTypeDTO:
+      type: object
+      properties:
+        customsProcess:
+          maxLength: 35
+          type: string
+          description: <p>Specific customs process. <ul><li>'EXPORT_BE' - Export process for Belgium</li> <li>'EXPORT_SE' - Export process for Sweden</li> <li>'EXPORT_NL' - Export process for Netherlands</li> <li>'TRANSIT_NL' - Transit process for Netherlands</li> <li>For full list see /InternationalCustomsBFBean/getCodes with codeListCode=CUSTOMS_PROCESS_TYPE.</li></ul></p>
+          example: EXPORT_BROKER
+        countrySetupIdentCode:
+          maxLength: 2
+          type: string
+          description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
+          example: CN
+      description: DTO to hold the customs process type.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -143,6 +143,22 @@ components:
           type: string
           description: The description of the terms of delivery.
       description: Description of the terms of delivery in a certain language.
+    DLClientTermsOfDeliveryListRestDTO:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of terms of deliveries.
+          items:
+            $ref: '#/components/schemas/DLClientTermsOfDeliveryRestDTO'
     DLClientTermsOfDeliveryRestDTO:
       required:
       - costType
@@ -188,22 +204,6 @@ components:
           items:
             $ref: '#/components/schemas/TermsOfDeliveryTextTranslation'
       description: List of terms of deliveries.
-    DLClientTermsOfDeliveryListRestDTO:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of terms of deliveries.
-          items:
-            $ref: '#/components/schemas/DLClientTermsOfDeliveryRestDTO'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

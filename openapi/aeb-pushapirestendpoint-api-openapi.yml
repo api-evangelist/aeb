@@ -82,6 +82,11 @@ paths:
       - BASIC_AUTH: []
 components:
   schemas:
+    PushApiRequestContentDTO:
+      type: object
+      properties:
+        contentBase64:
+          type: string
     PushApiRequestDTO:
       type: object
       properties:
@@ -90,11 +95,6 @@ components:
       description: DTO for sending data to the push api
       xml:
         name: pushApiRequestDTO
-    PushApiRequestContentDTO:
-      type: object
-      properties:
-        contentBase64:
-          type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

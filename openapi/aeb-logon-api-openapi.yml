@@ -69,17 +69,6 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    LogonArgument:
-      type: object
-      properties:
-        userName:
-          type: string
-        password:
-          type: string
-        clientName:
-          type: string
-        localeName:
-          type: string
     LogonResponse:
       type: object
       properties:
@@ -94,6 +83,17 @@ components:
           items:
             type: string
         error:
+          type: string
+    LogonArgument:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+        clientName:
+          type: string
+        localeName:
           type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:

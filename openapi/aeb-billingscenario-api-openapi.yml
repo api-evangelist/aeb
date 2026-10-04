@@ -123,16 +123,6 @@ components:
           type: string
           description: The description of the model object.
       description: Name of the billing scenario in a certain language.
-    BillingScenarioList:
-      required:
-      - content
-      type: object
-      properties:
-        content:
-          type: array
-          description: List of billing scenarios.
-          items:
-            $ref: '#/components/schemas/BillingScenario'
     BillingScenario:
       required:
       - identCode
@@ -153,6 +143,16 @@ components:
             $ref: '#/components/schemas/BillingScenarioTextTranslation'
       description: List of billing scenarios.
       readOnly: true
+    BillingScenarioList:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          description: List of billing scenarios.
+          items:
+            $ref: '#/components/schemas/BillingScenario'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

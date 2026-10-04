@@ -234,6 +234,13 @@ components:
         newestTime:
           type: string
           format: date-time
+    LauncherInfo:
+      type: object
+      properties:
+        version:
+          type: string
+        zoneName:
+          type: string
     DesktopAgentInfo:
       type: object
       properties:
@@ -271,6 +278,37 @@ components:
         lastNetworkActivityTime:
           type: string
           format: date-time
+    PerfMonitoringInfo:
+      type: object
+      properties:
+        createdToRegisteredDurationMs:
+          type: integer
+          format: int64
+        createdToFirstNetworkActivityDurationMs:
+          type: integer
+          format: int64
+        createdToLaunchRequestedDurationMs:
+          type: integer
+          format: int64
+    WorkstationSessionInfoDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - UNKNOWN
+          - LAUNCH_REQUEST
+          - LAUNCHING
+          - CONNECTED
+        info:
+          $ref: '#/components/schemas/DesktopAgentInfo'
+    SessionInfo:
+      type: object
+      properties:
+        userName:
+          type: string
     ProcessInfo:
       type: object
       properties:
@@ -286,44 +324,6 @@ components:
           type: string
         initError:
           type: string
-    LauncherInfo:
-      type: object
-      properties:
-        version:
-          type: string
-        zoneName:
-          type: string
-    PerfMonitoringInfo:
-      type: object
-      properties:
-        createdToRegisteredDurationMs:
-          type: integer
-          format: int64
-        createdToFirstNetworkActivityDurationMs:
-          type: integer
-          format: int64
-        createdToLaunchRequestedDurationMs:
-          type: integer
-          format: int64
-    SessionInfo:
-      type: object
-      properties:
-        userName:
-          type: string
-    WorkstationSessionInfoDTO:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - UNKNOWN
-          - LAUNCH_REQUEST
-          - LAUNCHING
-          - CONNECTED
-        info:
-          $ref: '#/components/schemas/DesktopAgentInfo'
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

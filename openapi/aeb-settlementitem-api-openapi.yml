@@ -180,6 +180,50 @@ paths:
                     error: No settlement with the ID '0001' found.
 components:
   schemas:
+    VATInfoRestDTO:
+      required:
+      - ratePercent
+      - scenarioIdentCode
+      - typeIdentCode
+      - vatDate
+      type: object
+      properties:
+        scenarioIdentCode:
+          type: string
+          description: Scenario ID
+        typeIdentCode:
+          type: string
+          description: VAT Type ID
+        ratePercent:
+          type: number
+          description: VAT rate in %.
+        vatDate:
+          type: string
+          description: VAT date
+          format: date-time
+      description: VAT info including rate and type.
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
+    SettlementTypeRestDTO:
+      required:
+      - identCode
+      - scenarioIdentCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The SettlementType Ident Code.
+        scenarioIdentCode:
+          type: string
+          description: The Scenario Ident Code.
+      description: Settlement type (workflow classification).
     SettlementItem:
       required:
       - beneficiary
@@ -396,16 +440,6 @@ components:
           - WEEK
           - YEAR
       description: Period covered by this settlement item.
-    BAmountOfMoneyDTO:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The value of the amount of money. <p>length=15, scale=2</p>
-        currencyIso:
-          type: string
-          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
-      description: An amount of money with a value and an currency ISO code.
     BQuantityDTO:
       type: object
       properties:
@@ -425,6 +459,47 @@ components:
           description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
           example: NAR
       description: Quantities for Billing.
+    BAmountOfMoneyDTO:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
+          type: string
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
+    BSettlementItemStatusRestDTO:
+      required:
+      - identCode
+      - statusID
+      type: object
+      properties:
+        statusID:
+          type: integer
+          description: The statusId
+          format: int32
+        identCode:
+          type: string
+          description: 'The status Ident Code. Possible Status Codes are: READY, COMPLETE, CANCELLED'
+          enum:
+          - READY
+          - COMPLETE
+          - CANCELLED
+      description: Business object status of the settlement item.
+    ComparisonCodeRestDTO:
+      required:
+      - code1
+      - code2
+      type: object
+      properties:
+        code1:
+          type: string
+          description: Comparison Code 1.
+        code2:
+          type: string
+          description: Comparison Code 2.
+      description: Comparison codes (used for audits / grouping).
     CurrencyRateRestDTO:
       type: object
       properties:
@@ -504,81 +579,6 @@ components:
           type: string
           description: The description of the model object.
       description: localized descriptions.
-    BSettlementItemStatusRestDTO:
-      required:
-      - identCode
-      - statusID
-      type: object
-      properties:
-        statusID:
-          type: integer
-          description: The statusId
-          format: int32
-        identCode:
-          type: string
-          description: 'The status Ident Code. Possible Status Codes are: READY, COMPLETE, CANCELLED'
-          enum:
-          - READY
-          - COMPLETE
-          - CANCELLED
-      description: Business object status of the settlement item.
-    BSettlementCompanyRestDTO:
-      required:
-      - companyNo
-      type: object
-      properties:
-        companyNo:
-          type: string
-          description: The Company Number.
-      description: Beneficiary company (VAT/context party).
-    VATInfoRestDTO:
-      required:
-      - ratePercent
-      - scenarioIdentCode
-      - typeIdentCode
-      - vatDate
-      type: object
-      properties:
-        scenarioIdentCode:
-          type: string
-          description: Scenario ID
-        typeIdentCode:
-          type: string
-          description: VAT Type ID
-        ratePercent:
-          type: number
-          description: VAT rate in %.
-        vatDate:
-          type: string
-          description: VAT date
-          format: date-time
-      description: VAT info including rate and type.
-    SettlementTypeRestDTO:
-      required:
-      - identCode
-      - scenarioIdentCode
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: The SettlementType Ident Code.
-        scenarioIdentCode:
-          type: string
-          description: The Scenario Ident Code.
-      description: Settlement type (workflow classification).
-    ComparisonCodeRestDTO:
-      required:
-      - code1
-      - code2
-      type: object
-      properties:
-        code1:
-          type: string
-          description: Comparison Code 1.
-        code2:
-          type: string
-          description: Comparison Code 2.
-      description: Comparison codes (used for audits / grouping).
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

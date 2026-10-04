@@ -44,20 +44,6 @@ paths:
                 $ref: '#/components/schemas/ProblemDTO'
 components:
   schemas:
-    ICDocumentExtractionDocumentDTO:
-      type: object
-      properties:
-        fileName:
-          maxLength: 250
-          type: string
-          description: Name of the document file.
-          example: Invoice-0815.pdf
-        mediaType:
-          maxLength: 50
-          type: string
-          description: Media type of the document.
-          example: application/pdf
-      description: A document belonging to a document extraction, without content.
     ResponseMessageDTO:
       type: object
       properties:
@@ -80,27 +66,6 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
-    ErrorResponseMessageDTO:
-      type: object
-      properties:
-        messageIdentCode:
-          type: string
-          description: Code identifying the type of the error.
-          example: EMPTY_MANDATORY_FIELD
-        messageTexts:
-          type: array
-          description: Description of the error in the requested languages.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        field:
-          type: string
-          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
-          example: item[2].itemNumber
-        invalidValue:
-          type: string
-          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
-          example: 'null'
-      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
     ICDocumentExtractionCreationDTO:
       required:
       - commercialReference
@@ -157,6 +122,29 @@ components:
           items:
             $ref: '#/components/schemas/ICDocumentExtractionDTO'
       description: The response data of creating a new document extractions.
+    ICDocumentExtractionDocumentWithContentDTO:
+      required:
+      - content
+      - fileName
+      - mediaType
+      type: object
+      properties:
+        fileName:
+          maxLength: 250
+          type: string
+          description: Name of the document file.
+          example: Invoice-0815.pdf
+        mediaType:
+          maxLength: 50
+          type: string
+          description: Media type of the document.
+          example: application/pdf
+        content:
+          type: string
+          description: Base64-encoded content of the document.
+          format: byte
+          example: SlZCRVJpMHhMalFLSmNmc2o2SUtOU0F3SUc=
+      description: A document including its Base64-encoded content.
     TextInLanguageDTO:
       type: object
       properties:
@@ -231,6 +219,20 @@ components:
       description: The response DTO which indicates that a problem occurred when processing the request. See RFC 7807 for further specification details.
       externalDocs:
         url: https://tools.ietf.org/html/rfc7807
+    ICDocumentExtractionDocumentDTO:
+      type: object
+      properties:
+        fileName:
+          maxLength: 250
+          type: string
+          description: Name of the document file.
+          example: Invoice-0815.pdf
+        mediaType:
+          maxLength: 50
+          type: string
+          description: Media type of the document.
+          example: application/pdf
+      description: A document belonging to a document extraction, without content.
     ICDocumentExtractionDTO:
       type: object
       properties:
@@ -279,29 +281,27 @@ components:
           items:
             $ref: '#/components/schemas/ICDocumentExtractionDocumentDTO'
       description: A document extraction with its current processing state and associated documents.
-    ICDocumentExtractionDocumentWithContentDTO:
-      required:
-      - content
-      - fileName
-      - mediaType
+    ErrorResponseMessageDTO:
       type: object
       properties:
-        fileName:
-          maxLength: 250
+        messageIdentCode:
           type: string
-          description: Name of the document file.
-          example: Invoice-0815.pdf
-        mediaType:
-          maxLength: 50
+          description: Code identifying the type of the error.
+          example: EMPTY_MANDATORY_FIELD
+        messageTexts:
+          type: array
+          description: Description of the error in the requested languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        field:
           type: string
-          description: Media type of the document.
-          example: application/pdf
-        content:
+          description: Pointer to the data field which contains the erroneous value. This field is only filled in case of field errors.
+          example: item[2].itemNumber
+        invalidValue:
           type: string
-          description: Base64-encoded content of the document.
-          format: byte
-          example: SlZCRVJpMHhMalFLSmNmc2o2SUtOU0F3SUc=
-      description: A document including its Base64-encoded content.
+          description: Textual representation of the erroneous value. This field is only filled in case of field errors.
+          example: 'null'
+      description: DTO for general errors messages or errors messages related to a contraint violation of a certain field.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

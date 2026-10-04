@@ -229,6 +229,64 @@ paths:
                     error: Invalid status 'Status'.
 components:
   schemas:
+    BSettlementStatusRestDTO:
+      required:
+      - identCode
+      - statusID
+      type: object
+      properties:
+        statusID:
+          type: integer
+          description: The statusId
+          format: int32
+        identCode:
+          type: string
+          description: 'The status Ident Code. Possible Status Codes are: READY, COMPILED, RELEASED, COMPLETE, CANCELLED'
+          enum:
+          - READY
+          - COMPILED
+          - RELEASED
+          - COMPLETE
+          - CANCELLED
+      description: Business object status (workflow / lifecycle state).
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
+    SettlementTypeRestDTO:
+      required:
+      - identCode
+      - scenarioIdentCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The SettlementType Ident Code.
+        scenarioIdentCode:
+          type: string
+          description: The Scenario Ident Code.
+      description: Settlement type (workflow classification).
+    SettlementPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of settlements.
+          items:
+            $ref: '#/components/schemas/BSettlementRestDTO'
     PeriodRestDTO:
       required:
       - end
@@ -258,16 +316,6 @@ components:
           - WEEK
           - YEAR
       description: Period covered by this settlement item.
-    BAmountOfMoneyDTO:
-      type: object
-      properties:
-        value:
-          type: number
-          description: The value of the amount of money. <p>length=15, scale=2</p>
-        currencyIso:
-          type: string
-          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
-      description: An amount of money with a value and an currency ISO code.
     BSettlementRestDTO:
       required:
       - billingScenarioIdentCode
@@ -398,64 +446,16 @@ components:
           type: string
           description: The PaymentTerm IdentCode.
       description: Settlement REST Data Transfer Object containing master data, status flags and monetary totals for a settlement.
-    BSettlementCompanyRestDTO:
-      required:
-      - companyNo
+    BAmountOfMoneyDTO:
       type: object
       properties:
-        companyNo:
+        value:
+          type: number
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
           type: string
-          description: The Company Number.
-      description: Beneficiary company (VAT/context party).
-    SettlementPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of settlements.
-          items:
-            $ref: '#/components/schemas/BSettlementRestDTO'
-    BSettlementStatusRestDTO:
-      required:
-      - identCode
-      - statusID
-      type: object
-      properties:
-        statusID:
-          type: integer
-          description: The statusId
-          format: int32
-        identCode:
-          type: string
-          description: 'The status Ident Code. Possible Status Codes are: READY, COMPILED, RELEASED, COMPLETE, CANCELLED'
-          enum:
-          - READY
-          - COMPILED
-          - RELEASED
-          - COMPLETE
-          - CANCELLED
-      description: Business object status (workflow / lifecycle state).
-    SettlementTypeRestDTO:
-      required:
-      - identCode
-      - scenarioIdentCode
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: The SettlementType Ident Code.
-        scenarioIdentCode:
-          type: string
-          description: The Scenario Ident Code.
-      description: Settlement type (workflow classification).
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

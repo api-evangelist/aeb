@@ -41,6 +41,54 @@ paths:
       - BASIC_AUTH: []
 components:
   schemas:
+    ResponseMessageDTO:
+      type: object
+      properties:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
+          type: array
+          description: <p>Detailed message texts in the requested languages.</p>
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    BUpdateRateSheetEntriesResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        omittedEntries:
+          type: array
+          description: Entries that were obmited because of duplication
+          items:
+            $ref: '#/components/schemas/BUpdateRateSheetOmittedEntryResponseDTO'
+      description: Response for RateBFBean/updateRateSheetEntries
     BUpdateRateSheetEntriesRequestDTO:
       required:
       - entries
@@ -81,59 +129,18 @@ components:
           items:
             $ref: '#/components/schemas/BRateSheetEntryUpdateDTO'
       description: Request parameter for RateBFBean/updateRateSheetEntries
-    BRateSheetEntryUpdateDTO:
-      required:
-      - fields
-      - id
-      - validFrom
-      - validTo
+    TextInLanguageDTO:
       type: object
       properties:
-        id:
-          maxLength: 32
+        languageISOCode:
           type: string
-          description: (External) ID to identify the entry (for delete or update). This field can be omitted; note that in this case the entry can not be deleted or updated via this API.
-          example: '7411'
-        validFrom:
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
           type: string
-          description: Date from which the entry is valid. Formatted as ISO-8601 compliant text.
-          example: '2011-12-03T10:15:30+01:00'
-        validTo:
-          type: string
-          description: Date up to which the entry is valid. Formatted as ISO-8601 compliant text.
-          example: '2011-12-03T10:15:30+01:00'
-        fields:
-          type: array
-          description: Fields of the entry.
-          items:
-            $ref: '#/components/schemas/BRateSheetEntryFieldDTO'
-        delete:
-          type: boolean
-          description: 'If true, the rate sheet entry with the given #id will be deleted (if it exists). If set, #id must be filled. All other values can be omitted.'
-          default: false
-      description: Update data for a rate sheet entry.
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     BUpdateRateSheetOmittedEntryResponseDTO:
       required:
       - fields
@@ -165,44 +172,37 @@ components:
           description: 'Code to identify the error type. Possibile Values: "DUPLICATE_DATA_ERROR", "LOCK_ERROR".'
           example: DUPLICATE_DATA_ERROR
       description: Entries that were obmited because of duplication
-    TextInLanguageDTO:
+    BRateSheetEntryUpdateDTO:
+      required:
+      - fields
+      - id
+      - validFrom
+      - validTo
       type: object
       properties:
-        languageISOCode:
+        id:
+          maxLength: 32
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
+          description: (External) ID to identify the entry (for delete or update). This field can be omitted; note that in this case the entry can not be deleted or updated via this API.
+          example: '7411'
+        validFrom:
           type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    BUpdateRateSheetEntriesResponseDTO:
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
+          description: Date from which the entry is valid. Formatted as ISO-8601 compliant text.
+          example: '2011-12-03T10:15:30+01:00'
+        validTo:
+          type: string
+          description: Date up to which the entry is valid. Formatted as ISO-8601 compliant text.
+          example: '2011-12-03T10:15:30+01:00'
+        fields:
           type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          description: Fields of the entry.
           items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        omittedEntries:
-          type: array
-          description: Entries that were obmited because of duplication
-          items:
-            $ref: '#/components/schemas/BUpdateRateSheetOmittedEntryResponseDTO'
-      description: Response for RateBFBean/updateRateSheetEntries
+            $ref: '#/components/schemas/BRateSheetEntryFieldDTO'
+        delete:
+          type: boolean
+          description: 'If true, the rate sheet entry with the given #id will be deleted (if it exists). If set, #id must be filled. All other values can be omitted.'
+          default: false
+      description: Update data for a rate sheet entry.
     BRateSheetEntryFieldDTO:
       required:
       - name

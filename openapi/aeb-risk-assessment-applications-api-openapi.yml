@@ -202,6 +202,120 @@ components:
           example: false
           default: false
       description: Passing the parameters to identify the questionnaire.<br>The fields <code>questTemplId</code>, <code>clientSystemId</code>, and <code>referenceIdHost</code> are mandatory.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    IntervalFromNowFilterDTO:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
+        duration:
+          type: integer
+          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
+          format: int32
+      description: Initializes the filter with a time interval relative to 'today'.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    AbsoluteIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
+        to:
+          type: string
+          description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
+      description: Initializes the filter with a fix interval between two dates.
+    QuestionnairesFilterParmsDTO:
+      type: object
+      properties:
+        partnerName:
+          maxLength: 20
+          type: string
+          description: Filter to find questionnaires with companies/persons of a specific name.
+          example: Company XY
+        partnerCountryIsoCode:
+          maxLength: 2
+          type: string
+          description: Filter to find questionnaires with companies/persons in a specific country. Country is given as two-letter ISO code.
+          example: DE
+        companyName:
+          maxLength: 20
+          type: string
+          description: Filter to find questionnaires of a specific company.
+          example: AEB SE
+        isCompleted:
+          type: boolean
+          description: Filter to find only completed or only incomplete questionnaires.
+          example: true
+        questionnaireId:
+          type: string
+          description: Filter to find questionnaires with a specific questionnaire ID.
+          example: 00000048
+        reference:
+          maxLength: 250
+          type: string
+          description: Filter to find questionnaires with a specific reference. The reference is searched for in these fields:<ul><li>Reference</li><li>Order/document number</li><li>Project name/number</li><li>internal reference key from the partner system</li></ul>
+          example: ref
+        organisationUnitHost:
+          type: string
+          description: Filter to find questionnaires of a specific organizational unit. Valid inputs are free text or an ident code of an organizational unit from master data.
+          example: OrgaUnit
+        userName:
+          maxLength: 254
+          type: string
+          description: Filter to find questionnaires from a specific user.
+          example: user1
+        questTypeIdentCode:
+          maxLength: 50
+          type: string
+          description: Filter to find questionnaires of a specific type.
+          example: CUSTOMER
+        resultStatusIdentCode:
+          maxLength: 50
+          type: string
+          description: Filter to find questionnaires with partial results of a specific result status (customer individual).
+          example: MILITARY
+        totalResultTypeIdentCode:
+          type: string
+          description: Filter to find questionnaires with a specific total result type.<br>The following result types are supported:<ul><li><code>OK</code></li><li><code>WARNING</code></li><li><code>STOP</code></li></ul>
+          example: OK
+        partnerRoleIdentCode:
+          maxLength: 50
+          type: string
+          description: Filter to find questionnaires with companies/persons of a specific role.
+          example: CONSIGNEE_STD
+        creationDate:
+          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
+      description: Passing the filters of the questionaires.
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -265,68 +379,14 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
-    QuestionnairesFilterParmsDTO:
+    DateTimeIntervalRangeFilterDTO:
       type: object
       properties:
-        partnerName:
-          maxLength: 20
-          type: string
-          description: Filter to find questionnaires with companies/persons of a specific name.
-          example: Company XY
-        partnerCountryIsoCode:
-          maxLength: 2
-          type: string
-          description: Filter to find questionnaires with companies/persons in a specific country. Country is given as two-letter ISO code.
-          example: DE
-        companyName:
-          maxLength: 20
-          type: string
-          description: Filter to find questionnaires of a specific company.
-          example: AEB SE
-        isCompleted:
-          type: boolean
-          description: Filter to find only completed or only incomplete questionnaires.
-          example: true
-        questionnaireId:
-          type: string
-          description: Filter to find questionnaires with a specific questionnaire ID.
-          example: 00000048
-        reference:
-          maxLength: 250
-          type: string
-          description: Filter to find questionnaires with a specific reference. The reference is searched for in these fields:<ul><li>Reference</li><li>Order/document number</li><li>Project name/number</li><li>internal reference key from the partner system</li></ul>
-          example: ref
-        organisationUnitHost:
-          type: string
-          description: Filter to find questionnaires of a specific organizational unit. Valid inputs are free text or an ident code of an organizational unit from master data.
-          example: OrgaUnit
-        userName:
-          maxLength: 254
-          type: string
-          description: Filter to find questionnaires from a specific user.
-          example: user1
-        questTypeIdentCode:
-          maxLength: 50
-          type: string
-          description: Filter to find questionnaires of a specific type.
-          example: CUSTOMER
-        resultStatusIdentCode:
-          maxLength: 50
-          type: string
-          description: Filter to find questionnaires with partial results of a specific result status (customer individual).
-          example: MILITARY
-        totalResultTypeIdentCode:
-          type: string
-          description: Filter to find questionnaires with a specific total result type.<br>The following result types are supported:<ul><li><code>OK</code></li><li><code>WARNING</code></li><li><code>STOP</code></li></ul>
-          example: OK
-        partnerRoleIdentCode:
-          maxLength: 50
-          type: string
-          description: Filter to find questionnaires with companies/persons of a specific role.
-          example: CONSIGNEE_STD
-        creationDate:
-          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
-      description: Passing the filters of the questionaires.
+        relativeInterval:
+          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
+        absoluteInterval:
+          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
+      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
     QuestionnaireRequestDTO:
       type: object
       properties:
@@ -335,37 +395,6 @@ components:
         questionnaireParms:
           $ref: '#/components/schemas/QuestionnaireParmsDTO'
       description: Request for the application open questionnaire.
-    IntervalFromNowFilterDTO:
-      type: object
-      properties:
-        unit:
-          type: string
-          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
-        duration:
-          type: integer
-          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
-          format: int32
-      description: Initializes the filter with a time interval relative to 'today'.
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
     ApplicationFacadeDTO:
       type: object
       properties:
@@ -385,43 +414,6 @@ components:
       description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
       xml:
         name: ApplicationFacade
-    AbsoluteIntervalFilterDTO:
-      type: object
-      properties:
-        from:
-          type: string
-          description: Start date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
-        to:
-          type: string
-          description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
-      description: Initializes the filter with a fix interval between two dates.
-    DateTimeIntervalRangeFilterDTO:
-      type: object
-      properties:
-        relativeInterval:
-          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
-        absoluteInterval:
-          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
-      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
-    RelativeIntervalFilterDTO:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-        to:
-          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
-      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
     SearchQuestionnairesRequestDTO:
       type: object
       properties:
@@ -430,6 +422,14 @@ components:
         filterParms:
           $ref: '#/components/schemas/QuestionnairesFilterParmsDTO'
       description: Request for the application search questionnaires.
+    RelativeIntervalFilterDTO:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+        to:
+          $ref: '#/components/schemas/IntervalFromNowFilterDTO'
+      description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

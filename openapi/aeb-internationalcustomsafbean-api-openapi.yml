@@ -90,14 +90,6 @@ paths:
                 $ref: '#/components/schemas/ApplicationFacadeDTO'
 components:
   schemas:
-    OpenConsignmentFolderArgumentDTO:
-      type: object
-      properties:
-        afParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        folderParms:
-          $ref: '#/components/schemas/ICConsignmentFolderParmsDTO'
-      description: Arguments to open a consignment folder.
     ICDeclarationAttachmentParmsDTO:
       type: object
       properties:
@@ -113,25 +105,14 @@ components:
           type: boolean
           description: When opening the attachment it is set automatically to printed.
       description: Identifies a declaration attachment to be opened.
-    ICDeclarationSearchParmsDTO:
-      type: object
-      properties:
-        customsProcess:
-          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
-        declarationDate:
-          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
-        filterName:
-          type: string
-          description: Name of the stored filter/view which belongs to the declaration search. Views can be edited and stored within the declaration service. Length=100
-      description: Parameters for a declaration search.
-    OpenDeclarationAttachmentArgumentDTO:
+    OpenDeclarationSearchArgumentDTO:
       type: object
       properties:
         afParms:
           $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        attachmentParms:
-          $ref: '#/components/schemas/ICDeclarationAttachmentParmsDTO'
-      description: Arguments to open an attachment.
+        searchParms:
+          $ref: '#/components/schemas/ICDeclarationSearchParmsDTO'
+      description: Arguments to open a declaration search.
     ICCustomsProcessTypeDTO:
       type: object
       properties:
@@ -146,6 +127,87 @@ components:
           description: <p>Country setup ident code for the customs process (Broker).</p><p>Only used in response DTOs (ICDeclarationDTO) </p>
           example: CN
       description: DTO to hold the customs process type.
+    OpenDeclarationFolderArgumentDTO:
+      type: object
+      properties:
+        afParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        folderParms:
+          $ref: '#/components/schemas/ICDeclarationFolderParmsDTO'
+      description: Arguments to open a declaration folder.
+    ICConsignmentFolderParmsDTO:
+      type: object
+      properties:
+        businessObjectId:
+          type: string
+          description: The unique business object id of the desired consignment. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=50 </p>
+        consignmentIdClientSystem:
+          type: string
+          description: The consignment id of the ERP system of the client. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=255 </p>
+      description: Identifies a consignment to be opened in a folder.
+    OpenDeclarationAttachmentArgumentDTO:
+      type: object
+      properties:
+        afParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        attachmentParms:
+          $ref: '#/components/schemas/ICDeclarationAttachmentParmsDTO'
+      description: Arguments to open an attachment.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+    ICDeclarationFolderParmsDTO:
+      type: object
+      properties:
+        customsProcess:
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        businessObjectId:
+          type: string
+          description: The unique business object id of the desired declaration.<p> length=50 </p>
+      description: Identifies a declaration to be opened in a folder.
+    ICDeclarationSearchParmsDTO:
+      type: object
+      properties:
+        customsProcess:
+          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
+        declarationDate:
+          $ref: '#/components/schemas/DateTimeIntervalRangeFilterDTO'
+        filterName:
+          type: string
+          description: Name of the stored filter/view which belongs to the declaration search. Views can be edited and stored within the declaration service. Length=100
+      description: Parameters for a declaration search.
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    IntervalFromNowFilterDTO:
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
+        duration:
+          type: integer
+          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
+          format: int32
+      description: Initializes the filter with a time interval relative to 'today'.
     ApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -209,38 +271,14 @@ components:
           type: boolean
           description: 'Optional field, which may be set if application should be opened to tray (default: <code>false</code>) - currently not available for vaadin, will be ignored'
       description: A data transfer object to be the parameter of the method IFoundationBF.getNewApplicationFacade()
-    AFExecuteProcessParmsDTO:
+    DateTimeIntervalRangeFilterDTO:
       type: object
       properties:
-        executableFile:
-          type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
-    OpenDeclarationSearchArgumentDTO:
-      type: object
-      properties:
-        afParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        searchParms:
-          $ref: '#/components/schemas/ICDeclarationSearchParmsDTO'
-      description: Arguments to open a declaration search.
-    IntervalFromNowFilterDTO:
-      type: object
-      properties:
-        unit:
-          type: string
-          description: Defines the unit for the interval from 'now'.<p>Possible values are 'DAYS', 'WDAYS', 'WEEKS', 'MONTHS' and 'YEARS'.<p>This is a mandatory attribute.
-        duration:
-          type: integer
-          description: Defines the duration for the interval from 'now'.<p>The duration can be negative for the past and positive for the future.<p>This is a mandatory attribute.
-          format: int32
-      description: Initializes the filter with a time interval relative to 'today'.
+        relativeInterval:
+          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
+        absoluteInterval:
+          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
+      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
     ApplicationFacadeDTO:
       type: object
       properties:
@@ -270,34 +308,14 @@ components:
           type: string
           description: End date of the interval in the format 'yyyy-MM-dd[ HH:mm:ss[z]]' (the time and zone is optional).<p>If no time zone is specified, the local zone of the server is used.<p>Use 'Z' for UTC/GMT or offsets like '+01', '-0600' or 'GMT+04:30'.
       description: Initializes the filter with a fix interval between two dates.
-    ICDeclarationFolderParmsDTO:
+    OpenConsignmentFolderArgumentDTO:
       type: object
       properties:
-        customsProcess:
-          $ref: '#/components/schemas/ICCustomsProcessTypeDTO'
-        businessObjectId:
-          type: string
-          description: The unique business object id of the desired declaration.<p> length=50 </p>
-      description: Identifies a declaration to be opened in a folder.
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    DateTimeIntervalRangeFilterDTO:
-      type: object
-      properties:
-        relativeInterval:
-          $ref: '#/components/schemas/RelativeIntervalFilterDTO'
-        absoluteInterval:
-          $ref: '#/components/schemas/AbsoluteIntervalFilterDTO'
-      description: 'Represents a possibility to pass a date time interval range filter. Use one of the given attributes to pass the filter. If more than one attribute is filledthe attributes will be used in the following order: relativeInterval, absoluteInterval'
+        afParms:
+          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
+        folderParms:
+          $ref: '#/components/schemas/ICConsignmentFolderParmsDTO'
+      description: Arguments to open a consignment folder.
     RelativeIntervalFilterDTO:
       type: object
       properties:
@@ -306,24 +324,6 @@ components:
         to:
           $ref: '#/components/schemas/IntervalFromNowFilterDTO'
       description: Initializes the filter with a relative time range.<p>If only one attribute is filled, the interval is relative to 'today'.
-    OpenDeclarationFolderArgumentDTO:
-      type: object
-      properties:
-        afParms:
-          $ref: '#/components/schemas/ApplicationFacadeParmsDTO'
-        folderParms:
-          $ref: '#/components/schemas/ICDeclarationFolderParmsDTO'
-      description: Arguments to open a declaration folder.
-    ICConsignmentFolderParmsDTO:
-      type: object
-      properties:
-        businessObjectId:
-          type: string
-          description: The unique business object id of the desired consignment. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=50 </p>
-        consignmentIdClientSystem:
-          type: string
-          description: The consignment id of the ERP system of the client. BusinessObjectId or consignmentIdClientSystem must be filled.<p> length=255 </p>
-      description: Identifies a consignment to be opened in a folder.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

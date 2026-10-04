@@ -59,32 +59,65 @@ paths:
     - url: https://rz3.aeb.de/test2ici/rest
 components:
   schemas:
-    GenericApplicationFacadeInfoDTO:
+    ResponseMessageDTO:
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
           type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          description: <p>Detailed message texts in the requested languages.</p>
           items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        applicationInfoDTOs:
-          type: array
-          description: A set of application info DTOs, each representing an available application with the allowed parameters.
-          items:
-            $ref: '#/components/schemas/ApplicationInfoDTO'
-      description: 'The result DTO for #getGenericApplicationFacadeInfo().'
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    GenericParameterDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the parameter.
+        value:
+          type:
+          - string
+          - 'null'
+          description: The value of the parameter.
+      description: A name-value pair representing a single parameter.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
+    AFExecuteProcessParmsDTO:
+      type: object
+      properties:
+        executableFile:
+          type: string
+          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
+        parameters:
+          type: string
+          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
+        workDir:
+          type: string
+          description: The current directory to be set for the process created as given in executable may be null
+      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
     GenericApplicationFacadeParmsDTO:
       type: object
       properties:
@@ -157,6 +190,43 @@ components:
           items:
             $ref: '#/components/schemas/GenericParameterDTO'
       description: A generic request for an application facade.
+    AFShellExecuteParmsDTO:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
+        contents:
+          type: string
+          description: This is the contents that has to be written to the file
+          format: byte
+      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
+    GenericApplicationFacadeInfoDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        applicationInfoDTOs:
+          type: array
+          description: A set of application info DTOs, each representing an available application with the allowed parameters.
+          items:
+            $ref: '#/components/schemas/ApplicationInfoDTO'
+      description: 'The result DTO for #getGenericApplicationFacadeInfo().'
     ApplicationInfoDTO:
       type: object
       properties:
@@ -169,41 +239,25 @@ components:
           items:
             $ref: '#/components/schemas/GenericParameterInfoDTO'
       description: Contains information about an application, that can be accessed via GenericAF#open
-    ResponseMessageDTO:
+    ApplicationFacadeDTO:
       type: object
       properties:
-        messageType:
+        sessionid:
           type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
+          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
+        httpUrl:
           type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
-    AFExecuteProcessParmsDTO:
-      type: object
-      properties:
-        executableFile:
+          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
+        urlCloseToken:
           type: string
-          description: The name of the executable (including path name,  or expected to be found within search path) This must not contain any parameters, and it must not be enclosed with quotes even if the string contains spaces.
-        parameters:
-          type: string
-          description: Parameters to the executable. may be null. most processes expect parameters separated by spaces, and honor enclosing quotes for a parameter if it contains spaces.
-        workDir:
-          type: string
-          description: The current directory to be set for the process created as given in executable may be null
-      description: 'Parameters of UI API invocation when this is to be done via create process: The client has to invoke the process as specified by the properties of this object.'
+          description: URL token to check on the remote system (for example SAP) if the browser was closed.
+        executeProcess:
+          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
+        shellExecute:
+          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
+      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
+      xml:
+        name: ApplicationFacade
     GenericParameterInfoDTO:
       type: object
       properties:
@@ -240,60 +294,6 @@ components:
           description: The maximal length of the sent value.
           format: int32
       description: Information about a specific parameter for an application.
-    GenericParameterDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the parameter.
-        value:
-          type:
-          - string
-          - 'null'
-          description: The value of the parameter.
-      description: A name-value pair representing a single parameter.
-    ApplicationFacadeDTO:
-      type: object
-      properties:
-        sessionid:
-          type: string
-          description: The session id of the UI API which may be used as a parameter to read results from the application facade. (Currently not supported.)
-        httpUrl:
-          type: string
-          description: Used when the UI API is to be opened in a browser an http:// or https:// URL which is a web side to display the UI API.
-        urlCloseToken:
-          type: string
-          description: URL token to check on the remote system (for example SAP) if the browser was closed.
-        executeProcess:
-          $ref: '#/components/schemas/AFExecuteProcessParmsDTO'
-        shellExecute:
-          $ref: '#/components/schemas/AFShellExecuteParmsDTO'
-      description: A data transfer object which describes an UI API. There are various techniques possible how to "open" the "application" on the client; typically only one of the fields is filled, but when more than one possibility is not null the client may choose the type most suitable. Supported types include <ul><li>HTTP</li> - use when field 'httpUrl' is not null. Open a browser and navigate to the url given. When urlCloseToken is given, you can monitor the browsers pages and when you find that it navigates to an url equal to urlCloseToken, the browser can be closed by the application. <li>Start executable</li> - use when field 'executeProcess' is not null. Create a process as defined in the field 'executable', with the current directory as workDir (if specified). <li>Shell execute</li> - use when field 'shellExecute' is not null. Create a file in a temporary directory with name equal to that given in 'fileName', and fill it with the bytes given in 'contents', and then invoke "ShellExecute" to let the shell open the application corresponding to the file type. </ul>
-      xml:
-        name: ApplicationFacade
-    AFShellExecuteParmsDTO:
-      type: object
-      properties:
-        fileName:
-          type: string
-          description: This is the name of the file that has to be created in some temporary directory and filled with what contents contains
-        contents:
-          type: string
-          description: This is the contents that has to be written to the file
-          format: byte
-      description: 'Parameters of application UI API when this is to be done via shellexecute: The client has to create a file with the given name in a temporary directory, the contents of the file is given in the variable ''contents''. Then "shellExecute" has to be invoked which assumes that the file type as given by filename is registered on client''s machine'
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey
