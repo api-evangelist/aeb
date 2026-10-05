@@ -1,0 +1,12 @@
+{
+ "url": "https://rz3.aeb.de/test2cim/rest/openapi_v3.json",
+ "requested_url": "https://rz3.aeb.de/test2cim/rest/openapi_v3.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 278719,
+ "sha256": "62b14fd65edcadcf105b108014030e8bf992aeb298f6e83ddbb0fca273f22e3b",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
