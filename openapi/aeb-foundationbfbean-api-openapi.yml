@@ -688,6 +688,210 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
+    CancelAnnounceStopResultDTO:
+      type: object
+      description: Contains the result information of the cancel announce stop bf
+    SendMailResultDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: true on success
+        errorMessage:
+          type: string
+          description: error-message, if an error occured
+      description: Contains the result of the sendMail method.
+    MessageDataDTO:
+      type: object
+      properties:
+        locale:
+          type: string
+          description: locale of user tip whose results are given here
+        uuid:
+          type: string
+          description: the uuid of the tip (only filled when no error) - should be stored if later tip should be updated
+        error:
+          type: string
+          description: error message, if any error occurred during processing
+      description: resulting user tip for one locale
+    StartScriptExecutionResultDTO:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: uuid assigned to the BF call
+        isFailed:
+          type: boolean
+          description: Returns true, if start script execution failed, e.g. generation of uuid failed
+        info:
+          type: string
+          description: information about the start
+      description: result of start script execution
+    ClientDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: the client ident code
+        name:
+          type: string
+          description: the name of the client
+        isDemo:
+          type: boolean
+          description: true if demo client
+        isActive:
+          type: boolean
+          description: true if active client
+        duplicationAllowed:
+          type: boolean
+          description: true if the client can be duplicated with BF call
+        debtorNumber:
+          type: string
+          description: the debtor number of the client
+      description: DTO representing an XNSG Client.
+    ScriptExecutionStateResultDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: this table represents the result of the script execution
+          items:
+            $ref: '#/components/schemas/ScriptExecutionRowDTO'
+        isBusy:
+          type: boolean
+          description: Returns true, if the script execution is running
+        isFailed:
+          type: boolean
+          description: Returns true, if the script execution failed
+        info:
+          type: string
+          description: information about the script execution
+      description: Contains the result information of the script execution bf
+    UploadFileResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+      description: Contains the result for a upload file request.
+    AnnounceStopParmDTO:
+      type: object
+      properties:
+        utcStopAtYYYYMMDDHHMMSS:
+          type: string
+          description: the server will stop at this date/time
+        expectedDowntimeMinutes:
+          type: integer
+          description: the server will be down for the period in minutes
+          format: int32
+        preventedLogonMinutes:
+          type: integer
+          description: The server will prevent new logons for this number of minutes before the date specified for the stop (see property utcStopAtYYYYMMDDHHMMSS).
+          format: int32
+      description: parameter necessary to announce a stop of the server
+    CreateClientRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: The identification code of the client
+        name:
+          type: string
+          description: The name of the client
+        debtorNumber:
+          type: string
+          description: The debtor number (Kundennummer) of a client
+      description: encapsulates the request parameters
+    AcknowledgeFileResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+      description: Contains the result for an acknowledge file request.
+    TableUpdateStateResultDTO:
+      type: object
+      properties:
+        percentage:
+          type: integer
+          description: How far has the table update went
+          format: int32
+        state:
+          type: string
+          description: Whats the state of the table update? Is it still running, or was it successful?
+        info:
+          type: string
+          description: The current task of the table update
+        isBusy:
+          type: boolean
+          description: Returns true, if the schema synchronisation is running
+        isFailed:
+          type: boolean
+          description: Returns true, if the schema synchronisation failed
+      description: Contains the result information of the get table update state bf
+    CancelAnnounceStopParmDTO:
+      type: object
+      description: parameter necessary to cancel an announced stop
+    GenerateClientIdentCodeRequestDTO:
+      type: object
+      properties:
+        clientIdentCode:
+          type: string
+          description: client ident code should be generated
+        debtorNumber:
+          type: string
+          description: debtor number
+      description: encapsulates the request parameters
+    RoleInfoDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: the role ident code
+        assignableByClientAdmin:
+          type: boolean
+          description: true if assignable by client
+        name:
+          type: string
+          description: the role name
+        description:
+          type: string
+          description: the role description
+        licenseRole:
+          type: boolean
+          description: true if license role
+        apiPredefined:
+          type: boolean
+          description: true if predefined
+        systemRole:
+          type: boolean
+          description: true if system role
+        clientIdentCode:
+          type: string
+          description: client ident code or null if general role
+        impliedRoles:
+          type: array
+          description: the implied roles
+          items:
+            type: string
+            description: the implied roles
+      description: dto for roles
+    CommandInfo:
+      type: object
+      properties:
+        commandClass:
+          type: string
+        commandName:
+          type: string
+    StartTableUpdateParmDTO:
+      type: object
+      description: parameter necessary for the table update
     LinkDTO:
       type: object
       properties:
@@ -702,55 +906,107 @@ components:
           description: position of the link
           format: int32
       description: links associated with the tip
-    SystemSearchParameterDTO:
+    UploadSettingsRequestDTO:
       type: object
       properties:
-        category:
+        channelID:
           type: string
-          description: category to which this parameter belongs to
-        parameterName:
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
           type: string
-          description: name of the query parameter - valid names are defined by the category
-        parameterValue:
-          type: string
-          description: value of the parameter
-      description: DTO used as argument to systemSearch function
-    UploadFileResponseDTO:
+          description: An identCode of the client. Controls data visibility.
+      description: retrieves the server settings for uploading files via SFT interface
+    TableUpdateStateParmDTO:
+      type: object
+      description: the parameter necessary to ask the server for the current state of the table update
+    ChangeAdminPasswordParmDTO:
       type: object
       properties:
-        errorCode:
+        oldPassword:
           type: string
-          description: A short error code.
-        errorMessage:
+          description: the old admin password
+        newPassword:
           type: string
-          description: A human-readable error message
-      description: Contains the result for a upload file request.
-    ScriptExecutionRowDTO:
+          description: the new admin password
+      description: This class contains the old and the new admin password
+    SendMailParmDTO:
       type: object
       properties:
-        columns:
+        receivers:
           type: array
-          description: columns of a row
+          description: receivers of the mail
           items:
             type: string
-            description: columns of a row
-        dummy:
+            description: receivers of the mail
+        replytos:
+          type: array
+          description: reply to addresses of the mail
+          items:
+            type: string
+            description: reply to addresses of the mail
+        ccs:
+          type: array
+          description: ccs of the mail
+          items:
+            type: string
+            description: ccs of the mail
+        bccs:
+          type: array
+          description: bccs of the mail
+          items:
+            type: string
+            description: bccs of the mail
+        subject:
           type: string
-          description: dummy
-      description: This dto contains the data of a single line in script result
-    MonitoringDataProviderDTO:
+          description: subject of the mail
+        content:
+          type: string
+          description: content of the mail
+        contentType:
+          type: string
+          description: content-type of the mail
+        mimeCharSet:
+          type: string
+          description: MIME-characterset of the mail
+        attachments:
+          type: array
+          description: Attachments of the mail
+          items:
+            $ref: '#/components/schemas/SendMailAttachmentParmDTO'
+      description: Parameter necessary for sending a mail
+    AnnounceStopResultDTO:
+      type: object
+      description: the result of the announce stop API
+    DataHandler:
       type: object
       properties:
-        groupName:
+        dataSource:
+          $ref: '#/components/schemas/DataSource'
+        commandMap:
+          $ref: '#/components/schemas/CommandMap'
+        preferredCommands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandInfo'
+        allCommands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandInfo'
+        transferDataFlavors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivationDataFlavor'
+        contentType:
           type: string
-          description: Name of the group.
+        outputStream:
+          type: object
+        inputStream:
+          type: object
+        content:
+          type: object
         name:
           type: string
-          description: Name of the entry.
-        value:
-          type: string
-          description: Value of the entry - this is a string representation.
-      description: Data Transfer Object for monitoring provider
+      description: The content of a file
     DownloadFileResponseDTO:
       type: object
       properties:
@@ -763,6 +1019,38 @@ components:
         downloadFile:
           $ref: '#/components/schemas/FileDTO'
       description: Contains the result for a download file request
+    UploadSettingsResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+        maxFileSize:
+          type: integer
+          description: maximum size of uploadable files
+          format: int64
+      description: retrieves the server settings for uploading files via SFT interface
+    ChangeAdminPasswordResultDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: false, if old password was wrong
+      description: Contains the result information of the change admin password bf
+    SimpleFileDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of a file
+        size:
+          type: integer
+          description: Size of a file
+          format: int64
+      description: Meta-data for a transfer file
     RuntimeInfoDTO:
       type: object
       properties:
@@ -820,26 +1108,55 @@ components:
             description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
           description: Runtime-Properties. These are valid cluster-wide and stored in the DB, replacing/supplementing properties in  product_configuration.properties.
       description: This class holds various runtime information items of the server which serves this request.
-    CreateClientRequestDTO:
+    ScriptExecutionRowDTO:
       type: object
       properties:
-        clientIdentCode:
+        columns:
+          type: array
+          description: columns of a row
+          items:
+            type: string
+            description: columns of a row
+        dummy:
           type: string
-          description: The identification code of the client
-        name:
-          type: string
-          description: The name of the client
-        debtorNumber:
-          type: string
-          description: The debtor number (Kundennummer) of a client
-      description: encapsulates the request parameters
-    ScriptExecutionStateParmDTO:
+          description: dummy
+      description: This dto contains the data of a single line in script result
+    MessageTextsDTO:
       type: object
       properties:
+        locale:
+          type: string
+          description: locale for the texts - must be a language supported by the system
         uuid:
           type: string
-          description: uuid assigned to the BF call
-      description: parameters necessary to ask the server for the current state of the script execution
+          description: uuid of user tip - should only be filled when updating existing tip
+        title:
+          type: string
+          description: title of the user tip
+        text:
+          type: string
+          description: text of the user tip
+        titlePopup:
+          type: string
+          description: title of the popup, when shown as popup
+        textPopup:
+          type: string
+          description: text of the popup, when shown as popup
+        links:
+          type: array
+          description: links associated with the tip
+          items:
+            $ref: '#/components/schemas/LinkDTO'
+      description: locale specific data of the user tip. key is the language iso code.This language must be defined, or tip is not created.
+    PublishMessageResponseDTO:
+      type: object
+      properties:
+        messageResultPerLocale:
+          type: array
+          description: the data per locale, as supplied in request
+          items:
+            $ref: '#/components/schemas/MessageDataDTO'
+      description: Contains ids of user tips that were created, or error messages
     AcknowledgeFileRequestDTO:
       type: object
       properties:
@@ -870,162 +1187,6 @@ components:
           type: string
           description: This is the name of the product that is deployed to this server in its original manner.
       description: This class holds various information items of the server which serves this request.
-    SendMailAttachmentParmDTO:
-      type: object
-      properties:
-        fileContent:
-          type: string
-          description: Content of the attachment file
-          format: byte
-        fileContentType:
-          type: string
-          description: Content-type of the attachment (e.g. "application/octet-stream")
-        fileName:
-          type: string
-          description: Name of the attachment file
-      description: Contains an attachment for an email.
-    CancelAnnounceStopParmDTO:
-      type: object
-      description: parameter necessary to cancel an announced stop
-    MessageTextsDTO:
-      type: object
-      properties:
-        locale:
-          type: string
-          description: locale for the texts - must be a language supported by the system
-        uuid:
-          type: string
-          description: uuid of user tip - should only be filled when updating existing tip
-        title:
-          type: string
-          description: title of the user tip
-        text:
-          type: string
-          description: text of the user tip
-        titlePopup:
-          type: string
-          description: title of the popup, when shown as popup
-        textPopup:
-          type: string
-          description: text of the popup, when shown as popup
-        links:
-          type: array
-          description: links associated with the tip
-          items:
-            $ref: '#/components/schemas/LinkDTO'
-      description: locale specific data of the user tip. key is the language iso code.This language must be defined, or tip is not created.
-    ChangeAdminPasswordResultDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: false, if old password was wrong
-      description: Contains the result information of the change admin password bf
-    VersionInfoDTO:
-      type: object
-      properties:
-        version:
-          type: string
-          description: The version string of the solution/product. This String is typically of the form "integer.integer.integer".
-        binaryVersion:
-          type: array
-          description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
-          items:
-            type: integer
-            description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
-            format: int32
-      description: This class holds version information about a solution or product in a server.
-    UploadFileMultiPartRequestDTO:
-      type: object
-      properties:
-        channelID:
-          type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
-          type: string
-          description: An identCode of the client. Controls data visibility.
-        name:
-          type: string
-          description: Name of a file
-        size:
-          type: integer
-          description: Size of a file
-          format: int64
-        parameters:
-          type: array
-          description: A list of generic parameters
-          items:
-            $ref: '#/components/schemas/TransferFileParameterDTO'
-        checksum:
-          type: string
-          description: MD5-hash of a file
-        creationTimeMillis:
-          type: integer
-          description: file attribute creationTime as FileTime millis
-          format: int64
-        lastModifiedTimeMillis:
-          type: integer
-          description: file attribute lastModifiedTime as FileTime millis
-          format: int64
-        lastAccessTimeMillis:
-          type: integer
-          description: file attribute lastAccessTime as FileTime millis
-          format: int64
-      description: Contains information on how a transmitted file should be processed
-    TableUpdateStateParmDTO:
-      type: object
-      description: the parameter necessary to ask the server for the current state of the table update
-    TransferFileParameterDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Key of the parameter
-        value:
-          type: string
-          description: Value of the parameter
-      description: A generic parameter for use-case specific information
-    ScriptExecutionStateResultDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: this table represents the result of the script execution
-          items:
-            $ref: '#/components/schemas/ScriptExecutionRowDTO'
-        isBusy:
-          type: boolean
-          description: Returns true, if the script execution is running
-        isFailed:
-          type: boolean
-          description: Returns true, if the script execution failed
-        info:
-          type: string
-          description: information about the script execution
-      description: Contains the result information of the script execution bf
-    StartScriptExecutionResultDTO:
-      type: object
-      properties:
-        uuid:
-          type: string
-          description: uuid assigned to the BF call
-        isFailed:
-          type: boolean
-          description: Returns true, if start script execution failed, e.g. generation of uuid failed
-        info:
-          type: string
-          description: information about the start
-      description: result of start script execution
-    ChangeAdminPasswordParmDTO:
-      type: object
-      properties:
-        oldPassword:
-          type: string
-          description: the old admin password
-        newPassword:
-          type: string
-          description: the new admin password
-      description: This class contains the old and the new admin password
     CreateClientResponseDTO:
       type: object
       properties:
@@ -1033,33 +1194,6 @@ components:
           type: string
           description: result status
       description: encapsulates the response parameters
-    MessageDataDTO:
-      type: object
-      properties:
-        locale:
-          type: string
-          description: locale of user tip whose results are given here
-        uuid:
-          type: string
-          description: the uuid of the tip (only filled when no error) - should be stored if later tip should be updated
-        error:
-          type: string
-          description: error message, if any error occurred during processing
-      description: resulting user tip for one locale
-    UploadSettingsResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-        maxFileSize:
-          type: integer
-          description: maximum size of uploadable files
-          format: int64
-      description: retrieves the server settings for uploading files via SFT interface
     DataSource:
       type: object
       properties:
@@ -1071,61 +1205,16 @@ components:
           type: object
         name:
           type: string
-    DataHandler:
+    TransferFileParameterDTO:
       type: object
       properties:
-        dataSource:
-          $ref: '#/components/schemas/DataSource'
-        commandMap:
-          $ref: '#/components/schemas/CommandMap'
-        preferredCommands:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommandInfo'
-        allCommands:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommandInfo'
-        transferDataFlavors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ActivationDataFlavor'
-        contentType:
+        key:
           type: string
-        outputStream:
-          type: object
-        inputStream:
-          type: object
-        content:
-          type: object
-        name:
+          description: Key of the parameter
+        value:
           type: string
-      description: The content of a file
-    DLFilesRefsRequestDTO:
-      type: object
-      properties:
-        channelID:
-          type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
-          type: string
-          description: An identCode of the client. Controls data visibility.
-        parameters:
-          type: array
-          description: A list of generic parameters
-          items:
-            $ref: '#/components/schemas/TransferFileParameterDTO'
-      description: Contains information on how to select files for transferring
-    GenerateClientIdentCodeRequestDTO:
-      type: object
-      properties:
-        clientIdentCode:
-          type: string
-          description: client ident code should be generated
-        debtorNumber:
-          type: string
-          description: debtor number
-      description: encapsulates the request parameters
+          description: Value of the parameter
+      description: A generic parameter for use-case specific information
     FileDTO:
       type: object
       properties:
@@ -1155,298 +1244,6 @@ components:
           description: file attribute lastAccessTime as FileTime millis
           format: int64
       description: Data Transfer Object for a file.
-    AnnounceStopParmDTO:
-      type: object
-      properties:
-        utcStopAtYYYYMMDDHHMMSS:
-          type: string
-          description: the server will stop at this date/time
-        expectedDowntimeMinutes:
-          type: integer
-          description: the server will be down for the period in minutes
-          format: int32
-        preventedLogonMinutes:
-          type: integer
-          description: The server will prevent new logons for this number of minutes before the date specified for the stop (see property utcStopAtYYYYMMDDHHMMSS).
-          format: int32
-      description: parameter necessary to announce a stop of the server
-    SendMailParmDTO:
-      type: object
-      properties:
-        receivers:
-          type: array
-          description: receivers of the mail
-          items:
-            type: string
-            description: receivers of the mail
-        replytos:
-          type: array
-          description: reply to addresses of the mail
-          items:
-            type: string
-            description: reply to addresses of the mail
-        ccs:
-          type: array
-          description: ccs of the mail
-          items:
-            type: string
-            description: ccs of the mail
-        bccs:
-          type: array
-          description: bccs of the mail
-          items:
-            type: string
-            description: bccs of the mail
-        subject:
-          type: string
-          description: subject of the mail
-        content:
-          type: string
-          description: content of the mail
-        contentType:
-          type: string
-          description: content-type of the mail
-        mimeCharSet:
-          type: string
-          description: MIME-characterset of the mail
-        attachments:
-          type: array
-          description: Attachments of the mail
-          items:
-            $ref: '#/components/schemas/SendMailAttachmentParmDTO'
-      description: Parameter necessary for sending a mail
-    SystemSearchResultDTO:
-      type: object
-      properties:
-        category:
-          type: string
-          description: search category where this result belongs to
-        type:
-          type: string
-          description: type of result, e.g. class name of model object - defined within the category
-        state:
-          type: string
-          description: state of the item described by this result - possible values are defined within the category
-        key:
-          type: string
-          description: key of the object described by this item. - format defined within the category for each type
-        text:
-          type: string
-          description: explanation of this search result
-        relevance:
-          type: integer
-          description: relevance of the result; an indication (in percent, ranging from 0 .. 100) of how much the result matches the query
-          format: int32
-        depth:
-          type: integer
-          description: an integer >= 0 describing the hierarchical level of the result; it can be used to format the textual output
-          format: int32
-      description: DTO contained in the result array of systemSearch function
-    AnnounceStopResultDTO:
-      type: object
-      description: the result of the announce stop API
-    UploadSettingsRequestDTO:
-      type: object
-      properties:
-        channelID:
-          type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
-          type: string
-          description: An identCode of the client. Controls data visibility.
-      description: retrieves the server settings for uploading files via SFT interface
-    CancelAnnounceStopResultDTO:
-      type: object
-      description: Contains the result information of the cancel announce stop bf
-    DLFilesRefsResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-        downloadableFilesReferences:
-          type: array
-          description: The references of files available for download
-          items:
-            $ref: '#/components/schemas/SimpleFileDTO'
-      description: Contains the result for a request to get the number of files available for download
-    StartTableUpdateParmDTO:
-      type: object
-      description: parameter necessary for the table update
-    StartScriptExecutionParmDTO:
-      type: object
-      properties:
-        scriptContent:
-          type: string
-          description: string value represents the content of script
-        maxRows:
-          type: integer
-          description: max. number of rows included in result of script execution
-          format: int32
-        scriptType:
-          type: string
-          description: type of script, sql, oql and java script are supported
-        dataPoolName:
-          type: string
-          description: name of the data pool with which the sql / oql script will be executed
-      description: parameters for start script execution
-    ActivationDataFlavor:
-      type: object
-      properties:
-        mimeType:
-          type: string
-        humanPresentableName:
-          type: string
-    SimpleFileDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of a file
-        size:
-          type: integer
-          description: Size of a file
-          format: int64
-      description: Meta-data for a transfer file
-    DownloadFileRequestDTO:
-      type: object
-      properties:
-        channelID:
-          type: string
-          description: Indicates the use-case for transferring a file.
-        clientIdentCode:
-          type: string
-          description: An identCode of the client. Controls data visibility.
-        fileReference:
-          $ref: '#/components/schemas/SimpleFileDTO'
-        parameters:
-          type: array
-          description: A list of generic parameters
-          items:
-            $ref: '#/components/schemas/TransferFileParameterDTO'
-      description: Contains information on how to select a file for transferring
-    ClientDTO:
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: the client ident code
-        name:
-          type: string
-          description: the name of the client
-        isDemo:
-          type: boolean
-          description: true if demo client
-        isActive:
-          type: boolean
-          description: true if active client
-        duplicationAllowed:
-          type: boolean
-          description: true if the client can be duplicated with BF call
-        debtorNumber:
-          type: string
-          description: the debtor number of the client
-      description: DTO representing an XNSG Client.
-    SendMailResultDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: true on success
-        errorMessage:
-          type: string
-          description: error-message, if an error occured
-      description: Contains the result of the sendMail method.
-    RoleInfoDTO:
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: the role ident code
-        assignableByClientAdmin:
-          type: boolean
-          description: true if assignable by client
-        name:
-          type: string
-          description: the role name
-        description:
-          type: string
-          description: the role description
-        licenseRole:
-          type: boolean
-          description: true if license role
-        apiPredefined:
-          type: boolean
-          description: true if predefined
-        systemRole:
-          type: boolean
-          description: true if system role
-        clientIdentCode:
-          type: string
-          description: client ident code or null if general role
-        impliedRoles:
-          type: array
-          description: the implied roles
-          items:
-            type: string
-            description: the implied roles
-      description: dto for roles
-    AcknowledgeFileResponseDTO:
-      type: object
-      properties:
-        errorCode:
-          type: string
-          description: A short error code.
-        errorMessage:
-          type: string
-          description: A human-readable error message
-      description: Contains the result for an acknowledge file request.
-    CommandMap:
-      type: object
-      properties:
-        mimeTypes:
-          type: array
-          items:
-            type: string
-    CommandInfo:
-      type: object
-      properties:
-        commandClass:
-          type: string
-        commandName:
-          type: string
-    PublishMessageResponseDTO:
-      type: object
-      properties:
-        messageResultPerLocale:
-          type: array
-          description: the data per locale, as supplied in request
-          items:
-            $ref: '#/components/schemas/MessageDataDTO'
-      description: Contains ids of user tips that were created, or error messages
-    TableUpdateStateResultDTO:
-      type: object
-      properties:
-        percentage:
-          type: integer
-          description: How far has the table update went
-          format: int32
-        state:
-          type: string
-          description: Whats the state of the table update? Is it still running, or was it successful?
-        info:
-          type: string
-          description: The current task of the table update
-        isBusy:
-          type: boolean
-          description: Returns true, if the schema synchronisation is running
-        isFailed:
-          type: boolean
-          description: Returns true, if the schema synchronisation failed
-      description: Contains the result information of the get table update state bf
     PublishMessageRequestDTO:
       type: object
       properties:
@@ -1495,6 +1292,209 @@ components:
           type: boolean
           description: when true tip is considered as real user tip
       description: the for user tip, possibly in several locales
+    VersionInfoDTO:
+      type: object
+      properties:
+        version:
+          type: string
+          description: The version string of the solution/product. This String is typically of the form "integer.integer.integer".
+        binaryVersion:
+          type: array
+          description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+          items:
+            type: integer
+            description: The version of the solution/product as numeric value. The main version is the first entry in the integer array.
+            format: int32
+      description: This class holds version information about a solution or product in a server.
+    SystemSearchResultDTO:
+      type: object
+      properties:
+        category:
+          type: string
+          description: search category where this result belongs to
+        type:
+          type: string
+          description: type of result, e.g. class name of model object - defined within the category
+        state:
+          type: string
+          description: state of the item described by this result - possible values are defined within the category
+        key:
+          type: string
+          description: key of the object described by this item. - format defined within the category for each type
+        text:
+          type: string
+          description: explanation of this search result
+        relevance:
+          type: integer
+          description: relevance of the result; an indication (in percent, ranging from 0 .. 100) of how much the result matches the query
+          format: int32
+        depth:
+          type: integer
+          description: an integer >= 0 describing the hierarchical level of the result; it can be used to format the textual output
+          format: int32
+      description: DTO contained in the result array of systemSearch function
+    ActivationDataFlavor:
+      type: object
+      properties:
+        mimeType:
+          type: string
+        humanPresentableName:
+          type: string
+    SendMailAttachmentParmDTO:
+      type: object
+      properties:
+        fileContent:
+          type: string
+          description: Content of the attachment file
+          format: byte
+        fileContentType:
+          type: string
+          description: Content-type of the attachment (e.g. "application/octet-stream")
+        fileName:
+          type: string
+          description: Name of the attachment file
+      description: Contains an attachment for an email.
+    DLFilesRefsRequestDTO:
+      type: object
+      properties:
+        channelID:
+          type: string
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
+          type: string
+          description: An identCode of the client. Controls data visibility.
+        parameters:
+          type: array
+          description: A list of generic parameters
+          items:
+            $ref: '#/components/schemas/TransferFileParameterDTO'
+      description: Contains information on how to select files for transferring
+    StartScriptExecutionParmDTO:
+      type: object
+      properties:
+        scriptContent:
+          type: string
+          description: string value represents the content of script
+        maxRows:
+          type: integer
+          description: max. number of rows included in result of script execution
+          format: int32
+        scriptType:
+          type: string
+          description: type of script, sql, oql and java script are supported
+        dataPoolName:
+          type: string
+          description: name of the data pool with which the sql / oql script will be executed
+      description: parameters for start script execution
+    DownloadFileRequestDTO:
+      type: object
+      properties:
+        channelID:
+          type: string
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
+          type: string
+          description: An identCode of the client. Controls data visibility.
+        fileReference:
+          $ref: '#/components/schemas/SimpleFileDTO'
+        parameters:
+          type: array
+          description: A list of generic parameters
+          items:
+            $ref: '#/components/schemas/TransferFileParameterDTO'
+      description: Contains information on how to select a file for transferring
+    MonitoringDataProviderDTO:
+      type: object
+      properties:
+        groupName:
+          type: string
+          description: Name of the group.
+        name:
+          type: string
+          description: Name of the entry.
+        value:
+          type: string
+          description: Value of the entry - this is a string representation.
+      description: Data Transfer Object for monitoring provider
+    SystemSearchParameterDTO:
+      type: object
+      properties:
+        category:
+          type: string
+          description: category to which this parameter belongs to
+        parameterName:
+          type: string
+          description: name of the query parameter - valid names are defined by the category
+        parameterValue:
+          type: string
+          description: value of the parameter
+      description: DTO used as argument to systemSearch function
+    CommandMap:
+      type: object
+      properties:
+        mimeTypes:
+          type: array
+          items:
+            type: string
+    ScriptExecutionStateParmDTO:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: uuid assigned to the BF call
+      description: parameters necessary to ask the server for the current state of the script execution
+    UploadFileMultiPartRequestDTO:
+      type: object
+      properties:
+        channelID:
+          type: string
+          description: Indicates the use-case for transferring a file.
+        clientIdentCode:
+          type: string
+          description: An identCode of the client. Controls data visibility.
+        name:
+          type: string
+          description: Name of a file
+        size:
+          type: integer
+          description: Size of a file
+          format: int64
+        parameters:
+          type: array
+          description: A list of generic parameters
+          items:
+            $ref: '#/components/schemas/TransferFileParameterDTO'
+        checksum:
+          type: string
+          description: MD5-hash of a file
+        creationTimeMillis:
+          type: integer
+          description: file attribute creationTime as FileTime millis
+          format: int64
+        lastModifiedTimeMillis:
+          type: integer
+          description: file attribute lastModifiedTime as FileTime millis
+          format: int64
+        lastAccessTimeMillis:
+          type: integer
+          description: file attribute lastAccessTime as FileTime millis
+          format: int64
+      description: Contains information on how a transmitted file should be processed
+    DLFilesRefsResponseDTO:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: A short error code.
+        errorMessage:
+          type: string
+          description: A human-readable error message
+        downloadableFilesReferences:
+          type: array
+          description: The references of files available for download
+          items:
+            $ref: '#/components/schemas/SimpleFileDTO'
+      description: Contains the result for a request to get the number of files available for download
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

@@ -125,24 +125,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    TermsOfDeliveryTextTranslation:
-      required:
-      - language
-      type: object
-      properties:
-        language:
-          maxLength: 2
-          minLength: 2
-          pattern: '[A-Z]{2}'
-          type: string
-          description: 2-letter ISO code of the language.
-          example: DE
-        description:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The description of the terms of delivery.
-      description: Description of the terms of delivery in a certain language.
     DLClientTermsOfDeliveryListRestDTO:
       required:
       - content
@@ -204,6 +186,24 @@ components:
           items:
             $ref: '#/components/schemas/TermsOfDeliveryTextTranslation'
       description: List of terms of deliveries.
+    TermsOfDeliveryTextTranslation:
+      required:
+      - language
+      type: object
+      properties:
+        language:
+          maxLength: 2
+          minLength: 2
+          pattern: '[A-Z]{2}'
+          type: string
+          description: 2-letter ISO code of the language.
+          example: DE
+        description:
+          maxLength: 250
+          minLength: 0
+          type: string
+          description: The description of the terms of delivery.
+      description: Description of the terms of delivery in a certain language.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

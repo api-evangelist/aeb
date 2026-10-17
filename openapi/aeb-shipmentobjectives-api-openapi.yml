@@ -54,19 +54,32 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    GenericDataFieldDTO:
+    NamedGenericDataRecordDTO:
       type: object
       properties:
         name:
           type: string
-          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
-        value:
+          description: The name of this record, i.e. the role the record plays in the enclosing record.<br> When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.
+        record:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+      description: A generic data record with a name.<br> Wrapper class to encapsulate subrecords with their name and with the ability to have explicit null records.
+      example:
+      - name: child
+        record:
+          fields: []
+          subrecords: []
+    DLContainerDataDTO:
+      type: object
+      properties:
+        verifiedGrossMass:
+          $ref: '#/components/schemas/QuantityDTO'
+        verificationMethod:
           type: string
-          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
-        type:
+          description: 'Method for verifying the gross mass of the container. Valid values are: <ul> <li>METHOD_1</li> <li>METHOD_2</li> </ul> <br> <p> length=8 </p>'
+        verificationContactName:
           type: string
-          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
-      description: A field of a generic data record.
+          description: Name of the person responsible for determining and passing on the VGM. <p> length = 35 </p>
+      description: DTO containing data for container package types.
     DLShipmentTotalsRequestDataDTO:
       type: object
       properties:
@@ -83,6 +96,93 @@ components:
           type: number
           description: The pallet places needed for the shipment. When left empty, the sum of the values specified in request field 'packageCumulations' will be used whereever the pallet places are needed on shipment level. <p>length=10, scale=3</p>
       description: DTO for shipment totals in a request.
+    DLPossibleValuesDTO:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The type of the value that is to be changed.
+      description: A possible value for the interface.
+    ComboboxEntryDTO:
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The identCode of the entry. <p>length=50</p>
+        descriptions:
+          type: array
+          description: The description of the entry in the requested result languages.
+          items:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+      description: For common use in BF methods which return combobox entries, e.g. for a list of master file data.
+    GenericDataRecordDTO:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: The fields of the record.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+        subrecords:
+          type: array
+          description: Subrecords of the record.
+          example:
+          - name: child
+            record:
+              fields: []
+              subrecords: []
+          items:
+            $ref: '#/components/schemas/NamedGenericDataRecordDTO'
+      description: A generic record of data.<br>Each field is qualified by name and type and has a value.
+    DLPersonDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of contact.
+
+            > `length=80`'
+        phone:
+          type: string
+          description: 'Phone number.
+
+            > `length=20`'
+        fax:
+          type: string
+          description: 'Fax number.
+
+            > `length=20`'
+        email:
+          type: string
+          description: 'Email address.
+
+            > `length=256`'
+      description: DLPersonDTO containing contact data.
+    DLShipmentCarrierInfoTextDTO:
+      required:
+      - identCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: Carrier info text ident code.<br> <p>length=20</p>
+        parameter:
+          type: string
+          description: An (optional) parameter for the info text.  <p> length=512 </p>
+      description: DTO specifying a carrier's info text for a shipment.
+    DLMustBeFilledDTO:
+      type: object
+      properties:
+        possibleValues:
+          type: array
+          description: A possible value for the interface.
+          items:
+            $ref: '#/components/schemas/DLPossibleValuesDTO'
+        maxTextLength:
+          type: integer
+          description: The maximum length of the text in the value that is to be changed.
+          format: int32
+      description: The data for fields that must be filled.
     DLShipmentReferenceDTO:
       type: object
       properties:
@@ -96,77 +196,38 @@ components:
           type: string
           description: The shipment number internally generated by the carrier engine.<br> Usually sufficient for identifying a shipment. <p> length=20 </p>
       description: DTO for uniquely identifying a DLShipment within a specific client.
-    DLPackageHazardousGoodsDataRequestDTO:
-      required:
-      - hazardousGoodsType
+    DLShipmentObjectivePathSegmentDTO:
       type: object
       properties:
-        hazardousGoodsType:
+        id:
           type: string
-          description: "Indicates the type of hazardous goods packaged in the package. Valid values are: <li>NONE\t\t(no hazardous goods) <li>NORMAL \t(hazardous goods) <li>EQ\t\t(excepted quantities) <li>LQ\t\t(limited quantities) <li>SPECIAL_SUBSTANCE\t(special substance) <li>ORMD\t\t(other regulated materials for domestic transport only) - Since 2021 this code is not used anymore <li>US_SMALL_QUANTITY\t\t(small quantity regulated materials) - only relevant for US"
-        packagingTypeHandling:
+          description: The id of previus path segment.
+          example: packageTransactionId of the package
+        segment:
           type: string
-          description: "Indicates the hazardous goods material packaging type in the package. Valid values are: <li>NONE\t\t(no packaging type) <li>ALL_PACKED_IN_ONE \t(two or more hazardous goods items are all packed in the same package) <li>OVERPACK\t\t(enclosure to contain one or more packages and form one handling unit for convenience of handling and stowage)"
-        hazardQValue:
+          description: One segment of the path.
+      description: The path of the objective.
+    DLCuboidDimensionsDTO:
+      required:
+      - height
+      - identCode
+      - length
+      - width
+      type: object
+      properties:
+        length:
           type: number
-          description: The Q-value is calculated from a formula of the IATA-DGR. This determines the quantities of different hazardous goods that an outer packaging may contain. <p>length=2, scale=1</p>
-      description: Holds hazardous goods data concerning the package.
-    DLInvalidValueDTO:
-      type: object
-      properties:
-        possibleValues:
-          type: array
-          description: A possible value for the interface.
-          items:
-            $ref: '#/components/schemas/DLPossibleValuesDTO'
-        invalidValue:
+          description: Represents the length of the dimensions. <p> length=15, scale=2 </p>
+        width:
+          type: number
+          description: Represents the width of the dimensions. <p> length=15, scale=2 </p>
+        height:
+          type: number
+          description: Represents the height of the dimensions. <p> length=15, scale=2 </p>
+        identCode:
           type: string
-          description: The invalid value that is to be changed.
-        maxTextLength:
-          type: integer
-          description: The maximum length of the text in the value that is to be changed.
-          format: int32
-      description: The data for fields with invalid values.
-    DLTransportEquipmentReferenceDTO:
-      required:
-      - equipmentTransactionId
-      type: object
-      properties:
-        identification:
-          type: string
-          description: The identification of the transport equipment. <p> length=50 </p>
-        equipmentTransactionId:
-          type: string
-          description: The number of the client system uniquely referencing a transport equipment in a shipment. <p> length=50 </p>
-      description: DTO for uniquely identifying a transport equipment within a shipment.
-    DLTransportEquipmentDTO:
-      required:
-      - equipmentTransactionId
-      - equipmentTypeIdentCode
-      type: object
-      properties:
-        identification:
-          type: string
-          description: The identification of the transport equipment, e.g. the container number. <p> length=50 </p>
-        equipmentTransactionId:
-          type: string
-          description: The shipment wide unique id for the transport equipment. Is included in the response. <p> length=50 </p>
-        equipmentTypeIdentCode:
-          type: string
-          description: IdentCode of the equipment type (Container, pallet etc.). All entries in the client's package type master file data are allowed. So the valid values are depending on the configured entries there. <p> length=20 </p>
-        grossWeight:
-          $ref: '#/components/schemas/QuantityDTO'
-        dimensions:
-          $ref: '#/components/schemas/DLCuboidDimensionsDTO'
-        containerData:
-          $ref: '#/components/schemas/DLContainerDataDTO'
-        sealNumbers:
-          type: array
-          description: Seal (serial numbers and/or barcodes) of the transport equipment. <p> length = 35 </p>
-          items:
-            type: string
-            description: Seal (serial numbers and/or barcodes) of the transport equipment. <p> length = 35 </p>
-      description: DTO representing a specific transport equipment such as a containers or a pallets.
+          description: Identifier of the quantity unit (must be unique). Only "cm" is supported yet. <p> length=10 </p>
+      description: DLCuboidDimensionsDTO with length, width, height and identCode.
     DLPackageCumulationRequestDataDTO:
       required:
       - numberOfPackages
@@ -204,144 +265,55 @@ components:
         shipment:
           $ref: '#/components/schemas/DLShipmentRequestDataDTO'
       description: Determine the objectives of a shipment.
-    DLShipmentCarrierInfoTextDTO:
-      required:
-      - identCode
+    QuantityDTO:
       type: object
       properties:
-        identCode:
-          type: string
-          description: Carrier info text ident code.<br> <p>length=20</p>
-        parameter:
-          type: string
-          description: An (optional) parameter for the info text.  <p> length=512 </p>
-      description: DTO specifying a carrier's info text for a shipment.
-    DLContainerDataDTO:
-      type: object
-      properties:
-        verifiedGrossMass:
-          $ref: '#/components/schemas/QuantityDTO'
-        verificationMethod:
-          type: string
-          description: 'Method for verifying the gross mass of the container. Valid values are: <ul> <li>METHOD_1</li> <li>METHOD_2</li> </ul> <br> <p> length=8 </p>'
-        verificationContactName:
-          type: string
-          description: Name of the person responsible for determining and passing on the VGM. <p> length = 35 </p>
-      description: DTO containing data for container package types.
-    GenericDataRecordDTO:
-      type: object
-      properties:
-        fields:
-          type: array
-          description: The fields of the record.
-          items:
-            $ref: '#/components/schemas/GenericDataFieldDTO'
-        subrecords:
-          type: array
-          description: Subrecords of the record.
-          example:
-          - name: child
-            record:
-              fields: []
-              subrecords: []
-          items:
-            $ref: '#/components/schemas/NamedGenericDataRecordDTO'
-      description: A generic record of data.<br>Each field is qualified by name and type and has a value.
-    DLShipmentItemReferenceTextDTO:
-      type: object
-      properties:
-        type:
-          type: string
-          description: '<p>
-
-            The type of the reference number or text. Valid values are:
-
-            <li>MERCHANT_PRODUCT_ID - Merchant product identifier.</li>
-
-            <li>MFR_PRODUCT_ID_NONSTD - Non-standardised manufacturer product identifier.</li>
-
-            <li>MFR_PRODUCT_ID_STD - Standardised manufacturer product identifier.</li>
-
-            </p>
-
-            <p>length=30</p>
-
-            '
         value:
+          multipleOf: 0.001
+          maximum: 999999999999.999
+          type: number
+          description: The value of the quantity.
+        unit:
+          maxLength: 10
           type: string
-          description: The value of the reference number or text. <p> length=500 </p>
-      description: DTO for reference texts of shipment items.
-    DLPartyDTO:
+          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
+          example: kg
+        uneceUnit:
+          maxLength: 3
+          type: string
+          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
+          example: NAR
+      description: A quantity with a value and a quantity unit. Quantity units are encoded by using AEB unit codes mainly based on the International System of Unit (e.g. 'Gram' is encoded by the code 'gr') or - if supported - UNECE unit codes (e.g. 'Gram' is encoded by the code 'GRM').<br>Recoding of the quantity unit code from capital letters to small letters (e.g. from 'LB' to 'lb') may be supported, depending on the AEB product.<br>The quantity unit type is specified by the usage context, i.e. if this quantity is a weight, a volume or similar.
+    DLObjectiveTextsDTO:
       type: object
       properties:
-        companyNumber:
+        languageISOCode:
           type: string
-          description: Company Number <p>length=20</p>
+          description: Language of the texts.
+          example: en
+        cause:
+          type: string
+          description: Cause of the objective.
+        message:
+          type: string
+          description: Message of the objective.
+        solution:
+          type: string
+          description: Solution of the objective.
+      description: Info texts of the objective.
+    GenericDataFieldDTO:
+      type: object
+      properties:
         name:
           type: string
-          description: Name of the company (first address line) <p>length=40</p>
-        name2:
-          type: string
-          description: Address name line 2 <p>length=40</p>
-        name3:
-          type: string
-          description: Address name line 3 <p>length=40</p>
-        name4:
-          type: string
-          description: Address name line 4 <p>length=40</p>
-        street:
-          type: string
-          description: Street (line 1) of the address. <p>length=40</p>
-        street2:
-          type: string
-          description: Street (line 2) of the address. <p>length=40</p>
-        postcode:
-          type: string
-          description: Postcode of the street address. <p>length=10</p>
-        city:
-          type: string
-          description: City of the address. <p>length=40</p>
-        district:
-          type: string
-          description: District (city line 2) of the address. <p>length=40</p>
-        countryISOCode:
-          type: string
-          description: Country of address <p>length=2</p>
-        county:
-          type: string
-          description: County of the address <p>length=40</p>
-        poBox:
-          type: string
-          description: PO-Box. <p>length=10</p>
-        postcodePOBox:
-          type: string
-          description: Postcode of the poBox address. <p>length=10</p>
-        cityPOBox:
-          type: string
-          description: City of the po-box address. <p>length=40</p>
-        emailAddress:
-          type: string
-          description: Email address of the address. <p>length=256</p>
-        phone:
-          type: string
-          description: Phone number of reception <p>length=20</p>
-        fax:
-          type: string
-          description: Fax number of reception <p>length=20</p>
-        initFromCompanyMasterFileData:
-          type: boolean
-          description: Flag controlling how the party will be filled.<br> If true, the data of the party will be filled with company master data referenced by the 'name' field or (if filled) 'companyNumber' field. All other DTO fields will be ignored.<br> If false, the party will be filled with the address fields from this DTO. This is also the default when no value is supplied.<br>
-      description: DLPartyDTO containing address data
-    AmountOfMoneyDTO:
-      type: object
-      properties:
+          description: <p>Name of this field, i.e. the role the field plays in the enclosing record.</p>  <p>When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.</p>
         value:
-          type: number
-          description: The value of the amount of money. <p>length=15, scale=2</p>
-        currencyIso:
           type: string
-          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
-      description: An amount of money with a value and an currency ISO code.
+          description: <p>Value of the field.</p>  <p>The format follows the conventions of xml schema encoding, see <a href="http://www.w3.org/TR/xmlschema-2/">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string - the plain string</li> <li>int - digits base10, +-2^31</li> <li>long - digits base10, +-2^63</li> <li>decimal - +-123456.789</li> <li>boolean - the literals 'true' and 'false'</li> <li>dateTime - yyyy-MM-ddTHH:mm:ss</li> <li>base64Binary - binary data in base64 encoding</li> </ul>
+        type:
+          type: string
+          description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
+      description: A field of a generic data record.
     DLHazardousGoodsItemRequestDataDTO:
       required:
       - hazardRegulation
@@ -456,6 +428,162 @@ components:
         additionalValues:
           $ref: '#/components/schemas/GenericDataRecordDTO'
       description: DTO for request information of a DLHazardousGoodsItem.
+    DLPackageRequestDataDTO:
+      required:
+      - grossWeight
+      - packageTransactionId
+      - packageTypeIdentCode
+      type: object
+      properties:
+        packageTypeIdentCode:
+          type: string
+          description: IdentCode of the package type. Valid values are depending on the client's package types in the master file data. <p> length=20 </p>
+        packageSpecificeContents:
+          type: string
+          description: The content description of the package. If left empty, the content description supplied in field 'contents' on shipment level will be used for this package. <p> length=250 </p>
+        packageNumber:
+          type: integer
+          description: The serial number of the package within the shipment. This number is mainly used to sort the packages in lists or in business logic (e.g. to detect the "first" package as master package).<br> When the field is left empty, the numbers will automatically computed by the engine. <p> length=5 </p>
+          format: int32
+        packageTransactionId:
+          type: string
+          description: <p> The shipment wide unique id for the package. Is included in the response. </p> <p> length=50 </p>
+        referenceNumber1:
+          type: string
+          description: Package reference number. Is included in the response. <p> length=50 </p>
+        referenceNumber2:
+          type: string
+          description: Second package reference number <p>length=50</p>
+        extCarrierPackNum:
+          type: string
+          description: The external carrier tracking number of the package <p> length=50 </p>
+        extCarrierPackNumBasic:
+          type: string
+          description: The basic external carrier tracking number of the package <p> length=50 </p>
+        extCarrierPackNumReturn:
+          type: string
+          description: The external carrier return tracking number of the package <p> length=50 </p>
+        extCarrierPackNumBasicReturn:
+          type: string
+          description: The basic external return carrier tracking number of the package <p> length=50 </p>
+        grossWeight:
+          $ref: '#/components/schemas/QuantityDTO'
+        dimensions:
+          $ref: '#/components/schemas/DLCuboidDimensionsDTO'
+        alternativeVolume:
+          $ref: '#/components/schemas/QuantityDTO'
+        codValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        insuranceValue:
+          $ref: '#/components/schemas/AmountOfMoneyDTO'
+        additionalValues:
+          $ref: '#/components/schemas/GenericDataRecordDTO'
+        containedItems:
+          type: array
+          description: The items the package contains. Only item references are used here, the items themselves must already exist. An error will be returned, when one of the referenced items does not exist.<br> May be null in case when no items exist at all or when the carrier doesn't want information about the contents of the package.
+          items:
+            $ref: '#/components/schemas/DLShipmentItemReferenceDTO'
+        hazardousGoodsData:
+          $ref: '#/components/schemas/DLPackageHazardousGoodsDataRequestDTO'
+        transportEquipment:
+          $ref: '#/components/schemas/DLTransportEquipmentReferenceDTO'
+        marks:
+          type: string
+          description: Marks and numbers for identification of a package. <p> length=50
+        stackability:
+          type: string
+          description: 'The possibility to stack packages. Valid values are: <li>NOTSPECIFIED <li>STACKABLE <li>UNSTACKABLE </p> If no value is supplied, NOTSPECIFIED will be assumed as the default value'
+        freightClass:
+          type: string
+          description: 'The freight class of the package according to the NMFC (National Motor Freight Classification) specification. Relevant for US carriers. Valid values are: <li>50</li> <li>55</li> <li>60</li> <li>65</li> <li>70</li> <li>77.5</li> <li>85</li> <li>92.5</li> <li>100</li> <li>110</li> <li>125</li> <li>150</li> <li>175</li> <li>200</li> <li>250</li> <li>300</li> <li>400</li> <li>500</li> <li>NONE</li>'
+        nmfcCode:
+          type: string
+          description: The NMFC code of the package. Relevant for US carriers. <p> length=10 </p>
+        nmfcSubCode:
+          type: string
+          description: The NMFC subcode of the package. Relevant for US carriers. <p> length=2 </p>
+        loadingMeters:
+          type: number
+          description: The loading meters needed for the package. <p> length=10, scale=3 </p>
+        palletPlaces:
+          type: number
+          description: The pallet places needed for the package. <p> length=10, scale=3</p>
+      description: DTO for package data.
+    DLTransportEquipmentDTO:
+      required:
+      - equipmentTransactionId
+      - equipmentTypeIdentCode
+      type: object
+      properties:
+        identification:
+          type: string
+          description: The identification of the transport equipment, e.g. the container number. <p> length=50 </p>
+        equipmentTransactionId:
+          type: string
+          description: The shipment wide unique id for the transport equipment. Is included in the response. <p> length=50 </p>
+        equipmentTypeIdentCode:
+          type: string
+          description: IdentCode of the equipment type (Container, pallet etc.). All entries in the client's package type master file data are allowed. So the valid values are depending on the configured entries there. <p> length=20 </p>
+        grossWeight:
+          $ref: '#/components/schemas/QuantityDTO'
+        dimensions:
+          $ref: '#/components/schemas/DLCuboidDimensionsDTO'
+        containerData:
+          $ref: '#/components/schemas/DLContainerDataDTO'
+        sealNumbers:
+          type: array
+          description: Seal (serial numbers and/or barcodes) of the transport equipment. <p> length = 35 </p>
+          items:
+            type: string
+            description: Seal (serial numbers and/or barcodes) of the transport equipment. <p> length = 35 </p>
+      description: DTO representing a specific transport equipment such as a containers or a pallets.
+    DLTransportEquipmentReferenceDTO:
+      required:
+      - equipmentTransactionId
+      type: object
+      properties:
+        identification:
+          type: string
+          description: The identification of the transport equipment. <p> length=50 </p>
+        equipmentTransactionId:
+          type: string
+          description: The number of the client system uniquely referencing a transport equipment in a shipment. <p> length=50 </p>
+      description: DTO for uniquely identifying a transport equipment within a shipment.
+    DLInvalidValueDTO:
+      type: object
+      properties:
+        possibleValues:
+          type: array
+          description: A possible value for the interface.
+          items:
+            $ref: '#/components/schemas/DLPossibleValuesDTO'
+        invalidValue:
+          type: string
+          description: The invalid value that is to be changed.
+        maxTextLength:
+          type: integer
+          description: The maximum length of the text in the value that is to be changed.
+          format: int32
+      description: The data for fields with invalid values.
+    ShipmentObjective:
+      type: object
+      properties:
+        objectiveType:
+          type: string
+          description: Type of the objective.
+          example: MUST_BE_FILLED
+        objectiveTexts:
+          $ref: '#/components/schemas/DLObjectiveTextsDTO'
+        path:
+          type: array
+          description: The path of the objective.
+          items:
+            $ref: '#/components/schemas/DLShipmentObjectivePathSegmentDTO'
+        invalidValue:
+          $ref: '#/components/schemas/DLInvalidValueDTO'
+        mustBeFilled:
+          $ref: '#/components/schemas/DLMustBeFilledDTO'
+      description: All accessible data of an Objective.
     DLShipmentRequestDataDTO:
       required:
       - carrierIdentCode
@@ -732,17 +860,93 @@ components:
         additionalValues:
           $ref: '#/components/schemas/GenericDataRecordDTO'
       description: DTO for shipment data in a request.
-    DLShipmentObjectivePathSegmentDTO:
+    DLPackageHazardousGoodsDataRequestDTO:
+      required:
+      - hazardousGoodsType
       type: object
       properties:
-        id:
+        hazardousGoodsType:
           type: string
-          description: The id of previus path segment.
-          example: packageTransactionId of the package
-        segment:
+          description: "Indicates the type of hazardous goods packaged in the package. Valid values are: <li>NONE\t\t(no hazardous goods) <li>NORMAL \t(hazardous goods) <li>EQ\t\t(excepted quantities) <li>LQ\t\t(limited quantities) <li>SPECIAL_SUBSTANCE\t(special substance) <li>ORMD\t\t(other regulated materials for domestic transport only) - Since 2021 this code is not used anymore <li>US_SMALL_QUANTITY\t\t(small quantity regulated materials) - only relevant for US"
+        packagingTypeHandling:
           type: string
-          description: One segment of the path.
-      description: The path of the objective.
+          description: "Indicates the hazardous goods material packaging type in the package. Valid values are: <li>NONE\t\t(no packaging type) <li>ALL_PACKED_IN_ONE \t(two or more hazardous goods items are all packed in the same package) <li>OVERPACK\t\t(enclosure to contain one or more packages and form one handling unit for convenience of handling and stowage)"
+        hazardQValue:
+          type: number
+          description: The Q-value is calculated from a formula of the IATA-DGR. This determines the quantities of different hazardous goods that an outer packaging may contain. <p>length=2, scale=1</p>
+      description: Holds hazardous goods data concerning the package.
+    DLPartyDTO:
+      type: object
+      properties:
+        companyNumber:
+          type: string
+          description: Company Number <p>length=20</p>
+        name:
+          type: string
+          description: Name of the company (first address line) <p>length=40</p>
+        name2:
+          type: string
+          description: Address name line 2 <p>length=40</p>
+        name3:
+          type: string
+          description: Address name line 3 <p>length=40</p>
+        name4:
+          type: string
+          description: Address name line 4 <p>length=40</p>
+        street:
+          type: string
+          description: Street (line 1) of the address. <p>length=40</p>
+        street2:
+          type: string
+          description: Street (line 2) of the address. <p>length=40</p>
+        postcode:
+          type: string
+          description: Postcode of the street address. <p>length=10</p>
+        city:
+          type: string
+          description: City of the address. <p>length=40</p>
+        district:
+          type: string
+          description: District (city line 2) of the address. <p>length=40</p>
+        countryISOCode:
+          type: string
+          description: Country of address <p>length=2</p>
+        county:
+          type: string
+          description: County of the address <p>length=40</p>
+        poBox:
+          type: string
+          description: PO-Box. <p>length=10</p>
+        postcodePOBox:
+          type: string
+          description: Postcode of the poBox address. <p>length=10</p>
+        cityPOBox:
+          type: string
+          description: City of the po-box address. <p>length=40</p>
+        emailAddress:
+          type: string
+          description: Email address of the address. <p>length=256</p>
+        phone:
+          type: string
+          description: Phone number of reception <p>length=20</p>
+        fax:
+          type: string
+          description: Fax number of reception <p>length=20</p>
+        initFromCompanyMasterFileData:
+          type: boolean
+          description: Flag controlling how the party will be filled.<br> If true, the data of the party will be filled with company master data referenced by the 'name' field or (if filled) 'companyNumber' field. All other DTO fields will be ignored.<br> If false, the party will be filled with the address fields from this DTO. This is also the default when no value is supplied.<br>
+      description: DLPartyDTO containing address data
+    GetShipmentObjectivesResponse:
+      type: object
+      properties:
+        reachedBoStatus:
+          $ref: '#/components/schemas/ComboboxEntryDTO'
+        objectives:
+          type: array
+          description: The objectives of the shipment.
+          items:
+            $ref: '#/components/schemas/ShipmentObjective'
+      description: The determined objectives of a shipment.
     DLShipmentItemRequestDataDTO:
       required:
       - itemTransactionId
@@ -802,139 +1006,16 @@ components:
           items:
             $ref: '#/components/schemas/DLHazardousGoodsItemRequestDataDTO'
       description: DTO for shipment item data in a request.
-    DLPackageRequestDataDTO:
-      required:
-      - grossWeight
-      - packageTransactionId
-      - packageTypeIdentCode
+    AmountOfMoneyDTO:
       type: object
       properties:
-        packageTypeIdentCode:
-          type: string
-          description: IdentCode of the package type. Valid values are depending on the client's package types in the master file data. <p> length=20 </p>
-        packageSpecificeContents:
-          type: string
-          description: The content description of the package. If left empty, the content description supplied in field 'contents' on shipment level will be used for this package. <p> length=250 </p>
-        packageNumber:
-          type: integer
-          description: The serial number of the package within the shipment. This number is mainly used to sort the packages in lists or in business logic (e.g. to detect the "first" package as master package).<br> When the field is left empty, the numbers will automatically computed by the engine. <p> length=5 </p>
-          format: int32
-        packageTransactionId:
-          type: string
-          description: <p> The shipment wide unique id for the package. Is included in the response. </p> <p> length=50 </p>
-        referenceNumber1:
-          type: string
-          description: Package reference number. Is included in the response. <p> length=50 </p>
-        referenceNumber2:
-          type: string
-          description: Second package reference number <p>length=50</p>
-        extCarrierPackNum:
-          type: string
-          description: The external carrier tracking number of the package <p> length=50 </p>
-        extCarrierPackNumBasic:
-          type: string
-          description: The basic external carrier tracking number of the package <p> length=50 </p>
-        extCarrierPackNumReturn:
-          type: string
-          description: The external carrier return tracking number of the package <p> length=50 </p>
-        extCarrierPackNumBasicReturn:
-          type: string
-          description: The basic external return carrier tracking number of the package <p> length=50 </p>
-        grossWeight:
-          $ref: '#/components/schemas/QuantityDTO'
-        dimensions:
-          $ref: '#/components/schemas/DLCuboidDimensionsDTO'
-        alternativeVolume:
-          $ref: '#/components/schemas/QuantityDTO'
-        codValue:
-          $ref: '#/components/schemas/AmountOfMoneyDTO'
-        insuranceValue:
-          $ref: '#/components/schemas/AmountOfMoneyDTO'
-        additionalValues:
-          $ref: '#/components/schemas/GenericDataRecordDTO'
-        containedItems:
-          type: array
-          description: The items the package contains. Only item references are used here, the items themselves must already exist. An error will be returned, when one of the referenced items does not exist.<br> May be null in case when no items exist at all or when the carrier doesn't want information about the contents of the package.
-          items:
-            $ref: '#/components/schemas/DLShipmentItemReferenceDTO'
-        hazardousGoodsData:
-          $ref: '#/components/schemas/DLPackageHazardousGoodsDataRequestDTO'
-        transportEquipment:
-          $ref: '#/components/schemas/DLTransportEquipmentReferenceDTO'
-        marks:
-          type: string
-          description: Marks and numbers for identification of a package. <p> length=50
-        stackability:
-          type: string
-          description: 'The possibility to stack packages. Valid values are: <li>NOTSPECIFIED <li>STACKABLE <li>UNSTACKABLE </p> If no value is supplied, NOTSPECIFIED will be assumed as the default value'
-        freightClass:
-          type: string
-          description: 'The freight class of the package according to the NMFC (National Motor Freight Classification) specification. Relevant for US carriers. Valid values are: <li>50</li> <li>55</li> <li>60</li> <li>65</li> <li>70</li> <li>77.5</li> <li>85</li> <li>92.5</li> <li>100</li> <li>110</li> <li>125</li> <li>150</li> <li>175</li> <li>200</li> <li>250</li> <li>300</li> <li>400</li> <li>500</li> <li>NONE</li>'
-        nmfcCode:
-          type: string
-          description: The NMFC code of the package. Relevant for US carriers. <p> length=10 </p>
-        nmfcSubCode:
-          type: string
-          description: The NMFC subcode of the package. Relevant for US carriers. <p> length=2 </p>
-        loadingMeters:
+        value:
           type: number
-          description: The loading meters needed for the package. <p> length=10, scale=3 </p>
-        palletPlaces:
-          type: number
-          description: The pallet places needed for the package. <p> length=10, scale=3</p>
-      description: DTO for package data.
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
+          description: The value of the amount of money. <p>length=15, scale=2</p>
+        currencyIso:
           type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    NamedGenericDataRecordDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of this record, i.e. the role the record plays in the enclosing record.<br> When the same name is repeated in the context of the same parent record,  it is assumed that the parent defines this element as a repeatable (array) element.
-        record:
-          $ref: '#/components/schemas/GenericDataRecordDTO'
-      description: A generic data record with a name.<br> Wrapper class to encapsulate subrecords with their name and with the ability to have explicit null records.
-      example:
-      - name: child
-        record:
-          fields: []
-          subrecords: []
-    DLValueAddedServiceReferenceDTO:
-      required:
-      - identCode
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: Value added service ident code of the carrier.<br> <p>length=20</p>
-      description: DTO to reference a value added service within a carrier.
-    DLObjectiveTextsDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: Language of the texts.
-          example: en
-        cause:
-          type: string
-          description: Cause of the objective.
-        message:
-          type: string
-          description: Message of the objective.
-        solution:
-          type: string
-          description: Solution of the objective.
-      description: Info texts of the objective.
+          description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
+      description: An amount of money with a value and an currency ISO code.
     DLShipmentItemReferenceDTO:
       required:
       - shipmentReference
@@ -955,132 +1036,27 @@ components:
           type: number
           description: It is not supported in case of deleting an item.<br> The quantity of the referenced item to be used. The value can be equal or less than the item's quantity and must be supplied in the item's quantity unit.
       description: DTO for uniquely identifying an item within a shipment.
-    ComboboxEntryDTO:
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: The identCode of the entry. <p>length=50</p>
-        descriptions:
-          type: array
-          description: The description of the entry in the requested result languages.
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-      description: For common use in BF methods which return combobox entries, e.g. for a list of master file data.
-    DLCuboidDimensionsDTO:
+    DLValueAddedServiceReferenceDTO:
       required:
-      - height
       - identCode
-      - length
-      - width
       type: object
       properties:
-        length:
-          type: number
-          description: Represents the length of the dimensions. <p> length=15, scale=2 </p>
-        width:
-          type: number
-          description: Represents the width of the dimensions. <p> length=15, scale=2 </p>
-        height:
-          type: number
-          description: Represents the height of the dimensions. <p> length=15, scale=2 </p>
         identCode:
           type: string
-          description: Identifier of the quantity unit (must be unique). Only "cm" is supported yet. <p> length=10 </p>
-      description: DLCuboidDimensionsDTO with length, width, height and identCode.
-    DLMustBeFilledDTO:
+          description: Value added service ident code of the carrier.<br> <p>length=20</p>
+      description: DTO to reference a value added service within a carrier.
+    TextInLanguageDTO:
       type: object
       properties:
-        possibleValues:
-          type: array
-          description: A possible value for the interface.
-          items:
-            $ref: '#/components/schemas/DLPossibleValuesDTO'
-        maxTextLength:
-          type: integer
-          description: The maximum length of the text in the value that is to be changed.
-          format: int32
-      description: The data for fields that must be filled.
-    GetShipmentObjectivesResponse:
-      type: object
-      properties:
-        reachedBoStatus:
-          $ref: '#/components/schemas/ComboboxEntryDTO'
-        objectives:
-          type: array
-          description: The objectives of the shipment.
-          items:
-            $ref: '#/components/schemas/ShipmentObjective'
-      description: The determined objectives of a shipment.
-    QuantityDTO:
-      type: object
-      properties:
-        value:
-          multipleOf: 0.001
-          maximum: 999999999999.999
-          type: number
-          description: The value of the quantity.
-        unit:
-          maxLength: 10
+        languageISOCode:
           type: string
-          description: " \t\t\tIdentifier of the quantity unit. Use quantity units known from your AEB application or alternatively domain specific or legacy quantity codes, but not the UNECE code.\n \t\t\tFor UNECE unit codes use the 'uneceUnit' field, if supported.\n\n \t\t\tWeight unit codes:\n \t\t\t* kg - Kilogram\n         \t* gr - Gram\n         \t* t - Metric ton\n         \t* lb - Pound\n         \t* oz - Ounce\n\n         \tLength unit codes:\n         \t* m - Meter\n         \t* mm - Milimeter\n         \t* cm - Centimeter\n         \t* dm - Decimeter\n         \t* km - Kilometer\n         \t* ft - Foot\n         \t* in - Inch\n         \t* mi - Mile\n         \t* nm - Nanometer\n         \t* µm - Micrometer\n\n         \tVolume unit codes:\n         \t* ccm - Cubic centimeter\n         \t* cdm - Cubic decimeter\n         \t* m3 - Cubic meter\n         \t* ml - Milliliter\n         \t* cl - Centiliter\n         \t* hl - Hectoliter\n         \t* l - Liter\n         \t* cuin - Cubic inch\n         \t* cuft - Cubic foot\n\n         \tQuantity unit codes:\n         \t* St - Piece\n         \t* Paar - Pair\n\n         \tDensity unit codes:\n         \t* g/ccm - grams per cubic centimeter\n         \t* kg/m3 - kilogram per cubic meter\n\n         \tTime unit codes:\n         \t* h - Hour\n         \t* stu - Hour\n         \t* std - Hour\n         \t* oph - Operational hour\n         \t* s - Second\n         \t* min - Minute\n         \t* 15m - 15 mins\n         \t* d - Day\n         \t* tag - Day\n         \t* wch - Week\n         \t* mon - Month\n         \t* jhr - Year\n         \t* mis - Millisecond\n         \t* ms - Microsecond\n         \t* ns - Nanosecond\n         \t* ps - Picosecond\n\n         \tArea unit codes:\n \t\t\t* qm - Square meter\n         \t* qmm - Square millimeter\n         \t* qcm - Square centimeter\n         \t* qdm - Square decimeter\n"
-          example: kg
-        uneceUnit:
-          maxLength: 3
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
           type: string
-          description: " \t\t\tIdentifier of the quantity unit based on 'Recommendation No. 20 - Units of Measure used in International Trade'.<br/>\n \t\t\tThe #uneceUnit can be specified alternatively to #unit but is currently not supported by all AEB services. Please speak to your contact person at AEB if you are unsure whether #uneceUnit is supported or not.\n\n \t\t\tWeight unit codes:\n \t\t\t* `KGM` - Kilogram\n \t\t\t* `GRM` - Gram (10⁻³ kg)\n \t\t\t* `TNE` - Metric ton (10³ kg)\n \t\t\t* `LBR` - Pound (0,453 592 37 kg)\n \t\t\t* `ONZ` - Ounce (2,834 952 x 10⁻² kg)\n\n \t\t\tLength unit codes:\n \t\t\t* `MTR` - Meter\n \t\t\t* `CMT` - Centimeter (10⁻² m)\n \t\t\t* `MMT` - Millimeter (10⁻³ m)\n \t\t\t* `KMT` - Kilometer (10³ m)\n \t\t\t* `YRD` - Yard (0,914 4 m)\n \t\t\t* `FOT` - Foot (0,304 8 m)\n \t\t\t* `INH` - Inch (25,4 x 10⁻³ m)\n \t\t\t* `SMI` - Mile (statute mile) (1609,344 m)\n\n \t\t\tVolume unit codes:\n \t\t\t* `MTQ` - Cubic meter\n \t\t\t* `CMQ` - Cubic centimeter (10⁻⁶ m³)\n \t\t\t* `HLT` - Hectoliter (10⁻¹ m³)\n \t\t\t* `LTR` - Liter (10⁻³ m³)\n \t\t\t* `MLT` - Milliliter (10⁻⁶ m³)\n \t\t\t* `YDQ` - Cubic yard (0,764 555 m³)\n \t\t\t* `FTQ` - Cubic foot (2,831 685 x 10⁻² m³)\n \t\t\t* `INQ` - Cubic inch (16,387 064 x 10⁻⁶ m³)\n\n \t\t\tArea unit codes:\n \t\t\t* `MTK` - Square meter\n \t\t\t* `CMK` - Square centimeter (10⁻⁴ m²)\n \t\t\t* `MMK` - Square millimeter (10⁻⁶ m²)\n \t\t\t* `YDK` - Square yard (8.361 274 x 10⁻¹ m² )\n \t\t\t* `FTK` - Square foot (9,290 304 x 10⁻² m²)\n \t\t\t* `INK` - Square inch (6,451 6 x 10⁻⁴ m²)\n\n \t\t\tQuantity unit codes:\n \t\t\t* `NAR` - Number of articles\n \t\t\t* `NPR` - Number of pairs\n \t\t\t* `CEN` - A unit of count defining the number of units in multiples of 100\n \t\t\t* `MIL` - A unit of count defining the number of units in multiples of 1000\n"
-          example: NAR
-      description: A quantity with a value and a quantity unit. Quantity units are encoded by using AEB unit codes mainly based on the International System of Unit (e.g. 'Gram' is encoded by the code 'gr') or - if supported - UNECE unit codes (e.g. 'Gram' is encoded by the code 'GRM').<br>Recoding of the quantity unit code from capital letters to small letters (e.g. from 'LB' to 'lb') may be supported, depending on the AEB product.<br>The quantity unit type is specified by the usage context, i.e. if this quantity is a weight, a volume or similar.
-    ShipmentObjective:
-      type: object
-      properties:
-        objectiveType:
-          type: string
-          description: Type of the objective.
-          example: MUST_BE_FILLED
-        objectiveTexts:
-          $ref: '#/components/schemas/DLObjectiveTextsDTO'
-        path:
-          type: array
-          description: The path of the objective.
-          items:
-            $ref: '#/components/schemas/DLShipmentObjectivePathSegmentDTO'
-        invalidValue:
-          $ref: '#/components/schemas/DLInvalidValueDTO'
-        mustBeFilled:
-          $ref: '#/components/schemas/DLMustBeFilledDTO'
-      description: All accessible data of an Objective.
-    DLPersonDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'Name of contact.
-
-            > `length=80`'
-        phone:
-          type: string
-          description: 'Phone number.
-
-            > `length=20`'
-        fax:
-          type: string
-          description: 'Fax number.
-
-            > `length=20`'
-        email:
-          type: string
-          description: 'Email address.
-
-            > `length=256`'
-      description: DLPersonDTO containing contact data.
-    DLPossibleValuesDTO:
-      type: object
-      properties:
-        value:
-          type: string
-          description: The type of the value that is to be changed.
-      description: A possible value for the interface.
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     DLReferenceTextDTO:
       type: object
       properties:
@@ -1091,6 +1067,30 @@ components:
           type: string
           description: The value of the reference number or text. <p> length=500 </p>
       description: DTO for reference numbers and texts of a certain (predefined) type.
+    DLShipmentItemReferenceTextDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: '<p>
+
+            The type of the reference number or text. Valid values are:
+
+            <li>MERCHANT_PRODUCT_ID - Merchant product identifier.</li>
+
+            <li>MFR_PRODUCT_ID_NONSTD - Non-standardised manufacturer product identifier.</li>
+
+            <li>MFR_PRODUCT_ID_STD - Standardised manufacturer product identifier.</li>
+
+            </p>
+
+            <p>length=30</p>
+
+            '
+        value:
+          type: string
+          description: The value of the reference number or text. <p> length=500 </p>
+      description: DTO for reference texts of shipment items.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

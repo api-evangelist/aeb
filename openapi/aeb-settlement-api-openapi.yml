@@ -229,6 +229,19 @@ paths:
                     error: Invalid status 'Status'.
 components:
   schemas:
+    SettlementTypeRestDTO:
+      required:
+      - identCode
+      - scenarioIdentCode
+      type: object
+      properties:
+        identCode:
+          type: string
+          description: The SettlementType Ident Code.
+        scenarioIdentCode:
+          type: string
+          description: The Scenario Ident Code.
+      description: Settlement type (workflow classification).
     BSettlementStatusRestDTO:
       required:
       - identCode
@@ -249,73 +262,6 @@ components:
           - COMPLETE
           - CANCELLED
       description: Business object status (workflow / lifecycle state).
-    BSettlementCompanyRestDTO:
-      required:
-      - companyNo
-      type: object
-      properties:
-        companyNo:
-          type: string
-          description: The Company Number.
-      description: Beneficiary company (VAT/context party).
-    SettlementTypeRestDTO:
-      required:
-      - identCode
-      - scenarioIdentCode
-      type: object
-      properties:
-        identCode:
-          type: string
-          description: The SettlementType Ident Code.
-        scenarioIdentCode:
-          type: string
-          description: The Scenario Ident Code.
-      description: Settlement type (workflow classification).
-    SettlementPage:
-      required:
-      - content
-      - totalElements
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          description: The total number of elements available to return.
-          readOnly: true
-          example: 100
-        content:
-          type: array
-          description: List of settlements.
-          items:
-            $ref: '#/components/schemas/BSettlementRestDTO'
-    PeriodRestDTO:
-      required:
-      - end
-      - start
-      - type
-      type: object
-      properties:
-        start:
-          type: string
-          description: The Start of the Period.
-          format: date-time
-        end:
-          type: string
-          description: The Start of the Period.
-          format: date-time
-        type:
-          type: string
-          description: The Type of Period.
-          enum:
-          - DAY
-          - HALFAMONTH
-          - HALFAYEAR
-          - MONTH
-          - QUARTER
-          - DECADE
-          - TWOWEEKS
-          - WEEK
-          - YEAR
-      description: Period covered by this settlement item.
     BSettlementRestDTO:
       required:
       - billingScenarioIdentCode
@@ -456,6 +402,60 @@ components:
           type: string
           description: The three letter ISO code of the currency of the amount of money. <p>length=3</p>
       description: An amount of money with a value and an currency ISO code.
+    PeriodRestDTO:
+      required:
+      - end
+      - start
+      - type
+      type: object
+      properties:
+        start:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        end:
+          type: string
+          description: The Start of the Period.
+          format: date-time
+        type:
+          type: string
+          description: The Type of Period.
+          enum:
+          - DAY
+          - HALFAMONTH
+          - HALFAYEAR
+          - MONTH
+          - QUARTER
+          - DECADE
+          - TWOWEEKS
+          - WEEK
+          - YEAR
+      description: Period covered by this settlement item.
+    SettlementPage:
+      required:
+      - content
+      - totalElements
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          description: The total number of elements available to return.
+          readOnly: true
+          example: 100
+        content:
+          type: array
+          description: List of settlements.
+          items:
+            $ref: '#/components/schemas/BSettlementRestDTO'
+    BSettlementCompanyRestDTO:
+      required:
+      - companyNo
+      type: object
+      properties:
+        companyNo:
+          type: string
+          description: The Company Number.
+      description: Beneficiary company (VAT/context party).
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

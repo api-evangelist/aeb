@@ -41,6 +41,37 @@ paths:
       - BASIC_AUTH: []
 components:
   schemas:
+    DeclarationOfOriginItemResponseDTO:
+      type: object
+      properties:
+        itemNo:
+          type: string
+          description: The item number for a declaration of origin response.
+        text:
+          type: string
+          description: The item text for a declaration of origin.
+        hasPreference:
+          type: boolean
+          description: Indicates whether the item has preference or not.
+        preferentialOrigin:
+          type: string
+          description: The preferential origin of the item.
+        nonPreferentialOrigin:
+          type: string
+          description: The non preferential origin of the item.
+      description: The item response for a declaration of origin request.
+    TextInLanguageDTO:
+      type: object
+      properties:
+        languageISOCode:
+          type: string
+          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
+          example: en
+        text:
+          type: string
+          description: The translated text.
+          example: Some free-form text
+      description: A translated text in one of the specified languages.
     GenericDataFieldDTO:
       type: object
       properties:
@@ -54,6 +85,33 @@ components:
           type: string
           description: <p>Data type of the field.</p> <p>This is not strictly necessary since the receiving entity should be able to infer the structure  with its own meta data; it may be used however for sanity checks.</p> <p>The format follows the conventions of xml schema encoding, see <a href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/</a>.</p> <h3>Currently implemented formats:</h3>  <ul>  <li>string</li> <li>int</li> <li>long</li> <li>decimal</li> <li>boolean</li> <li>dateTime</li> <li>base64Binary</li> </ul>
       description: A field of a generic data record.
+    DeclarationOfOriginItemRequestDTO:
+      type: object
+      properties:
+        itemNo:
+          type: string
+          description: 'Length: 30 - The cumulation type of the material master data.'
+        materialNo:
+          type: string
+          description: 'Length: 40 - The material number for the declaration and origin request.'
+        materialNoInternal:
+          type: string
+          description: 'Length: 40 - The internal representation of a material number for the declaration and origin request.'
+        materialOrderItemReference:
+          type: string
+          description: 'Length: 60 - The material order item reference for the declaration and origin request.'
+        factoryPrice:
+          type: number
+          description: 'Length: 11,2 - The factory price for the declaration and origin request.'
+        quantity:
+          type: number
+          description: 'Length: 12,5 - The quantity for the declaration and origin request.'
+        additionalFields:
+          type: array
+          description: The additional fields for the declaration of origin request.
+          items:
+            $ref: '#/components/schemas/GenericDataFieldDTO'
+      description: The item data of a request for the declaration of origin.
     DeclarationOfOriginRequestDTO:
       type: object
       properties:
@@ -172,37 +230,6 @@ components:
           format: int32
           example: 0
       description: Result messages like errors or warnings.
-    TextInLanguageDTO:
-      type: object
-      properties:
-        languageISOCode:
-          type: string
-          description: <p>2-letter ISO code of the language.</p><p>length=2</p>
-          example: en
-        text:
-          type: string
-          description: The translated text.
-          example: Some free-form text
-      description: A translated text in one of the specified languages.
-    DeclarationOfOriginItemResponseDTO:
-      type: object
-      properties:
-        itemNo:
-          type: string
-          description: The item number for a declaration of origin response.
-        text:
-          type: string
-          description: The item text for a declaration of origin.
-        hasPreference:
-          type: boolean
-          description: Indicates whether the item has preference or not.
-        preferentialOrigin:
-          type: string
-          description: The preferential origin of the item.
-        nonPreferentialOrigin:
-          type: string
-          description: The non preferential origin of the item.
-      description: The item response for a declaration of origin request.
     DeclarationOfOriginResponseDTO:
       type: object
       properties:
@@ -241,33 +268,6 @@ components:
           type: string
           description: The link (url) to the corresponding declaration of origin check log.
       description: The response data for a declaration of origin request.
-    DeclarationOfOriginItemRequestDTO:
-      type: object
-      properties:
-        itemNo:
-          type: string
-          description: 'Length: 30 - The cumulation type of the material master data.'
-        materialNo:
-          type: string
-          description: 'Length: 40 - The material number for the declaration and origin request.'
-        materialNoInternal:
-          type: string
-          description: 'Length: 40 - The internal representation of a material number for the declaration and origin request.'
-        materialOrderItemReference:
-          type: string
-          description: 'Length: 60 - The material order item reference for the declaration and origin request.'
-        factoryPrice:
-          type: number
-          description: 'Length: 11,2 - The factory price for the declaration and origin request.'
-        quantity:
-          type: number
-          description: 'Length: 12,5 - The quantity for the declaration and origin request.'
-        additionalFields:
-          type: array
-          description: The additional fields for the declaration of origin request.
-          items:
-            $ref: '#/components/schemas/GenericDataFieldDTO'
-      description: The item data of a request for the declaration of origin.
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

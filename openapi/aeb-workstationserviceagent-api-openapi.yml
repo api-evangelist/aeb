@@ -215,32 +215,32 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    TracingInfo:
+    PerfMonitoringInfo:
       type: object
       properties:
-        enabled:
-          type: boolean
-        debugEnabled:
-          type: boolean
-        count:
-          type: integer
-          format: int32
-        size:
+        createdToRegisteredDurationMs:
           type: integer
           format: int64
-        oldestTime:
-          type: string
-          format: date-time
-        newestTime:
-          type: string
-          format: date-time
-    LauncherInfo:
+        createdToFirstNetworkActivityDurationMs:
+          type: integer
+          format: int64
+        createdToLaunchRequestedDurationMs:
+          type: integer
+          format: int64
+    WorkstationSessionInfoDTO:
       type: object
       properties:
-        version:
+        id:
           type: string
-        zoneName:
+        status:
           type: string
+          enum:
+          - UNKNOWN
+          - LAUNCH_REQUEST
+          - LAUNCHING
+          - CONNECTED
+        info:
+          $ref: '#/components/schemas/DesktopAgentInfo'
     DesktopAgentInfo:
       type: object
       properties:
@@ -278,36 +278,12 @@ components:
         lastNetworkActivityTime:
           type: string
           format: date-time
-    PerfMonitoringInfo:
+    LauncherInfo:
       type: object
       properties:
-        createdToRegisteredDurationMs:
-          type: integer
-          format: int64
-        createdToFirstNetworkActivityDurationMs:
-          type: integer
-          format: int64
-        createdToLaunchRequestedDurationMs:
-          type: integer
-          format: int64
-    WorkstationSessionInfoDTO:
-      type: object
-      properties:
-        id:
+        version:
           type: string
-        status:
-          type: string
-          enum:
-          - UNKNOWN
-          - LAUNCH_REQUEST
-          - LAUNCHING
-          - CONNECTED
-        info:
-          $ref: '#/components/schemas/DesktopAgentInfo'
-    SessionInfo:
-      type: object
-      properties:
-        userName:
+        zoneName:
           type: string
     ProcessInfo:
       type: object
@@ -323,6 +299,30 @@ components:
         user:
           type: string
         initError:
+          type: string
+    TracingInfo:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        debugEnabled:
+          type: boolean
+        count:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        oldestTime:
+          type: string
+          format: date-time
+        newestTime:
+          type: string
+          format: date-time
+    SessionInfo:
+      type: object
+      properties:
+        userName:
           type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:

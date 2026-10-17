@@ -93,13 +93,6 @@ paths:
                 $ref: '#/components/schemas/ErrorData'
 components:
   schemas:
-    ErrorData:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        errorCause:
-          type: string
     SetFinalLabelRequestDTO:
       required:
       - transactionIdHost
@@ -137,6 +130,13 @@ components:
           description: The updated reference label.
           example: Mandant = 001; Auftragsnr. = 80004989
       description: Request DTO for <code>/ExportControlInternal/setFinalTransactionLabelHost</code> containing identifying data for the entries to be updated as well as the new transaction label.
+    ErrorData:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        errorCause:
+          type: string
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey

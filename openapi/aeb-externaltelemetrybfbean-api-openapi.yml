@@ -101,53 +101,6 @@ paths:
     - url: https://rz3.aeb.de/test2bsm/rest
 components:
   schemas:
-    ResponseMessageDTO:
-      type: object
-      properties:
-        messageType:
-          type: string
-          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
-          example: WARNING
-        messageIdentCode:
-          type: string
-          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
-          example: '5627'
-        messageTexts:
-          type: array
-          description: <p>Detailed message texts in the requested languages.</p>
-          items:
-            $ref: '#/components/schemas/TextInLanguageDTO'
-        indentationLevel:
-          type: integer
-          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
-          format: int32
-          example: 0
-      description: Result messages like errors or warnings.
-    ExternalTMRDateEntryDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: key for the value (must be unique within the report)
-        category:
-          type: string
-          description: category for the value (see TMDataCategory enum for valid values)
-        value:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-      description: telemetry report entry for date values
-    ExternalTMRStringEntryDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: key for the value (must be unique within the report)
-        category:
-          type: string
-          description: category for the value (see TMDataCategory enum for valid values)
-        value:
-          type: string
-          description: data for the entry to report
-      description: telemetry report entry for string values
     ExternalTMStatusResponseDTO:
       type: object
       properties:
@@ -181,6 +134,54 @@ components:
           type: boolean
           description: true if telemetry is enabled
       description: Response DTO for ExternalTelemetryBFBean/getStatus & ExternalTelemetryBFBean/status.
+    ExternalTMResponseDTO:
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
+          example: false
+        hasOnlyRetryableErrors:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        hasWarnings:
+          type: boolean
+          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
+          example: true
+        messages:
+          type: array
+          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          items:
+            $ref: '#/components/schemas/ResponseMessageDTO'
+        externalSystemId:
+          type: string
+          description: the id for the external system
+        reportClientIdentCode:
+          type: string
+          description: 'ident code for an XNSG client to file external telemetry reports for.<p>Maximum length: 10</p>'
+        lastUpdate:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+        lastUpdateComment:
+          type: string
+          description: comment for the last filed report
+        lastUpdateReported:
+          type: boolean
+          description: true if last filed report has been sent to the telemetry server
+        lastReportId:
+          type: string
+          description: id of the last report (as stored in the engine)
+      description: Response DTO for all calls to ExternalTelemetryBFBean.
+    DateAndZoneDTO:
+      type: object
+      properties:
+        dateInTimezone:
+          type: string
+          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
+        timezone:
+          type: string
+          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
+      description: Date and timezone.
     TextInLanguageDTO:
       type: object
       properties:
@@ -239,6 +240,18 @@ components:
           description: data for the entry to report
           format: double
       description: telemetry report entry for string double
+    ExternalTMRDateEntryDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: key for the value (must be unique within the report)
+        category:
+          type: string
+          description: category for the value (see TMDataCategory enum for valid values)
+        value:
+          $ref: '#/components/schemas/DateAndZoneDTO'
+      description: telemetry report entry for date values
     ExternalTMReportRequestDTO:
       type: object
       properties:
@@ -290,46 +303,6 @@ components:
           description: data for the entry to report
           format: int32
       description: telemetry report entry for integer values
-    ExternalTMRLongEntryDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: key for the value (must be unique within the report)
-        category:
-          type: string
-          description: category for the value (see TMDataCategory enum for valid values)
-        value:
-          type: integer
-          description: data for the entry to report
-          format: int64
-      description: telemetry report entry for long values
-    DateAndZoneDTO:
-      type: object
-      properties:
-        dateInTimezone:
-          type: string
-          description: '<p>String representation of the date/time stamp in the format yyyy-MM-dd HH:mm:ss</p> <p>Length: 19</p>'
-        timezone:
-          type: string
-          description: '<p>Time zone of the time stamp.</p> <p>Examples of valid time zones: "GMT+01:00" or "GMT-02:00".</p> <p>Maximum length: 50</p>'
-      description: Date and timezone.
-    ExternalTMRStringArrayEntryDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: key for the value (must be unique within the report)
-        category:
-          type: string
-          description: category for the value (see TMDataCategory enum for valid values)
-        value:
-          type: array
-          description: data for the entry to report
-          items:
-            type: string
-            description: data for the entry to report
-      description: telemetry report entry for string array values
     ExternalTelemetryReportDTO:
       type: object
       properties:
@@ -364,44 +337,71 @@ components:
           items:
             $ref: '#/components/schemas/ExternalTMRStringEntryDTO'
       description: report dto to ship the telemetry data to an XNSG engine
-    ExternalTMResponseDTO:
+    ResponseMessageDTO:
       type: object
       properties:
-        hasErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>An error usually means that the request could not be performed.</p><p>Error details are provided in the messages[] array.</p>
-          example: false
-        hasOnlyRetryableErrors:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        hasWarnings:
-          type: boolean
-          description: <p>True, if there are any error messages.</p><p>Error details are provided in the messages[] array.</p>
-          example: true
-        messages:
+        messageType:
+          type: string
+          description: '<p>Message type</p><p>If not stated otherwise, the possible types are:</p><ul><li>ERROR</li><li>WARNING</li><li>INFO</li></ul><p>Maximum length: 50</p>'
+          example: WARNING
+        messageIdentCode:
+          type: string
+          description: '<p>Optional identification code for further classification of the message type.</p><p>Maximum length: 50</p>'
+          example: '5627'
+        messageTexts:
           type: array
-          description: <p>Error or warning messages at the request level.</p><p>There may be additional messages[] arrays at lower data levels as specified in the documentation.</p>
+          description: <p>Detailed message texts in the requested languages.</p>
           items:
-            $ref: '#/components/schemas/ResponseMessageDTO'
-        externalSystemId:
+            $ref: '#/components/schemas/TextInLanguageDTO'
+        indentationLevel:
+          type: integer
+          description: <p>The indentation level of the message.</p><p>'0' indicates a top level message.</p>
+          format: int32
+          example: 0
+      description: Result messages like errors or warnings.
+    ExternalTMRLongEntryDTO:
+      type: object
+      properties:
+        key:
           type: string
-          description: the id for the external system
-        reportClientIdentCode:
+          description: key for the value (must be unique within the report)
+        category:
           type: string
-          description: 'ident code for an XNSG client to file external telemetry reports for.<p>Maximum length: 10</p>'
-        lastUpdate:
-          $ref: '#/components/schemas/DateAndZoneDTO'
-        lastUpdateComment:
+          description: category for the value (see TMDataCategory enum for valid values)
+        value:
+          type: integer
+          description: data for the entry to report
+          format: int64
+      description: telemetry report entry for long values
+    ExternalTMRStringEntryDTO:
+      type: object
+      properties:
+        key:
           type: string
-          description: comment for the last filed report
-        lastUpdateReported:
-          type: boolean
-          description: true if last filed report has been sent to the telemetry server
-        lastReportId:
+          description: key for the value (must be unique within the report)
+        category:
           type: string
-          description: id of the last report (as stored in the engine)
-      description: Response DTO for all calls to ExternalTelemetryBFBean.
+          description: category for the value (see TMDataCategory enum for valid values)
+        value:
+          type: string
+          description: data for the entry to report
+      description: telemetry report entry for string values
+    ExternalTMRStringArrayEntryDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: key for the value (must be unique within the report)
+        category:
+          type: string
+          description: category for the value (see TMDataCategory enum for valid values)
+        value:
+          type: array
+          description: data for the entry to report
+          items:
+            type: string
+            description: data for the entry to report
+      description: telemetry report entry for string array values
   securitySchemes:
     SWAGGER_AUTH_KEY:
       type: apiKey
