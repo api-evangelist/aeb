@@ -307,3 +307,9 @@ x-refined-from:
 - aeb-product-classification-openapi.json
 - aeb-trade-compliance-management-openapi.json
 x-proxy-enabled: false
+x-provenance:
+  method: harvested
+  publisher: AEB
+  source: https://rz3.aeb.de/test2ici/rest/openapi_v3.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
